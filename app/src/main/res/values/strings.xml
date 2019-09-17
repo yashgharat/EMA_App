@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">EMA_Diary</string>
     <string name="action_settings">Settings</string>
+    <string name="auth_Title">Welcome to Our Diary Study</string>
+    <string name="email_hint">Email Address</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="register">Register</string>
+    <string name="not_a_user">Not a user?</string>
+    <string name="conf_Title">Verification</string>
+    <string name="conf_Desc">Check your email for the verification code and enter it below.</string>
+    <string name="code_hint">Code</string>
+    <string name="submit">Submit</string>
+    <string name="already_a_user">Already a user?</string>
+    <string name="conf_Pass_hint">Confirm Password</string>
+    <string name="create_Acct">Create Account</string>
 </resources>
