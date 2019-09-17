@@ -75,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             , String.valueOf(newPass1.getText()), userAttributes
                             , null, signupCallback);
 
-                    Intent myIntent = new Intent(RegistrationActivity.this, AuthenticationActivity.class);
+                    Intent myIntent = new Intent(RegistrationActivity.this, ConfirmationActivity.class);
                     RegistrationActivity.this.startActivity(myIntent);
                 }
                 else if(!(String.valueOf(newPass1.getText()).equals(String.valueOf(newPass2.getText()))))

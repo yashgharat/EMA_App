@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryBackground"
+    tools:context=".ConfirmationActivity">
+
+    <TextView
+        android:id="@+id/confTitle"
+        android:layout_width="290dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="84dp"
+        android:text="Verification"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/LightningWhite"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/secondaryAccent"
+        android:text="Check your email for the verification code and enter it below."
+        app:layout_constraintTop_toBottomOf="@+id/confTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="60dp" />
+
+    <EditText
+        android:id="@+id/confEmail"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textColor="@color/LightningWhite"
+        android:textColorHint="@color/primaryAccent"
+        android:hint="Email"
+        app:layout_constraintTop_toBottomOf="@+id/desc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteX="90dp" />
+
+    <EditText
+        android:id="@+id/confCode"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="Code"
+        android:inputType="text"
+        android:textColor="@color/LightningWhite"
+        android:textColorHint="@color/primaryAccent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confEmail" />
+
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="184dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="50dp"
+        android:text="Submit"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confCode"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

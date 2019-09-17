@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primaryBackground"
-    android:textColor="@color/LightningWhite"
     tools:context=".AuthenticationActivity">
 
     <TextView
-        android:id="@+id/Title"
+        android:id="@+id/authTitle"
         android:layout_width="287dp"
         android:layout_height="92dp"
         android:layout_marginTop="84dp"
@@ -30,7 +29,7 @@
         android:textColor="@color/LightningWhite"
         android:textColorHint="@color/primaryAccent"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/Title"
+        app:layout_constraintTop_toBottomOf="@+id/authTitle"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteX="62dp" />
