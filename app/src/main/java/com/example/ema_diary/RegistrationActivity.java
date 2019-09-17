@@ -1,12 +1,15 @@
 package com.example.ema_diary;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -28,7 +31,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registerUser() {
 
-        final EditText newPass = findViewById(R.id.newPassword1);
+        final EditText newPass1 = findViewById(R.id.newPassword1);
+        final EditText newPass2 = findViewById(R.id.newPassword2);
         final EditText newEmail = findViewById(R.id.newEmail);
 
         Button newAcct = findViewById(R.id.RegisterAcct);
@@ -65,12 +69,35 @@ public class RegistrationActivity extends AppCompatActivity {
                 userAttributes.addAttribute("given_name","Yash");
                 CognitoSettings cognitoSettings = new CognitoSettings(RegistrationActivity.this);
 
-                cognitoSettings.getUserPool().signUpInBackground(String.valueOf(newEmail.getText())
-                        , String.valueOf(newPass.getText()), userAttributes
-                        , null, signupCallback);
+                if(newPass1.getText().equals(newPass2.getText())){
+                    cognitoSettings.getUserPool().signUpInBackground(String.valueOf(newEmail.getText())
+                            , String.valueOf(newPass1.getText()), userAttributes
+                            , null, signupCallback);
+                }
+                else
+                {
+                    new AlertDialog.Builder(RegistrationActivity.this)
+                            .setTitle("Error")
+                            .setMessage("Passwords do not match")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            .show();
+                }
 
                 Intent myIntent = new Intent(RegistrationActivity.this, AuthenticationActivity.class);
                 RegistrationActivity.this.startActivity(myIntent);
+            }
+        });
+
+        TextView sILink = findViewById(R.id.signInLink);
+        sILink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(RegistrationActivity.this, AuthenticationActivity.class);
+                RegistrationActivity.this.startActivity(i);
             }
         });
     }
