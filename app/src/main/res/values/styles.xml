@@ -14,4 +14,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@color/primaryBackground</item>
+        <item name="android:textColor">@color/secondaryAccent</item>
+        <item name="android:textColorPrimary">@color/LightningWhite</item>
+    </style>
+
 </resources>

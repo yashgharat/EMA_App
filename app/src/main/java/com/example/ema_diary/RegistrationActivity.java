@@ -73,10 +73,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     cognitoSettings.getUserPool().signUpInBackground(String.valueOf(newEmail.getText())
                             , String.valueOf(newPass1.getText()), userAttributes
                             , null, signupCallback);
+
+                    Intent myIntent = new Intent(RegistrationActivity.this, AuthenticationActivity.class);
+                    RegistrationActivity.this.startActivity(myIntent);
                 }
                 else
                 {
-                    new AlertDialog.Builder(RegistrationActivity.this)
+                    new AlertDialog.Builder(RegistrationActivity.this, R.style.AlertDialogStyle)
                             .setTitle("Error")
                             .setMessage("Passwords do not match")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -86,9 +89,6 @@ public class RegistrationActivity extends AppCompatActivity {
                             })
                             .show();
                 }
-
-                Intent myIntent = new Intent(RegistrationActivity.this, AuthenticationActivity.class);
-                RegistrationActivity.this.startActivity(myIntent);
             }
         });
 
