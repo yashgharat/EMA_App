@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,7 +70,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 userAttributes.addAttribute("given_name","Yash");
                 CognitoSettings cognitoSettings = new CognitoSettings(RegistrationActivity.this);
 
-                if(newPass1.getText().equals(newPass2.getText())){
+                if(String.valueOf(newPass1.getText()).equals(String.valueOf(newPass2.getText())) && Patterns.EMAIL_ADDRESS.matcher(String.valueOf(newEmail.getText())).matches()){
                     cognitoSettings.getUserPool().signUpInBackground(String.valueOf(newEmail.getText())
                             , String.valueOf(newPass1.getText()), userAttributes
                             , null, signupCallback);
@@ -77,11 +78,23 @@ public class RegistrationActivity extends AppCompatActivity {
                     Intent myIntent = new Intent(RegistrationActivity.this, AuthenticationActivity.class);
                     RegistrationActivity.this.startActivity(myIntent);
                 }
-                else
+                else if(!(String.valueOf(newPass1.getText()).equals(String.valueOf(newPass2.getText()))))
                 {
+                    Log.i(TAG, newPass1.getText() + ", " + newPass2.getText());
                     new AlertDialog.Builder(RegistrationActivity.this, R.style.AlertDialogStyle)
                             .setTitle("Error")
                             .setMessage("Passwords do not match")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            .show();
+                }
+                else{
+                    new AlertDialog.Builder(RegistrationActivity.this, R.style.AlertDialogStyle)
+                            .setTitle("Error")
+                            .setMessage("Not a valid email")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with delete operation
