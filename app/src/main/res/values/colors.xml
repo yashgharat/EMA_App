@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryGray">#5E5A5D</color>
+    <color name="primaryBackground">#241D21</color>
+    <color name="primaryAccent">#9E811A</color>
+    <color name="secondaryAccent">#F1C213</color>
+    <color name="secondaryGray">#AEABAD</color>
+    <color name="LightningWhite">#f5f5f5</color>
+</resources>
