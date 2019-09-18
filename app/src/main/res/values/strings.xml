@@ -14,4 +14,6 @@
     <string name="already_a_user">Already a user?</string>
     <string name="conf_Pass_hint">Confirm Password</string>
     <string name="create_Acct">Create Account</string>
+    <string name="quick_sign_in">Quick sign in?</string>
+    <string name="remember">Remember me?</string>
 </resources>

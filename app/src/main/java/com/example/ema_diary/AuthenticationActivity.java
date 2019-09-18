@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -98,6 +100,22 @@ public class AuthenticationActivity extends AppCompatActivity {
                  AuthenticationActivity.this.startActivity(i);
              }
          });
+
+        final Switch remember = findViewById(R.id.always_login);
+        remember.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
+
+        Switch quick_signIn = findViewById(R.id.quick_signIn);
+        quick_signIn.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+            }
+        });
 
     }
 }
