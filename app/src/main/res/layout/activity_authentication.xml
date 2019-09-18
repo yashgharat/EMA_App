@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="627dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/not_a_user"
+        android:text="@string/first_time"
         android:textColor="@color/LightningWhite"
         app:layout_constraintEnd_toStartOf="@+id/regLink"
         app:layout_constraintHorizontal_bias="0.931"

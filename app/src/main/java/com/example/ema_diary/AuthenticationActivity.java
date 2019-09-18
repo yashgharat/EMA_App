@@ -19,10 +19,14 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Auth
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
     private static final String TAG = "Cognito";
+    private CognitoSettings cognitoSettings;
+    private CognitoUser thisUser;
+    private UserAttributes use;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,10 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
-        Switch switch_remember = findViewById(R.id.always_login);
-        Switch switch_quick_signIn = findViewById(R.id.quick_signIn);
+        final Switch switch_remember = findViewById(R.id.always_login);
+        final Switch switch_quick_signIn = findViewById(R.id.quick_signIn);
+
+        cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
 
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override
@@ -40,9 +46,36 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Log.i(TAG, "Login successful, can get tokens here!");
 
+                use = new UserAttributes(AuthenticationActivity.this);
+                use.setEmail(String.valueOf(editTextEmail.getText()));
+                use.setQuick_signIn(switch_quick_signIn.isChecked());
+                use.setRemembered(switch_remember.isChecked());
+
+                if(use.getRemembered()){
+                    newDevice.rememberThisDeviceInBackground(genericHandler);
+                    cognitoSettings.setThisDevice(newDevice);
+                }
+                else{
+                    newDevice.doNotRememberThisDevice(genericHandler);
+                    cognitoSettings.setThisDevice(null);
+                }
+
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 AuthenticationActivity.this.startActivity(myIntent);
             }
+
+            GenericHandler genericHandler = new GenericHandler() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onFailure(Exception exception) {
+
+                }
+            };
+
 
             @Override
             public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation
@@ -82,9 +115,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CognitoSettings cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
-
-                CognitoUser thisUser = cognitoSettings.getUserPool()
+                thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
                 // Sign in the use
                 Log.i(TAG, "in button clicked....");
@@ -101,5 +132,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                  AuthenticationActivity.this.startActivity(i);
              }
          });
+
+
     }
 }
