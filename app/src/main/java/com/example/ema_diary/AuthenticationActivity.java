@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -32,6 +31,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
+        Switch switch_remember = findViewById(R.id.always_login);
+        Switch switch_quick_signIn = findViewById(R.id.quick_signIn);
 
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override
@@ -41,8 +42,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 AuthenticationActivity.this.startActivity(myIntent);
-
             }
+
             @Override
             public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation
                     , String userId) {
@@ -100,22 +101,5 @@ public class AuthenticationActivity extends AppCompatActivity {
                  AuthenticationActivity.this.startActivity(i);
              }
          });
-
-        final Switch remember = findViewById(R.id.always_login);
-        remember.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
-
-        Switch quick_signIn = findViewById(R.id.quick_signIn);
-        quick_signIn.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
-
     }
 }
