@@ -2,14 +2,18 @@ package com.example.ema_diary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.biometric.BiometricPrompt;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -21,12 +25,24 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
+import java.util.concurrent.Executor;
+
 public class AuthenticationActivity extends AppCompatActivity {
 
     private static final String TAG = "Cognito";
     private CognitoSettings cognitoSettings;
     private CognitoUser thisUser;
     private UserAttributes use;
+
+    private Handler handler = new Handler();
+
+    private Executor executor = new Executor() {
+        @Override
+        public void execute(Runnable command) {
+            handler.post(command);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +51,42 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
-        final Switch switch_remember = findViewById(R.id.always_login);
-        final Switch switch_quick_signIn = findViewById(R.id.quick_signIn);
+        final SwitchCompat switch_remember = findViewById(R.id.always_login);
+        final SwitchCompat switch_quick_signIn = findViewById(R.id.quick_signIn);
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
+
+        final GenericHandler genericHandler = new GenericHandler() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+
+            }
+        };
+
+        use = new UserAttributes(AuthenticationActivity.this);
+        use.setEmail(String.valueOf(editTextEmail.getText()));
+
+        switch_quick_signIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                use.setQuick_signIn(switch_quick_signIn.isChecked());
+                Log.i("QUICKS", String.valueOf(use.getQuick_signIn()));
+            }
+        });
+
+        switch_remember.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                use.setRemembered(switch_remember.isChecked());
+                Log.i("REM", String.valueOf(use.getRemembered()));
+            }
+        });
+
 
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override
@@ -46,36 +94,24 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Log.i(TAG, "Login successful, can get tokens here!");
 
-                use = new UserAttributes(AuthenticationActivity.this);
-                use.setEmail(String.valueOf(editTextEmail.getText()));
-                use.setQuick_signIn(switch_quick_signIn.isChecked());
-                use.setRemembered(switch_remember.isChecked());
+//                if(use.getRemembered()){
+//
+//                    newDevice.rememberThisDeviceInBackground(genericHandler);
+//                    cognitoSettings.setThisDevice(newDevice);
+//                }
+//                else{
+//                    newDevice.doNotRememberThisDevice(genericHandler);
+//                    cognitoSettings.setThisDevice(null);
+//                }
 
-                if(use.getRemembered()){
-                    newDevice.rememberThisDeviceInBackground(genericHandler);
-                    cognitoSettings.setThisDevice(newDevice);
-                }
-                else{
-                    newDevice.doNotRememberThisDevice(genericHandler);
-                    cognitoSettings.setThisDevice(null);
+                if(use.getQuick_signIn())
+                {
+                    showBiometricPrompt();
                 }
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 AuthenticationActivity.this.startActivity(myIntent);
             }
-
-            GenericHandler genericHandler = new GenericHandler() {
-                @Override
-                public void onSuccess() {
-
-                }
-
-                @Override
-                public void onFailure(Exception exception) {
-
-                }
-            };
-
 
             @Override
             public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation
@@ -132,7 +168,52 @@ public class AuthenticationActivity extends AppCompatActivity {
                  AuthenticationActivity.this.startActivity(i);
              }
          });
+    }
 
+    private void showBiometricPrompt(){
+        BiometricPrompt.PromptInfo promptInfo =
+                new BiometricPrompt.PromptInfo.Builder()
+                        .setTitle("Biometric login for my app")
+                        .setSubtitle("Log in using your biometric credential")
+                        .setDeviceCredentialAllowed(true)
+                        .build();
 
+        BiometricPrompt biometricPrompt = new BiometricPrompt(AuthenticationActivity.this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+
+                Log.e("BIOMETRIC", "Error");
+
+                Toast.makeText(getApplicationContext(),
+                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                BiometricPrompt.CryptoObject authenticatedCryptoObject =
+                        result.getCryptoObject();
+                Log.i("BIOMETRIC", "Succeeded");
+
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Log.e("BIOMETRIC", "Failed");
+
+                Toast.makeText(getApplicationContext(), "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+        // Displays the "log in" prompt.
+        biometricPrompt.authenticate(promptInfo);
     }
 }
