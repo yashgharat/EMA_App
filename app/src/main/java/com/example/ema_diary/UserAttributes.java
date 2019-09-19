@@ -22,12 +22,12 @@ public class UserAttributes {
         this.context = context;
     }
 
-    public UserAttributes(String email, Boolean remembered, Boolean quick_signIn){
+    public UserAttributes(Boolean remembered, Boolean quick_signIn, Boolean virgin){
         this.remembered = remembered;
         this.quick_signIn = quick_signIn;
 //        this.uniqueID = uniqueID;
 //        this.localPin = localPin;
-        this.email = email;
+//        this.email = email;
     }
 
     public Boolean getRemembered() {
@@ -70,8 +70,8 @@ public class UserAttributes {
        this.email = email;
     }
 
-//    public UserAttributes getAttributes(){
-//        return new UserAttributes(email, remembered, quick_signIn);
-//    }
+    public UserAttributes getAttributes(){
+        return new UserAttributes(remembered, quick_signIn, virgin);
+    }
 
 }
