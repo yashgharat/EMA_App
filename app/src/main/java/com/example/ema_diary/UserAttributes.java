@@ -17,7 +17,7 @@ public class UserAttributes {
         this.remembered = false;
         this.quick_signIn = false;
         this.uniqueID = 00000;
-        this.localPin = 0000;
+        this.localPin = 0;
         this.email = "";
         this.context = context;
     }
@@ -26,7 +26,7 @@ public class UserAttributes {
         this.remembered = remembered;
         this.quick_signIn = quick_signIn;
 //        this.uniqueID = uniqueID;
-//        this.localPin = localPin;
+        this.localPin = localPin;
         this.email = email;
     }
 
