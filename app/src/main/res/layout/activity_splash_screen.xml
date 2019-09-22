@@ -4,6 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryBackground"
     tools:context=".SplashScreen">
 
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="332dp"
+        android:text="LyfeLog"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="110dp"
+        android:textColor="@color/LightningWhite"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
