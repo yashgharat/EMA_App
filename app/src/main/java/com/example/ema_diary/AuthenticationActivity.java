@@ -111,13 +111,15 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 if(use.getQuick_signIn())
                 {
-                    Intent myIntent = new Intent(AuthenticationActivity.this, PinActivity.class);
-                    AuthenticationActivity.this.startActivity(myIntent);
-
+                    if(UserAttributes.localPin != 0)
+                    {
+                        Intent myIntent = new Intent(AuthenticationActivity.this, PinActivity.class);
+                        AuthenticationActivity.this.startActivity(myIntent);
+                    } else{
+                        Intent myIntent = new Intent(AuthenticationActivity.this, createPinActivity.class);
+                        AuthenticationActivity.this.startActivity(myIntent);
+                    }
                 }
-
-//                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-//                AuthenticationActivity.this.startActivity(myIntent);
             }
 
             @Override
