@@ -14,12 +14,14 @@ import org.jetbrains.annotations.NotNull;
 
 public class createPinActivity extends AppCompatActivity {
 
+    private CirclePinField inPin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
 
-        CirclePinField inPin = findViewById(R.id.pinField);
+        inPin = findViewById(R.id.pinField);
         inPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
             public boolean onTextComplete(@NotNull String str) {
@@ -35,6 +37,7 @@ public class createPinActivity extends AppCompatActivity {
         if(in.getStringExtra("inputPin") == null){
             in = new Intent(createPinActivity.this, createPinActivity.class);
             in.putExtra("inputPin", str);
+            createPinActivity.this.startActivity(in);
         } else {
             if(str.equals(in.getStringExtra("inputPin"))){
                 UserAttributes.localPin = Integer.parseInt(in.getStringExtra("inputPin"));
@@ -57,6 +60,7 @@ public class createPinActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+                inPin.setText(null);
             }
 
         }
