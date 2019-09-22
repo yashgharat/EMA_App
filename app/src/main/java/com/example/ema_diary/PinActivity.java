@@ -1,8 +1,10 @@
 package com.example.ema_diary;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.poovam.pinedittextfield.CirclePinField;
@@ -22,8 +24,22 @@ public class PinActivity extends AppCompatActivity {
         inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
             public boolean onTextComplete(@NotNull String str) {
-                Toast.makeText(PinActivity.this,str,Toast.LENGTH_SHORT).show();
-                return true;
+                int pin = Integer.parseInt(str);
+
+                if(pin == UserAttributes.localPin){
+                    Intent in = new Intent(PinActivity.this, MainActivity.class);
+                    PinActivity.this.startActivity(in);
+                } else {
+                    new AlertDialog.Builder(PinActivity.this, R.style.AlertDialogStyle)
+                            .setTitle("Error")
+                            .setMessage("Pin not recognized")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .show();
+                }
+                return false;
             }
         });
     }
