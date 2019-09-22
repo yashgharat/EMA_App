@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -33,5 +37,8 @@ dependencies {
 
     implementation 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
     implementation 'androidx.biometric:biometric:1.0.0-beta01'
+
+    implementation 'com.poovam:pin-edittext-field:1.2.1'
+
 
 }

@@ -1,6 +1,10 @@
 package com.example.ema_diary;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.biometric.BiometricPrompt;
@@ -106,11 +111,13 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 if(use.getQuick_signIn())
                 {
-                    showBiometricPrompt();
+                    Intent myIntent = new Intent(AuthenticationActivity.this, PinActivity.class);
+                    AuthenticationActivity.this.startActivity(myIntent);
+
                 }
 
-                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                AuthenticationActivity.this.startActivity(myIntent);
+//                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+//                AuthenticationActivity.this.startActivity(myIntent);
             }
 
             @Override
@@ -144,6 +151,35 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception exception) {
                 Log.i(TAG, "Login failed: " + exception.getLocalizedMessage());
+
+                ConnectivityManager cm = (ConnectivityManager)AuthenticationActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+                boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+                if(isConnected) {
+                    new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
+                            .setTitle("Error")
+                            .setMessage("Email and/or password is incorrect")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            .show();
+                }
+                else
+                {
+                    new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
+                            .setTitle("Error")
+                            .setMessage("Not connected to the internet")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            .show();
+                }
             }
         };
 

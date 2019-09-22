@@ -17,17 +17,17 @@ public class UserAttributes {
         this.remembered = false;
         this.quick_signIn = false;
         this.uniqueID = 00000;
-        this.localPin = 0000;
+        this.localPin = 0;
         this.email = "";
         this.context = context;
     }
 
-    public UserAttributes(Boolean remembered, Boolean quick_signIn, Boolean virgin){
+    public UserAttributes(String email, Boolean remembered, Boolean quick_signIn){
         this.remembered = remembered;
         this.quick_signIn = quick_signIn;
 //        this.uniqueID = uniqueID;
-//        this.localPin = localPin;
-//        this.email = email;
+        this.localPin = localPin;
+        this.email = email;
     }
 
     public Boolean getRemembered() {
@@ -70,8 +70,8 @@ public class UserAttributes {
        this.email = email;
     }
 
-    public UserAttributes getAttributes(){
-        return new UserAttributes(remembered, quick_signIn, virgin);
-    }
+//    public UserAttributes getAttributes(){
+//        return new UserAttributes(email, remembered, quick_signIn);
+//    }
 
 }
