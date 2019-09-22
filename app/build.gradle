@@ -40,5 +40,4 @@ dependencies {
 
     implementation 'com.poovam:pin-edittext-field:1.2.1'
 
-
 }

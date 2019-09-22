@@ -12,8 +12,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class createPinActivity extends AppCompatActivity {
 
-    int checkPin;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,15 +21,22 @@ public class createPinActivity extends AppCompatActivity {
         inPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
             public boolean onTextComplete(@NotNull String str) {
-
-                Intent in = new Intent(createPinActivity.this, createPinActivity.class);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(in);
-                overridePendingTransition(0, 0);
+                pinConfirm(str);
 
                 return false;
             }
         });
+    }
+
+    private void pinConfirm(String str) {
+        Intent in = getIntent();
+        if(in.getStringExtra("inputPin") == null){
+            in = new Intent(createPinActivity.this, createPinActivity.class);
+            in.putExtra("inputPin", str);
+        } else {
+            if(str.equals(in.getStringExtra("inputPin"))){
+                UserAttributes.localPin = Integer.parseInt(in.getStringExtra("inputPin"));
+            }
+        }
     }
 }

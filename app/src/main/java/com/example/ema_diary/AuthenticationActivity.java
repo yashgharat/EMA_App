@@ -211,7 +211,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                 new BiometricPrompt.PromptInfo.Builder()
                         .setTitle("Biometric login for my app")
                         .setSubtitle("Log in using your biometric credential")
-                        .setDeviceCredentialAllowed(true)
                         .build();
 
         BiometricPrompt biometricPrompt = new BiometricPrompt(AuthenticationActivity.this,

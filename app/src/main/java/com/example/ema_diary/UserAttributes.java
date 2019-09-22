@@ -7,7 +7,7 @@ public class UserAttributes {
     private Boolean remembered;
     private Boolean quick_signIn;
     private int uniqueID;
-    private int localPin;
+    public static int localPin;
     private String email;
 
     private static Boolean virgin = true;
@@ -17,7 +17,7 @@ public class UserAttributes {
         this.remembered = false;
         this.quick_signIn = false;
         this.uniqueID = 00000;
-        this.localPin = 0;
+        localPin = 0;
         this.email = "";
         this.context = context;
     }
@@ -26,7 +26,7 @@ public class UserAttributes {
         this.remembered = remembered;
         this.quick_signIn = quick_signIn;
 //        this.uniqueID = uniqueID;
-        this.localPin = localPin;
+        //UserAttributes.localPin = localPin;
         this.email = email;
     }
 
@@ -52,14 +52,6 @@ public class UserAttributes {
 
     public void setUniqueID(int uniqueID) {
         this.uniqueID = uniqueID;
-    }
-
-    public void setLocalPin(int localPin) {
-        this.localPin = localPin;
-    }
-
-    public int getLocalPin() {
-        return localPin;
     }
 
     public String getEmail() {
