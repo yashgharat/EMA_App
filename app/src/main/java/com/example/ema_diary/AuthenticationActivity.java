@@ -38,8 +38,11 @@ public class AuthenticationActivity extends AppCompatActivity {
     private static final String TAG = "Cognito";
     private CognitoSettings cognitoSettings;
     private CognitoUser thisUser;
-    private UserAttributes use;
     private Context context;
+
+    private SharedPreferences SP;
+    private SharedPreferences.Editor editor;
+    private int localPin;
 
     private Handler handler = new Handler();
 
@@ -61,7 +64,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         final SwitchCompat switch_remember = findViewById(R.id.always_login);
         final SwitchCompat switch_quick_signIn = findViewById(R.id.quick_signIn);
 
-        SharedPreferences SP = this.getPreferences(Context.MODE_PRIVATE);
+        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        editor = SP.edit();
+        localPin = SP.getInt("Pin", -1);
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
 
@@ -77,21 +82,26 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         };
 
-        use.setEmail(String.valueOf(editTextEmail.getText()));
+        editor.putString("email", String.valueOf(editTextEmail.getText()));
+
+        //1use.setEmail(String.valueOf(editTextEmail.getText()));
 
         switch_quick_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                use.setQuick_signIn(switch_quick_signIn.isChecked());
-                Log.i("QUICKS", String.valueOf(use.getQuick_signIn()));
+                editor.putBoolean("quick_signIn", switch_quick_signIn.isChecked());
+                //use.setQuick_signIn(switch_quick_signIn.isChecked());
+                Log.d("SharedPrefs", String.valueOf(SP.getBoolean("quick_signIn", false)));
             }
         });
 
         switch_remember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                use.setRemembered(switch_remember.isChecked());
-                Log.i("REM", String.valueOf(use.getRemembered()));
+                editor.putBoolean("remember", switch_remember.isChecked());
+                //use.setRemembered(switch_remember.isChecked());
+                Log.d("SharedPrefs", String.valueOf(SP.getBoolean("remember", false)));
+
             }
         });
 
@@ -102,19 +112,21 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Log.i(TAG, "Login successful, can get tokens here!");
 
-//                if(use.getRemembered()){
-//
-//                    newDevice.rememberThisDeviceInBackground(genericHandler);
-//                    cognitoSettings.setThisDevice(newDevice);
-//                }
-//                else{
-//                    newDevice.doNotRememberThisDevice(genericHandler);
-//                    cognitoSettings.setThisDevice(null);
-//                }
+                Log.d("DEVICE", newDevice.getDeviceName());
 
-                if(use.getQuick_signIn())
+                if(SP.getBoolean("remember", false)){
+
+                    newDevice.rememberThisDeviceInBackground(genericHandler);
+                    cognitoSettings.setThisDevice(newDevice);
+                }
+                else{
+                    newDevice.doNotRememberThisDevice(genericHandler);
+                    cognitoSettings.setThisDevice(null);
+                }
+
+                if(SP.getBoolean("quick_signIn", false))
                 {
-                    if(UserAttributes.localPin != 0)
+                    if(localPin != -1)
                     {
                         Intent myIntent = new Intent(AuthenticationActivity.this, PinActivity.class);
                         AuthenticationActivity.this.startActivity(myIntent);

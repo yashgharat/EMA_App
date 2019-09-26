@@ -21,15 +21,15 @@ public class SplashScreen extends AppCompatActivity {
         SP = getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
         localPin = SP.getInt("Pin", -1);
 
-        if(localPin != -1){
-            Intent i = new Intent(SplashScreen.this, PinActivity.class);
-            Log.d("PIN: ", String.valueOf(localPin));
-            Log.d("DEBUG", "PinActivity");
-            startActivity(i);
-        }else{
+//        if(localPin != -1){
+//            Intent i = new Intent(SplashScreen.this, PinActivity.class);
+//            Log.d("PIN: ", String.valueOf(localPin));
+//            Log.d("DEBUG", "PinActivity");
+//            startActivity(i);
+//        }else{
             Intent i = new Intent(SplashScreen.this, AuthenticationActivity.class);
             Log.d("DEBUG", "AuthActivity");
             startActivity(i);
-        }
+        //}
     }
 }

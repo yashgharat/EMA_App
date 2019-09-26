@@ -50,14 +50,7 @@ public class createPinActivity extends AppCompatActivity {
                 //UserAttributes.localPin = Integer.parseInt(in.getStringExtra("inputPin"));
                 editor.putInt("Pin", Integer.parseInt(in.getStringExtra("inputPin")));
                 editor.apply();
-                new AlertDialog.Builder(createPinActivity.this, R.style.AlertDialogStyle)
-                        .setTitle("Success")
-                        .setMessage("Pins set")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .show();
+
                 Intent intent = new Intent(createPinActivity.this, MainActivity.class);
                 createPinActivity.this.startActivity(intent);
             } else {
