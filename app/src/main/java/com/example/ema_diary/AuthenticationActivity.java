@@ -3,6 +3,7 @@ package com.example.ema_diary;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private CognitoSettings cognitoSettings;
     private CognitoUser thisUser;
     private UserAttributes use;
+    private Context context;
 
     private Handler handler = new Handler();
 
@@ -59,6 +61,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         final SwitchCompat switch_remember = findViewById(R.id.always_login);
         final SwitchCompat switch_quick_signIn = findViewById(R.id.quick_signIn);
 
+        SharedPreferences SP = this.getPreferences(Context.MODE_PRIVATE);
+
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
 
         final GenericHandler genericHandler = new GenericHandler() {
@@ -73,7 +77,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         };
 
-        use = new UserAttributes(AuthenticationActivity.this);
         use.setEmail(String.valueOf(editTextEmail.getText()));
 
         switch_quick_signIn.setOnClickListener(new View.OnClickListener() {

@@ -17,4 +17,5 @@
     <string name="quick_sign_in">Quick sign in?</string>
     <string name="remember">Remember me?</string>
     <string name="first_time">First time?</string>
+    <string name="localPin" />
 </resources>

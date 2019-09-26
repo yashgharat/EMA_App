@@ -1,7 +1,9 @@
 package com.example.ema_diary;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -14,10 +16,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class PinActivity extends AppCompatActivity {
 
+    private SharedPreferences SP;
+    private int localPin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
+
+        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        localPin = SP.getInt("Pin", -1);
 
         CirclePinField inputPin = findViewById(R.id.pinField);
 
@@ -26,7 +34,9 @@ public class PinActivity extends AppCompatActivity {
             public boolean onTextComplete(@NotNull String str) {
                 int pin = Integer.parseInt(str);
 
-                if(pin == UserAttributes.localPin){
+                //17:25 e24
+
+                if(pin == localPin){
                     Intent in = new Intent(PinActivity.this, MainActivity.class);
                     PinActivity.this.startActivity(in);
                 } else {
