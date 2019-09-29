@@ -82,14 +82,13 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         };
 
-        editor.putString("email", String.valueOf(editTextEmail.getText()));
-
         //1use.setEmail(String.valueOf(editTextEmail.getText()));
 
         switch_quick_signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putBoolean("quick_signIn", switch_quick_signIn.isChecked());
+                editor.apply();
                 //use.setQuick_signIn(switch_quick_signIn.isChecked());
                 Log.d("SharedPrefs", String.valueOf(SP.getBoolean("quick_signIn", false)));
             }
@@ -99,6 +98,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editor.putBoolean("remember", switch_remember.isChecked());
+                editor.apply();
                 //use.setRemembered(switch_remember.isChecked());
                 Log.d("SharedPrefs", String.valueOf(SP.getBoolean("remember", false)));
 
@@ -112,17 +112,14 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Log.i(TAG, "Login successful, can get tokens here!");
 
-                Log.d("DEVICE", newDevice.getDeviceName());
+                cognitoSettings.setCurrSession(userSession);
 
-                if(SP.getBoolean("remember", false)){
+                String token = userSession.getRefreshToken().toString();
 
-                    newDevice.rememberThisDeviceInBackground(genericHandler);
-                    cognitoSettings.setThisDevice(newDevice);
-                }
-                else{
-                    newDevice.doNotRememberThisDevice(genericHandler);
-                    cognitoSettings.setThisDevice(null);
-                }
+                editor.putString("token", token);
+
+                Log.d("TOKEN: ", token);
+
 
                 if(SP.getBoolean("quick_signIn", false))
                 {
@@ -134,6 +131,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                         Intent myIntent = new Intent(AuthenticationActivity.this, createPinActivity.class);
                         AuthenticationActivity.this.startActivity(myIntent);
                     }
+                }
+                else{
+                    Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    startActivity(myIntent);
                 }
             }
 
@@ -204,6 +205,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editor.putString("email", String.valueOf(editTextEmail.getText()));
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
                 // Sign in the use
