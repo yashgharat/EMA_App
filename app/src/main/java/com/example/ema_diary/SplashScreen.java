@@ -37,6 +37,8 @@ public class SplashScreen extends AppCompatActivity {
             cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
                 @Override
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                    SP.edit().putString("token", userSession.getRefreshToken().toString());
+                    SP.edit().apply();
                     Intent main = new Intent(SplashScreen.this, MainActivity.class);
                     startActivity(main);
                 }

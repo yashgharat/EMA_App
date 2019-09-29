@@ -67,7 +67,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                userAttributes.addAttribute("given_name","Yash");
+                //userAttributes.addAttribute("given_name","Yash");
                 CognitoSettings cognitoSettings = new CognitoSettings(RegistrationActivity.this);
 
                 if(String.valueOf(newPass1.getText()).equals(String.valueOf(newPass2.getText())) && Patterns.EMAIL_ADDRESS.matcher(String.valueOf(newEmail.getText())).matches()){

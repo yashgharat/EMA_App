@@ -55,7 +55,7 @@
         android:layout_height="54dp"
         android:layout_marginTop="30dp"
         android:text="@string/sign_in"
-        android:background="@color/secondaryGray"
+        android:background="@color/secondaryAccent"
         android:textColor="@color/primaryBackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

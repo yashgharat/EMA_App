@@ -1,5 +1,8 @@
 package com.example.ema_diary;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +16,21 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SharedPreferences SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+
+        if(SP.getBoolean("virgin", true)){
+            Intent i = new Intent(MainActivity.this, ManifestActivity.class);
+            startActivity(i);
+
+            SP.edit().putBoolean("virgin", false).apply();
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

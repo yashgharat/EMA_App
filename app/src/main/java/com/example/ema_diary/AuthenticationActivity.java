@@ -117,6 +117,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 String token = userSession.getRefreshToken().toString();
 
                 editor.putString("token", token);
+                editor.apply();
 
                 Log.d("TOKEN: ", token);
 
@@ -206,6 +207,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
+                editor.apply();
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
                 // Sign in the use
