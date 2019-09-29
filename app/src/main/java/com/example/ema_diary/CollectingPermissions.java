@@ -2,7 +2,7 @@ package com.example.ema_diary;
 
 // Taken from MarshmallowProject pamwis
 
-import android.annotation.TargetApi;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class CollectingPermissions extends AppCompatActivity {
     Context context;
 
     //App object that contains all the name and permissions about each app
-    static class app{
+    static class app {
         String Appname;
         String location;
         String storage;
@@ -47,7 +47,7 @@ public class CollectingPermissions extends AppCompatActivity {
         String contacts;
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +76,10 @@ public class CollectingPermissions extends AppCompatActivity {
         //Hashing the device Id to create a unique Id for the device
         //The permission phone state has to be accepted in order to get the unique ID
         final String tmDevice, tmSerial, androidId;
+
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         tmDevice = "" + tm.getDeviceId();
         tmSerial = "" + tm.getSimSerialNumber();
         androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
