@@ -13,10 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:background="@color/primaryGray">
+
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp">
+
             <TextView
                 android:id="@+id/thirty"
                 android:layout_width="wrap_content"
@@ -30,12 +32,13 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="350dp"
-                android:maxHeight="10dp"
                 android:layout_marginStart="30dp"
+                android:maxHeight="10dp"
                 android:progress="75"
                 android:progressBackgroundTint="@color/secondaryGray"
                 android:progressTint="@color/secondaryAccent" />
@@ -43,53 +46,62 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </TableRow>
+            android:layout_height="wrap_content"></TableRow>
 
     </TableLayout>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/secondaryAccent">
+            android:background="@color/secondaryAccent"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cL_1"
+                android:id="@+id/journal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:id="@+id/titleJournal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
                     android:text="Ready For Daily Journal"
                     android:textColor="@color/primaryBackground"
                     android:textSize="26sp"
-                    android:layout_marginStart="15dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/msgMidnight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Due by Midnight"
-                    android:textSize="12sp"
-                    android:textColor="@color/primaryGray"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Due by Midnight"
+                    android:textColor="@color/primaryGray"
+                    android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleJournal"/>
+                    app:layout_constraintTop_toBottomOf="@id/titleJournal" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tint="@color/primaryBackground"
+                    app:layout_constraintRight_toRightOf="@id/journal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_edit_black_40dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,42 +115,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
                     android:text="View History"
-                    android:textSize="17sp"
                     android:textColor="@color/primaryBackground"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginTop="5dp"/>
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView
                     android:id="@+id/arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
                     app:layout_constraintLeft_toRightOf="@+id/viewHistory_1"
                     app:layout_constraintTop_toTopOf="@id/history"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
-                    android:layout_marginTop="7dp" />
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
                 <TextView
                     android:id="@+id/dayCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintRight_toRightOf="@id/history"
-                    app:layout_constraintTop_toTopOf="@+id/history"
                     android:layout_marginTop="7dp"
-                    android:textColor="@color/primaryBackground"
+                    android:layout_marginEnd="30dp"
                     android:text="24"
+                    android:textColor="@color/primaryBackground"
                     android:textSize="17sp"
-                    android:layout_marginEnd="30dp"/>
+                    app:layout_constraintRight_toRightOf="@id/history"
+                    app:layout_constraintTop_toTopOf="@+id/history" />
 
                 <ImageView
                     android:id="@+id/check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintRight_toRightOf="@id/dayCounter"
                     app:layout_constraintTop_toTopOf="@id/history"
-                    app:srcCompat="@drawable/ic_check_black_24dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="7dp" />
+                    app:srcCompat="@drawable/ic_check_black_24dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -146,49 +158,62 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp">
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="50dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/secondaryAccent">
+            android:background="@color/primaryGray"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cL_2"
+                android:id="@+id/thoughts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="12dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:id="@+id/titleThoughts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share Your Thoughts"
-                    android:textColor="@color/primaryBackground"
-                    android:textSize="26sp"
                     android:layout_marginStart="15dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+                    android:text="Share Your Thoughts"
+                    android:textColor="@color/LightningWhite"
+                    android:textSize="26sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/msgExperience"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Talk about your experiences anytime."
-                    android:textSize="12sp"
-                    android:textColor="@color/primaryGray"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginStart="15dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Talk about your experiences anytime."
+                    android:textColor="@color/LightningWhite"
+                    android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleThoughts"/>
+                    app:layout_constraintTop_toBottomOf="@id/titleThoughts" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_message_black_40dp"
+                    android:tint="@color/secondaryAccent"
+                    app:layout_constraintRight_toRightOf="@id/thoughts"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="5dp"/>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/thoughts"
+                android:id="@+id/history2"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:background="@color/LightningWhite">
@@ -198,20 +223,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="5dp"
                     android:text="View History"
-                    android:textSize="17sp"
                     android:textColor="@color/primaryBackground"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginTop="5dp"/>
+                    android:textSize="17sp"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <ImageView
                     android:id="@+id/arrow2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
                     app:layout_constraintLeft_toRightOf="@+id/viewHistory_2"
-                    app:layout_constraintTop_toTopOf="@id/thoughts"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
-                    android:layout_marginTop="7dp" />
+                    app:layout_constraintTop_toTopOf="@id/history2"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -219,18 +244,16 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp">
-    </androidx.cardview.widget.CardView>
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="50dp"></androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
         android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp">
-    </androidx.cardview.widget.CardView>
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="50dp"></androidx.cardview.widget.CardView>
 </LinearLayout>
