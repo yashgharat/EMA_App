@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primaryGray">#5B575A</color>
-    <color name="primaryBackground">#241D21</color>
-    <color name="primaryAccent">#9E811A</color>
-    <color name="secondaryAccent">#F1C213</color>
-    <color name="secondaryGray">#AEABAD</color>
-    <color name="LightningWhite">#f5f5f5</color>
+<!--colors-->
+    <color name="primaryDark">#6E97FF</color>
+    <color name="primary">#76A6FF</color>
+    <color name="secondary">#51D4D7</color>
+    <color name="destructive">#FF828C</color>
 
+<!--grays-->
+    <color name="prominent">#1F1F1F</color>
+    <color name="apparent">#424045</color>
+    <color name="normal">#777480</color>
+    <color name="disabled">#B5B5C4</color>
+    <color name="unapparent">#F0F0F5</color>
+    <color name="background">#FAFAFC</color>
+
+<!--dark-->
+    <color name="darkForeground">#2F3032</color>
+    <color name="darkBackground">#1F1F1F</color>
+    <color name="darkProminent">#F0F0F5</color>
 </resources>
 
 

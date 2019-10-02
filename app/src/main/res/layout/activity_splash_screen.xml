@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground"
+    android:background="@color/darkBackground"
     tools:context=".SplashScreen">
 
     <TextView
@@ -16,7 +16,7 @@
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="110dp"
-        android:textColor="@color/LightningWhite"
+        android:textColor="@color/primaryDark"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

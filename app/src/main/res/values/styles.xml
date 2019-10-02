@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/secondaryAccent</item>
-        <item name="colorPrimaryDark">@color/primaryBackground</item>
-        <item name="colorAccent">@color/secondaryAccent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
+        <item name="colorAccent">@color/secondary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -15,9 +15,9 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:background">@color/primaryBackground</item>
-        <item name="android:textColor">@color/secondaryAccent</item>
-        <item name="android:textColorPrimary">@color/LightningWhite</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:textColor">@color/darkProminent</item>
+        <item name="android:textColorPrimary">@color/darkProminent</item>
     </style>
 
     <style name="SwitchCompatStyle" >

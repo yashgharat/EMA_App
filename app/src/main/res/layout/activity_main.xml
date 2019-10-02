@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryBackground"
+    android:background="@color/darkForeground"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -12,21 +12,51 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="175dp"
-        android:background="@color/primaryGray">
+        android:background="@color/darkBackground">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
-            <TextView
-                android:id="@+id/thirty"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:text="30 Days"
-                android:textColor="@color/LightningWhite"
-                android:textSize="55sp" />
+                android:layout_width="match_parent">
+
+                <TextView
+                    android:id="@+id/thirty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:text="30 Days"
+                    android:textColor="@color/darkProminent"
+                    android:textSize="55sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/earnings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$69.50"
+                    android:textColor="@color/secondary"
+                    android:textSize="18dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="earned"
+                    android:textColor="@color/disabled"
+                    android:textSize="15dp"
+                    app:layout_constraintTop_toBottomOf="@+id/earnings"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginEnd="15dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </TableRow>
 
         <TableRow
@@ -40,13 +70,65 @@
                 android:layout_marginStart="30dp"
                 android:maxHeight="10dp"
                 android:progress="75"
-                android:progressBackgroundTint="@color/secondaryGray"
-                android:progressTint="@color/secondaryAccent" />
+                android:progressBackgroundTint="@color/disabled"
+                android:progressTint="@color/secondary" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></TableRow>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic__ionicons_svg_ios_flash"
+                    android:tint="@color/secondary"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="25dp"/>
+
+                <TextView
+                    android:id="@+id/streakCnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary"
+                    android:text="5"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:textColor="@color/secondary"
+                    android:text="day streak"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkProminent"
+                    android:layout_marginStart="125dp"
+                    android:text="9"
+                    android:layout_marginTop="5dp"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/disabled"
+                    android:text="days to go"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="5dp"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+        </TableRow>
 
     </TableLayout>
 
@@ -60,7 +142,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondaryAccent"
+            android:background="@color/primaryDark"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -76,8 +158,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text="Ready For Daily Journal"
-                    android:textColor="@color/primaryBackground"
-                    android:textSize="26sp"
+                    android:textColor="@color/darkProminent"
+                    android:textSize="24sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,7 +170,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="20dp"
                     android:text="Due by Midnight"
-                    android:textColor="@color/primaryGray"
+                    android:textColor="@color/darkProminent"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleJournal" />
@@ -96,10 +178,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tint="@color/primaryBackground"
+                    android:tint="@color/darkProminent"
                     app:layout_constraintRight_toRightOf="@id/journal"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_edit_black_40dp"
+                    app:srcCompat="@drawable/ic__ionicons_svg_ios_create"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="5dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -108,7 +190,7 @@
                 android:id="@+id/history"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:background="@color/LightningWhite">
+                android:background="@color/darkBackground">
 
                 <TextView
                     android:id="@+id/viewHistory_1"
@@ -117,7 +199,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:text="View History"
-                    android:textColor="@color/primaryBackground"
+                    android:textColor="@color/primaryDark"
                     android:textSize="17sp"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -126,6 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
+                    android:tint="@color/primaryDark"
                     app:layout_constraintLeft_toRightOf="@+id/viewHistory_1"
                     app:layout_constraintTop_toTopOf="@id/history"
                     app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
@@ -137,7 +220,7 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="30dp"
                     android:text="24"
-                    android:textColor="@color/primaryBackground"
+                    android:textColor="@color/darkProminent"
                     android:textSize="17sp"
                     app:layout_constraintRight_toRightOf="@id/history"
                     app:layout_constraintTop_toTopOf="@+id/history" />
@@ -148,6 +231,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="20dp"
+                    android:tint="@color/darkProminent"
                     app:layout_constraintRight_toRightOf="@id/dayCounter"
                     app:layout_constraintTop_toTopOf="@id/history"
                     app:srcCompat="@drawable/ic_check_black_24dp" />
@@ -166,7 +250,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryGray"
+            android:background="@color/apparent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -182,8 +266,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text="Share Your Thoughts"
-                    android:textColor="@color/LightningWhite"
-                    android:textSize="26sp"
+                    android:textColor="@color/darkProminent"
+                    android:textSize="24sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -194,7 +278,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="20dp"
                     android:text="Talk about your experiences anytime."
-                    android:textColor="@color/LightningWhite"
+                    android:textColor="@color/darkProminent"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleThoughts" />
@@ -203,7 +287,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_question_answer_black_24dp"
-                    android:tint="@color/secondaryAccent"
+                    android:tint="@color/primaryDark"
                     app:layout_constraintRight_toRightOf="@id/thoughts"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginEnd="10dp"
@@ -216,7 +300,7 @@
                 android:id="@+id/history2"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:background="@color/LightningWhite">
+                android:background="@color/darkBackground">
 
                 <TextView
                     android:id="@+id/viewHistory_2"
@@ -225,7 +309,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:text="View History"
-                    android:textColor="@color/primaryBackground"
+                    android:textColor="@color/primary"
                     android:textSize="17sp"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -234,6 +318,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
+                    android:tint="@color/primaryDark"
                     app:layout_constraintLeft_toRightOf="@+id/viewHistory_2"
                     app:layout_constraintTop_toTopOf="@id/history2"
                     app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
@@ -251,7 +336,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryGray"
+            android:background="@color/apparent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -267,8 +352,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text="Help Center"
-                    android:textColor="@color/LightningWhite"
-                    android:textSize="26sp"
+                    android:textColor="@color/darkProminent"
+                    android:textSize="24sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -279,7 +364,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="20dp"
                     android:text="Read the FAQ or get support"
-                    android:textColor="@color/LightningWhite"
+                    android:textColor="@color/darkProminent"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleHelp" />
@@ -288,7 +373,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_help_black_40dp"
-                    android:tint="@color/secondaryAccent"
+                    android:tint="@color/primaryDark"
                     app:layout_constraintRight_toRightOf="@id/help"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginEnd="10dp"
@@ -306,7 +391,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primaryGray"
+            android:background="@color/apparent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -322,8 +407,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text="Settings"
-                    android:textColor="@color/LightningWhite"
-                    android:textSize="26sp"
+                    android:textColor="@color/darkProminent"
+                    android:textSize="24sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -334,7 +419,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="20dp"
                     android:text="Customize journal reminders and more"
-                    android:textColor="@color/LightningWhite"
+                    android:textColor="@color/darkProminent"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/titleSettings" />
@@ -343,7 +428,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_settings_black_40dp"
-                    android:tint="@color/secondaryAccent"
+                    android:tint="@color/primaryDark"
                     app:layout_constraintRight_toRightOf="@id/settings"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginEnd="10dp"
