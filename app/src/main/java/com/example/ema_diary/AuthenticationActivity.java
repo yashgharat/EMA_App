@@ -15,7 +15,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -57,8 +56,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
-        final SwitchCompat switch_remember = findViewById(R.id.always_login);
-        final SwitchCompat switch_quick_signIn = findViewById(R.id.quick_signIn);
+//        final SwitchCompat switch_remember = findViewById(R.id.always_login);
+//        final SwitchCompat switch_quick_signIn = findViewById(R.id.quick_signIn);
 
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
@@ -80,26 +79,26 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         //1use.setEmail(String.valueOf(editTextEmail.getText()));
 
-        switch_quick_signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean("quick_signIn", switch_quick_signIn.isChecked());
-                editor.apply();
-                //use.setQuick_signIn(switch_quick_signIn.isChecked());
-                Log.d("SharedPrefs", String.valueOf(SP.getBoolean("quick_signIn", false)));
-            }
-        });
-
-        switch_remember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.putBoolean("remember", switch_remember.isChecked());
-                editor.apply();
-                //use.setRemembered(switch_remember.isChecked());
-                Log.d("SharedPrefs", String.valueOf(SP.getBoolean("remember", false)));
-
-            }
-        });
+//        switch_quick_signIn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.putBoolean("quick_signIn", switch_quick_signIn.isChecked());
+//                editor.apply();
+//                //use.setQuick_signIn(switch_quick_signIn.isChecked());
+//                Log.d("SharedPrefs", String.valueOf(SP.getBoolean("quick_signIn", false)));
+//            }
+//        });
+//
+//        switch_remember.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.putBoolean("remember", switch_remember.isChecked());
+//                editor.apply();
+//                //use.setRemembered(switch_remember.isChecked());
+//                Log.d("SharedPrefs", String.valueOf(SP.getBoolean("remember", false)));
+//
+//            }
+//        });
 
 
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
@@ -118,6 +117,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Log.d("TOKEN: ", token);
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                myIntent.putExtra("oldPass", editTextPassword.getText());
                 startActivity(myIntent);
 
 //                if(SP.getBoolean("quick_signIn", false))
@@ -208,6 +208,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 editor.apply();
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
+                cognitoSettings.setUser(thisUser);
                 // Sign in the use
                 Log.i(TAG, "in button clicked....");
 

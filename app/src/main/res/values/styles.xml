@@ -15,8 +15,8 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:background">@color/background</item>
-        <item name="android:textColor">@color/darkProminent</item>
+        <item name="android:background">@color/darkBackground</item>
+        <item name="android:textColor">@color/primaryDark</item>
         <item name="android:textColorPrimary">@color/darkProminent</item>
     </style>
 

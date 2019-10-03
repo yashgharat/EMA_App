@@ -1,6 +1,7 @@
 package com.example.ema_diary;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,14 +21,21 @@ public class MainActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
 
         if(SP.getBoolean("virgin", true)){
-           
+
+            Intent i = new Intent(MainActivity.this, newPassword.class);
+            Bundle extras = getIntent().getExtras();
+            String temp = extras.getString("oldPass");
+            i.putExtra("oldPass", temp);
+            startActivity(i);
 
             Log.i("VIRGIN: ", "HERE");
-
             SP.edit().putBoolean("virgin", false).apply();
         }
 
-        }
+        setContentView(R.layout.activity_main);
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -3,6 +3,7 @@ package com.example.ema_diary;
 import android.content.Context;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
@@ -14,6 +15,7 @@ public class CognitoSettings {
     private String clientSecret = "143c0dti692kj0r405bhv8l97eq0lc4su4ueejapjv1fuo11kpte";
     private Regions cognitoRegion = Regions.US_EAST_1;
     private CognitoDevice thisDevice = null;
+    private CognitoUser user = null;
 
     private static CognitoUserSession currSession;
     private static CognitoUserDetails userDetails;
@@ -60,4 +62,11 @@ public class CognitoSettings {
         return new CognitoUserPool(context, userPoolId, clientId, clientSecret, cognitoRegion);
     }
 
+    public CognitoUser getUser() {
+        return user;
+    }
+
+    public void setUser(CognitoUser user) {
+        this.user = user;
+    }
 }
