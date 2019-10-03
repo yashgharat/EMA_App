@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
 
         if(SP.getBoolean("virgin", true)){
-           // Intent i = new Intent(MainActivity.this, ManifestActivity.class);
-            //startActivity(i);
+           
 
             Log.i("VIRGIN: ", "HERE");
 

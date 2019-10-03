@@ -10,13 +10,13 @@
     <TextView
         android:id="@+id/authTitle"
         android:layout_width="287dp"
-        android:layout_height="92dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:text="@string/auth_Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/darkProminent"
+        android:layout_marginStart="62dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
