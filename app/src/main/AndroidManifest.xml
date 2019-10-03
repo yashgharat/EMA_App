@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".newPassword"></activity>
+        <activity android:name=".createPinUIActivity"></activity>
+        <activity android:name=".newPassword" />
         <activity android:name=".CollectingPermissions" />
         <activity android:name=".ManifestActivity" />
         <activity android:name=".SplashScreen">
