@@ -33,11 +33,10 @@ public class SplashScreen extends AppCompatActivity {
 
         SP = getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
         localPin = SP.getInt("Pin", -1);
-        remember = SP.getBoolean("remember", false);
 
         cognitoSettings = new CognitoSettings(this);
 
-        if(remember == true){
+        if(localPin == -1){
             cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
                 @Override
                 public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {

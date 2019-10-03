@@ -12,14 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.biometric.BiometricPrompt;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -121,22 +117,24 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Log.d("TOKEN: ", token);
 
+                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                startActivity(myIntent);
 
-                if(SP.getBoolean("quick_signIn", false))
-                {
-                    if(localPin != -1)
-                    {
-                        Intent myIntent = new Intent(AuthenticationActivity.this, PinActivity.class);
-                        AuthenticationActivity.this.startActivity(myIntent);
-                    } else{
-                        Intent myIntent = new Intent(AuthenticationActivity.this, createPinActivity.class);
-                        AuthenticationActivity.this.startActivity(myIntent);
-                    }
-                }
-                else{
-                    Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                    startActivity(myIntent);
-                }
+//                if(SP.getBoolean("quick_signIn", false))
+//                {
+//                    if(localPin != -1)
+//                    {
+//                        Intent myIntent = new Intent(AuthenticationActivity.this, PinActivity.class);
+//                        AuthenticationActivity.this.startActivity(myIntent);
+//                    } else{
+//                        Intent myIntent = new Intent(AuthenticationActivity.this, createPinActivity.class);
+//                        AuthenticationActivity.this.startActivity(myIntent);
+//                    }
+//                }
+//                else{
+//                    Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+//                    startActivity(myIntent);
+//                }
             }
 
             @Override
@@ -217,59 +215,13 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
-         TextView regLink = findViewById(R.id.regLink);
-         regLink.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 Intent i = new Intent(AuthenticationActivity.this, RegistrationActivity.class);
-                 AuthenticationActivity.this.startActivity(i);
-             }
-         });
-    }
-
-    private void showBiometricPrompt(){
-        BiometricPrompt.PromptInfo promptInfo =
-                new BiometricPrompt.PromptInfo.Builder()
-                        .setTitle("Biometric login for my app")
-                        .setSubtitle("Log in using your biometric credential")
-                        .build();
-
-        BiometricPrompt biometricPrompt = new BiometricPrompt(AuthenticationActivity.this,
-                executor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode,
-                                              @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-
-                Log.e("BIOMETRIC", "Error");
-
-                Toast.makeText(getApplicationContext(),
-                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
-                        .show();
-            }
-
-            @Override
-            public void onAuthenticationSucceeded(
-                    @NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                BiometricPrompt.CryptoObject authenticatedCryptoObject =
-                        result.getCryptoObject();
-                Log.i("BIOMETRIC", "Succeeded");
-
-            }
-
-            @Override
-            public void onAuthenticationFailed() {
-                super.onAuthenticationFailed();
-                Log.e("BIOMETRIC", "Failed");
-
-                Toast.makeText(getApplicationContext(), "Authentication failed",
-                        Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
-
-        // Displays the "log in" prompt.
-        biometricPrompt.authenticate(promptInfo);
+//         TextView regLink = findViewById(R.id.regLink);
+//         regLink.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View v) {
+//                 Intent i = new Intent(AuthenticationActivity.this, RegistrationActivity.class);
+//                 AuthenticationActivity.this.startActivity(i);
+//             }
+//         });
     }
 }
