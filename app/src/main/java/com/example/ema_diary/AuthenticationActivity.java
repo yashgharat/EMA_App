@@ -23,8 +23,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Auth
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
 import java.util.concurrent.Executor;
 
@@ -37,6 +37,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private SharedPreferences.Editor editor;
+    private NewPasswordContinuation newPass;
     private int localPin;
 
     private Handler handler = new Handler();
@@ -54,6 +55,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
+
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
 
@@ -63,28 +65,19 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
 
-        final GenericHandler genericHandler = new GenericHandler() {
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure(Exception exception) {
-
-            }
-        };
-
 
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
 
                 Log.i(TAG, "Login successful, can get tokens here!");
-
                 cognitoSettings.setCurrSession(userSession);
 
                 String token = userSession.getRefreshToken().toString();
+
+                thisUser = cognitoSettings.getUserPool()
+                        .getUser(String.valueOf(editTextEmail.getText()));
+                cognitoSettings.setUser(thisUser);
 
                 editor.putString("token", token);
                 editor.apply();
@@ -123,6 +116,8 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void authenticationChallenge(ChallengeContinuation continuation) {
                 Log.i(TAG, "in authenticationChallenge()....");
+                Log.i(TAG, continuation.getChallengeName());
+                newPass = (NewPasswordContinuation) continuation;
             }
 
             @Override

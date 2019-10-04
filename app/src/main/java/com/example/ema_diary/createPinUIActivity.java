@@ -24,25 +24,27 @@ public class createPinUIActivity extends AppCompatActivity {
         btnLock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(createPinUIActivity.this, R.style.AlertDialogStyle)
-                        .setTitle("Attention")
-                        .setMessage("You can always set a pin in Settings if you change your mind")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent i = new Intent(createPinUIActivity.this, createPinActivity.class);
-                                startActivity(i);
-                            }
-                        })
-                        .show();
+                Intent i = new Intent(createPinUIActivity.this, createPinActivity.class);
+                startActivity(i);
+
+
             }
         });
 
         skipLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Permissions Later
-                Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
-                startActivity(i);
+                new AlertDialog.Builder(createPinUIActivity.this, R.style.AlertDialogStyle)
+                        .setTitle("Attention")
+                        .setMessage("You can always set a pin in Settings if you change your mind")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Permissions Later
+                                Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
+                                startActivity(i);
+                            }
+                        })
+                        .show();
             }
         });
     }
