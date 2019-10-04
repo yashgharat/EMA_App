@@ -2,6 +2,7 @@ package com.example.ema_diary;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHa
 public class newPassword extends AppCompatActivity {
 
     private CognitoSettings cognitoSettings;
+    private final String TAG = "NEW_PASS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +38,14 @@ public class newPassword extends AppCompatActivity {
                     cognitoSettings.getUser().changePasswordInBackground(oldPass, txtPassDos.getText().toString(), new GenericHandler() {
                         @Override
                         public void onSuccess() {
-                            Intent i = new Intent(newPassword.this, createPinActivity.class);
-                            startActivity(i);
+                            Log.i(TAG, "REACHED");
+                            Intent myIntent = new Intent(newPassword.this, createPinUIActivity.class);
+                            startActivity(myIntent);
                         }
 
                         @Override
                         public void onFailure(Exception exception) {
-
+                            Log.i(TAG, "change failed");
                         }
                     });
                 }
