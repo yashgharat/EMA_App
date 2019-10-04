@@ -29,8 +29,6 @@
         </activity>
         <activity android:name=".createPinActivity" />
         <activity android:name=".PinActivity" />
-        <activity android:name=".ConfirmationActivity" />
-        <activity android:name=".RegistrationActivity" />
         <activity android:name=".AuthenticationActivity" />
         <activity
             android:name=".MainActivity"
