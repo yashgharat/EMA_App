@@ -38,6 +38,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private SharedPreferences.Editor editor;
     private NewPasswordContinuation newPass;
+    private String temp;
     private int localPin;
 
     private Handler handler = new Handler();
@@ -118,6 +119,16 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Log.i(TAG, "in authenticationChallenge()....");
                 Log.i(TAG, continuation.getChallengeName());
                 newPass = (NewPasswordContinuation) continuation;
+
+                Intent i = new Intent(AuthenticationActivity.this, newPassword.class);
+                startActivityForResult(i,1);
+
+                Log.i("POST INTENT", "HERE");
+
+
+                newPass.setPassword(temp);
+                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                startActivity(myIntent);
             }
 
             @Override
@@ -170,6 +181,15 @@ public class AuthenticationActivity extends AppCompatActivity {
                 thisUser.getSessionInBackground(authenticationHandler);
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
+        if(requestCode == 1 && resultCode == RESULT_OK)
+        {
+            temp = intent.getStringExtra("result");
+            Log.i(TAG, "HERE");
+        }
     }
 }
