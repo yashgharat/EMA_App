@@ -52,7 +52,8 @@ public class createPinActivity extends AppCompatActivity {
                 editor.apply();
 
                 Intent intent = new Intent(createPinActivity.this, MainActivity.class);
-                createPinActivity.this.startActivity(intent);
+                this.startActivity(intent);
+                finish();
             } else {
                 new AlertDialog.Builder(createPinActivity.this, R.style.AlertDialogStyle)
                         .setTitle("Error")

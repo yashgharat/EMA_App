@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,15 +21,15 @@ public class MainActivity extends AppCompatActivity {
 
         if(SP.getBoolean("virgin", true)){
 
-            Intent i = new Intent(MainActivity.this, newPassword.class);
-            Bundle extras = getIntent().getExtras();
-            String temp = extras.getString("oldPass");
-            i.putExtra("oldPass", temp);
+            Intent i = new Intent(MainActivity.this, createPinUIActivity.class);
+//            Bundle extras = getIntent().getExtras();
+//            String temp = extras.getString("oldPass");
+//            i.putExtra("oldPass", temp);
             startActivity(i);
 
-            Log.i("VIRGIN: ", "HERE");
+            //Log.i("VIRGIN: ", "HERE");
             //SP.edit().putBoolean("virgin", false).apply();
-            SP.edit().putBoolean("Remember", true).apply();
+            //SP.edit().putBoolean("Remember", true).apply();
         }
 
         setContentView(R.layout.activity_main);

@@ -46,6 +46,7 @@ public class SplashScreen extends AppCompatActivity {
                     SP.edit().apply();
                     Intent main = new Intent(SplashScreen.this, MainActivity.class);
                     startActivity(main);
+                    finish();
                 }
 
                 @Override
@@ -77,10 +78,12 @@ public class SplashScreen extends AppCompatActivity {
             Log.d("PIN: ", String.valueOf(localPin));
             Log.d("DEBUG", "PinActivity");
             startActivity(i);
+            finish();
         }else{
             Intent i = new Intent(SplashScreen.this, AuthenticationActivity.class);
             Log.d("DEBUG", "AuthActivity");
             startActivity(i);
+            finish();
         }
     }
 }

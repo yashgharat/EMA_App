@@ -48,7 +48,6 @@ public class PinActivity extends AppCompatActivity {
             public boolean onTextComplete(@NotNull String str) {
                 int pin = Integer.parseInt(str);
 
-                //17:25 e24
 
                 if(pin == localPin){
                     cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
