@@ -50,6 +50,7 @@ public class PinActivity extends AppCompatActivity {
 
 
                 if(pin == localPin){
+                    Log.i(TAG,"SUCCESS");
                     cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
                         @Override
                         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {

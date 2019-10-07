@@ -37,53 +37,57 @@ public class SplashScreen extends AppCompatActivity {
 
         cognitoSettings = new CognitoSettings(this);
 
-        if(remember == true){
-            cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
-                @Override
-                public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-                    Log.i(TAG, "success");
-                    SP.edit().putString("token", userSession.getRefreshToken().toString());
-                    SP.edit().apply();
-                    Intent main = new Intent(SplashScreen.this, MainActivity.class);
-                    startActivity(main);
-                    finish();
-                }
+        Log.i(TAG, "reached");
 
-                @Override
-                public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) { }
+        if (remember) {
+                cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
+                    @Override
+                    public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                        Log.i(TAG, "success");
+                        SP.edit().putString("token", userSession.getRefreshToken().toString());
+                        SP.edit().apply();
+                        Intent main = new Intent(SplashScreen.this, MainActivity.class);
+                        startActivity(main);
+                        finish();
+                    }
 
-                @Override
-                public void getMFACode(MultiFactorAuthenticationContinuation continuation) { }
+                    @Override
+                    public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+                    }
 
-                @Override
-                public void authenticationChallenge(ChallengeContinuation continuation) { }
+                    @Override
+                    public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
+                    }
 
-                @Override
-                public void onFailure(Exception exception) {
-                    new AlertDialog.Builder(SplashScreen.this, R.style.AlertDialogStyle)
-                            .setTitle("Error")
-                            .setMessage("Auto Sign In failed, redirecting to authentication")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(SplashScreen.this, AuthenticationActivity.class);
-                                    startActivity(i);
-                                }
-                            })
-                            .show();
-                }
-            });
-        }
-        else if(localPin != -1){
-            Intent i = new Intent(SplashScreen.this, PinActivity.class);
-            Log.d("PIN: ", String.valueOf(localPin));
-            Log.d("DEBUG", "PinActivity");
-            startActivity(i);
-            finish();
-        }else{
-            Intent i = new Intent(SplashScreen.this, AuthenticationActivity.class);
-            Log.d("DEBUG", "AuthActivity");
-            startActivity(i);
-            finish();
+                    @Override
+                    public void authenticationChallenge(ChallengeContinuation continuation) {
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception) {
+                        new AlertDialog.Builder(SplashScreen.this, R.style.AlertDialogStyle)
+                                .setTitle("Error")
+                                .setMessage("Auto Sign In failed, redirecting to authentication")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent i = new Intent(SplashScreen.this, AuthenticationActivity.class);
+                                        startActivity(i);
+                                    }
+                                })
+                                .show();
+                    }
+                });
+            } else if (localPin != -1) {
+                Intent i = new Intent(SplashScreen.this, PinActivity.class);
+                Log.d("PIN: ", String.valueOf(localPin));
+                Log.d("DEBUG", "PinActivity");
+                startActivity(i);
+                finish();
+            } else {
+                Intent i = new Intent(SplashScreen.this, AuthenticationActivity.class);
+                Log.d("DEBUG", "AuthActivity");
+                startActivity(i);
+                finish();
+            }
         }
     }
-}
