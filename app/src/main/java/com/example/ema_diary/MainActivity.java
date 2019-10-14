@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putBoolean("virgin", false).apply();
-            SP.edit().putBoolean("Remember", true).apply();
         }
         setContentView(R.layout.activity_main);
 
