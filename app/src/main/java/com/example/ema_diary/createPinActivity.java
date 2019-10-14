@@ -46,12 +46,17 @@ public class createPinActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private void pinConfirm(String str) {
         Intent in = getIntent();
         if(in.getStringExtra("inputPin") == null){
             in = new Intent(createPinActivity.this, createPinActivity.class);
             in.putExtra("inputPin", str);
-            editor.putString("pinTitle", "Set a Pin");
+            editor.putString("pinTitle", "Confirm Pin");
             createPinActivity.this.startActivity(in);
         } else {
             if(str.equals(in.getStringExtra("inputPin"))){

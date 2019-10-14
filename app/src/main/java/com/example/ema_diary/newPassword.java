@@ -74,4 +74,9 @@ public class newPassword extends AppCompatActivity {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

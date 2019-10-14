@@ -1,7 +1,9 @@
 package com.example.ema_diary;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,10 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class createPinUIActivity extends AppCompatActivity {
 
+    private SharedPreferences SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pin_ui);
+
+        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
 
         Button btnLock = findViewById(R.id.btnQuickSignIn);
 
@@ -27,7 +33,7 @@ public class createPinUIActivity extends AppCompatActivity {
                 Intent i = new Intent(createPinUIActivity.this, createPinActivity.class);
                 startActivity(i);
 
-
+                SP.edit().putBoolean("Remember", true).apply();
             }
         });
 
@@ -41,6 +47,7 @@ public class createPinUIActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 //Permissions Later
                                 Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
+                                SP.edit().putBoolean("Remember", true).apply();
                                 startActivity(i);
                             }
                         })
