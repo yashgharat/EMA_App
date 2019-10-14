@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ public class createPinActivity extends AppCompatActivity {
 
     private CirclePinField inPin;
     private SharedPreferences SP;
+    private TextView title;
     private SharedPreferences.Editor editor;
 
     @Override
@@ -25,8 +28,12 @@ public class createPinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
 
+        title = findViewById(R.id.title_pin);
+
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
+
+        title.setText(SP.getString("pinTitle", "NULL"));
 
         inPin = findViewById(R.id.pinField);
         inPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
@@ -44,6 +51,7 @@ public class createPinActivity extends AppCompatActivity {
         if(in.getStringExtra("inputPin") == null){
             in = new Intent(createPinActivity.this, createPinActivity.class);
             in.putExtra("inputPin", str);
+            editor.putString("pinTitle", "Set a Pin");
             createPinActivity.this.startActivity(in);
         } else {
             if(str.equals(in.getStringExtra("inputPin"))){
@@ -51,9 +59,10 @@ public class createPinActivity extends AppCompatActivity {
                 editor.putInt("Pin", Integer.parseInt(in.getStringExtra("inputPin")));
                 editor.apply();
 
+                finish();
                 Intent intent = new Intent(createPinActivity.this, MainActivity.class);
                 this.startActivity(intent);
-                finish();
+
             } else {
                 new AlertDialog.Builder(createPinActivity.this, R.style.AlertDialogStyle)
                         .setTitle("Error")
@@ -64,6 +73,7 @@ public class createPinActivity extends AppCompatActivity {
                         })
                         .show();
                 inPin.setText(null);
+                Log.i("pinFail", "didnt work");
             }
 
         }

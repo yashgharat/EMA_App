@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,17 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
         if(SP.getBoolean("virgin", true)){
 
-            Intent i = new Intent(MainActivity.this, createPinUIActivity.class);
-//            Bundle extras = getIntent().getExtras();
-//            String temp = extras.getString("oldPass");
-//            i.putExtra("oldPass", temp);
-            startActivity(i);
+            Intent i = new Intent(this, newPassword.class);
+            startActivityForResult(i, 10);
+
 
             //Log.i("VIRGIN: ", "HERE");
-            //SP.edit().putBoolean("virgin", false).apply();
-            //SP.edit().putBoolean("Remember", true).apply();
+            SP.edit().putBoolean("virgin", false).apply();
+            SP.edit().putBoolean("Remember", true).apply();
         }
-
         setContentView(R.layout.activity_main);
 
 
@@ -57,5 +58,22 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 10:
+                Intent i = new Intent(this, createPinUIActivity.class);
+                startActivityForResult(i, 20);
+            case 20:
+
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
