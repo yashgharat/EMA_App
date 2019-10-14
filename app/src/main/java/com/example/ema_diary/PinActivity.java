@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class PinActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private int localPin;
+    private TextView title;
     private CognitoSettings cognitoSettings;
 
     final String TAG = "PIN_ACTIVITY";
@@ -35,8 +37,12 @@ public class PinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
 
+        title = findViewById(R.id.title_pin);
+
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
         localPin = SP.getInt("Pin", -1);
+
+        title.setText("Enter Pin");
 
         cognitoSettings = new CognitoSettings(this);
 
@@ -47,7 +53,6 @@ public class PinActivity extends AppCompatActivity {
             @Override
             public boolean onTextComplete(@NotNull String str) {
                 int pin = Integer.parseInt(str);
-
 
                 if(pin == localPin){
                     Log.i(TAG,"SUCCESS");
