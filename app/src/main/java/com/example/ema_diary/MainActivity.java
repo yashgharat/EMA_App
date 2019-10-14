@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
+    private Handler mHandler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 Intent i = new Intent(this, createPinUIActivity.class);
+
                 startActivityForResult(i, 20);
             case 20:
 

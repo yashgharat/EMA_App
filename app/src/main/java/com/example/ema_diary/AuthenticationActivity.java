@@ -79,7 +79,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
-                cognitoSettings.setUser(thisUser);
+                CognitoSettings.user = thisUser;
 
                 editor.putString("token", token);
                 editor.apply();
@@ -175,7 +175,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 editor.apply();
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
-                cognitoSettings.setUser(thisUser);
+                CognitoSettings.user = thisUser;
                 // Sign in the use
                 Log.i(TAG, "in button clicked....");
 

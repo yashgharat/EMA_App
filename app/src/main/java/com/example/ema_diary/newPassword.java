@@ -1,9 +1,12 @@
 package com.example.ema_diary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,15 +15,21 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+
 public class newPassword extends AppCompatActivity {
 
     private CognitoSettings cognitoSettings;
     private final String TAG = "NEW_PASS";
 
+    private SharedPreferences SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+
+        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
 
         cognitoSettings = new CognitoSettings(newPassword.this);
 
@@ -28,6 +37,8 @@ public class newPassword extends AppCompatActivity {
 
         EditText txtPassUno = findViewById(R.id.newPassUno);
         EditText txtPassDos = findViewById(R.id.newPassDos);
+
+        String oldPass = SP.getString("oldPass","null");
 
         Log.i(TAG, "REACHED");
 
@@ -37,10 +48,21 @@ public class newPassword extends AppCompatActivity {
             public void onClick(View v) {
                 if(txtPassDos.getText().toString().equals(txtPassUno.getText().toString())){
                     Log.i(TAG, "REACHED");
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("result", txtPassDos.getText());
-                    setResult(Activity.RESULT_OK, returnIntent);
-                    finish();
+
+                    CognitoSettings.user.changePasswordInBackground(oldPass, txtPassDos.getText().toString(), new GenericHandler() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i(TAG, "REACHED");
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+                            Log.i(TAG, "change failed");
+                        }
+                    });
+
+
+
                 }
                 else
                 {
@@ -53,22 +75,6 @@ public class newPassword extends AppCompatActivity {
                             })
                             .show();
                 }
-
-//                if(txtPassDos.getText().toString().equals(txtPassUno.getText().toString())){
-//                    cognitoSettings.getUser().changePasswordInBackground(oldPass, txtPassDos.getText().toString(), new GenericHandler() {
-//                        @Override
-//                        public void onSuccess() {
-//                            Log.i(TAG, "REACHED");
-//                            Intent myIntent = new Intent(newPassword.this, createPinUIActivity.class);
-//                            startActivity(myIntent);
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Exception exception) {
-//                            Log.i(TAG, "change failed");
-//                        }
-//                    });
-//                }
             }
         });
 
