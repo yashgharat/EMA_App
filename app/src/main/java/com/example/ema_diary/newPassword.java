@@ -62,9 +62,6 @@ public class newPassword extends AppCompatActivity {
                             Log.i(TAG + "FAILURE", exception.toString());
                         }
                     });
-
-
-
                 }
                 else
                 {
