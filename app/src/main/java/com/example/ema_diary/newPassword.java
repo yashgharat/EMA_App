@@ -49,15 +49,17 @@ public class newPassword extends AppCompatActivity {
                 if(txtPassDos.getText().toString().equals(txtPassUno.getText().toString())){
                     Log.i(TAG, "REACHED");
 
-                    CognitoSettings.user.changePasswordInBackground(oldPass, txtPassDos.getText().toString(), new GenericHandler() {
+                    CognitoSettings.user.changePasswordInBackground(CognitoSettings.oldPass, txtPassDos.getText().toString(), new GenericHandler() {
                         @Override
                         public void onSuccess() {
                             Log.i(TAG, "REACHED");
+                            finish();
                         }
 
                         @Override
                         public void onFailure(Exception exception) {
-                            Log.i(TAG, "change failed");
+                            Log.i(TAG + "FAILURE", oldPass);
+                            Log.i(TAG + "FAILURE", exception.toString());
                         }
                     });
 

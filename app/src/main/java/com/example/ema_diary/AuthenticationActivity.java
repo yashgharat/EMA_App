@@ -86,8 +86,11 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 Log.d("TOKEN: ", token);
 
+                //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
+                CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
+
+
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                myIntent.putExtra("oldPass", editTextPassword.getText());
                 startActivity(myIntent);
 
             }
