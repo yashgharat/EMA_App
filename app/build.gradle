@@ -41,5 +41,10 @@ dependencies {
 
     implementation 'com.poovam:pin-edittext-field:1.2.1'
 
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'app/libs')
+
+
+
 
 }
