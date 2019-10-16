@@ -52,14 +52,6 @@ public class CognitoSettings {
         return cognitoRegion;
     }
 
-    public void setThisDevice(CognitoDevice thisDevice) {
-        this.thisDevice = thisDevice;
-    }
-
-    public CognitoDevice getThisDevice() {
-        return thisDevice;
-    }
-
     public CognitoUserPool getUserPool() {
         return new CognitoUserPool(context, userPoolId, clientId, clientSecret, cognitoRegion);
     }

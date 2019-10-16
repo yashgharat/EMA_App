@@ -27,7 +27,14 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
@@ -84,21 +91,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         .getUser(String.valueOf(editTextEmail.getText()));
                 CognitoSettings.user = thisUser;
 
-                thisUser.getDetails(new GetDetailsHandler() {
-                    @Override
-                    public void onSuccess(CognitoUserDetails cognitoUserDetails) {
-                        Map<String, String> attributes = cognitoUserDetails.getAttributes().getAttributes();
-
-                        Log.i(TAG, attributes.get("username"));
-                    }
-
-                    @Override
-                    public void onFailure(Exception exception) {
-                        Log.e(TAG, exception.toString());
-                    }
-                });
-
-
+                editor.putString("email", editTextEmail.toString()).apply();
 
                 editor.putString("token", token);
                 editor.apply();
@@ -141,17 +134,11 @@ public class AuthenticationActivity extends AppCompatActivity {
             public void authenticationChallenge(ChallengeContinuation continuation) {
                 Log.i(TAG, "in authenticationChallenge()....");
                 Log.i(TAG, continuation.getChallengeName());
-                newPass = (NewPasswordContinuation) continuation;
-
-                Intent i = new Intent(AuthenticationActivity.this, newPassword.class);
-                startActivityForResult(i,1);
-
-                Log.i("POST INTENT", "HERE");
-
-
-                newPass.setPassword(temp);
-                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                startActivity(myIntent);
+                if ("NEW_PASSWORD_REQUIRED".equals(continuation.getChallengeName())) {
+                    NewPasswordContinuation newPasswordContinuation = (NewPasswordContinuation) continuation;
+                    newPasswordContinuation.setPassword(String.valueOf(editTextPassword.getText()));
+                    continuation.continueTask();
+                }
             }
 
             @Override
@@ -219,5 +206,13 @@ public class AuthenticationActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    static class ClassDataSerializer implements JsonSerializer<CognitoUser>{
+
+        @Override
+        public JsonElement serialize(CognitoUser src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.getUserId());
+        }
     }
 }
