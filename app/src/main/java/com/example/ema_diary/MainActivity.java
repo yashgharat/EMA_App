@@ -8,16 +8,34 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.google.gson.Gson;
+
+import java.util.Map;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "MAIN";
+
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
+
+    private TextView viewHistory_1;
+
+    private CognitoSettings cognitoSettings = new CognitoSettings(this);
+
+    private CognitoUserPool pool = cognitoSettings.getUserPool();
 
 
     @Override
@@ -36,6 +54,37 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putBoolean("virgin", false).apply();
         }
         setContentView(R.layout.activity_main);
+
+        viewHistory_1 = findViewById(R.id.viewHistory_1);
+
+
+
+        viewHistory_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Log.i(TAG, "HERE");
+
+                Gson gson = new Gson();
+                String j = SP.getString("currentUser", "null");
+                CognitoUser thisUser = pool.getUser(SP.getString("email", null));
+
+                thisUser.getDetailsInBackground(new GetDetailsHandler() {
+                    @Override
+                    public void onSuccess(CognitoUserDetails cognitoUserDetails) {
+                        Map<String,String> attributes = cognitoUserDetails.getAttributes().getAttributes();
+
+                        Log.i(TAG, attributes.get("username"));
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception) {
+
+                    }
+                });
+            }
+        });
 
 
     }
