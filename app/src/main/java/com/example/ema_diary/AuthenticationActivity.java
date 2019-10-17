@@ -182,13 +182,28 @@ public class AuthenticationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
                 editor.apply();
-                thisUser = cognitoSettings.getUserPool()
-                        .getUser(String.valueOf(editTextEmail.getText()));
-                CognitoSettings.user = thisUser;
-                // Sign in the use
-                Log.i(TAG, "in button clicked....");
 
-                thisUser.getSessionInBackground(authenticationHandler);
+
+                if(editTextEmail.getText().length() > 0 && editTextPassword.getText().length() > 0) {
+                    thisUser = cognitoSettings.getUserPool()
+                            .getUser(String.valueOf(editTextEmail.getText()));
+                    CognitoSettings.user = thisUser;
+                    // Sign in the use
+                    Log.i(TAG, "in button clicked....");
+
+                    thisUser.getSessionInBackground(authenticationHandler);
+                }
+                else{
+                    new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
+                            .setTitle("Error")
+                            .setMessage("Please enter email and password")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                }
+                            })
+                            .show();
+                }
             }
         });
     }
