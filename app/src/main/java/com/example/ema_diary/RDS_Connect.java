@@ -6,4 +6,5 @@ public class RDS_Connect {
 //
 //    private ApiClientFactory factory = new ApiClientFactory();
 //    final EMADiaryAPIClient client = factory.build(EMADiaryAPIClient.class);
+
 }
