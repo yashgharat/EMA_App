@@ -15,9 +15,15 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.google.gson.Gson;
 
@@ -35,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private CognitoSettings cognitoSettings = new CognitoSettings(this);
 
-    private CognitoUserPool pool = cognitoSettings.getUserPool();
+    private CognitoUserPool pool;
+    private CognitoUserSession session;
 
 
     @Override
@@ -43,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        pool = cognitoSettings.getUserPool();
 
         if(SP.getBoolean("virgin", true)){
 
@@ -62,27 +70,9 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String username = cognitoSettings.refreshSession(SP.getString("email", "null"), SP.getString("dwString", "null"));
 
-                Log.i(TAG, "HERE");
-
-                Gson gson = new Gson();
-                String j = SP.getString("currentUser", "null");
-                CognitoUser thisUser = pool.getUser(SP.getString("email", null));
-
-                thisUser.getDetailsInBackground(new GetDetailsHandler() {
-                    @Override
-                    public void onSuccess(CognitoUserDetails cognitoUserDetails) {
-                        Map<String,String> attributes = cognitoUserDetails.getAttributes().getAttributes();
-
-                        Log.i(TAG, attributes.get("username"));
-
-                    }
-
-                    @Override
-                    public void onFailure(Exception exception) {
-
-                    }
-                });
+                Log.i(TAG, username);
             }
         });
 

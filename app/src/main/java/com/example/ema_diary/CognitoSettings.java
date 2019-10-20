@@ -1,26 +1,34 @@
 package com.example.ema_diary;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.regions.Regions;
 
 public class CognitoSettings {
+    private String TAG = "CognitoSettings";
     private String userPoolId = "us-east-1_CTJ2jfjlB";
     private String clientId = "3pa7lb4mrprsaaqutoua1vvi3t";
     private String clientSecret = "143c0dti692kj0r405bhv8l97eq0lc4su4ueejapjv1fuo11kpte";
     private Regions cognitoRegion = Regions.US_EAST_1;
-    private CognitoDevice thisDevice = null;
 
     public static CognitoUser user = null;
     public static String oldPass = null;
 
+
     private static CognitoUserSession currSession;
-    private static CognitoUserDetails userDetails;
+    private String username;
 
     private Context context;
 
@@ -50,6 +58,62 @@ public class CognitoSettings {
 
     public Regions getCognitoRegion() {
         return cognitoRegion;
+    }
+
+    public String refreshSession(String email, String dwString){
+        CognitoUserPool pool = getUserPool();
+
+        Log.i(TAG, email + " , " + dwString);
+
+
+        CognitoUser thisUser = pool.getUser(email);
+        thisUser.getSessionInBackground(new AuthenticationHandler() {
+            @Override
+            public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                Log.i(TAG, "SUCCESS");
+                currSession = userSession;
+                userSession.getIdToken().getJWTToken();
+                userSession.getRefreshToken().getToken();
+                userSession.getAccessToken().getJWTToken();
+
+                username = userSession.getUsername();
+            }
+
+            @Override
+            public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
+                Log.i(TAG, "in Auth Details..");
+
+                /*need to get the userId & password to continue*/
+                AuthenticationDetails authenticationDetails = new AuthenticationDetails(email
+                        , dwString, null);
+
+                // Pass the user sign-in credentials to the continuation
+                authenticationContinuation.setAuthenticationDetails(authenticationDetails);
+
+                // Allow the sign-in to continue
+                authenticationContinuation.continueTask();
+            }
+
+            @Override
+            public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
+                Log.i(TAG, "in Auth MFA Code..");
+
+            }
+
+            @Override
+            public void authenticationChallenge(ChallengeContinuation continuation) {
+                Log.i(TAG, "in Auth Challenge..");
+
+            }
+
+            @Override
+            public void onFailure(Exception exception) {
+                Log.i(TAG, "Failed: " + exception);
+
+            }
+        });
+
+        return username;
     }
 
     public CognitoUserPool getUserPool() {

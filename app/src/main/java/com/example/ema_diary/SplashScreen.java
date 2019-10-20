@@ -17,6 +17,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Auth
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoRefreshToken;
 import com.google.gson.Gson;
 
 public class SplashScreen extends AppCompatActivity {
@@ -46,8 +47,11 @@ public class SplashScreen extends AppCompatActivity {
                     @Override
                     public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
                         Log.i(TAG, "success");
-                        SP.edit().putString("token", userSession.getRefreshToken().toString());
+                        SP.edit().putString("refToken", userSession.getRefreshToken().toString());
                         SP.edit().apply();
+
+                        CognitoSettings.setCurrSession(userSession);
+                        Log.i(TAG, userSession.getUsername());
 
                         Intent main = new Intent(SplashScreen.this, MainActivity.class);
                         startActivity(main);
@@ -68,6 +72,7 @@ public class SplashScreen extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Exception exception) {
+                        Log.e(TAG, exception.toString());
                         new AlertDialog.Builder(SplashScreen.this, R.style.AlertDialogStyle)
                                 .setTitle("Error")
                                 .setMessage("Auto Sign In failed, redirecting to authentication")
