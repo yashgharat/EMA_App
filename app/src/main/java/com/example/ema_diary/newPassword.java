@@ -53,6 +53,8 @@ public class newPassword extends AppCompatActivity {
                         @Override
                         public void onSuccess() {
                             Log.i(TAG, "REACHED");
+                            SP.edit().putString("dwString", String.valueOf(txtPassDos.getText())).apply();
+                            Log.i(TAG, SP.getString("dwString", "null"));
                             finish();
                         }
 

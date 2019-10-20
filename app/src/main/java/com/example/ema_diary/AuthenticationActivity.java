@@ -27,6 +27,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoIdToken;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoRefreshToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -85,18 +87,25 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Log.i(TAG, "Login successful, can get tokens here!");
                 cognitoSettings.setCurrSession(userSession);
 
-                String token = userSession.getRefreshToken().toString();
+                String refToken = userSession.getRefreshToken().toString();
+
+                CognitoRefreshToken refreshToken = userSession.getRefreshToken();
+                CognitoIdToken idToken = userSession.getIdToken();
+
+                Log.i(TAG, "Username: " + userSession.getUsername());
+
+                editor.putString("username", userSession.getUsername()).apply();
+
 
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
                 CognitoSettings.user = thisUser;
 
-                editor.putString("email", editTextEmail.toString()).apply();
+                editor.putString("email", editTextEmail.getText().toString()).apply();
 
-                editor.putString("token", token);
-                editor.apply();
+                editor.putString("refToken", refToken).apply();
 
-                Log.d("TOKEN: ", token);
+                Log.d("TOKEN: ", refToken);
 
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
@@ -115,7 +124,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 /*need to get the userId & password to continue*/
                 AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId
-                        , String.valueOf(editTextPassword.getText()), null);
+                        , String.valueOf(editTextPassword.getText().toString()), null);
 
                 // Pass the user sign-in credentials to the continuation
                 authenticationContinuation.setAuthenticationDetails(authenticationDetails);
@@ -189,7 +198,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                             .getUser(String.valueOf(editTextEmail.getText()));
                     CognitoSettings.user = thisUser;
                     // Sign in the use
-                    Log.i(TAG, "in button clicked....");
+                    Log.i(TAG, "Login button clicked....");
+
+                    SP.edit().putString("dwString", String.valueOf(editTextPassword.getText())).apply();
+                    Log.i(TAG, SP.getString("dwString", "null"));
+
 
                     thisUser.getSessionInBackground(authenticationHandler);
                 }
