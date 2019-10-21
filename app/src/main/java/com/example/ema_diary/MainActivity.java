@@ -1,6 +1,7 @@
 package com.example.ema_diary;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,23 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
-import com.google.gson.Gson;
-
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -43,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CognitoUserPool pool;
     private CognitoUserSession session;
+    private RDS_Connect client = new RDS_Connect();
 
 
     @Override
@@ -70,9 +61,18 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = cognitoSettings.refreshSession(SP.getString("email", "null"), SP.getString("dwString", "null"));
+                cognitoSettings.refreshSession(SP);
+                Log.i(TAG, "here");
+                String username = SP.getString("username", "null");
+                String email = SP.getString("email", "null");
 
-                Log.i(TAG, username);
+                //Log.i(TAG, "Username and email: " + username +" " + email);
+
+                try {
+                    Log.i(TAG, client.doGetRequest(username, email));
+                } catch (Exception e) {
+                    Log.i(TAG, e.toString());
+                }
             }
         });
 
