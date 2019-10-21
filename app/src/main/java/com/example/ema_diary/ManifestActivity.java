@@ -1,5 +1,6 @@
 package com.example.ema_diary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +24,9 @@ public class ManifestActivity extends AppCompatActivity {
         btnGrant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(ManifestActivity.this, CollectingPermissions.class);
+                finish();
+                startActivity(i);
             }
         });
     }

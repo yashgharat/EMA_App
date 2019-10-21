@@ -60,23 +60,20 @@ public class CognitoSettings {
         return cognitoRegion;
     }
 
-    public String refreshSession(String email, String dwString){
+    public void refreshSession(SharedPreferences SP){
+
+        String email = SP.getString("email", "null");
+        String dwString = SP.getString("dwString", "null");
+
         CognitoUserPool pool = getUserPool();
 
-        Log.i(TAG, email + " , " + dwString);
-
-
         CognitoUser thisUser = pool.getUser(email);
-        thisUser.getSessionInBackground(new AuthenticationHandler() {
+        thisUser.getSession(new AuthenticationHandler() {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
                 Log.i(TAG, "SUCCESS");
-                currSession = userSession;
-                userSession.getIdToken().getJWTToken();
-                userSession.getRefreshToken().getToken();
-                userSession.getAccessToken().getJWTToken();
+                return;
 
-                username = userSession.getUsername();
             }
 
             @Override
@@ -112,8 +109,6 @@ public class CognitoSettings {
 
             }
         });
-
-        return username;
     }
 
     public CognitoUserPool getUserPool() {

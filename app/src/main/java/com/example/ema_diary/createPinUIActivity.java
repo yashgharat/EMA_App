@@ -31,6 +31,7 @@ public class createPinUIActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(createPinUIActivity.this, createPinActivity.class);
+                finish();
                 startActivity(i);
 
                 SP.edit().putBoolean("Remember", true).apply();
@@ -48,6 +49,7 @@ public class createPinUIActivity extends AppCompatActivity {
                                 //Permissions Later
                                 Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
                                 SP.edit().putBoolean("Remember", true).apply();
+                                finish();
                                 startActivity(i);
                             }
                         })

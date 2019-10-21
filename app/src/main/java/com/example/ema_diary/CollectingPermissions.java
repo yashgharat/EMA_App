@@ -13,17 +13,23 @@ import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import java.security.Permission;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
 public class CollectingPermissions extends AppCompatActivity {
+
+    private final String TAG = "PERMISSONS";
+    private final int PHONE_STATE = 69;
 
     private Button next2;
 
@@ -59,6 +65,7 @@ public class CollectingPermissions extends AppCompatActivity {
             appArray[i] = new app();
         }
 
+
         next2 = (Button) findViewById(R.id.btnNext);
 
         final PackageManager packageManager = getPackageManager();
@@ -77,23 +84,33 @@ public class CollectingPermissions extends AppCompatActivity {
         //The permission phone state has to be accepted in order to get the unique ID
         final String tmDevice, tmSerial, androidId;
 
-        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            return;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE},PHONE_STATE);
+            int i = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+            Log.i(TAG, String.valueOf(i));
         }
         tmDevice = "" + tm.getDeviceId();
         tmSerial = "" + tm.getSimSerialNumber();
         androidId = "" + android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
+
+
         UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
         //Store the hashed string into deviceId
         String deviceId = deviceUuid.toString();
+
+
         int j=0;
         //Looping through all the apps to retrieve info
+
         for (ResolveInfo info : apps) {
             appSize = apps.size();
 
             final ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
             final String appName = (String) applicationInfo.loadLabel(packageManager);
+
+            // Log.i(TAG, appName);
 
             if (appName != null) {
                 try {
@@ -244,7 +261,6 @@ public class CollectingPermissions extends AppCompatActivity {
                 phone = "null";
             else phone = appArray[m].phone;
 
-
             //This is to make sure no app is duplicated in the database
             //Calling a function to save the collected permissions in a database
             BackgroundWorker backgroundWorker = new BackgroundWorker(context);
@@ -261,5 +277,23 @@ public class CollectingPermissions extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+
+        switch (requestCode){
+            case PHONE_STATE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+        }
     }
 }

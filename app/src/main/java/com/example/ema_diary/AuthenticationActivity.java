@@ -201,8 +201,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                     Log.i(TAG, "Login button clicked....");
 
                     SP.edit().putString("dwString", String.valueOf(editTextPassword.getText())).apply();
-                    Log.i(TAG, SP.getString("dwString", "null"));
-
 
                     thisUser.getSessionInBackground(authenticationHandler);
                 }
