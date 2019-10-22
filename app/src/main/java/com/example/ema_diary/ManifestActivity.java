@@ -24,7 +24,7 @@ public class ManifestActivity extends AppCompatActivity {
         btnGrant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ManifestActivity.this, CollectingPermissions.class);
+                Intent i = new Intent(ManifestActivity.this, CollectingInformation.class);
                 finish();
                 startActivity(i);
             }

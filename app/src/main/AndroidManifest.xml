@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
 
     <application
@@ -25,7 +28,7 @@
 
         <activity android:name=".createPinUIActivity"></activity>
         <activity android:name=".newPassword" />
-        <activity android:name=".CollectingPermissions" />
+        <activity android:name=".CollectingInformation" />
         <activity android:name=".ManifestActivity"
             android:exported="true"/>
         <activity android:name=".SplashScreen">
