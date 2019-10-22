@@ -1,5 +1,7 @@
 package com.example.ema_diary;
 
+import android.app.usage.EventStats;
+import android.app.usage.UsageEvents;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
@@ -28,6 +30,17 @@ public class UsageStatsHelper {
         }
         else
             return stat.getTotalTimeInForeground();
+    }
+
+    public static void getScreenInteractive(Context context){
+        UsageStatsManager manager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        long endTime = System.currentTimeMillis();
+        long startTime = endTime - DAY_IN_MILLISECONDS;
+
+        List <EventStats> e = manager.queryEventStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime);
+
+        int i = UsageEvents.Event.SCREEN_INTERACTIVE;
+
     }
 
     public static List<UsageStats> getUsageStatsList(Context context){
