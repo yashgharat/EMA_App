@@ -23,8 +23,12 @@ public class RDS_Connect {
     private String returnStr;
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
-    // user?id=<user_id>&email=<user_email>
+    // createUser
     private String getURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
+
+    // update changed password
+    private String passURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/did-set-pw?";
+
 
     public RDS_Connect(){}
 
@@ -62,6 +66,40 @@ public class RDS_Connect {
 
         Request request = new Request.Builder()
                 .url(url)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
+    }
+
+    public String updatePassword(String userid) throws Exception{
+        String url = passURL + "user_id=" + beginQuote + encodeValue(userid) + endQuote;
+        patchRequestHelper(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseStr = response.body().string();
+                    returnStr = responseStr;
+                }
+                else{
+                    Log.e(TAG, call.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
+                }
+            }
+        });
+        return returnStr;
+    }
+
+    private Call patchRequestHelper(String url, Callback callback){
+        Request request = new Request.Builder()
+                .url(url)
+                .patch(RequestBody.create(null,"true"))
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);

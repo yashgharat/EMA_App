@@ -24,6 +24,8 @@ public class newPassword extends AppCompatActivity {
 
     private SharedPreferences SP;
 
+    private RDS_Connect client = new RDS_Connect();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,13 @@ public class newPassword extends AppCompatActivity {
                             Log.i(TAG, "REACHED");
                             SP.edit().putString("dwString", String.valueOf(txtPassDos.getText())).apply();
                             Log.i(TAG, SP.getString("dwString", "null"));
+
+                            try {
+                                Log.i(TAG, client.updatePassword(SP.getString("username", "null")));
+                            } catch (Exception e) {
+                                Log.e(TAG, e.toString());
+                            }
+
                             finish();
                         }
 

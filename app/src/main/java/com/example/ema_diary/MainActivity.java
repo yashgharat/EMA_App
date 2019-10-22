@@ -107,9 +107,11 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 Intent i = new Intent(this, createPinUIActivity.class);
-
                 startActivityForResult(i, 20);
             case 20:
+                Intent o = new Intent(this, ManifestActivity.class);
+                startActivityForResult(o,30);
+            case 30:
 
         }
     }
