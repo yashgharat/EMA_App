@@ -91,6 +91,7 @@ public class CollectingInformation extends AppCompatActivity {
         next2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
             }
         });
 
