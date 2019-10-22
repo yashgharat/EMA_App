@@ -85,6 +85,7 @@ public class RDS_Connect {
                 if(response.isSuccessful()){
                     String responseStr = response.body().string();
                     returnStr = responseStr;
+                    Log.i(TAG, "here" + returnStr);
                 }
                 else{
                     Log.e(TAG, call.toString());
@@ -99,7 +100,7 @@ public class RDS_Connect {
     private Call patchRequestHelper(String url, Callback callback){
         Request request = new Request.Builder()
                 .url(url)
-                .patch(RequestBody.create(null,"true"))
+                .patch(RequestBody.create(null, new byte[0]))
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);

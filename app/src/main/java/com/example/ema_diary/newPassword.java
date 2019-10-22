@@ -54,9 +54,7 @@ public class newPassword extends AppCompatActivity {
                     CognitoSettings.user.changePasswordInBackground(CognitoSettings.oldPass, txtPassDos.getText().toString(), new GenericHandler() {
                         @Override
                         public void onSuccess() {
-                            Log.i(TAG, "REACHED");
                             SP.edit().putString("dwString", String.valueOf(txtPassDos.getText())).apply();
-                            Log.i(TAG, SP.getString("dwString", "null"));
 
                             try {
                                 Log.i(TAG, client.updatePassword(SP.getString("username", "null")));
