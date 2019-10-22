@@ -24,18 +24,14 @@ public class RDS_Connect {
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // createUser
-    private String getURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
-
-    // update changed password
-    private String passURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/did-set-pw?";
-
+    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
 
     public RDS_Connect(){}
 
 
     public String doGetRequest(String userid, String email) throws Exception {
 
-        String url = getURL + "user?id="+ beginQuote +
+        String url = baseURL + "user?id="+ beginQuote +
                 encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
 
         getRequestHelper(url, new Callback() {
@@ -73,7 +69,7 @@ public class RDS_Connect {
     }
 
     public String updatePassword(String userid) throws Exception{
-        String url = passURL + "user_id=" + beginQuote + encodeValue(userid) + endQuote;
+        String url = baseURL + "did-set-pw?user_id=" + beginQuote + encodeValue(userid) + endQuote;
         patchRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
