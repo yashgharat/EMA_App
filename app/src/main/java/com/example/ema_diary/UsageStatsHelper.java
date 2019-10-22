@@ -4,12 +4,9 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.util.Log;
-
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class UsageStatsHelper {
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
     public static final String TAG = UsageStatsHelper.class.getSimpleName();
 
     private static final int DAY_IN_MILLISECONDS = 86400000;
@@ -18,7 +15,7 @@ public class UsageStatsHelper {
         UsageStatsManager manager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
 
         List<UsageStats> list = getUsageStatsList(context);
-        UsageStats stat = list.get(1);
+        UsageStats stat = null;
 
         for(UsageStats u : list){
             if(u.getPackageName().equals(packageName))
@@ -27,7 +24,7 @@ public class UsageStatsHelper {
 
         if(stat == null)
         {
-            return 0;
+            return -1;
         }
         else
             return stat.getTotalTimeInForeground();
