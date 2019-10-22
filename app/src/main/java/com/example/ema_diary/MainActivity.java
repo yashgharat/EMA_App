@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Log.i(TAG, client.doGetRequest(username, email));
                 } catch (Exception e) {
-                    Log.i(TAG, e.toString());
+                    Log.e(TAG, e.toString());
                 }
             }
         });
