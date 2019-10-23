@@ -3,8 +3,10 @@ package com.example.ema_diary;
 // Taken from MarshmallowProject pamwis
 
 import android.Manifest;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -27,6 +29,8 @@ public class CollectingInformation extends AppCompatActivity {
     private final String TAG = "INFORMATIONS";
     private final int PHONE_STATE = 69;
 
+    private SharedPreferences SP;
+
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
 
 
@@ -38,14 +42,28 @@ public class CollectingInformation extends AppCompatActivity {
     int appSize = 0;
     Context context;
 
+    public static class app{
+        String appName, packageName, time;
+    }
+
     @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collecting_permissions);
 
+        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+
+
         //Declaring an array of app objects
-        final String[] appNames = new String[100];
+        final app[] appArray = new app[500];
+        for (int i = 0; i < appArray.length; i++) {
+            appArray[i] = new app();
+        }
+
+        int screenTime = UsageEvents.Event.SCREEN_INTERACTIVE - SP.getInt("screenTime", -1);
+        SP.edit().putInt("screenTime", UsageEvents.Event.SCREEN_INTERACTIVE);
+
 
         next2 = (Button) findViewById(R.id.btnNext);
 
@@ -76,18 +94,20 @@ public class CollectingInformation extends AppCompatActivity {
             final ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
             final String appName = (String) applicationInfo.loadLabel(packageManager);
             final String packageName = applicationInfo.packageName;
+            final String time = String.valueOf(UsageStatsHelper.getPackageUsage(packageName,this));
 
-            appNames[j] = appName;
-
-            String time = String.valueOf(UsageStatsHelper.getPackageUsage(packageName,this));
-            //This is to make sure no app is duplicated in the database
-            //Calling a function to save the collected permissions in a database
-            BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-            backgroundWorker.execute(appName, packageName, time);
-            //Adding the app name to an array
+            appArray[j].appName = appName;
+            appArray[j].packageName = packageName;
+            appArray[j].time = time;
 
             j++;
         }
+
+        //This is to make sure no app is duplicated in the database
+        //Calling a function to save the collected permissions in a database
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j);
+        backgroundWorker.execute();
+        //Adding the app name to an array
         next2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

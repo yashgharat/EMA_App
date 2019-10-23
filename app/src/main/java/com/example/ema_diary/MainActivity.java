@@ -1,5 +1,7 @@
 package com.example.ema_diary;
 
+import android.app.usage.EventStats;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, newPassword.class);
             startActivityForResult(i, 10);
 
+            SP.edit().putInt("screenTime", UsageEvents.Event.SCREEN_INTERACTIVE);
 
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putBoolean("virgin", false).apply();
