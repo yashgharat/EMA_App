@@ -6,36 +6,93 @@ package com.example.ema_diary;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URLEncoder;
 
-public class BackgroundWorker extends AsyncTask<String, Void, String> {
+public class BackgroundWorker extends AsyncTask<Void, Void, String> {
     Context context;
     AlertDialog alertDialog;
 
-    private final String TAG = "BACKGROUND";
+    private CollectingInformation.app[] list = new CollectingInformation.app[500];
 
-    BackgroundWorker(Context ctx) {
+    private final String TAG = "BACKGROUND";
+    private String screenTime;
+    private JSONObject upload, manifest;
+
+    private int size;
+
+    private JSONArray appUsage = new JSONArray();
+
+
+    BackgroundWorker(Context ctx, CollectingInformation.app[] list, String screenTime, int size) {
         context = ctx;
+        this.list = list;
+        this.screenTime = screenTime;
+
+        upload = new JSONObject();
+        manifest = new JSONObject();
+        this.size = size;
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(Void... params) {
+        for(int i = 0; i < size; i++) {
 
-        String appname = params[0];
-        String packageName = params[1];
-        String time = params[2];
+            String appname = list[i].appName;
+            String packageName = list[i].packageName;
+            String time = list[i].time;
+
+            try {
+                JSONObject tempapp = new JSONObject().put(appname, new JSONObject()
+                                                            .put("Time In Foreground", time + " ms")
+                                                            .put("Package-name", packageName));
+                appUsage.put(tempapp);
+            } catch (JSONException e) {
+                Log.e(TAG, e.toString());
+
+            }
+        }
         try {
-            String post_data = URLEncoder.encode("appName", "UTF-8") + "=" + URLEncoder.encode(appname, "UTF-8")+ "&"
-                    + URLEncoder.encode("packageName", "UTF-8") + "=" + URLEncoder.encode(packageName, "UTF-8")+ "&"
-                    + URLEncoder.encode("timeInForeground", "UTF-8") + "=" + URLEncoder.encode(time, "UTF-8");
-
-            Log.i(TAG, post_data);
-        } catch (Exception e) {
+            upload.put("manifest", appUsage);
+            upload.put("Screen time", screenTime);
+            Log.i(TAG, upload.toString(2));
+        } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
+
+        FileWriter fw;
+        File file = new File(context.getFilesDir(), "scrape-data");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
+        File sdCardFile = new File(file, "sample");
+
+        try {
+            fw = new FileWriter(sdCardFile, false);
+            fw.append(upload.toString(2));
+            fw.flush();
+            fw.close();
+        } catch (IOException e) {
+            Log.e(TAG, e.toString());
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
+        }
+
+
         return "done";
+
     }
 
     @Override
