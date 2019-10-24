@@ -73,27 +73,6 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
         }
 
 
-
-//        FileWriter fw;
-//        File file = new File(context.getFilesDir(), "scrape-data");
-//        if (!file.exists()) {
-//            file.mkdir();
-//        }
-//
-//        File sdCardFile = new File(file, "sample");
-//
-//        try {
-//            fw = new FileWriter(sdCardFile, false);
-//            fw.append(upload.toString(2));
-//            fw.flush();
-//            fw.close();
-//        } catch (IOException e) {
-//            Log.e(TAG, e.toString());
-//        } catch (JSONException e) {
-//            Log.e(TAG, e.toString());
-//        }
-
-
         return "done";
 
     }
