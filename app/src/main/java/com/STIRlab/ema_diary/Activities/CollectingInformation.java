@@ -1,4 +1,4 @@
-package com.STIRlab.ema_diary;
+package com.STIRlab.ema_diary.Activities;
 
 // Taken from MarshmallowProject pamwis
 
@@ -20,6 +20,10 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.STIRlab.ema_diary.Helpers.BackgroundWorker;
+import com.STIRlab.ema_diary.R;
+import com.STIRlab.ema_diary.Helpers.UsageStatsHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -43,7 +47,7 @@ public class CollectingInformation extends AppCompatActivity {
     Context context;
 
     public static class app{
-        String appName, packageName, time;
+        public String appName, packageName, time;
     }
 
     @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)

@@ -1,4 +1,4 @@
-package com.STIRlab.ema_diary;
+package com.STIRlab.ema_diary.Activities;
 
 import android.app.usage.UsageEvents;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.R;
+import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 

@@ -1,4 +1,4 @@
-package com.STIRlab.ema_diary;
+package com.STIRlab.ema_diary.Helpers;
 
 import android.util.Log;
 
