@@ -1,4 +1,4 @@
-package com.STIRlab.ema_diary;
+package com.STIRlab.ema_diary.Activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.R;
+import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
 public class newPassword extends AppCompatActivity {

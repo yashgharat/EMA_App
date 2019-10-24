@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/darkBackground"
     android:orientation="vertical"
-    tools:context=".ManifestActivity">
+    tools:context=".Activities.ManifestActivity">
 
     <TextView
         android:id="@+id/data_title"

@@ -6,7 +6,7 @@
     android:background="@color/darkBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PinActivity">
+    tools:context=".Activities.PinActivity">
 
     <com.poovam.pinedittextfield.CirclePinField
         android:id="@+id/pinField"

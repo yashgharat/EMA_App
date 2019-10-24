@@ -1,4 +1,4 @@
-package com.STIRlab.ema_diary;
+package com.STIRlab.ema_diary.Helpers;
 
 // Taken from MarshmallowProject pamwis
 
@@ -7,6 +7,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.STIRlab.ema_diary.Activities.CollectingInformation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +33,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
     RDS_Connect client = new RDS_Connect();
 
 
-    BackgroundWorker(Context ctx, CollectingInformation.app[] list, String screenTime, int size, String userid) {
+    public BackgroundWorker(Context ctx, CollectingInformation.app[] list, String screenTime, int size, String userid) {
         context = ctx;
         this.list = list;
         this.screenTime = screenTime;
