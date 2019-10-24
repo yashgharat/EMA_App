@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.ema_diary">
+    package="com.STIRlab.ema_diary">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -26,23 +26,23 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
 
-        <activity android:name=".createPinUIActivity"></activity>
-        <activity android:name=".newPassword" />
-        <activity android:name=".CollectingInformation" />
-        <activity android:name=".ManifestActivity"
+        <activity android:name="com.STIRlab.ema_diary.createPinUIActivity"></activity>
+        <activity android:name="com.STIRlab.ema_diary.newPassword" />
+        <activity android:name="com.STIRlab.ema_diary.CollectingInformation" />
+        <activity android:name="com.STIRlab.ema_diary.ManifestActivity"
             android:exported="true"/>
-        <activity android:name=".SplashScreen">
+        <activity android:name="com.STIRlab.ema_diary.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".createPinActivity" />
-        <activity android:name=".PinActivity" />
-        <activity android:name=".AuthenticationActivity" />
+        <activity android:name="com.STIRlab.ema_diary.createPinActivity" />
+        <activity android:name="com.STIRlab.ema_diary.PinActivity" />
+        <activity android:name="com.STIRlab.ema_diary.AuthenticationActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.STIRlab.ema_diary.MainActivity"
             android:label="@string/app_name" />
     </application>
 

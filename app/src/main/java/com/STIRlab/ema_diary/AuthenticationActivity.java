@@ -1,4 +1,4 @@
-package com.example.ema_diary;
+package com.STIRlab.ema_diary;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
@@ -26,18 +25,14 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoIdToken;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoRefreshToken;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
-import java.util.Map;
 import java.util.concurrent.Executor;
 
 public class AuthenticationActivity extends AppCompatActivity {

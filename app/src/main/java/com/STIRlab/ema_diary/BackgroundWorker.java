@@ -1,4 +1,4 @@
-package com.example.ema_diary;
+package com.STIRlab.ema_diary;
 
 // Taken from MarshmallowProject pamwis
 

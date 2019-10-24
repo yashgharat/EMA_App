@@ -1,4 +1,4 @@
-package com.example.ema_diary;
+package com.STIRlab.ema_diary;
 
 import android.content.Intent;
 import android.os.Bundle;
