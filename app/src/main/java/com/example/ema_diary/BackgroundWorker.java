@@ -6,36 +6,32 @@ package com.example.ema_diary;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
-
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URLEncoder;
+
 
 public class BackgroundWorker extends AsyncTask<Void, Void, String> {
+    private final String TAG = "BACKGROUND";
+
     Context context;
     AlertDialog alertDialog;
 
     private CollectingInformation.app[] list = new CollectingInformation.app[500];
 
-    private final String TAG = "BACKGROUND";
-    private String screenTime;
-    private JSONObject upload, manifest;
-
+    private String screenTime, userid;
     private int size;
 
+    private JSONObject upload, manifest;
     private JSONArray appUsage = new JSONArray();
 
+    RDS_Connect client = new RDS_Connect();
 
-    BackgroundWorker(Context ctx, CollectingInformation.app[] list, String screenTime, int size) {
+
+    BackgroundWorker(Context ctx, CollectingInformation.app[] list, String screenTime, int size, String userid) {
         context = ctx;
         this.list = list;
         this.screenTime = screenTime;
@@ -43,6 +39,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
         upload = new JSONObject();
         manifest = new JSONObject();
         this.size = size;
+        this.userid = userid;
     }
 
     @Override
@@ -67,28 +64,32 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
             upload.put("manifest", appUsage);
             upload.put("Screen time", screenTime);
             Log.i(TAG, upload.toString(2));
+
+            client.uploadFile(userid, upload);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
 
-        FileWriter fw;
-        File file = new File(context.getFilesDir(), "scrape-data");
-        if (!file.exists()) {
-            file.mkdir();
-        }
 
-        File sdCardFile = new File(file, "sample");
 
-        try {
-            fw = new FileWriter(sdCardFile, false);
-            fw.append(upload.toString(2));
-            fw.flush();
-            fw.close();
-        } catch (IOException e) {
-            Log.e(TAG, e.toString());
-        } catch (JSONException e) {
-            Log.e(TAG, e.toString());
-        }
+//        FileWriter fw;
+//        File file = new File(context.getFilesDir(), "scrape-data");
+//        if (!file.exists()) {
+//            file.mkdir();
+//        }
+//
+//        File sdCardFile = new File(file, "sample");
+//
+//        try {
+//            fw = new FileWriter(sdCardFile, false);
+//            fw.append(upload.toString(2));
+//            fw.flush();
+//            fw.close();
+//        } catch (IOException e) {
+//            Log.e(TAG, e.toString());
+//        } catch (JSONException e) {
+//            Log.e(TAG, e.toString());
+//        }
 
 
         return "done";

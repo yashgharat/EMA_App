@@ -102,10 +102,12 @@ public class CollectingInformation extends AppCompatActivity {
 
             j++;
         }
+        SP.edit().putString("username", "07b0d8ac-d86c-456f-8718-a0b86a8d0106");
+        String username = SP.getString("username", null);
 
         //This is to make sure no app is duplicated in the database
         //Calling a function to save the collected permissions in a database
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j);
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j, username);
         backgroundWorker.execute();
         //Adding the app name to an array
         next2.setOnClickListener(new View.OnClickListener() {
