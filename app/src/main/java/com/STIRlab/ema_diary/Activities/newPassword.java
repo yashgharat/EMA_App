@@ -25,6 +25,8 @@ public class newPassword extends AppCompatActivity {
     private SharedPreferences SP;
 
     private RDS_Connect client = new RDS_Connect();
+    private AlertDialog userDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,26 +69,39 @@ public class newPassword extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Exception exception) {
-                            Log.i(TAG + "FAILURE", oldPass);
+
+                            showDialogMessage("Password change failed", CognitoSettings.formatException(exception), false);
                             Log.i(TAG + "FAILURE", exception.toString());
                         }
                     });
                 }
                 else
                 {
-                    new AlertDialog.Builder(newPassword.this, R.style.AlertDialogStyle)
-                            .setTitle("Error")
-                            .setMessage("Passwords do not match")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .show();
+                    showDialogMessage("Error", "Passwords do not match", false);
                 }
             }
         });
 
 
+    }
+
+    private void showDialogMessage(String title, String body, final boolean exitActivity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                    if (exitActivity) {
+                        onBackPressed();
+                    }
+                } catch (Exception e) {
+                    onBackPressed();
+                }
+            }
+        });
+        userDialog = builder.create();
+        userDialog.show();
     }
 
     @Override

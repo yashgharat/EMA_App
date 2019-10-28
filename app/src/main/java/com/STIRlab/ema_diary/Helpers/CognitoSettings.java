@@ -16,7 +16,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.regions.Regions;
 
 public class CognitoSettings {
-    private String TAG = "CognitoSettings";
+    private static String TAG = "CognitoSettings";
     private String userPoolId = "us-east-1_CTJ2jfjlB";
     private String clientId = "3pa7lb4mrprsaaqutoua1vvi3t";
     private String clientSecret = "143c0dti692kj0r405bhv8l97eq0lc4su4ueejapjv1fuo11kpte";
@@ -108,6 +108,23 @@ public class CognitoSettings {
 
             }
         });
+    }
+
+    public static String formatException(Exception exception) {
+        String formattedString = "Internal Error";
+        Log.e(TAG, " -- Error: "+exception.toString());
+        Log.getStackTraceString(exception);
+
+        String temp = exception.getMessage();
+
+        if(temp != null && temp.length() > 0) {
+            formattedString = temp.split("\\(")[0];
+            if(temp != null && temp.length() > 0) {
+                return formattedString;
+            }
+        }
+
+        return  formattedString;
     }
 
     public CognitoUserPool getUserPool() {
