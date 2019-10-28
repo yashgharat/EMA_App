@@ -26,7 +26,7 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
 
-        <activity android:name="com.STIRlab.ema_diary.Activities.createPinUIActivity"></activity>
+        <activity android:name="com.STIRlab.ema_diary.Activities.createPinUIActivity"/>
         <activity android:name="com.STIRlab.ema_diary.Activities.newPassword" />
         <activity android:name="com.STIRlab.ema_diary.Activities.CollectingInformation" />
         <activity android:name="com.STIRlab.ema_diary.Activities.ManifestActivity"
@@ -43,7 +43,8 @@
         <activity android:name="com.STIRlab.ema_diary.Activities.AuthenticationActivity" />
         <activity
             android:name="com.STIRlab.ema_diary.Activities.MainActivity"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:exported="true"/>
     </application>
 
 </manifest>
