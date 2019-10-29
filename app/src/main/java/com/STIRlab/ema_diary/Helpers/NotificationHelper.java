@@ -51,13 +51,16 @@ public class NotificationHelper {
         String notificationTitle = "Test Notification";
         String notificationText = "This is a test Notification";
 
+        this.buildNotif();
+
 
         Intent intent = new Intent(context, MainActivity.class);
 
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(context, 1, intent, FLAG_UPDATE_CURRENT);
 
-        new NotificationCompat.Builder(context, test_notification_channel)
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context, test_notification_channel)
                 .setSmallIcon(R.drawable.ic__ionicons_svg_ios_create)
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationText)
@@ -67,6 +70,8 @@ public class NotificationHelper {
 
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(context);
+
+        notificationManager.notify(10, notificationBuilder.build());
     }
 
 }
