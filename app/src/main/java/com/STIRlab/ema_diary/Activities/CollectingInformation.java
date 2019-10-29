@@ -1,4 +1,4 @@
-package com.example.ema_diary;
+package com.STIRlab.ema_diary.Activities;
 
 // Taken from MarshmallowProject pamwis
 
@@ -20,6 +20,10 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.STIRlab.ema_diary.Helpers.BackgroundWorker;
+import com.STIRlab.ema_diary.R;
+import com.STIRlab.ema_diary.Helpers.UsageStatsHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -43,7 +47,7 @@ public class CollectingInformation extends AppCompatActivity {
     Context context;
 
     public static class app{
-        String appName, packageName, time;
+        public String appName, packageName, time;
     }
 
     @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)
@@ -102,10 +106,12 @@ public class CollectingInformation extends AppCompatActivity {
 
             j++;
         }
+        SP.edit().putString("username", "07b0d8ac-d86c-456f-8718-a0b86a8d0106");
+        String username = SP.getString("username", null);
 
         //This is to make sure no app is duplicated in the database
         //Calling a function to save the collected permissions in a database
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j);
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j, username);
         backgroundWorker.execute();
         //Adding the app name to an array
         next2.setOnClickListener(new View.OnClickListener() {

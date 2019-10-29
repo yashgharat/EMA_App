@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/darkForeground"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 
 
     <TableLayout
@@ -69,7 +69,7 @@
                 android:layout_width="350dp"
                 android:layout_marginStart="30dp"
                 android:maxHeight="10dp"
-                android:progress="75"
+                android:progress="3"
                 android:progressBackgroundTint="@color/disabled"
                 android:progressTint="@color/secondary" />
         </TableRow>
@@ -133,6 +133,7 @@
     </TableLayout>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardJournal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"

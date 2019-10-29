@@ -1,4 +1,4 @@
-package com.example.ema_diary;
+package com.STIRlab.ema_diary.Helpers;
 
 import android.app.usage.EventStats;
 import android.app.usage.UsageEvents;

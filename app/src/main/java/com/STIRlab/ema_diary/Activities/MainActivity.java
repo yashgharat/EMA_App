@@ -1,23 +1,28 @@
-package com.example.ema_diary;
+package com.STIRlab.ema_diary.Activities;
 
-import android.app.usage.EventStats;
 import android.app.usage.UsageEvents;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.R;
+import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 
@@ -30,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
 
     private TextView viewHistory_1;
+    private CardView cardJournal;
 
     private CognitoSettings cognitoSettings = new CognitoSettings(this);
-
     private CognitoUserPool pool;
     private CognitoUserSession session;
     private RDS_Connect client = new RDS_Connect();
+
+    public ProgressBar userProgress;
 
 
     @Override
@@ -43,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        String username = SP.getString("username", "null");
+        String email = SP.getString("email", "null");
         pool = cognitoSettings.getUserPool();
 
         if(SP.getBoolean("virgin", true)){
@@ -58,7 +67,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
+        userProgress = findViewById(R.id.progressBar);
 
+        cardJournal = findViewById(R.id.cardJournal);
 
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
@@ -66,16 +77,27 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 cognitoSettings.refreshSession(SP);
                 Log.i(TAG, "here");
-                String username = SP.getString("username", "null");
-                String email = SP.getString("email", "null");
 
-                //Log.i(TAG, "Username and email: " + username +" " + email);
 
                 try {
                     Log.i(TAG, client.doGetRequest(username, email));
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
+            }
+        });
+
+        cardJournal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://ucf.qualtrics.com/jfe/form/SV_2i6xiz49SKg0JRb?user_id=" + username;
+
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
+                builder.setShowTitle(true);
+
+                CustomTabsIntent viewSurvey = builder.build();
+                viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
             }
         });
 
