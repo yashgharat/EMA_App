@@ -113,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivityForResult(i, 50);
             }
         });
 
@@ -153,7 +154,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent o = new Intent(this, ManifestActivity.class);
                 startActivityForResult(o,30);
             case 30:
-
+                break;
+            case 50:
+                break;
         }
     }
 
