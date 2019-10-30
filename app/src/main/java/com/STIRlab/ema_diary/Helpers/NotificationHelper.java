@@ -9,17 +9,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.SystemClock;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import com.STIRlab.ema_diary.Activities.MainActivity;
 import com.STIRlab.ema_diary.R;
 
 import java.util.Calendar;
-
-import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 public class NotificationHelper {
 
@@ -55,7 +50,7 @@ public class NotificationHelper {
     private Notification getNotif(String title, String content){
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, test_notification_channel)
-                .setSmallIcon(R.drawable.ic__ionicons_svg_ios_create)
+                .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
                 .setContentTitle(title)
                 .setContentText(content)
                 .setAutoCancel(true)

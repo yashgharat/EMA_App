@@ -35,9 +35,6 @@ public class CollectingInformation extends AppCompatActivity {
 
     private SharedPreferences SP;
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("M-d-yyyy HH:mm:ss");
-
-
     private Button next2;
 
     //Variable declarations
