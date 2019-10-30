@@ -13,7 +13,6 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,35 +21,40 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.SettingsActivity"></activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-
-        <activity android:name="com.STIRlab.ema_diary.Activities.createPinUIActivity"/>
-        <activity android:name="com.STIRlab.ema_diary.Activities.newPassword" />
-        <activity android:name="com.STIRlab.ema_diary.Activities.CollectingInformation" />
-        <activity android:name="com.STIRlab.ema_diary.Activities.ManifestActivity"
-            android:exported="true"/>
-        <activity android:name="com.STIRlab.ema_diary.Activities.SplashScreen">
+        <activity android:name=".Activities.createPinUIActivity" />
+        <activity android:name=".Activities.newPassword" />
+        <activity android:name=".Activities.CollectingInformation" />
+        <activity
+            android:name=".Activities.ManifestActivity"
+            android:exported="true" />
+        <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.STIRlab.ema_diary.Activities.createPinActivity" />
-        <activity android:name="com.STIRlab.ema_diary.Activities.PinActivity" />
-        <activity android:name="com.STIRlab.ema_diary.Activities.AuthenticationActivity" />
+        <activity android:name=".Activities.createPinActivity" />
+        <activity android:name=".Activities.PinActivity" />
+        <activity android:name=".Activities.AuthenticationActivity" />
         <activity
-            android:name="com.STIRlab.ema_diary.Activities.MainActivity"
-            android:label="@string/app_name"
-            android:exported="true"/>
-        <receiver android:name="Helpers.NotifyPublisher" android:enabled="true" android:exported="false" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            android:name=".Activities.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name" />
+
+        <receiver
+            android:name="Helpers.NotifyPublisher"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

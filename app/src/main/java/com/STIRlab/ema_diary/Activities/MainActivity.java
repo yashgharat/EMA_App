@@ -21,6 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView viewHistory_1;
     private CardView cardJournal;
+    private CardView cardSettings;
 
     private CognitoSettings cognitoSettings = new CognitoSettings(this);
     private CognitoUserPool pool;
@@ -63,13 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putBoolean("virgin", false).apply();
+
+            NotificationHelper.triggerNotif(this, "Test", "This is a test", 2, 0);
+
         }
+
+        NotificationHelper.triggerNotif(this, "Test", "This is a test", SP.getInt("hour", 2), SP.getInt("minute", 0));
         setContentView(R.layout.activity_main);
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         userProgress = findViewById(R.id.progressBar);
 
         cardJournal = findViewById(R.id.cardJournal);
+        cardSettings = findViewById(R.id.cardSettings);
 
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 cognitoSettings.refreshSession(SP);
                 Log.i(TAG, "here");
-
 
                 try {
                     Log.i(TAG, client.doGetRequest(username, email));
@@ -98,6 +105,15 @@ public class MainActivity extends AppCompatActivity {
 
                 CustomTabsIntent viewSurvey = builder.build();
                 viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+
+                userProgress.setProgress(userProgress.getProgress() + 3);
+            }
+        });
+
+        cardSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 
