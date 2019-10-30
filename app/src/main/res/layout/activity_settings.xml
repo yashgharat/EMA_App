@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/darkForeground"
+    android:id="@+id/settingsLayout"
     tools:context="com.STIRlab.ema_diary.Activities.SettingsActivity">
 
 
@@ -33,6 +34,7 @@
                 />
 
             <TextView
+                android:id="@+id/finishSettings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Done"
@@ -47,6 +49,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/timePick"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="30dp"
@@ -107,6 +110,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/SecureLock"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="30dp"
@@ -122,7 +126,7 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/SecureLock"
+                android:id="@+id/lockConstraint"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -157,7 +161,7 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_keyboard_arrow_right_blue_30dp"
                     android:tint="@color/primaryDark"
-                    app:layout_constraintRight_toRightOf="@id/SecureLock"
+                    app:layout_constraintRight_toRightOf="@id/lockConstraint"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"/>

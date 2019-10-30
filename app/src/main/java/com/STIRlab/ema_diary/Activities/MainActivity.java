@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
-    private TextView viewHistory_1;
+    private TextView viewHistory_1, studyCounter;
     private CardView cardJournal;
     private CardView cardSettings;
+    private int curCount = 0;
 
     private CognitoSettings cognitoSettings = new CognitoSettings(this);
     private CognitoUserPool pool;
@@ -55,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
         pool = cognitoSettings.getUserPool();
+        setContentView(R.layout.activity_main);
+
+
+        viewHistory_1 = findViewById(R.id.viewHistory_1);
+        userProgress = findViewById(R.id.progressBar);
+
+        cardJournal = findViewById(R.id.cardJournal);
+        cardSettings = findViewById(R.id.cardSettings);
+
+        studyCounter = findViewById(R.id.studyCounter);
 
         if(SP.getBoolean("virgin", true)){
 
@@ -68,16 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
             NotificationHelper.triggerNotif(this, "Test", "This is a test", 2, 0);
 
+            studyCounter.setText(curCount);
         }
 
+        studyCounter.setText(String.valueOf(curCount));
+
         NotificationHelper.triggerNotif(this, "Test", "This is a test", SP.getInt("hour", 2), SP.getInt("minute", 0));
-        setContentView(R.layout.activity_main);
-
-        viewHistory_1 = findViewById(R.id.viewHistory_1);
-        userProgress = findViewById(R.id.progressBar);
-
-        cardJournal = findViewById(R.id.cardJournal);
-        cardSettings = findViewById(R.id.cardSettings);
 
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
 
                 userProgress.setProgress(userProgress.getProgress() + 3);
+
+                studyCounter.setText(++curCount);
             }
         });
 
