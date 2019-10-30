@@ -45,6 +45,12 @@
             android:name="com.STIRlab.ema_diary.Activities.MainActivity"
             android:label="@string/app_name"
             android:exported="true"/>
+        <receiver android:name="Helpers.NotifyPublisher" android:enabled="true" android:exported="false" android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
