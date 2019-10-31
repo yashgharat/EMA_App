@@ -47,6 +47,7 @@ public class NotificationHelper {
         notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID , 1 ) ;
         notificationIntent.putExtra(NotifyPublisher.NOTIFICATION , notification) ;
         PendingIntent pendingIntent = PendingIntent.getBroadcast ( context, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        createNotificationChannel();
         long futureInMillis = SystemClock.elapsedRealtime () + delay ;
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE ) ;
         assert alarmManager != null;
