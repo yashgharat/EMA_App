@@ -62,7 +62,7 @@ public class createPinActivity extends AppCompatActivity {
         } else {
             if(str.equals(in.getStringExtra("inputPin"))){
                 //UserAttributes.localPin = Integer.parseInt(in.getStringExtra("inputPin"));
-                editor.putInt("Pin", Integer.parseInt(in.getStringExtra("inputPin")));
+                editor.putString("Pin", in.getStringExtra("inputPin"));
                 editor.apply();
 
                 finish();

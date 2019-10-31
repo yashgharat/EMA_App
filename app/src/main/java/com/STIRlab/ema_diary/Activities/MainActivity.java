@@ -1,5 +1,8 @@
 package com.STIRlab.ema_diary.Activities;
 
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +10,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,10 +22,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotificationHelper;
+import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putBoolean("virgin", false).apply();
 
 
-            studyCounter.setText(curCount);
+            studyCounter.setText(String.valueOf(curCount));
         }
 
         studyCounter.setText(String.valueOf(curCount));
@@ -120,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                helper.scheduleNotification(helper.getNotification("This is a test"), 5000);
+                scheduleNotification(getNotification("testNotification"), 5000);
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i, 50);
             }
@@ -171,5 +177,26 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    private void scheduleNotification(Notification notification, int delay) {
+
+        Intent notificationIntent = new Intent(this, NotifyPublisher.class);
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channelID");
+        builder.setContentTitle("Test Notification")
+                .setContentText(content)
+                .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
+                .setChannelId("channelID");
+        return builder.build();
     }
 }
