@@ -26,7 +26,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
-import com.STIRlab.ema_diary.Helpers.NotificationHelper;
+import com.STIRlab.ema_diary.Helpers.NotificationService;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
@@ -40,12 +40,11 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
-    private NotificationHelper helper;
 
     private TextView viewHistory_1, studyCounter;
     private CardView cardJournal;
     private CardView cardSettings;
-    private int curCount = 0;
+    private int curCount = 30;
 
     private CognitoSettings cognitoSettings = new CognitoSettings(this);
     private CognitoUserPool pool;
@@ -59,13 +58,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
         pool = cognitoSettings.getUserPool();
         setContentView(R.layout.activity_main);
-
-        helper = new NotificationHelper(this);
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         userProgress = findViewById(R.id.progressBar);
@@ -75,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         studyCounter = findViewById(R.id.studyCounter);
 
-        if(SP.getBoolean("virgin", true)){
+        if (SP.getBoolean("virgin", true)) {
 
             Intent i = new Intent(this, newPassword.class);
             startActivityForResult(i, 10);
@@ -119,14 +116,16 @@ public class MainActivity extends AppCompatActivity {
 
                 userProgress.setProgress(userProgress.getProgress() + 3);
 
-                studyCounter.setText(String.valueOf(++curCount));
+                studyCounter.setText(String.valueOf(--curCount));
             }
         });
 
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scheduleNotification(getNotification("testNotification"), 5000);
+
+                NotificationService.setReminder(MainActivity.this, NotifyPublisher.class, 1,07);
+
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i, 50);
             }
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(i, 20);
             case 20:
                 Intent o = new Intent(this, ManifestActivity.class);
-                startActivityForResult(o,30);
+                startActivityForResult(o, 30);
             case 30:
                 break;
             case 50:
@@ -177,26 +176,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-    }
-
-    private void scheduleNotification(Notification notification, int delay) {
-
-        Intent notificationIntent = new Intent(this, NotifyPublisher.class);
-        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-    }
-
-    private Notification getNotification(String content) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channelID");
-        builder.setContentTitle("Test Notification")
-                .setContentText(content)
-                .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
-                .setChannelId("channelID");
-        return builder.build();
     }
 }

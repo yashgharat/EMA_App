@@ -23,7 +23,7 @@ public class createPinUIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pin_ui);
 
-        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
         Button btnLock = findViewById(R.id.btnQuickSignIn);
 

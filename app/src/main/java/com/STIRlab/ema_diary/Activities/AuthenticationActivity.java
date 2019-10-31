@@ -69,7 +69,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
 
-        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
         localPin = SP.getInt("Pin", -1);
         editor.putString("pinTitle", "Set a Pin");

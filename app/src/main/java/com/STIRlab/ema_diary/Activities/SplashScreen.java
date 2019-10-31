@@ -33,7 +33,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        SP = getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        SP = getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         localPin = SP.getInt("Pin", -1);
         remember = SP.getBoolean("Remember", false);
 

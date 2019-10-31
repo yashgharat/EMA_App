@@ -31,7 +31,7 @@ public class createPinActivity extends AppCompatActivity {
 
         title = findViewById(R.id.title_pin);
 
-        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
 
         title.setText(SP.getString("pinTitle", "NULL"));

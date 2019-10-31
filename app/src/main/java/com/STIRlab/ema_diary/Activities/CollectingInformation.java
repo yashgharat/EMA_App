@@ -3,6 +3,7 @@ package com.STIRlab.ema_diary.Activities;
 // Taken from MarshmallowProject pamwis
 
 import android.Manifest;
+import android.app.AppOpsManager;
 import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
@@ -53,7 +54,7 @@ public class CollectingInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collecting_permissions);
 
-        SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
 
         //Declaring an array of app objects
@@ -69,11 +70,18 @@ public class CollectingInformation extends AppCompatActivity {
         next2 = (Button) findViewById(R.id.btnNext);
 
         context = this;
-
-        if (UsageStatsHelper.getUsageStatsList(this).isEmpty()) {
-            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-            startActivityForResult(intent, 85);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE);
+            int i = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
+            Log.i(TAG, String.valueOf(i));
         }
+
+        if (!isAccessGranted()) {
+            Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+            startActivity(intent);
+        }
+
+
 
         final PackageManager packageManager = getPackageManager();
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
@@ -81,11 +89,6 @@ public class CollectingInformation extends AppCompatActivity {
         //Making a list of all the apps
         final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE);
-            int i = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
-            Log.i(TAG, String.valueOf(i));
-        }
         int j = 0;
         //Looping through all the apps to retrieve info
 
@@ -141,6 +144,23 @@ public class CollectingInformation extends AppCompatActivity {
                 }
                 return;
             }
+        }
+    }
+
+    private boolean isAccessGranted() {
+        try {
+            PackageManager packageManager = getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(getPackageName(), 0);
+            AppOpsManager appOpsManager = (AppOpsManager) getSystemService(Context.APP_OPS_SERVICE);
+            int mode = 0;
+            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT) {
+                mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                        applicationInfo.uid, applicationInfo.packageName);
+            }
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
         }
     }
 }
