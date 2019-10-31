@@ -16,15 +16,12 @@ public class NotifyPublisher extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context. NOTIFICATION_SERVICE ) ;
-        Notification notification = intent.getParcelableExtra( NOTIFICATION ) ;
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            int importance = NotificationManager. IMPORTANCE_HIGH ;
-            NotificationChannel notificationChannel = new NotificationChannel( String.valueOf(NOTIFICATION.hashCode()) , "NOTIFICATION_CHANNEL_NAME" , importance) ;
-            assert notificationManager != null;
-            notificationManager.createNotificationChannel(notificationChannel) ;
-        }
-        int id = intent.getIntExtra( NOTIFICATION_ID , 0 ) ;
+        Notification notification = intent.getParcelableExtra(NOTIFICATION);
+        int importance = NotificationManager. IMPORTANCE_HIGH ;
+        NotificationChannel notificationChannel = new NotificationChannel(String.valueOf(NOTIFICATION.hashCode()) , "NOTIFICATION_CHANNEL_NAME" , importance) ;
         assert notificationManager != null;
-        notificationManager.notify(id , notification) ;
+        notificationManager.createNotificationChannel(notificationChannel) ;
+        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+        notificationManager.notify(id, notification);
     }
 }

@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class PinActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
-    private int localPin;
+    private String localPin;
     private TextView title;
     private CognitoSettings cognitoSettings;
 
@@ -42,7 +42,7 @@ public class PinActivity extends AppCompatActivity {
         title = findViewById(R.id.title_pin);
 
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
-        localPin = SP.getInt("Pin", -1);
+        localPin = SP.getString("Pin", null);
 
         title.setText("Enter Pin");
 
@@ -56,7 +56,7 @@ public class PinActivity extends AppCompatActivity {
             public boolean onTextComplete(@NotNull String str) {
                 int pin = Integer.parseInt(str);
 
-                if(pin == localPin){
+                if(String.valueOf(pin).equals(localPin)){
                     Log.i(TAG,"SUCCESS");
                     cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
                         @Override

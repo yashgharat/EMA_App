@@ -8,20 +8,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.R;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
 public class SettingsActivity extends AppCompatActivity {
+
+    private final String TAG = "SETTINGS";
 
     private CardView setTime, newPin;
     private TextView back, signOut;
     private LinearLayout layout;
+
+    private CognitoSettings cognitoSettings;
 
     private SharedPreferences SP;
     @Override
@@ -30,6 +37,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         SP = this.getSharedPreferences("com.example.ema_diary", Context.MODE_PRIVATE);
+
+        cognitoSettings = new CognitoSettings(this);
 
         setTime = findViewById(R.id.timePick);
         newPin = findViewById(R.id.SecureLock);
@@ -79,7 +88,22 @@ public class SettingsActivity extends AppCompatActivity {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log our feature added here
+                cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
+                    @Override
+                    public void onSuccess() {
+                        Log.i(TAG, "Logged out");
+                        SP.edit().clear();
+                        Intent i = new Intent(SettingsActivity.this, AuthenticationActivity.class);
+                        startActivity(i);
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception) {
+
+                    }
+                });
+
+
             }
         });
 

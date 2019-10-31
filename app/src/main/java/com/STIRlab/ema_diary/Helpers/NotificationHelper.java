@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -43,22 +44,22 @@ public class NotificationHelper {
     }
 
     public void scheduleNotification (Notification notification , int delay) {
-        Intent notificationIntent = new Intent( context, NotifyPublisher.class ) ;
-        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID , 1 ) ;
-        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION , notification) ;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast ( context, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
         createNotificationChannel();
-        long futureInMillis = SystemClock.elapsedRealtime () + delay ;
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE ) ;
-        assert alarmManager != null;
-        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis , pendingIntent) ;
+        Intent notificationIntent = new Intent(context, NotifyPublisher.class);
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long futureInMillis = SystemClock.elapsedRealtime () + delay;
+        Log.i("Notify", "Here");
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE );
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
     public Notification getNotification (String content) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel_ID) ;
-        builder.setContentTitle( "Test Notification" )
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel_ID);
+        builder.setContentTitle("Test Notification")
             .setContentText(content)
             .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
             .setChannelId(channel_ID);
-        return builder.build() ;
+        return builder.build();
     }
 }
