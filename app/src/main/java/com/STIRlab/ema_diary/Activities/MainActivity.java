@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                notifs.sendNotification(17,30);
+                notifs.sendNotification(17,46);
 
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i, 50);
