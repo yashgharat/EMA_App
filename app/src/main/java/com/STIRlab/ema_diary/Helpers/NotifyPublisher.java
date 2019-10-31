@@ -1,5 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +13,9 @@ import com.STIRlab.ema_diary.Activities.MainActivity;
 
 public class NotifyPublisher extends BroadcastReceiver {
     public static final String TAG = "Publisher";
+    public static final String NOTIFICATION_ID = "notification-id";
+    public static final String NOTIFICATION = "notification";
+
 
     private SharedPreferences SP;
 
@@ -19,23 +24,13 @@ public class NotifyPublisher extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
-        if (intent.getAction() != null && context != null) {
-            if (intent.getAction().equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
-                // Set the alarm here.
-                Log.d(TAG, "onReceive: BOOT_COMPLETED");
+        NotificationManager notificationManager = NotificationService.mNotifyManager;
 
-                int hour = SP.getInt("hour", 0);
-                int minute = SP.getInt("minute", 0);
+        Notification notification = intent.getParcelableExtra(NOTIFICATION);
+        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
 
-                NotificationService.setReminder(context, NotifyPublisher.class, hour, minute);
-                return;
-            }
-        }
+        Log.i(TAG, "HERE");
 
-        Log.d(TAG, "onReceive: ");
-
-        //Trigger the notification
-        NotificationService.showNotification(context, MainActivity.class,
-                "30 Days", "Don't forget your daily journal entry");
+        notificationManager.notify(id, notification);
     }
 }

@@ -39,7 +39,7 @@ public class SplashScreen extends AppCompatActivity {
 
         cognitoSettings = new CognitoSettings(this);
 
-        Log.i(TAG, "reached");
+        Log.i(TAG, "Splash reached");
 
         if (remember) {
                 cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {

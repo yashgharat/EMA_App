@@ -2,11 +2,14 @@ package com.STIRlab.ema_diary.Activities;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MAIN";
 
+
+
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
@@ -51,7 +56,10 @@ public class MainActivity extends AppCompatActivity {
     private CognitoUserSession session;
     private RDS_Connect client = new RDS_Connect();
 
+    private NotificationService notifs;
+
     public ProgressBar userProgress;
+
 
 
     @Override
@@ -71,6 +79,9 @@ public class MainActivity extends AppCompatActivity {
         cardSettings = findViewById(R.id.cardSettings);
 
         studyCounter = findViewById(R.id.studyCounter);
+
+        notifs = new NotificationService(this);
+        notifs.createNotificationChannel();
 
         if (SP.getBoolean("virgin", true)) {
 
@@ -124,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                NotificationService.setReminder(MainActivity.this, NotifyPublisher.class, 1,07);
+                notifs.sendNotification(17,30);
 
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i, 50);
@@ -177,4 +188,5 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+
 }

@@ -1,69 +1,72 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.icu.util.Calendar;
+import android.os.SystemClock;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 import com.STIRlab.ema_diary.R;
 
-import java.util.Calendar;
-
 public class NotificationService {
-    public static final int DAILY_REMINDER_REQUEST_CODE = 100;
+    private static final String PRIMARY_CHANNEL_ID = "primary_notification_channels";
+    private static final int NOTIFICATION_ID = 0;
     public static final String TAG = "Service";
 
-    private static  Context context;
+    private  Context context;
 
-    public static void setContext(Context inContext){
-        context = inContext;
+    public static NotificationManager mNotifyManager;
+
+
+    public NotificationService(Context context){
+        this.context = context;
     }
 
-
-    public static void setReminder(Context context, Class<?> cls, int hour, int min)
+    public void sendNotification(int hour, int min)
     {
+        NotificationCompat.Builder notifyBuilder = getNotificationBuilder();
+
         Calendar calendar = Calendar.getInstance();
+
         Calendar setcalendar = Calendar.getInstance();
         setcalendar.set(Calendar.HOUR_OF_DAY, hour);
         setcalendar.set(Calendar.MINUTE, min);
         setcalendar.set(Calendar.SECOND, 0);
-        // cancel already scheduled reminders
-        cancelReminder(context,cls);
 
         if(setcalendar.before(calendar))
             setcalendar.add(Calendar.DATE,1);
 
-        // Enable a receiver
-        ComponentName receiver = new ComponentName(context, cls);
-        PackageManager pm = context.getPackageManager();
-        pm.setComponentEnabledSetting(receiver,
-                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                PackageManager.DONT_KILL_APP);
+        Intent notificationIntent = new Intent(context, NotifyPublisher.class);
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION, notifyBuilder.build());
+        notificationIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Intent intent1 = new Intent(context, cls);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+        long time = setcalendar.getTimeInMillis() - System.currentTimeMillis();
+
+        Log.i(TAG,String.valueOf(time));
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + time, pendingIntent);
+
+
+        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        //mNotifyManager.notify(NOTIFICATION_ID, notifyBuilder.build());
     }
 
-    public static void cancelReminder(Context context,Class<?> cls)
+    public static void cancelNotification(Context context,Class<?> cls)
     {
-        // Disable a receiver
-
         ComponentName receiver = new ComponentName(context, cls);
         PackageManager pm = context.getPackageManager();
 
@@ -72,53 +75,33 @@ public class NotificationService {
                 PackageManager.DONT_KILL_APP);
 
         Intent intent1 = new Intent(context, cls);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 10, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(pendingIntent);
         pendingIntent.cancel();
     }
 
-    public static void showNotification(Context context,Class<?> cls,String title,String content)
+    public void createNotificationChannel()
     {
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mNotifyManager = (NotificationManager)
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent notificationIntent = new Intent(context, cls);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(cls);
-        stackBuilder.addNextIntent(notificationIntent);
-
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(DAILY_REMINDER_REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context,"10");
-
-        Notification notification = builder.setContentTitle(title)
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setSound(alarmSound)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setChannelId("10")
-                .setContentIntent(pendingIntent).build();
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(DAILY_REMINDER_REQUEST_CODE, notification);
-
+        NotificationChannel notificationChannel = new NotificationChannel(PRIMARY_CHANNEL_ID,
+                "Test notification", NotificationManager
+                .IMPORTANCE_HIGH);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.enableVibration(true);
+        notificationChannel.setDescription("test notification");
+        mNotifyManager.createNotificationChannel(notificationChannel);
     }
 
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Test Channel";
-            String description = "Test notifications";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("10", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+    private NotificationCompat.Builder getNotificationBuilder(){
+        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+                .setContentTitle("You've been notified!")
+                .setContentText("This is your notification text.")
+                .setSmallIcon(R.drawable.ic_border_color_blue_24dp);
+
+        return notifyBuilder;
     }
 }
