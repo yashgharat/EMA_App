@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
+    private NotificationHelper helper;
 
     private TextView viewHistory_1, studyCounter;
     private CardView cardJournal;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         pool = cognitoSettings.getUserPool();
         setContentView(R.layout.activity_main);
 
+        helper = new NotificationHelper(this);
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         userProgress = findViewById(R.id.progressBar);
@@ -77,15 +79,11 @@ public class MainActivity extends AppCompatActivity {
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putBoolean("virgin", false).apply();
 
-            NotificationHelper.triggerNotif(this, "Test", "This is a test", 2, 0);
 
             studyCounter.setText(curCount);
         }
 
         studyCounter.setText(String.valueOf(curCount));
-
-        NotificationHelper.triggerNotif(this, "Test", "This is a test", SP.getInt("hour", 2), SP.getInt("minute", 0));
-
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,13 +113,14 @@ public class MainActivity extends AppCompatActivity {
 
                 userProgress.setProgress(userProgress.getProgress() + 3);
 
-                studyCounter.setText(++curCount);
+                studyCounter.setText(String.valueOf(++curCount));
             }
         });
 
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                helper.scheduleNotification(helper.getNotification("This is a test"), 5000);
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i, 50);
             }
