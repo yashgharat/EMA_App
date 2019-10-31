@@ -47,9 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
                 timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
                     @Override
                     public void onTimeChanged(TimePicker timePicker, int hourofDay, int minute) {
-                        NotificationHelper.triggerNotif(SettingsActivity.this, "Test", "This is a test notification",
-                                hourofDay, minute);
-
                         SP.edit().putInt("hour", hourofDay).apply();
                         SP.edit().putInt("minute", minute).apply();
 

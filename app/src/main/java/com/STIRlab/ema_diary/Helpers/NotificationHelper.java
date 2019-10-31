@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.SystemClock;
 
 import androidx.core.app.NotificationCompat;
 
@@ -20,64 +21,43 @@ public class NotificationHelper {
 
     private final static String test_notification_channel = "Test";
     private Context context;
+    private String channel_ID;
 
     public NotificationHelper(Context context){
         this.context = context;
     }
 
-    public void buildNotif(){
-        int importance = -1;
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            //define the importance level of the notification
-            importance = NotificationManager.IMPORTANCE_DEFAULT;
-        }
-        NotificationChannel channel =
-                new NotificationChannel(test_notification_channel, test_notification_channel, importance);
-
-        String description = "A channel which tests notifications";
-        channel.setDescription(description);
-
-        channel.setLightColor(Color.CYAN);
-
-        NotificationManager notificationManager = (NotificationManager) context.
-                getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null) {
+    public void createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "channel_test";
+            String description = "context is a test channel";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            channel_ID = String.valueOf(name.hashCode());
+            NotificationChannel channel = new NotificationChannel(channel_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after context
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
 
-    private Notification getNotif(String title, String content){
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(context, test_notification_channel)
-                .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        return notificationBuilder.build();
+    public void scheduleNotification (Notification notification , int delay) {
+        Intent notificationIntent = new Intent( context, NotifyPublisher.class ) ;
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID , 1 ) ;
+        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast ( context, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        long futureInMillis = SystemClock.elapsedRealtime () + delay ;
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE ) ;
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , futureInMillis , pendingIntent) ;
     }
-
-    private void scheduleNotification(Notification notification, int hour, int minute) {
-        Intent notificationIntent = new Intent(context, NotifyPublisher.class);
-        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotifyPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, pendingIntent);
+    public Notification getNotification (String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channel_ID) ;
+        builder.setContentTitle( "Test Notification" )
+            .setContentText(content)
+            .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
+            .setChannelId(channel_ID);
+        return builder.build() ;
     }
-
-    public static void triggerNotif(Context context, String title, String text, int hour, int minute){
-        NotificationHelper helper = new NotificationHelper(context);
-
-        helper.scheduleNotification(helper.getNotif(title, text), hour, minute);
-    }
-
 }
