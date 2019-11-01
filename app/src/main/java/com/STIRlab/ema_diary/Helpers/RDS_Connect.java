@@ -77,10 +77,13 @@ public class RDS_Connect {
 
     public String getEarnings(String userid, String email){
         try {
-            double earnings = parseUserInfo(userid, email).getDouble("earnings");
-            return String.valueOf(earnings);
+            double d = parseUserInfo(userid, email).getDouble("earnings");
+
+            float earnings = (float)d;
+
+            return formatDecimal(earnings).replaceAll("^\\s+","");
         } catch (Exception e) {
-            Log.e(TAG, "HERE"+ e.toString());
+            Log.e(TAG, e.toString());
         }
 
         return null;
@@ -252,6 +255,15 @@ public class RDS_Connect {
             return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex.getCause());
+        }
+    }
+
+    public String formatDecimal(float number) {
+        float epsilon = 0.004f; // 4 tenths of a cent
+        if (Math.abs(Math.round(number) - number) < epsilon) {
+            return String.format("%10.0f", number); // sdb
+        } else {
+            return String.format("%10.2f", number); // dj_segfault
         }
     }
 }
