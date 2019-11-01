@@ -2,6 +2,9 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,7 +24,7 @@ import okhttp3.Response;
 public class RDS_Connect {
     private final String TAG = "RDS_Connect";
 
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client;
 
     private String returnStr;
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
@@ -32,36 +35,87 @@ public class RDS_Connect {
 
 
 
-    public RDS_Connect(){}
+    public RDS_Connect(){
+        client = new OkHttpClient();
+    }
 
 
     public String doGetRequest(String userid, String email) throws Exception {
 
-        String url = baseURL + "user?id="+ beginQuote +
-                encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
+        while(returnStr == null) {
+            String url = baseURL + "user?id=" + beginQuote +
+                    encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
 
-        getRequestHelper(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
-            }
+            getRequestHelper(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "call failed: " + e.toString());
+                }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-                    String responseStr = response.body().string();
-                    returnStr = responseStr;
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String responseStr = response.body().string();
+                        returnStr = responseStr;
+                    } else {
+                        Log.e(TAG, call.toString());
+                        Log.e(TAG, "request not successful");
+                        Log.e(TAG, url);
+                    }
                 }
-                else{
-                    Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
-                    Log.e(TAG, url);
-                }
-            }
-        });
+            });
+        }
 
         return returnStr;
 
+    }
+
+    public JSONObject parseUserInfo(String userid, String email) throws Exception {
+        JSONObject info = new JSONObject(doGetRequest(userid, email));
+        return info;
+    }
+
+    public String getEarnings(String userid, String email){
+        try {
+            double earnings = parseUserInfo(userid, email).getDouble("earnings");
+            return String.valueOf(earnings);
+        } catch (Exception e) {
+            Log.e(TAG, "HERE"+ e.toString());
+        }
+
+        return null;
+    }
+
+    public String getStreak(String userid, String email){
+        try {
+            JSONObject earnings = parseUserInfo(userid, email).getJSONObject("earnings");
+            return earnings.getString("earnings");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+    public String getDaysLeft(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("days_left");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+    public String getSurveyStatus(String userid, String email){
+        try {
+            JSONObject earnings = parseUserInfo(userid, email).getJSONObject("survey_status");
+            return earnings.getString("survey_status");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
     }
 
     public String updatePassword(String userid) throws Exception{
