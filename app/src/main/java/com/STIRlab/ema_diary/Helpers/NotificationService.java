@@ -60,9 +60,9 @@ public class NotificationService {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + time, pendingIntent);
-        long nextTime = alarmManager.getNextAlarmClock().getTriggerTime() - System.currentTimeMillis();
+        //long nextTime = alarmManager.getNextAlarmClock().getTriggerTime() - System.currentTimeMillis();
 
-        Log.i(TAG, "next time: " + String.valueOf(nextTime));
+        //Log.i(TAG, "next time: " + String.valueOf(nextTime));
 
 
         //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setcalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);

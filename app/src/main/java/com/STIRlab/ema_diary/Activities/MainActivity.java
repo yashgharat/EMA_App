@@ -46,15 +46,15 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
-    private TextView viewHistory_1, studyCounter;
+    private TextView viewHistory_1, studyCounter, earnings;
     private CardView cardJournal;
     private CardView cardSettings;
     private int curCount = 30;
 
-    private CognitoSettings cognitoSettings = new CognitoSettings(this);
+    private CognitoSettings cognitoSettings;
     private CognitoUserPool pool;
     private CognitoUserSession session;
-    private RDS_Connect client = new RDS_Connect();
+    private RDS_Connect client;
 
     private NotificationService notifs;
 
@@ -69,8 +69,19 @@ public class MainActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        pool = cognitoSettings.getUserPool();
         setContentView(R.layout.activity_main);
+
+        cognitoSettings = new CognitoSettings(this);
+        pool = cognitoSettings.getUserPool();
+        cognitoSettings.refreshSession(SP);
+
+        client = new RDS_Connect();
+        try {
+            client.doGetRequest(username, email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         userProgress = findViewById(R.id.progressBar);
@@ -79,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
         cardSettings = findViewById(R.id.cardSettings);
 
         studyCounter = findViewById(R.id.studyCounter);
+        earnings = findViewById(R.id.earnings);
 
         notifs = new NotificationService(this);
         notifs.createNotificationChannel();
-
 
         if (SP.getBoolean("virgin", true)) {
 
@@ -97,22 +108,29 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
             studyCounter.setText(String.valueOf(curCount));
+
+            int localPin = SP.getInt("Pin", -1);
+            if(localPin == -1)
+            {
+                SP.edit().putBoolean("Remember", true);
+            }
+
         }
 
         int hour = SP.getInt("hour", 14);
         int min = SP.getInt("minute", 0);
         notifs.sendNotification(hour, min);
 
-        studyCounter.setText(String.valueOf(curCount));
+        earnings.setText("$"+ client.getEarnings(username, email));
+        studyCounter.setText(client.getDaysLeft(username, email));
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cognitoSettings.refreshSession(SP);
                 Log.i(TAG, "here");
 
                 try {
-                    Log.i(TAG, client.doGetRequest(username, email));
+                    Log.i(TAG, client.getEarnings(username, email));
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
