@@ -4,9 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,24 +50,20 @@ public class SettingsActivity extends AppCompatActivity {
         setTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePicker timePicker = new TimePicker(SettingsActivity.this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.setMargins(20, 20, 20, 20);
-                timePicker.setLayoutParams(layoutParams);
-                timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+                final Calendar cldr = Calendar.getInstance();
+                int curHour = cldr.get(Calendar.HOUR_OF_DAY);
+                int curMinutes = cldr.get(Calendar.MINUTE);
+                TimePickerDialog timePicker = new TimePickerDialog(SettingsActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
-                    public void onTimeChanged(TimePicker timePicker, int hourofDay, int minute) {
+                    public void onTimeSet(TimePicker timePicker, int hourofDay, int mins) {
+                        Log.i(TAG, String.valueOf(hourofDay));
                         SP.edit().putInt("hour", hourofDay).apply();
-                        SP.edit().putInt("minute", minute).apply();
+                        SP.edit().putInt("minute", mins).apply();
 
-//                        timePicker.setVisibility(View.GONE);
                     }
-                });
-                timePicker.setVisibility(View.VISIBLE);
-
-                if(layout != null){
-                    layout.addView(timePicker);
-                }
+                }, curHour, curMinutes, false);
+                timePicker.show();
+                
             }
         });
 
@@ -115,5 +113,10 @@ public class SettingsActivity extends AppCompatActivity {
             case 10:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }
