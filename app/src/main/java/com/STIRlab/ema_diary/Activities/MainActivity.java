@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         notifs = new NotificationService(this);
         notifs.createNotificationChannel();
 
+
         if (SP.getBoolean("virgin", true)) {
 
             Intent i = new Intent(this, newPassword.class);
@@ -93,9 +94,14 @@ public class MainActivity extends AppCompatActivity {
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putBoolean("virgin", false).apply();
 
-
+            SP.edit().putInt("hour", 14).apply();
+            SP.edit().putInt("minute", 0).apply();
             studyCounter.setText(String.valueOf(curCount));
         }
+
+        int hour = SP.getInt("hour", 14);
+        int min = SP.getInt("minute", 0);
+        notifs.sendNotification(hour, min);
 
         studyCounter.setText(String.valueOf(curCount));
 
@@ -134,9 +140,6 @@ public class MainActivity extends AppCompatActivity {
         cardSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                notifs.sendNotification(17,46);
-
                 Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivityForResult(i, 50);
             }
@@ -180,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
             case 30:
                 break;
             case 50:
+                Log.i(TAG, "in result");
+                int hour = SP.getInt("hour", 14);
+                int min = SP.getInt("minute", 0);
+                notifs.sendNotification(hour, min);
                 break;
         }
     }
