@@ -47,8 +47,11 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
 
     private TextView viewHistory_1, studyCounter, earnings;
+
     private CardView cardJournal;
     private CardView cardSettings;
+    private CardView cardHelp;
+
     private int curCount = 30;
 
     private CognitoSettings cognitoSettings;
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
+        cardHelp = findViewById(R.id.cardHelp);
 
         studyCounter = findViewById(R.id.studyCounter);
         earnings = findViewById(R.id.earnings);
@@ -152,6 +156,13 @@ public class MainActivity extends AppCompatActivity {
                 userProgress.setProgress(userProgress.getProgress() + 3);
 
                 studyCounter.setText(String.valueOf(--curCount));
+            }
+        });
+
+        cardHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 
