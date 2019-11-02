@@ -12,8 +12,7 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -23,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.SettingsActivity"></activity>
+        <activity android:name=".Activities.MoreInfoActivity"></activity>
+        <activity android:name=".Activities.SettingsActivity" />
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
@@ -48,13 +48,13 @@
             android:exported="true"
             android:label="@string/app_name" />
 
-        <receiver android:name=".Helpers.NotifyPublisher"
+        <receiver
+            android:name=".Helpers.NotifyPublisher"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

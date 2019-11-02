@@ -72,7 +72,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
         localPin = SP.getInt("Pin", -1);
-        editor.putString("pinTitle", "Set a Pin");
+        editor.putString("pinTitle", "Set a Passcode");
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
 

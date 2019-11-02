@@ -20,4 +20,6 @@
     <string name="localPin" />
     <string name="agreement_p1">Thank you for agreeing to participate in 30 Days. Please grant access to device data and usage below.</string>
     <string name="agreement_p2">We know that privacy is a big deal, so your personal information will be kept confidential and will only be shared with the research team.</string>
+    <string name="moreInfo_p1">The following types of data will be collected in order to better understand social media usage and online privacy:</string>
+    <string name="moreInfo_p2">• Time spent using the device\n• Time spent using each app\n• Which apps are installed</string>
 </resources>
