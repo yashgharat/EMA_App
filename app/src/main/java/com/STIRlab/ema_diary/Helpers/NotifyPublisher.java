@@ -31,6 +31,7 @@ public class NotifyPublisher extends BroadcastReceiver {
 
         Log.i(TAG, "HERE");
 
-        notificationManager.notify(id, notification);
+        if(notificationManager!=null)
+            notificationManager.notify(id, notification);
     }
 }
