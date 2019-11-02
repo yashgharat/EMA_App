@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="332dp"
-        android:text="LyfeLog"
+        android:text="30 Days"
         android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="110dp"
