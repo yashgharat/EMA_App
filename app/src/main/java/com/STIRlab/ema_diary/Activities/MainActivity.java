@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
         cardHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                Intent i = new Intent(MainActivity.this, HelpActivity.class);
+                startActivityForResult(i, 15);
             }
         });
 
@@ -216,6 +217,8 @@ public class MainActivity extends AppCompatActivity {
                 int hour = SP.getInt("hour", 14);
                 int min = SP.getInt("minute", 0);
                 notifs.sendNotification(hour, min);
+                break;
+            case 15:
                 break;
         }
     }
