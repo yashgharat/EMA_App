@@ -112,8 +112,7 @@ public class RDS_Connect {
 
     public String getSurveyStatus(String userid, String email){
         try {
-            JSONObject earnings = parseUserInfo(userid, email).getJSONObject("survey_status");
-            return earnings.getString("survey_status");
+            return parseUserInfo(userid, email).getString("survey_status");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
