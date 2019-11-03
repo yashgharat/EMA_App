@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardJournal;
     private CardView cardSettings;
     private CardView cardHelp;
+    private CardView cardThoughts;
 
     private int curCount = 30;
 
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
         cardHelp = findViewById(R.id.cardHelp);
+        cardThoughts = findViewById(R.id.cardThoughts);
 
         studyCounter = findViewById(R.id.studyCounter);
         earnings = findViewById(R.id.earnings);
@@ -156,6 +158,14 @@ public class MainActivity extends AppCompatActivity {
                 userProgress.setProgress(userProgress.getProgress() + 3);
 
                 studyCounter.setText(String.valueOf(--curCount));
+            }
+        });
+
+        cardThoughts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ThoughtsActivity.class);
+                startActivityForResult(i, 40);
             }
         });
 
