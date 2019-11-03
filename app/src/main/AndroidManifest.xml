@@ -22,7 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.HelpActivity"></activity>
+        <activity android:name=".Activities.ForgotPasswordActivity"></activity>
+        <activity android:name=".Activities.ThoughtsActivity" />
+        <activity android:name=".Activities.HelpActivity" />
         <activity android:name=".Activities.MoreInfoActivity" />
         <activity android:name=".Activities.SettingsActivity" />
 

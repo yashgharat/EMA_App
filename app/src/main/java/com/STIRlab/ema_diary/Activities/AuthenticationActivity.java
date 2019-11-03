@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,9 +25,11 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ForgotPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoIdToken;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoRefreshToken;
 import com.google.gson.JsonElement;
@@ -36,6 +39,7 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
+import java.util.regex.Pattern;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -47,10 +51,14 @@ public class AuthenticationActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private SharedPreferences.Editor editor;
     private NewPasswordContinuation newPass;
+    private ForgotPasswordContinuation forgotPasswordContinuation;
     private String temp;
     private int localPin;
 
     private Handler handler = new Handler();
+    private TextView forgotPassword;
+    private AlertDialog userDialog;
+
 
     private Executor executor = new Executor() {
         @Override
@@ -68,6 +76,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         final EditText editTextEmail = findViewById(R.id.email);
         final EditText editTextPassword = findViewById(R.id.password);
+
+        forgotPassword = findViewById(R.id.forgotPasswordLink);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
@@ -144,6 +154,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                     NewPasswordContinuation newPasswordContinuation = (NewPasswordContinuation) continuation;
                     newPasswordContinuation.setPassword(String.valueOf(editTextPassword.getText()));
                     continuation.continueTask();
+                } else if ("RESET_REQUIRED".equals(continuation.getChallengeName())) {
+
                 }
             }
 
@@ -151,12 +163,12 @@ public class AuthenticationActivity extends AppCompatActivity {
             public void onFailure(Exception exception) {
                 Log.i(TAG, "Login failed: " + exception.getLocalizedMessage());
 
-                ConnectivityManager cm = (ConnectivityManager)AuthenticationActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+                ConnectivityManager cm = (ConnectivityManager) AuthenticationActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
                 boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-                if(isConnected) {
+                if (isConnected) {
                     new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
                             .setTitle("Error")
                             .setMessage("Email and/or password is incorrect")
@@ -166,9 +178,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                                 }
                             })
                             .show();
-                }
-                else
-                {
+                } else {
                     new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
                             .setTitle("Error")
                             .setMessage("Not connected to the internet")
@@ -190,7 +200,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 editor.apply();
 
 
-                if(editTextEmail.getText().length() > 0 && editTextPassword.getText().length() > 0) {
+                if (editTextEmail.getText().length() > 0 && editTextPassword.getText().length() > 0) {
                     thisUser = cognitoSettings.getUserPool()
                             .getUser(String.valueOf(editTextEmail.getText()));
                     CognitoSettings.user = thisUser;
@@ -200,8 +210,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     SP.edit().putString("dwString", String.valueOf(editTextPassword.getText())).apply();
 
                     thisUser.getSessionInBackground(authenticationHandler);
-                }
-                else{
+                } else {
                     new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
                             .setTitle("Error")
                             .setMessage("Please enter email and password")
@@ -214,15 +223,56 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
 
-        if(requestCode == 1 && resultCode == RESULT_OK)
-        {
-            temp = intent.getStringExtra("result");
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String username = editTextEmail.getText().toString();
+
+                if (username.length() > 0 && isValid(username)) {
+                    cognitoSettings.getUserPool().getUser(username).forgotPasswordInBackground(new ForgotPasswordHandler() {
+                        @Override
+                        public void onSuccess() {
+                            showDialogMessage("Password successfully changed!", "", false);
+                            editTextPassword.setText("");
+                            editTextPassword.requestFocus();
+                        }
+
+                        @Override
+                        public void getResetCode(ForgotPasswordContinuation continuation) {
+                            getForgotPasswordCode(continuation);
+                        }
+
+                        @Override
+                        public void onFailure(Exception exception) {
+                            showDialogMessage("Password reset failed", CognitoSettings.formatException(exception), false);
+
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            temp = data.getStringExtra("result");
             Log.i(TAG, "HERE");
+        }
+        else if (requestCode == 3 && resultCode == RESULT_OK){
+            String newPass = data.getStringExtra("newPass");
+            String code = data.getStringExtra("code");
+            if (newPass != null && code != null) {
+                if (!newPass.isEmpty() && !code.isEmpty()) {
+                    forgotPasswordContinuation.setPassword(newPass);
+                    forgotPasswordContinuation.setVerificationCode(code);
+                    forgotPasswordContinuation.continueTask();
+                }
+            }
         }
     }
 
@@ -231,11 +281,48 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     }
 
-    static class ClassDataSerializer implements JsonSerializer<CognitoUser>{
+    static class ClassDataSerializer implements JsonSerializer<CognitoUser> {
 
         @Override
         public JsonElement serialize(CognitoUser src, Type typeOfSrc, JsonSerializationContext context) {
             return new JsonPrimitive(src.getUserId());
         }
+    }
+
+    private static boolean isValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
+    private void getForgotPasswordCode(ForgotPasswordContinuation continuation) {
+        this.forgotPasswordContinuation = continuation;
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
+        intent.putExtra("destination", forgotPasswordContinuation.getParameters().getDestination());
+        intent.putExtra("deliveryMed", forgotPasswordContinuation.getParameters().getDeliveryMedium());
+        startActivityForResult(intent, 3);
+    }
+
+    private void showDialogMessage(String title, String body, final boolean exitActivity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                    if (exitActivity) {
+                        onBackPressed();
+                    }
+                } catch (Exception e) {
+                    onBackPressed();
+                }
+            }
+        });
     }
 }
