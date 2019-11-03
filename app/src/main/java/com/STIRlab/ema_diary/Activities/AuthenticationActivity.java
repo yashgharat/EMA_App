@@ -154,8 +154,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                     NewPasswordContinuation newPasswordContinuation = (NewPasswordContinuation) continuation;
                     newPasswordContinuation.setPassword(String.valueOf(editTextPassword.getText()));
                     continuation.continueTask();
-                } else if ("RESET_REQUIRED".equals(continuation.getChallengeName())) {
-
                 }
             }
 
@@ -251,6 +249,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                         }
                     });
                 }
+                else{
+                    showDialogMessage("Error", "Enter valid username", false);
+                }
             }
         });
     }
@@ -324,5 +325,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        userDialog = builder.create();
+        userDialog.show();
+
     }
 }
