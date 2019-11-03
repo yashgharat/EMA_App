@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.STIRlab.ema_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -16,13 +17,16 @@ public class HelpActivity extends AppCompatActivity {
 
     private TextView Q1Ans;
 
+    private FloatingActionButton ret;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
         Q1 = findViewById(R.id.cardQ1);
-        //Q1Ans = findViewById(R.id.q1Answer);
+
+        ret = findViewById(R.id.helpPrevious);
 
         Q1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +43,13 @@ public class HelpActivity extends AppCompatActivity {
                     ans.setVisibility(View.GONE);
                 }
 
+            }
+        });
+
+        ret.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
