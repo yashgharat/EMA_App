@@ -1,21 +1,34 @@
 package com.STIRlab.ema_diary.Activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class ThoughtsActivity extends AppCompatActivity {
+
+    private final String TAG = "THOUGHTS";
 
     private FloatingActionButton ret;
     private Button submit;
@@ -35,6 +48,16 @@ public class ThoughtsActivity extends AppCompatActivity {
         addPic = findViewById(R.id.screenshotLink);
         inputInteraction = findViewById(R.id.thoughts_upload);
         submit = findViewById(R.id.btnThoughts);
+
+        addPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),2);
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,5 +100,31 @@ public class ThoughtsActivity extends AppCompatActivity {
         });
         userDialog = builder.create();
         userDialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case 2:
+                if (resultCode == Activity.RESULT_OK) {
+                    Uri selectedImage = data.getData();
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                    } catch (FileNotFoundException e) {
+                        // TODO Auto-generated catch block
+                        showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
+                    }
+                    break;
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    Log.e(TAG, "Selecting picture cancelled");
+                }
+                break;
+        }
     }
 }
