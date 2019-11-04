@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
-    private TextView viewHistory_1, studyCounter, earnings;
+    private TextView viewHistory_1, studyCounter, earnings, numSurveys;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         studyCounter = findViewById(R.id.studyCounter);
         earnings = findViewById(R.id.earnings);
+        numSurveys = findViewById(R.id.numSurveys);
 
         notifs = new NotificationService(this);
         notifs.createNotificationChannel();
@@ -122,12 +123,25 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        try {
+            Log.i(TAG, client.doGetRequest(username, email));
+        } catch (Exception e) {
+            Log.i(TAG, CognitoSettings.formatException(e));
+        }
+
+        if(Integer.parseInt(client.getDaysLeft(username, email)) < 1)
+        {
+            Intent post = new Intent(this, PostActivity.class);
+            startActivity(post);
+        }
+
         int hour = SP.getInt("hour", 14);
         int min = SP.getInt("minute", 0);
         notifs.sendNotification(hour, min);
 
         earnings.setText("$"+ client.getEarnings(username, email));
         studyCounter.setText(client.getDaysLeft(username, email));
+        numSurveys.setText(client.getSurveyCount(username,email));
 
 
         String status = client.getSurveyStatus(username, email);

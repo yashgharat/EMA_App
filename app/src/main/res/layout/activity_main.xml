@@ -216,12 +216,12 @@
                     app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
 
                 <TextView
-                    android:id="@+id/dayCounter"
+                    android:id="@+id/numSurveys"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="30dp"
-                    android:text="24"
+                    android:text="0"
                     android:textColor="@color/darkProminent"
                     android:textSize="17sp"
                     app:layout_constraintRight_toRightOf="@id/history"
@@ -234,7 +234,7 @@
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="20dp"
                     android:tint="@color/darkProminent"
-                    app:layout_constraintRight_toRightOf="@id/dayCounter"
+                    app:layout_constraintRight_toRightOf="@id/numSurveys"
                     app:layout_constraintTop_toTopOf="@id/history"
                     app:srcCompat="@drawable/ic_check_black_24dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
