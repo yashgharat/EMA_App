@@ -10,7 +10,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -41,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MAIN";
 
-
-
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
@@ -63,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
     private NotificationService notifs;
 
     public ProgressBar userProgress;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +128,34 @@ public class MainActivity extends AppCompatActivity {
 
         earnings.setText("$"+ client.getEarnings(username, email));
         studyCounter.setText(client.getDaysLeft(username, email));
+
+
+        String status = client.getSurveyStatus(username, email);
+        TextView cardTitle = findViewById(R.id.titleJournal);
+        TextView cardMsg = findViewById(R.id.msgJournal);
+
+        if(status.equals("closed"))
+        {
+            cardTitle.setText("Daily Journal Later Today");
+            cardMsg.setText("Available from 2PM to midnight");
+            setCardColorTran(cardJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
+                    new ColorDrawable(getResources().getColor(R.color.apparent)));
+
+        }
+        else if(status.equals("open"))
+        {
+            cardTitle.setText("Ready for Daily Journal");
+            cardMsg.setText("Due by Midnight");
+            setCardColorTran(cardJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
+                    new ColorDrawable(getResources().getColor(R.color.primaryDark)));
+        }
+        else if(status.equals("submitted"))
+        {
+            cardTitle.setText("Daily Journal Complete");
+            cardMsg.setText("Available again tomorrow at 2PM");
+            setCardColorTran(cardJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
+                    new ColorDrawable(getResources().getColor(R.color.apparent)));
+        }
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,6 +258,17 @@ public class MainActivity extends AppCompatActivity {
             case 15:
                 break;
         }
+    }
+
+    public void setCardColorTran(CardView card, ColorDrawable start, ColorDrawable end) {
+        ColorDrawable[] color = {start, end};
+        TransitionDrawable trans = new TransitionDrawable(color);
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            card.setBackground(trans);
+        } else {
+            card.setBackgroundDrawable(trans);
+        }
+        trans.startTransition(5000);
     }
 
     @Override
