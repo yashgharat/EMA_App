@@ -8,7 +8,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -29,6 +32,7 @@ import java.io.IOException;
 public class ThoughtsActivity extends AppCompatActivity {
 
     private final String TAG = "THOUGHTS";
+    final int THUMBSIZE = 128;
 
     private FloatingActionButton ret;
     private Button submit;
@@ -38,6 +42,7 @@ public class ThoughtsActivity extends AppCompatActivity {
     private EditText inputInteraction;
 
     private AlertDialog userDialog;
+    private Bitmap bitmap, thumbImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +115,7 @@ public class ThoughtsActivity extends AppCompatActivity {
             case 2:
                 if (resultCode == Activity.RESULT_OK) {
                     Uri selectedImage = data.getData();
-                    Bitmap bitmap = null;
+                    bitmap = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (FileNotFoundException e) {
@@ -125,6 +130,23 @@ public class ThoughtsActivity extends AppCompatActivity {
                     Log.e(TAG, "Selecting picture cancelled");
                 }
                 break;
+        }
+    }
+
+    private class extractThumbIcon extends AsyncTask<Bitmap, Integer, Void>{
+
+        @Override
+        protected Void doInBackground(Bitmap... bitmaps) {
+
+            int count = bitmaps.length;
+            for (int i = 0; i < count; i++) {
+                thumbImage = ThumbnailUtils.extractThumbnail(bitmaps[i], 30 , 30);
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
         }
     }
 }
