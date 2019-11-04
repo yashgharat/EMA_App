@@ -32,7 +32,8 @@ public class RDS_Connect {
     // baseURL
     private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
 
-
+    //{"user_id":"90621533-45ad-413d-bda7-aafc0bc0071f","email":"easymoney@dmailpro.net",
+    //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete_surveys":0,"earnings":0,"survey_status":"closed"}
 
 
     public RDS_Connect(){
@@ -113,6 +114,15 @@ public class RDS_Connect {
     public String getSurveyStatus(String userid, String email){
         try {
             return parseUserInfo(userid, email).getString("survey_status");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+    public String getSurveyCount(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("num_complete_surveys");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
