@@ -103,9 +103,12 @@ public class NotificationService {
 
     private NotificationCompat.Builder getNotificationBuilder(){
         NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
-                .setContentTitle("You've been notified!")
-                .setContentText("This is your notification text.")
+                .setContentTitle("Daily Journal Reminder")
+                .setContentText("Remember to submit your journal entry today.")
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
+                        R.mipmap.ic_launcher_foreground))
                 .setSmallIcon(R.drawable.ic_border_color_blue_24dp);
+
 
         return notifyBuilder;
     }
