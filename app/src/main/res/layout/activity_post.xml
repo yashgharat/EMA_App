@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/darkBackground"
+    tools:context=".Activities.PostActivity">
+
+    <TextView
+        android:id="@+id/post_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="50dp"
+        android:text="30 Days Complete"
+        android:textColor="@color/darkProminent"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/post_p1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="11dp"
+        android:textColor="@color/darkProminent"
+        android:textSize="23dp"
+        android:text="Thank you for participating. All 30 days have passed, and your participation has come to an end.\n\nPlease take the following post-survey to help us understand your experience and hear your feedback.\n\nYou’ll then receive an email from us going over the next steps." />
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/primaryDark"
+        android:text="Take Post-Survey"
+        android:textColor="@color/darkProminent"
+        android:textSize="18dp" />
+
+</LinearLayout>

@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.ForgotPasswordActivity"></activity>
+        <activity android:name=".Activities.PostActivity"></activity>
+        <activity android:name=".Activities.ForgotPasswordActivity" />
         <activity android:name=".Activities.ThoughtsActivity" />
         <activity android:name=".Activities.HelpActivity" />
         <activity android:name=".Activities.MoreInfoActivity" />
