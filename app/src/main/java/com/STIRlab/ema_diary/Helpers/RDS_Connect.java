@@ -1,5 +1,6 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -8,6 +9,7 @@ import com.google.gson.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -204,6 +206,71 @@ public class RDS_Connect {
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
+                }
+                else{
+                    Log.e(TAG, "in POST Call: " + response.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
+                }
+            }
+        });
+
+        return returnStr;
+    }
+
+    public String uploadInteraction(String userid, String desc, String caption, File file) throws JSONException {
+        String url = baseURL + "create-thought-url";
+
+        MediaType PNG = MediaType.parse("image/png");
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+
+        JSONObject pic = new JSONObject()
+                .put("caption", caption)
+                .put("file_ext", "png");
+
+        JSONObject jgenerate= new JSONObject()
+                .put("user_id", userid)
+                .put("description",desc)
+                .put("screenshot", pic);
+
+        RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
+
+        postRequestHelper(url, rBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseStr = response.body().string();
+                    Log.i(TAG, responseStr);
+
+
+                    RequestBody jsonFile = RequestBody.create(PNG, file);
+                    putRequestHelper(responseStr, jsonFile, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            Log.e(TAG, "call failed: " + e.toString());
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if(response.isSuccessful()){
+                                String responseStr = response.body().string();
+                                returnStr = responseStr;
+                                Log.i(TAG, "here" + returnStr);
+                            }
+                            else{
+                                Log.e(TAG, "in PUT Call: " + response.toString());
+                                Log.e(TAG, "request not successful");
+                                Log.e(TAG, url);
+                            }
+                        }
+                    });
                 }
                 else{
                     Log.e(TAG, "in POST Call: " + response.toString());

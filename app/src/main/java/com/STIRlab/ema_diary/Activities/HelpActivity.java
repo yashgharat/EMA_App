@@ -1,5 +1,7 @@
 package com.STIRlab.ema_diary.Activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class HelpActivity extends AppCompatActivity {
 
     private CardView Q1;
+    private CardView cardHotline;
 
     private TextView Q1Ans;
 
@@ -25,6 +28,7 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
 
         Q1 = findViewById(R.id.cardQ1);
+        cardHotline = findViewById(R.id.cardHotline);
 
         ret = findViewById(R.id.helpPrevious);
 
@@ -43,6 +47,15 @@ public class HelpActivity extends AppCompatActivity {
                     ans.setVisibility(View.GONE);
                 }
 
+            }
+        });
+
+        cardHotline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:18006564673"));
+                startActivity(intent);
             }
         });
 

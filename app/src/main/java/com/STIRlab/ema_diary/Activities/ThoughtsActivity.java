@@ -5,8 +5,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
@@ -21,12 +23,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ThoughtsActivity extends AppCompatActivity {
@@ -41,13 +48,21 @@ public class ThoughtsActivity extends AppCompatActivity {
 
     private EditText inputInteraction;
 
+    private RDS_Connect client;
+
     private AlertDialog userDialog;
     private Bitmap bitmap, thumbImage;
+
+    private SharedPreferences SP;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thoughts);
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
+
+        client = new RDS_Connect();
 
         ret = findViewById(R.id.thoughtsPrevious);
         addPic = findViewById(R.id.screenshotLink);
@@ -70,6 +85,18 @@ public class ThoughtsActivity extends AppCompatActivity {
                 String uploadText = inputInteraction.getText().toString();
                 if(uploadText.length() > 0)
                 {
+                    try {
+                        File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ThoughtsActivity.this);
+                        String userid = SP.getString("username", "null");
+
+                        client.uploadInteraction(userid, uploadText, "", newFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
                     finish();
                 }
                 else
@@ -148,5 +175,22 @@ public class ThoughtsActivity extends AppCompatActivity {
         protected void onProgressUpdate(Integer... progress) {
 
         }
+    }
+
+    private static File codec(Bitmap src, Bitmap.CompressFormat format,
+                              int quality, Context context) throws IOException {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        File f = new File(context.getCacheDir(), "img");
+
+        src.compress(format, quality, os);
+
+        byte[] array = os.toByteArray();
+
+        FileOutputStream fos = new FileOutputStream(f);
+        fos.write(array);
+        fos.flush();
+        fos.close();
+
+        return f;
     }
 }
