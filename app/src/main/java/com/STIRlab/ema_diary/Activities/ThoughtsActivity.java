@@ -50,6 +50,7 @@ public class ThoughtsActivity extends AppCompatActivity {
     private ImageView thumbnail;
 
     private EditText inputInteraction;
+    private EditText caption;
 
     private RDS_Connect client;
 
@@ -72,6 +73,7 @@ public class ThoughtsActivity extends AppCompatActivity {
         inputInteraction = findViewById(R.id.thoughts_upload);
         submit = findViewById(R.id.btnThoughts);
         thumbnail = findViewById(R.id.thumbView);
+        caption = findViewById(R.id.caption);
 
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,6 +166,7 @@ public class ThoughtsActivity extends AppCompatActivity {
                     }
                     thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 200 , 200);
                     thumbnail.setImageBitmap(thumbImage);
+                    caption.setVisibility(View.VISIBLE);
                     addPic.setText("Upload Different Screenshot");
                     break;
                 } else if (resultCode == Activity.RESULT_CANCELED) {

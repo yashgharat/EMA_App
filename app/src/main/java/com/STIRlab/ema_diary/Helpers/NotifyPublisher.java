@@ -26,12 +26,13 @@ public class NotifyPublisher extends BroadcastReceiver {
 
         NotificationManager notificationManager = NotificationService.mNotifyManager;
 
-        Notification notification = intent.getParcelableExtra(NOTIFICATION);
-        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
-
         Log.i(TAG, "HERE");
 
         if(notificationManager!=null)
+        {
+            Notification notification = intent.getParcelableExtra(NOTIFICATION);
+            int id = intent.getIntExtra(NOTIFICATION_ID, 0);
             notificationManager.notify(id, notification);
+        }
     }
 }
