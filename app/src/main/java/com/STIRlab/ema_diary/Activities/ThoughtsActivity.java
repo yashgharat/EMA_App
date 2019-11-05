@@ -89,19 +89,27 @@ public class ThoughtsActivity extends AppCompatActivity {
                 String uploadText = inputInteraction.getText().toString();
                 if(uploadText.length() > 0)
                 {
-                    try {
-                        File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ThoughtsActivity.this);
-                        String userid = SP.getString("username", "null");
+                    String userid = SP.getString("username", "null");
 
-                        client.uploadInteraction(userid, uploadText, "", newFile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if(bitmap != null) {
+                        try {
+                            File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ThoughtsActivity.this);
+
+                            client.uploadInteractionWithPicture(userid, uploadText, "", newFile);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        finish();
                     }
-
-
-                    finish();
+                    else{
+                        try {
+                            client.uploadInteraction(userid, uploadText);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 else
                 {

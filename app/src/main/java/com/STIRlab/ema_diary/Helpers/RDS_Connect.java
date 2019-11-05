@@ -219,7 +219,7 @@ public class RDS_Connect {
         return returnStr;
     }
 
-    public String uploadInteraction(String userid, String desc, String caption, File file) throws JSONException {
+    public String uploadInteractionWithPicture(String userid, String desc, String caption, File file) throws JSONException {
         String url = baseURL + "create-thought-url";
 
         MediaType PNG = MediaType.parse("image/png");
@@ -284,9 +284,36 @@ public class RDS_Connect {
         return returnStr;
     }
 
+    public String uploadInteraction(String userid, String desc) throws JSONException {
+        String url = baseURL + "create-thought-url";
+
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        JSONObject jgenerate= new JSONObject()
+                .put("user_id", userid)
+                .put("description",desc);
+
+        RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
+
+        putRequestHelper(url, rBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "request not successful");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.e(TAG, "success");
+            }
+        });
+
+        return "done";
+
+    }
 
 
-    private Call patchRequestHelper(String url, Callback callback){
+
+        private Call patchRequestHelper(String url, Callback callback){
         Request request = new Request.Builder()
                 .url(url)
                 .patch(RequestBody.create(null, new byte[0]))
