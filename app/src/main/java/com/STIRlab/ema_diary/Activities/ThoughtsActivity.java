@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
@@ -45,6 +47,7 @@ public class ThoughtsActivity extends AppCompatActivity {
     private Button submit;
 
     private TextView addPic;
+    private ImageView thumbnail;
 
     private EditText inputInteraction;
 
@@ -68,6 +71,7 @@ public class ThoughtsActivity extends AppCompatActivity {
         addPic = findViewById(R.id.screenshotLink);
         inputInteraction = findViewById(R.id.thoughts_upload);
         submit = findViewById(R.id.btnThoughts);
+        thumbnail = findViewById(R.id.thumbView);
 
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,34 +150,18 @@ public class ThoughtsActivity extends AppCompatActivity {
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (FileNotFoundException e) {
-                        // TODO Auto-generated catch block
                         showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
                     }
+                    thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 200 , 200);
+                    thumbnail.setImageBitmap(thumbImage);
+                    addPic.setText("Upload Different Screenshot");
                     break;
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     Log.e(TAG, "Selecting picture cancelled");
                 }
                 break;
-        }
-    }
-
-    private class extractThumbIcon extends AsyncTask<Bitmap, Integer, Void>{
-
-        @Override
-        protected Void doInBackground(Bitmap... bitmaps) {
-
-            int count = bitmaps.length;
-            for (int i = 0; i < count; i++) {
-                thumbImage = ThumbnailUtils.extractThumbnail(bitmaps[i], 30 , 30);
-            }
-            return null;
-        }
-
-        protected void onProgressUpdate(Integer... progress) {
-
         }
     }
 
