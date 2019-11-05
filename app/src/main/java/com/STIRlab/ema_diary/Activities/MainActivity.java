@@ -152,10 +152,12 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setText("Available from 2PM to midnight");
             setCardColorTran(cardJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.apparent)));
+            cardMsg.setClickable(false);
 
         }
         else if(status.equals("open"))
         {
+            cardMsg.setClickable(true);
             cardTitle.setText("Ready for Daily Journal");
             cardMsg.setText("Due by Midnight");
             setCardColorTran(cardJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
         {
             cardTitle.setText("Daily Journal Complete");
             cardMsg.setText("Available again tomorrow at 2PM");
+            cardMsg.setClickable(false);
             setCardColorTran(cardJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.apparent)));
         }
