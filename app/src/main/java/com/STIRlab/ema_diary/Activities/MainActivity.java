@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         earnings.setText("$"+ client.getEarnings(username, email));
         studyCounter.setText(client.getDaysLeft(username, email));
         numSurveys.setText(client.getSurveyCount(username,email));
+        userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft(username, email)))*3);
 
 
         String status = client.getSurveyStatus(username, email);
@@ -195,10 +196,6 @@ public class MainActivity extends AppCompatActivity {
 
                 CustomTabsIntent viewSurvey = builder.build();
                 viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
-
-                userProgress.setProgress(userProgress.getProgress() + 3);
-
-                studyCounter.setText(String.valueOf(--curCount));
             }
         });
 
