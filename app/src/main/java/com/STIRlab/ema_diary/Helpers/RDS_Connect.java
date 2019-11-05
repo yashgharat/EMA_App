@@ -94,8 +94,7 @@ public class RDS_Connect {
 
     public String getStreak(String userid, String email){
         try {
-            JSONObject earnings = parseUserInfo(userid, email).getJSONObject("earnings");
-            return earnings.getString("earnings");
+            return parseUserInfo(userid, email).getString("streak");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
