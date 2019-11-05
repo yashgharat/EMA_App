@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardHelp;
     private CardView cardThoughts;
 
-    private int curCount = 30;
-
     private CognitoSettings cognitoSettings;
     private CognitoUserPool pool;
     private CognitoUserSession session;
@@ -113,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
-            studyCounter.setText(String.valueOf(curCount));
 
             int localPin = SP.getInt("Pin", -1);
             if(localPin == -1)
@@ -196,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
 
                 CustomTabsIntent viewSurvey = builder.build();
                 viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+
+                studyCounter.setText(client.getDaysLeft(username, email));
             }
         });
 
