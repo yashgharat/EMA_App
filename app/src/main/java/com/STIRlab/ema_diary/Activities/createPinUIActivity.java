@@ -48,9 +48,9 @@ public class createPinUIActivity extends AppCompatActivity {
                         .setMessage("You can always set a pin in Settings if you change your mind")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                //Permissions Later
                                 Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
                                 SP.edit().putBoolean("Remember", true).apply();
+                                SP.edit().putString("Pin", "null").apply();
                                 finish();
                                 startActivity(i);
                             }
