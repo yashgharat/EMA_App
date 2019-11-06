@@ -22,7 +22,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
     Context context;
     AlertDialog alertDialog;
 
-    private CollectingInformation.app[] list = new CollectingInformation.app[500];
+    private ScrapeDataHelper.app[] list = new ScrapeDataHelper.app[500];
 
     private String screenTime, userid;
     private int size;
@@ -33,7 +33,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
     RDS_Connect client = new RDS_Connect();
 
 
-    public BackgroundWorker(Context ctx, CollectingInformation.app[] list, String screenTime, int size, String userid) {
+    public BackgroundWorker(Context ctx, ScrapeDataHelper.app[] list, String screenTime, int size, String userid) {
         context = ctx;
         this.list = list;
         this.screenTime = screenTime;

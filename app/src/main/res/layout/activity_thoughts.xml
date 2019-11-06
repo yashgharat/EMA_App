@@ -110,11 +110,11 @@
                 android:layout_height="42dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:background="@color/primary"
+                android:background="@drawable/ripple_effect"
                 android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                 android:padding="10dp"
                 android:text="Submit"
-                android:textColor="@color/darkForeground"
+                android:textColor="@color/darkBackground"
                 android:textSize="15sp" />
 
         </LinearLayout>

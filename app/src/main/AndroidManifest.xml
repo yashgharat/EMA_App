@@ -10,7 +10,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -24,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.JournalHistoryActivity"></activity>
+
+        <activity android:name=".Activities.TutorialActivity" />
+        <activity android:name=".Activities.JournalHistoryActivity" />
         <activity android:name=".Activities.PostActivity" />
         <activity android:name=".Activities.ForgotPasswordActivity" />
         <activity android:name=".Activities.ThoughtsActivity" />
