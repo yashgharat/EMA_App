@@ -197,6 +197,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
                 editor.apply();
 
+                buttonLogin.setClickable(false);
 
                 if (editTextEmail.getText().length() > 0 && editTextPassword.getText().length() > 0) {
                     thisUser = cognitoSettings.getUserPool()

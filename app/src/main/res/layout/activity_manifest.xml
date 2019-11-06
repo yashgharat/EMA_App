@@ -47,8 +47,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/primaryDark"
-        android:textColor="@color/darkProminent"
+        android:background="@drawable/ripple_effect"
+        android:textColor="@color/darkForeground"
         android:textSize="18dp"
         android:text="Grant Access" />
 

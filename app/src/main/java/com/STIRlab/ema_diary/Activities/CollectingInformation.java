@@ -111,8 +111,8 @@ public class CollectingInformation extends AppCompatActivity {
 
         //This is to make sure no app is duplicated in the database
         //Calling a function to save the collected permissions in a database
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j, username);
-        backgroundWorker.execute();
+        //BackgroundWorker backgroundWorker = new BackgroundWorker(this, appArray, String.valueOf(screenTime), j, username);
+       // backgroundWorker.execute();
         //Adding the app name to an array
         next2.setOnClickListener(new View.OnClickListener() {
             @Override

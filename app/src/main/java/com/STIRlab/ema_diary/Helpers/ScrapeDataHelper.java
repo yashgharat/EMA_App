@@ -1,65 +1,92 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-public class ScrapeDataHelper extends AppCompatActivity {
+import com.STIRlab.ema_diary.Activities.CollectingInformation;
+
+import java.util.List;
+
+public class ScrapeDataHelper {
+    private Context context;
 
     private final String TAG = "INFORMATIONS";
-    private final int PHONE_STATE = 69;
 
-    private Context context;
+    final ScrapeDataHelper.app[] appArray = new ScrapeDataHelper.app[500];
+
+
+    private SharedPreferences SP;
+
+    int appSize = 0;
+
+    public static class app{
+        public String appName, packageName, time;
+    }
 
     public ScrapeDataHelper(Context context)
     {
         this.context = context;
-    }
+        SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
-        switch (requestCode) {
-            case PHONE_STATE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
+        //Declaring an array of app objects
+        for (int i = 0; i < appArray.length; i++) {
+            appArray[i] = new ScrapeDataHelper.app();
         }
+
     }
 
-    private boolean isAccessGranted() {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
-            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
-            int mode = 0;
-            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT) {
-                mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                        applicationInfo.uid, applicationInfo.packageName);
-            }
-            return (mode == AppOpsManager.MODE_ALLOWED);
+    public boolean scrape(){
+        int screenTime = UsageEvents.Event.SCREEN_INTERACTIVE - SP.getInt("screenTime", -1);
+        SP.edit().putInt("screenTime", UsageEvents.Event.SCREEN_INTERACTIVE);
 
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
+
+        final PackageManager packageManager = context.getPackageManager();
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        //Making a list of all the apps
+        final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
+
+        int j = 0;
+        //Looping through all the apps to retrieve info
+
+        for (ResolveInfo info : apps) {
+            appSize = apps.size();
+
+            final ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
+            final String appName = (String) applicationInfo.loadLabel(packageManager);
+            final String packageName = applicationInfo.packageName;
+            final String time = String.valueOf(UsageStatsHelper.getPackageUsage(packageName,context));
+
+            appArray[j].appName = appName;
+            appArray[j].packageName = packageName;
+            appArray[j].time = time;
+
+            j++;
         }
+        SP.edit().putString("username", "07b0d8ac-d86c-456f-8718-a0b86a8d0106");
+        String username = SP.getString("username", null);
+
+        //This is to make sure no app is duplicated in the database
+        //Calling a function to save the collected permissions in a database
+        BackgroundWorker backgroundWorker = new BackgroundWorker(context, appArray, String.valueOf(screenTime), j, username);
+        backgroundWorker.execute();
+        return true;
     }
+
+
+
 }

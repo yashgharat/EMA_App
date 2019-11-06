@@ -36,9 +36,9 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/primaryDark"
+        android:background="@drawable/ripple_effect"
         android:text="Take Post-Survey"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/darkBackground"
         android:textSize="18dp" />
 
 </LinearLayout>
