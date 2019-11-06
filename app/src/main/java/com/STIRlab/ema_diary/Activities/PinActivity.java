@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -50,47 +51,18 @@ public class PinActivity extends AppCompatActivity {
 
 
         CirclePinField inputPin = findViewById(R.id.pinField);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(inputPin, InputMethodManager.SHOW_IMPLICIT);
+        inputPin.didTouchFocusSelect();
 
         inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
             public boolean onTextComplete(@NotNull String str) {
-                int pin = Integer.parseInt(str);
+                if(str.equals(localPin)){
+                    finish();
+                    Intent main = new Intent(PinActivity.this, MainActivity.class);
+                    startActivity(main);
 
-                if(String.valueOf(pin).equals(localPin)){
-                    Log.i(TAG,"SUCCESS");
-                    cognitoSettings.getUserPool().getCurrentUser().getSession(new AuthenticationHandler() {
-                        @Override
-                        public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-                            Log.i(TAG, "success");
-                            SP.edit().putString("token", userSession.getRefreshToken().toString());
-                            SP.edit().apply();
-                            Intent main = new Intent(PinActivity.this, MainActivity.class);
-                            startActivity(main);
-                        }
-
-                        @Override
-                        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) { }
-
-                        @Override
-                        public void getMFACode(MultiFactorAuthenticationContinuation continuation) { }
-
-                        @Override
-                        public void authenticationChallenge(ChallengeContinuation continuation) { }
-
-                        @Override
-                        public void onFailure(Exception exception) {
-                            new AlertDialog.Builder(PinActivity.this, R.style.AlertDialogStyle)
-                                    .setTitle("Error")
-                                    .setMessage("Auto Sign In failed, redirecting to authentication")
-                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent i = new Intent(PinActivity.this, AuthenticationActivity.class);
-                                            startActivity(i);
-                                        }
-                                    })
-                                    .show();
-                        }
-                    });
                 } else {
                     new AlertDialog.Builder(PinActivity.this, R.style.AlertDialogStyle)
                             .setTitle("Error")

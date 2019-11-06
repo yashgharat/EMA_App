@@ -66,8 +66,8 @@ public class createPinActivity extends AppCompatActivity {
                 editor.apply();
 
                 finish();
-                Intent intent = new Intent(createPinActivity.this, MainActivity.class);
-                this.startActivity(intent);
+//                Intent intent = new Intent(createPinActivity.this, MainActivity.class);
+//                this.startActivity(intent);
 
             } else {
                 new AlertDialog.Builder(createPinActivity.this, R.style.AlertDialogStyle)
