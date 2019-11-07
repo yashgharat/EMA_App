@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.STIRlab.ema_diary.R;
 
@@ -46,7 +47,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 String newPass = pass.getText().toString();
                 String verCode = code.getText().toString();
 
-                exit(newPass, verCode);
+                if(checkPass(newPass)) {
+                    exit(newPass, verCode);
+                }
             }
         });
 
@@ -80,5 +83,32 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean checkPass(String password){
+        if(password.equals(password.toLowerCase())){
+            //showDialogMessage("Error", "Must have an uppercase Character", false);
+            Toast toast = Toast.makeText(ForgotPasswordActivity.this, "Must have an uppercase Character", Toast.LENGTH_LONG);
+            toast.show();
+
+            return false;
+        }
+        if(password.length() < 6){
+            //showDialogMessage("Error", "Must be at least 6 characters", false);
+            Toast toast = Toast.makeText(ForgotPasswordActivity.this, "Must be at least 6 characters", Toast.LENGTH_LONG);
+            toast.show();
+
+
+            return false;
+        }
+        if (!password.matches(".*\\d.*")){
+            //showDialogMessage("Error", "Must contain a numeric character", false);
+            Toast toast = Toast.makeText(ForgotPasswordActivity.this, "Must contain a numeric character", Toast.LENGTH_LONG);
+            toast.show();
+
+
+            return false;
+        }
+        return true;
     }
 }

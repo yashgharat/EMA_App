@@ -6,9 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
-
-import com.STIRlab.ema_diary.Activities.MainActivity;
 
 
 public class NotifyPublisher extends BroadcastReceiver {
@@ -16,23 +15,30 @@ public class NotifyPublisher extends BroadcastReceiver {
     public static final String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
 
+    private NotificationManager notificationManager;
+
 
     private SharedPreferences SP;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        final PendingResult pendingResult = goAsync();
         SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
-        NotificationManager notificationManager = NotificationService.mNotifyManager;
-
-        Log.i(TAG, "HERE");
+        notificationManager = NotificationService.mNotifyManager;
 
         if(notificationManager!=null)
         {
             Notification notification = intent.getParcelableExtra(NOTIFICATION);
-            int id = intent.getIntExtra(NOTIFICATION_ID, 900);
+            int id = intent.getIntExtra(NOTIFICATION_ID, 200);
             notificationManager.notify(id, notification);
         }
+
+        Log.i(TAG, "HERE");
+
+
     }
+
 }

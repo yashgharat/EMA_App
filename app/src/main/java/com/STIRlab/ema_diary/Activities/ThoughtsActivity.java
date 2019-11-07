@@ -195,9 +195,4 @@ public class ThoughtsActivity extends AppCompatActivity {
         return f;
     }
 
-    protected void onStop () {
-        super.onStop();
-        Log.i(TAG, "Service Started");
-        startService(new Intent(ThoughtsActivity.this, BackgroundService.class));
-    }
 }
