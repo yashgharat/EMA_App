@@ -1,8 +1,5 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.Manifest;
-import android.app.Activity;
-import android.app.AppOpsManager;
 import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.provider.Settings;
-import android.util.Log;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import com.STIRlab.ema_diary.Activities.CollectingInformation;
 
 import java.util.List;
 

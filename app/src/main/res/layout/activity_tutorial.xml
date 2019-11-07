@@ -55,7 +55,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="300dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
-    <Button
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/tutorialNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

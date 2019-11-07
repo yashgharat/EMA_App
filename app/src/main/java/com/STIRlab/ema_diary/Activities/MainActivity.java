@@ -1,22 +1,16 @@
 package com.STIRlab.ema_diary.Activities;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.ActivityManager;
 import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,12 +23,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotificationService;
-import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -48,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
-    private TextView viewHistory_1, studyCounter, earnings, numSurveys;
+    private TextView viewHistory_1, studyCounter, earnings, numSurveys, streakCnt;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -100,11 +92,13 @@ public class MainActivity extends AppCompatActivity {
         studyCounter = findViewById(R.id.studyCounter);
         earnings = findViewById(R.id.earnings);
         numSurveys = findViewById(R.id.numSurveys);
+        streakCnt = findViewById(R.id.streakCnt);
 
         notifs = new NotificationService(this);
         notifs.createNotificationChannel();
 
         if (SP.getBoolean("virgin", true)) {
+            SP.edit().putBoolean("virgin", false).apply();
 
             Intent i = new Intent(this, newPassword.class);
             startActivityForResult(i, 10);
@@ -112,14 +106,11 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putInt("screenTime", UsageEvents.Event.SCREEN_INTERACTIVE);
 
             //Log.i("VIRGIN: ", "HERE");
-            SP.edit().putBoolean("virgin", false).apply();
-
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
-
-            SP.edit().putBoolean("Remember", true);
-
         }
+
+        SP.edit().putBoolean("Remember", true).apply();
 
         try {
             Log.i(TAG, client.doGetRequest(username, email));
@@ -141,12 +132,12 @@ public class MainActivity extends AppCompatActivity {
         studyCounter.setText(client.getDaysLeft(username, email));
         numSurveys.setText(client.getSurveyCount(username,email));
         userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft(username, email)))*3);
+        streakCnt.setText(client.getStreak(username,email));
 
 
         String status = client.getSurveyStatus(username, email);
         TextView cardTitle = findViewById(R.id.titleJournal);
         TextView cardMsg = findViewById(R.id.msgJournal);
-
 
         if(status.equals("closed"))
         {
@@ -167,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setText("Due by Midnight");
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
                     new ColorDrawable(getResources().getColor(R.color.primaryDark)));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
             cardJournal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -293,5 +285,11 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+
+//    protected void onStop () {
+//        super.onStop();
+//        Log.i(TAG, "Service Started");
+//        startService(new Intent(MainActivity.this, BackgroundService.class));
+//    }
 
 }

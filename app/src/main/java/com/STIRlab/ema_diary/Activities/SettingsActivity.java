@@ -12,7 +12,6 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -89,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         Log.i(TAG, "Logged out");
-                        SP.edit().clear();
+                        SP.edit().clear().apply();
                         Intent i = new Intent(SettingsActivity.this, AuthenticationActivity.class);
                         startActivity(i);
                     }
@@ -100,9 +99,13 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 });
 
+                SP.edit().clear().apply();
+                Intent i = new Intent(SettingsActivity.this, AuthenticationActivity.class);
+                startActivity(i);
 
             }
         });
+
 
     }
 
