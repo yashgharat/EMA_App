@@ -46,11 +46,10 @@ public class createPinActivity extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    public void onBackPressed() {
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//
+//    }
 
     private void pinConfirm(String str) {
         Intent in = getIntent();
@@ -66,8 +65,8 @@ public class createPinActivity extends AppCompatActivity {
                 editor.apply();
 
                 finish();
-//                Intent intent = new Intent(createPinActivity.this, MainActivity.class);
-//                this.startActivity(intent);
+                Intent intent = new Intent(createPinActivity.this, MainActivity.class);
+                this.startActivity(intent);
 
             } else {
                 new AlertDialog.Builder(createPinActivity.this, R.style.AlertDialogStyle)

@@ -41,6 +41,8 @@ import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
 public class AuthenticationActivity extends AppCompatActivity {
 
     private static final String TAG = "Cognito";
@@ -54,6 +56,8 @@ public class AuthenticationActivity extends AppCompatActivity {
     private ForgotPasswordContinuation forgotPasswordContinuation;
     private String temp;
     private int localPin;
+
+    private CircularProgressButton buttonLogin;
 
     private Handler handler = new Handler();
     private TextView forgotPassword;
@@ -117,6 +121,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
 
+                buttonLogin.stopAnimation();
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 startActivity(myIntent);
@@ -164,6 +169,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 ConnectivityManager cm = (ConnectivityManager) AuthenticationActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
+                buttonLogin.startMorphRevertAnimation();
+
                 boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
                 if (isConnected) {
@@ -190,14 +197,14 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         };
 
-        Button buttonLogin = findViewById(R.id.btnSignIn);
+        buttonLogin = findViewById(R.id.btnSignIn);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
                 editor.apply();
 
-                buttonLogin.setClickable(false);
+                buttonLogin.startMorphAnimation();
 
                 if (editTextEmail.getText().length() > 0 && editTextPassword.getText().length() > 0) {
                     thisUser = cognitoSettings.getUserPool()

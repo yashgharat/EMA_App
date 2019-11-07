@@ -8,8 +8,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.STIRlab.ema_diary.Activities.CollectingInformation;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

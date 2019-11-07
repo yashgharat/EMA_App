@@ -26,7 +26,7 @@ public class MoreInfoActivity extends AppCompatActivity {
         btnGrantAccess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MoreInfoActivity.this, CollectingInformation.class);
+                Intent i = new Intent(MoreInfoActivity.this, TutorialActivity.class);
                 finish();
                 startActivity(i);
             }

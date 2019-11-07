@@ -30,9 +30,11 @@ public class CognitoSettings {
     private String username;
 
     private Context context;
+    public static Context staticContext;
 
     public CognitoSettings(Context context) {
         this.context = context;
+        staticContext = context;
     }
 
     public static CognitoUserSession getCurrSession() {

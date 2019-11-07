@@ -10,16 +10,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,7 +26,6 @@ import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,13 +33,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
 public class ThoughtsActivity extends AppCompatActivity {
 
     private final String TAG = "THOUGHTS";
     final int THUMBSIZE = 128;
 
     private FloatingActionButton ret;
-    private Button submit;
+    private CircularProgressButton submit;
 
     private TextView addPic;
     private ImageView thumbnail;
@@ -88,6 +85,7 @@ public class ThoughtsActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                submit.startMorphAnimation();
                 String uploadText = inputInteraction.getText().toString();
                 if(uploadText.length() > 0)
                 {
@@ -103,7 +101,6 @@ public class ThoughtsActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        finish();
                     }
                     else{
                         try {
@@ -117,6 +114,11 @@ public class ThoughtsActivity extends AppCompatActivity {
                 {
                     showDialogMessage("Error", "Please input some text", false);
                 }
+                inputInteraction.setText("");
+                thumbnail.setImageBitmap(null);
+                caption.setText("");
+                caption.setVisibility(View.GONE);
+                submit.startMorphRevertAnimation();
             }
         });
 
@@ -191,5 +193,11 @@ public class ThoughtsActivity extends AppCompatActivity {
         fos.close();
 
         return f;
+    }
+
+    protected void onStop () {
+        super.onStop();
+        Log.i(TAG, "Service Started");
+        startService(new Intent(ThoughtsActivity.this, BackgroundService.class));
     }
 }

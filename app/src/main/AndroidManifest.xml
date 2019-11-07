@@ -37,7 +37,6 @@
 
         <activity android:name=".Activities.createPinUIActivity" />
         <activity android:name=".Activities.newPassword" />
-        <activity android:name=".Activities.CollectingInformation" />
         <activity
             android:name=".Activities.ManifestActivity"
             android:exported="true" />
@@ -61,8 +60,11 @@
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION"/>
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

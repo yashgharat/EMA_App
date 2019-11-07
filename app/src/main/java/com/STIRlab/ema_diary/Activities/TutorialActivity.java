@@ -21,12 +21,14 @@ import com.STIRlab.ema_diary.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+
 public class TutorialActivity extends AppCompatActivity {
     private final String TAG = "TUTORIAL";
     private final int PHONE_STATE = 69;
 
     private Button btnOk;
-    private Button btnNext;
+    private CircularProgressButton btnNext;
 
     private ScrapeDataHelper dataHelper;
 
@@ -55,6 +57,7 @@ public class TutorialActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                btnNext.startMorphAnimation();
                 dataHelper.scrape();
                 btnNext.setClickable(false);
                 long delayInMillis = 3000;
@@ -62,6 +65,7 @@ public class TutorialActivity extends AppCompatActivity {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        btnNext.startMorphRevertAnimation();
                         finish();
                     }
                 }, delayInMillis);

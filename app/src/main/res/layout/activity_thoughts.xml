@@ -104,7 +104,7 @@
                 android:textColor="@color/primaryDark"
                 android:textSize="20sp" />
 
-            <Button
+            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btnThoughts"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
@@ -114,6 +114,7 @@
                 android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                 android:padding="10dp"
                 android:text="Submit"
+                app:spinning_bar_color="@color/darkBackground"
                 android:textColor="@color/darkBackground"
                 android:textSize="15sp" />
 

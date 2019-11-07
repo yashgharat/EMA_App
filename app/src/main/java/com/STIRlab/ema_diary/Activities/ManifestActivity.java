@@ -28,9 +28,9 @@ public class ManifestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(ManifestActivity.this, CollectingInformation.class);
+                Intent i = new Intent(ManifestActivity.this, TutorialActivity.class);
                 finish();
-                startActivity(i);
+                startActivityForResult(i, 15);
             }
         });
 
