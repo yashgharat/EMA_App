@@ -39,6 +39,7 @@ public class NotificationService {
         Calendar calendar = Calendar.getInstance();
 
         Calendar setcalendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
         setcalendar.set(Calendar.HOUR_OF_DAY, hour);
         setcalendar.set(Calendar.MINUTE, min);
         setcalendar.set(Calendar.SECOND, 0);
@@ -46,7 +47,7 @@ public class NotificationService {
         if(setcalendar.before(calendar))
             setcalendar.add(Calendar.DATE,1);
 
-        //cancelNotification(context, NotifyPublisher.class);
+        cancelNotification(context, NotifyPublisher.class);
 
         Intent notificationIntent = new Intent(context, NotifyPublisher.class);
         notificationIntent.putExtra(NotifyPublisher.NOTIFICATION_ID, 1);
@@ -56,10 +57,14 @@ public class NotificationService {
 
         long time = setcalendar.getTimeInMillis() - System.currentTimeMillis();
 
-        Log.i(TAG,String.valueOf(time));
+        long ring = setcalendar.getTimeInMillis() - calendar.getTimeInMillis();
+
+        Log.i(TAG,String.valueOf(ring));
+
+        createNotificationChannel();
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + time, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, ring, 86400000, pendingIntent);
     }
 
     public static void cancelNotification(Context context,Class<?> cls)

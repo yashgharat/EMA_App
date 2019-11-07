@@ -2,11 +2,14 @@ package com.STIRlab.ema_diary.Activities;
 
 import android.app.ActivityManager;
 import android.app.usage.UsageEvents;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import androidx.core.content.ContextCompat;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotificationService;
+import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private CognitoUserPool pool;
     private CognitoUserSession session;
     private RDS_Connect client;
+    private ScrapeDataHelper scraper;
 
     private NotificationService notifs;
 
@@ -78,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        scraper = new ScrapeDataHelper(this);
+
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         userProgress = findViewById(R.id.progressBar);
@@ -96,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         notifs = new NotificationService(this);
         notifs.createNotificationChannel();
+
 
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
@@ -223,6 +231,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void broadcastIntent() {
+        Intent intent = new Intent();
+        intent.setAction("com.journaldev.AN_INTENT");
+        intent.setComponent(new ComponentName(getPackageName(),"com.STIRlab.ema_diary.Helpers.NotifyPublisher"));
+        getApplicationContext().sendBroadcast(intent);
     }
 
     @Override

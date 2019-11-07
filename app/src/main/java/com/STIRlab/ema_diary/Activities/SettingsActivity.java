@@ -55,7 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
                 TimePickerDialog timePicker = new TimePickerDialog(SettingsActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourofDay, int mins) {
-                        Log.i(TAG, String.valueOf(hourofDay));
                         SP.edit().putInt("hour", hourofDay).apply();
                         SP.edit().putInt("minute", mins).apply();
 

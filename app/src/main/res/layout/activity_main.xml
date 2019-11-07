@@ -20,8 +20,8 @@
             android:layout_marginTop="20dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/thirty"
@@ -32,41 +32,41 @@
                     android:textColor="@color/darkProminent"
                     android:textSize="55sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/earnings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="30dp"
                     android:text="$00.00"
                     android:textColor="@color/secondary"
                     android:textSize="18dp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="25dp"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
                     android:text="earned"
                     android:textColor="@color/disabled"
                     android:textSize="15dp"
-                    app:layout_constraintTop_toBottomOf="@+id/earnings"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginEnd="25dp"/>
+                    app:layout_constraintTop_toBottomOf="@+id/earnings" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_marginStart="30dp"
                 android:maxHeight="10dp"
                 android:progress="3"
@@ -75,57 +75,58 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic__ionicons_svg_ios_flash"
-                    android:tint="@color/secondary"
+                    android:layout_marginStart="25dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="25dp"/>
+                    android:tint="@color/secondary"
+                    app:srcCompat="@drawable/ic__ionicons_svg_ios_flash" />
 
                 <TextView
                     android:id="@+id/streakCnt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/secondary"
-                    android:text="5"
                     android:layout_marginTop="5dp"
-                    android:textSize="20sp"/>
+                    android:text="5"
+                    android:textColor="@color/secondary"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:textColor="@color/secondary"
-                    android:text="day streak"
                     android:layout_marginTop="5dp"
-                    android:textSize="20sp"/>
+                    android:text="day streak"
+                    android:textColor="@color/secondary"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/studyCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/darkProminent"
-                    android:layout_marginStart="110dp"
-                    android:text="9"
+                    android:layout_marginStart="80dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="20sp"/>
+                    android:text="9"
+                    android:textColor="@color/darkProminent"
+                    android:textSize="20sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/disabled"
-                    android:text="days to go"
-                    android:layout_marginTop="5dp"
                     android:layout_marginStart="5dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginTop="5dp"
+                    android:text="days to go"
+                    android:textColor="@color/disabled"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -171,7 +172,7 @@
                             android:layout_marginStart="15dp"
                             android:text="Ready For Daily Journal"
                             android:textColor="@color/darkProminent"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -280,7 +281,7 @@
                             android:layout_marginStart="15dp"
                             android:text="Share Your Thoughts"
                             android:textColor="@color/darkProminent"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -367,7 +368,7 @@
                             android:layout_marginStart="15dp"
                             android:text="Help Center"
                             android:textColor="@color/darkProminent"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -425,7 +426,7 @@
                             android:layout_marginStart="15dp"
                             android:text="Settings"
                             android:textColor="@color/darkProminent"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

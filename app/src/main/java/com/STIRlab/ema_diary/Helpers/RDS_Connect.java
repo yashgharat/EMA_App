@@ -48,7 +48,6 @@ public class RDS_Connect {
         while(returnStr == null) {
             String url = baseURL + "user?id=" + beginQuote +
                     encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
-            Log.i(TAG, url);
 
             getRequestHelper(url, new Callback() {
                 @Override
