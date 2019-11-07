@@ -179,7 +179,10 @@ public class MainActivity extends AppCompatActivity {
                     CustomTabsIntent viewSurvey = builder.build();
                     viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
 
+                    scraper.scrape();
+
                     studyCounter.setText(client.getDaysLeft(username, email));
+
                 }
             });
         }
