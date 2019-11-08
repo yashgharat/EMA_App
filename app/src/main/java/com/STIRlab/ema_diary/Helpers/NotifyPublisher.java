@@ -16,6 +16,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.STIRlab.ema_diary.Activities.MainActivity;
 import com.STIRlab.ema_diary.R;
 
 
@@ -35,12 +36,18 @@ public class NotifyPublisher extends BroadcastReceiver {
 
         SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
+        Intent notifyIntent = new Intent(context, MainActivity.class);
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
                 .setContentTitle("Daily Journal Reminder")
                 .setContentText("Remember to submit your journal entry today.")
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.mipmap.ic_launcher_foreground))
-                .setSmallIcon(R.drawable.ic_border_color_blue_24dp);
+                .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
+                .setContentIntent(notifyPendingIntent);
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
