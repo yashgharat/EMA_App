@@ -144,6 +144,25 @@ public class MainActivity extends AppCompatActivity {
         TextView cardTitle = findViewById(R.id.titleJournal);
         TextView cardMsg = findViewById(R.id.msgJournal);
 
+        cardJournal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://ucf.qualtrics.com/jfe/form/SV_2i6xiz49SKg0JRb?user_id=" + username;
+
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
+                builder.setShowTitle(true);
+
+                CustomTabsIntent viewSurvey = builder.build();
+                viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+
+                scraper.scrape();
+
+                studyCounter.setText(client.getDaysLeft(username, email));
+
+            }
+        });
+
         if(status.equals("closed"))
         {
             cardTitle.setText("Daily Journal Later Today");
@@ -164,24 +183,7 @@ public class MainActivity extends AppCompatActivity {
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
                     new ColorDrawable(getResources().getColor(R.color.primaryDark)));
             layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
-            cardJournal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String url = "http://ucf.qualtrics.com/jfe/form/SV_2i6xiz49SKg0JRb?user_id=" + username;
 
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
-                    builder.setShowTitle(true);
-
-                    CustomTabsIntent viewSurvey = builder.build();
-                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
-
-                    scraper.scrape();
-
-                    studyCounter.setText(client.getDaysLeft(username, email));
-
-                }
-            });
         }
         else if(status.equals("submitted"))
         {
