@@ -9,19 +9,18 @@
     tools:context=".Activities.MainActivity">
 
 
-    <TableLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_constraint"
         android:layout_width="match_parent"
         android:layout_height="175dp"
         android:background="@color/darkBackground">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:id="@+id/constraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent">
 
                 <TextView
                     android:id="@+id/thirty"
@@ -43,7 +42,7 @@
                     android:text="$00.00"
                     android:textColor="@color/secondary"
                     android:textSize="18dp"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/constraint"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -57,12 +56,6 @@
                     app:layout_constraintTop_toBottomOf="@+id/earnings" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -71,25 +64,26 @@
                 android:maxHeight="10dp"
                 android:progress="3"
                 android:progressBackgroundTint="@color/disabled"
-                android:progressTint="@color/secondary" />
-        </TableRow>
+                android:progressTint="@color/secondary"
+                app:layout_constraintTop_toBottomOf="@id/constraint"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/progressBar"
+                app:layout_constraintLeft_toLeftOf="parent">
 
                 <ImageView
+                    android:id="@+id/streakIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="5dp"
                     android:tint="@color/secondary"
-                    app:srcCompat="@drawable/ic__ionicons_svg_ios_flash" />
+                    app:srcCompat="@drawable/ic__ionicons_svg_ios_flash"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/streakCnt"
@@ -97,42 +91,51 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="5"
+                    android:layout_marginStart="5dp"
                     android:textColor="@color/secondary"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@id/streakIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/streaklabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="5dp"
                     android:text="day streak"
                     android:textColor="@color/secondary"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@id/streakCnt"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/studyCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="80dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginEnd="8dp"
                     android:text="9"
                     android:textColor="@color/darkProminent"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    app:layout_constraintRight_toLeftOf="@id/days_leftcounter"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
+                    android:id="@+id/days_leftcounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:text="days to go"
+                    android:layout_marginEnd="10dp"
                     android:textColor="@color/disabled"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </TableRow>
-
-    </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="match_parent"

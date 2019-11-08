@@ -1,15 +1,18 @@
 package com.STIRlab.ema_diary.Activities;
 
-import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.net.ConnectivityManager;
+import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,9 +30,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
-import com.STIRlab.ema_diary.Helpers.NotificationService;
+import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
@@ -58,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
     private CognitoUserSession session;
     private RDS_Connect client;
     private ScrapeDataHelper scraper;
-
-    private NotificationService notifs;
 
     public ProgressBar userProgress;
 
@@ -101,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
         numSurveys = findViewById(R.id.numSurveys);
         streakCnt = findViewById(R.id.streakCnt);
 
-        notifs = new NotificationService(this);
-        notifs.createNotificationChannel();
-
 
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
@@ -132,9 +131,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(post);
         }
 
-        int hour = SP.getInt("hour", 14);
-        int min = SP.getInt("minute", 0);
-        notifs.sendNotification(hour, min);
+        setNotification();
 
         earnings.setText("$"+ client.getEarnings(username, email));
         studyCounter.setText(client.getDaysLeft(username, email));
@@ -279,13 +276,38 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 50:
                 Log.i(TAG, "in result");
-                int hour = SP.getInt("hour", 14);
-                int min = SP.getInt("minute", 0);
-                notifs.sendNotification(hour, min);
+                setNotification();
                 break;
             case 15:
                 break;
         }
+    }
+
+    public void setNotification(){
+
+        createNotificationChannel();
+
+        int hour = SP.getInt("hour", 14);
+        int min = SP.getInt("minute", 0);
+
+        Intent i = new Intent(this, NotifyPublisher.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200,i, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Log.i(TAG, hour + ":"+ min);
+
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, 0);
+
+        Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
+
+        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(MainActivity.this);
+
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     public void setCardColorTran(LinearLayout layout, ColorDrawable start, ColorDrawable end) {
@@ -297,6 +319,20 @@ public class MainActivity extends AppCompatActivity {
             layout.setBackgroundDrawable(trans);
         }
         trans.startTransition(1000);
+    }
+
+    public void createNotificationChannel()
+    {
+
+        NotificationChannel notificationChannel = new NotificationChannel("notifyUser",
+                "Daily notification", NotificationManager.IMPORTANCE_HIGH);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.enableVibration(true);
+        notificationChannel.setDescription("test notification");
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(notificationChannel);
     }
 
     @Override
