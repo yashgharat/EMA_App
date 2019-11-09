@@ -58,9 +58,7 @@ public class NotifyPublisher extends BroadcastReceiver {
 
         notificationManager.notify(200, notification);
 
-        Log.i(TAG, "HERE");
-
-
+        Log.i(TAG, "Notification");
     }
 
 }

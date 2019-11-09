@@ -18,7 +18,7 @@ public class ScreenTimeReceiver extends BroadcastReceiver {
         switch(intent.getAction()){
             case Intent.ACTION_SCREEN_ON:
                 SP.edit().putLong("screen_on", System.currentTimeMillis()).apply();
-                Log.i(TAG, "Screen is on");
+                Log.i(TAG, "Screen is on: ");
                 break;
             case Intent.ACTION_SCREEN_OFF:
                 SP.edit().putLong("screen_off", System.currentTimeMillis()).apply();
@@ -29,9 +29,10 @@ public class ScreenTimeReceiver extends BroadcastReceiver {
                 long totalTime = end - begin;
 
                 long curTime = SP.getLong("total_screen_time", 0);
+                curTime += totalTime;
 
-                SP.edit().putLong("total_screen_time", curTime + totalTime).apply();
-                Log.i(TAG, "Screen is off");
+                SP.edit().putLong("total_screen_time", curTime).apply();
+                Log.i(TAG, "Screen is off: " + curTime);
                 break;
         }
     }

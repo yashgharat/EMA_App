@@ -52,4 +52,9 @@ public class ManifestActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
