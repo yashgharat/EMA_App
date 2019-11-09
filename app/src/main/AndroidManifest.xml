@@ -72,20 +72,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_SUSPENDED"/>
+
             </intent-filter>
         </receiver>
 
         <receiver
             android:name=".Helpers.ScreenTimeReceiver"
             android:enabled="true"
-            android:process="remote"
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON"/>
-                <action android:name="android.intent.action.SCREEN_OFF"/>
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SCREEN_ON"/>-->
+<!--                <action android:name="android.intent.action.SCREEN_OFF"/>-->
+<!--            </intent-filter>-->
         </receiver>
 
     </application>

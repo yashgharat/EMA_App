@@ -5,10 +5,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
-import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -31,11 +31,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
+import com.STIRlab.ema_diary.Helpers.ScreenTimeReceiver;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         pool = cognitoSettings.getUserPool();
         cognitoSettings.refreshSession(SP);
 
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        ScreenTimeReceiver screenTimeReceiver = new ScreenTimeReceiver();
+        registerReceiver(screenTimeReceiver, filter);
+
         client = new RDS_Connect();
         try {
             client.doGetRequest(username, email);
@@ -110,8 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
             Intent i = new Intent(this, newPassword.class);
             startActivityForResult(i, 10);
-
-            SP.edit().putInt("screenTime", UsageEvents.Event.SCREEN_INTERACTIVE);
 
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putInt("hour", 14).apply();
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
 
                 scraper.scrape();
-
+                SP.edit().putLong("total_screen_time", 0);
                 studyCounter.setText(client.getDaysLeft(username, email));
 
             }
@@ -309,8 +312,6 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
 
         Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
-
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(MainActivity.this);
 
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
