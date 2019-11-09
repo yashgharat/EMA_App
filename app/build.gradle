@@ -58,5 +58,4 @@ dependencies {
     implementation 'br.com.simplepass:loading-button-android:2.1.5'
 
 
-
 }
