@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".Activities.ThoughtsHistoryActivity"></activity>
         <activity android:name=".Activities.TutorialActivity" />
         <activity android:name=".Activities.JournalHistoryActivity" />
         <activity android:name=".Activities.PostActivity" />
@@ -42,16 +42,20 @@
             android:name=".Activities.ManifestActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="ema-diary-study"
-                    android:host="survey-complete"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="survey-complete"
+                    android:scheme="ema-diary-study" />
             </intent-filter>
         </activity>
         <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -66,27 +70,25 @@
         <receiver
             android:name=".Helpers.NotifyPublisher"
             android:enabled="true"
-            android:process=":remote"
             android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
+            android:process=":remote">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.MY_PACKAGE_SUSPENDED"/>
-
+                <action android:name="android.intent.action.MY_PACKAGE_SUSPENDED" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".Helpers.ScreenTimeReceiver"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.SCREEN_ON"/>-->
-<!--                <action android:name="android.intent.action.SCREEN_OFF"/>-->
-<!--            </intent-filter>-->
-        </receiver>
 
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.SCREEN_ON"/> -->
+            <!-- <action android:name="android.intent.action.SCREEN_OFF"/> -->
+            <!-- </intent-filter> -->
+        </receiver>
     </application>
 
 </manifest>
