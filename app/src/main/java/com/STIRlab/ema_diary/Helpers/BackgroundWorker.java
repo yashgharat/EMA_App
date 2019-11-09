@@ -76,7 +76,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
             upload.put("Screen time", screenTime);
             Log.i(TAG, upload.toString(2));
 
-            //client.uploadFile(userid, upload);
+            client.uploadFile(userid, upload);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
