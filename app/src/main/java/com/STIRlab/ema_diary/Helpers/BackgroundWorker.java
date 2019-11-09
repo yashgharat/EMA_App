@@ -3,7 +3,10 @@ package com.STIRlab.ema_diary.Helpers;
 // Taken from MarshmallowProject pamwis
 
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.usage.UsageEvents;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -44,6 +47,14 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
+
+        UsageStatsManager mUsageStatsManager = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+        UsageEvents events = mUsageStatsManager.queryEvents(
+                System.currentTimeMillis() - AlarmManager.INTERVAL_DAY,
+                System.currentTimeMillis());
+
+        UsageEvents.Event eventCache = new UsageEvents.Event();
+
         for(int i = 0; i < size; i++) {
 
             String appname = list[i].appName;
@@ -65,7 +76,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
             upload.put("Screen time", screenTime);
             Log.i(TAG, upload.toString(2));
 
-            client.uploadFile(userid, upload);
+            //client.uploadFile(userid, upload);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }

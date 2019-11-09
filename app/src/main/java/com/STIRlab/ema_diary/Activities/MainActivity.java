@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
+import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
         }
+
+
 
         SP.edit().putBoolean("Remember", true).apply();
 
