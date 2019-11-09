@@ -39,8 +39,7 @@ public class ScrapeDataHelper {
     }
 
     public boolean scrape(){
-        int screenTime = UsageEvents.Event.SCREEN_INTERACTIVE - SP.getInt("screenTime", -1);
-        SP.edit().putInt("screenTime", UsageEvents.Event.SCREEN_INTERACTIVE);
+        int screenTime = (int) SP.getLong("total_screen_time", 0);
 
 
         final PackageManager packageManager = context.getPackageManager();
