@@ -226,8 +226,8 @@ public class RDS_Connect {
             returnHistory.add(tempEntry);
         }
 
+        
         return returnHistory;
-
     }
 
     private JSONObject getThoughtsHistory(String user_id) throws JSONException {
