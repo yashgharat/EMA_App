@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
 
-    private TextView viewHistory_1, studyCounter, earnings, numSurveys, streakCnt;
+    private TextView viewHistory_1, viewHistory_2, studyCounter, earnings, numSurveys, streakCnt;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
+        viewHistory_2 = findViewById(R.id.viewHistory_2);
+
         userProgress = findViewById(R.id.progressBar);
 
         cardJournal = findViewById(R.id.cardJournal);
@@ -139,7 +141,12 @@ public class MainActivity extends AppCompatActivity {
 
         setNotification();
 
-        earnings.setText("$"+ client.getEarnings(username, email));
+        String curEarnings = client.getEarnings(username, email);
+
+        if(curEarnings == null)
+            curEarnings = "0";
+
+        earnings.setText("$"+ curEarnings);
         studyCounter.setText(client.getDaysLeft(username, email));
         numSurveys.setText(client.getSurveyCount(username,email));
         userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft(username, email)))*3);
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
 
                 scraper.scrape();
-                SP.edit().putLong("total_screen_time", 0);
+                SP.edit().putLong("total_screen_time", 0).apply();
                 studyCounter.setText(client.getDaysLeft(username, email));
 
             }
@@ -204,13 +211,16 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "here");
+                Intent intent = new Intent(MainActivity.this, JournalHistoryActivity.class);
+                startActivityForResult(intent, 15);
+            }
+        });
 
-                try {
-                    Log.i(TAG, client.getEarnings(username, email));
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                }
+        viewHistory_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ThoughtsHistoryActivity.class);
+                startActivityForResult(intent, 15);
             }
         });
 
@@ -346,10 +356,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    protected void onStop () {
-//        super.onStop();
-//        Log.i(TAG, "Service Started");
-//        startService(new Intent(MainActivity.this, BackgroundService.class));
-//    }
 
 }

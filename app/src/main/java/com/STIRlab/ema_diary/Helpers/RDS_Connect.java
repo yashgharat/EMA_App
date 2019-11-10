@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,6 +41,28 @@ public class RDS_Connect {
     //{"user_id":"90621533-45ad-413d-bda7-aafc0bc0071f","email":"easymoney@dmailpro.net",
     //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete_surveys":0,"earnings":0,"survey_status":"closed"}
 
+
+//          "surveys": [
+//    {
+//        "survey_id": 48,
+//            "opened_on": "2019-11-09T19:00:00.000Z",
+//            "submitted_at": "2019-11-10T03:13:04.000Z",
+//            "earnings_so_far": 1.5,
+//            "isComplete": true,
+//            "earnings_added": 1.5
+//    },
+//    {
+//        "survey_id": 44,
+//            "opened_on": "2019-11-08T19:00:00.000Z",
+//            "submitted_at": null,
+//            "earnings_so_far": 0,
+//            "isComplete": false,
+//            "earnings_added": 0
+//    }
+//      ],
+//              "num_completed": 1,
+//              "num_missed": 1
+//}
 
     public RDS_Connect(){
         client = new OkHttpClient();
@@ -80,41 +104,77 @@ public class RDS_Connect {
         return info;
     }
 
-    public JSONObject parseHistory(String userid, String historyType){
-        String url = baseURL + historyType + "-history?user_id?=" + beginQuote + encodeValue(userid) + endQuote;
+    public String parseHistory(String userid, String historyType) throws JSONException {
+        String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
-        getRequestHelper(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+        while(returnStr == null) {
 
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseStr = response.body().string();
-
-                    try {
-                        history = new JSONObject(responseStr);
-                    } catch (JSONException e) {
-                        Log.e(TAG, "parse failed: " + e.toString());
-                    }
-
-                } else {
-                    Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
-                    Log.e(TAG, url);
+            getRequestHelper(url, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "call failed: " + e.toString());
                 }
-            }
-        });
 
-        return history;
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String responseStr = response.body().string();
+                        returnStr = responseStr;
+                    } else {
+                        Log.e(TAG, call.toString());
+                        Log.e(TAG, "request not successful");
+                        Log.e(TAG, url);
+                    }
+                }
+            });
+
+        }
+
+        return returnStr;
     }
 
-    public String getJournalHistory(String user_id) throws JSONException {
-        JSONObject obj = parseHistory(user_id, "survey");
-        return obj.toString(2);
+    private JSONObject getJournalHistory(String user_id) throws JSONException {
+        JSONObject obj = new JSONObject(parseHistory(user_id, "survey"));
+
+        return obj;
+    }
+
+    public int getNumCompleted(String userid) throws JSONException {
+        JSONObject obj = getJournalHistory(userid);
+
+        return  obj.getInt("num_completed");
+    }
+
+    public int getNumMissed(String userid) throws JSONException {
+        JSONObject obj = getJournalHistory(userid);
+
+        return  obj.getInt("num_missed");
+    }
+
+    public ArrayList<JournalEntry> getJournalEntries(String userid) throws JSONException {
+        ArrayList<JournalEntry> returnHistory = new ArrayList<JournalEntry>();
+        JSONObject obj = getJournalHistory(userid);
+        JSONArray array = obj.getJSONArray("surveys");
+
+        for(int i = 0; i < array.length(); i++){
+            JSONObject tempObj = array.getJSONObject(i);
+
+            String id = tempObj.getString("survey_id");
+            String openTime = tempObj.getString("opened_on");
+            String submitTime = tempObj.getString("submitted_at");
+            int earnings = tempObj.getInt("earnings_so_far");
+            Boolean isComplete = tempObj.getBoolean("isComplete");
+            int increment = tempObj.getInt("earnings_added");
+
+
+            JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, isComplete,
+                    earnings, increment);
+
+            returnHistory.add(tempEntry);
+        }
+
+        return returnHistory;
+
     }
 
 
