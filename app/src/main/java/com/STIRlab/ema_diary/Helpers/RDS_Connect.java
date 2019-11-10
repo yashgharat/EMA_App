@@ -29,6 +29,8 @@ public class RDS_Connect {
     private OkHttpClient client;
 
     private String returnStr;
+    private JSONObject history;
+
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // baseURL
@@ -43,7 +45,7 @@ public class RDS_Connect {
     }
 
 
-    public String doGetRequest(String userid, String email) throws Exception {
+    public String getUser(String userid, String email) throws Exception {
 
         while(returnStr == null) {
             String url = baseURL + "user?id=" + beginQuote +
@@ -74,9 +76,47 @@ public class RDS_Connect {
     }
 
     public JSONObject parseUserInfo(String userid, String email) throws Exception {
-        JSONObject info = new JSONObject(doGetRequest(userid, email));
+        JSONObject info = new JSONObject(getUser(userid, email));
         return info;
     }
+
+    public JSONObject parseHistory(String userid, String historyType){
+        String url = baseURL + historyType + "-history?user_id?=" + beginQuote + encodeValue(userid) + endQuote;
+
+        getRequestHelper(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseStr = response.body().string();
+
+                    try {
+                        history = new JSONObject(responseStr);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "parse failed: " + e.toString());
+                    }
+
+                } else {
+                    Log.e(TAG, call.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
+                }
+            }
+        });
+
+        return history;
+    }
+
+    public String getJournalHistory(String user_id) throws JSONException {
+        JSONObject obj = parseHistory(user_id, "survey");
+        return obj.toString(2);
+    }
+
 
     public String getEarnings(String userid, String email){
         try {
