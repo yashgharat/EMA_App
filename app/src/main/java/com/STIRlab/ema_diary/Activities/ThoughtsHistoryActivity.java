@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.STIRlab.ema_diary.Helpers.ThoughtEntry;
 import com.STIRlab.ema_diary.Helpers.ThoughtEntryAdapter;
 import com.STIRlab.ema_diary.R;
@@ -19,10 +20,14 @@ public class ThoughtsHistoryActivity extends AppCompatActivity {
     private List<ThoughtEntry> history;
     private RecyclerView recyclerView;
 
+    private RDS_Connect client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thoughts_history);
+
+        client = new RDS_Connect();
 
         recyclerView = findViewById(R.id.recyclerThoughts);
         recyclerView.setHasFixedSize(false);
@@ -31,7 +36,6 @@ public class ThoughtsHistoryActivity extends AppCompatActivity {
         history = new ArrayList<ThoughtEntry>();
 
         //TODO: add logic for grabbing array from AWS
-
 
         adapter = new ThoughtEntryAdapter(this, history);
 

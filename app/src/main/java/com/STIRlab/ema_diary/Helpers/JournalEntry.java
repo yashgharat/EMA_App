@@ -2,14 +2,15 @@ package com.STIRlab.ema_diary.Helpers;
 
 public class JournalEntry {
 
-    private String rawTime, formattedTime, surveyId;
+    private String submitTime, formattedTime, openTime, surveyId;
     private Boolean complete;
     private int totalEarnings, incrementEarnings;
 
-    public JournalEntry(String surveyId, String rawTime, Boolean complete, int totalEarnings, int incrementEarnings)
+    public JournalEntry(String surveyId, String openTime, String submitTime, Boolean complete, int totalEarnings, int incrementEarnings)
     {
         this.surveyId = surveyId;
-        this.rawTime = rawTime;
+        this.openTime = openTime;
+        this.submitTime = submitTime;
         this.complete = complete;
         this.totalEarnings = totalEarnings;
         this.incrementEarnings = incrementEarnings;
@@ -33,7 +34,7 @@ public class JournalEntry {
         return totalEarnings;
     }
 
-    public int getIncrementEarnings(){
-        return incrementEarnings;
-    }
+    public int getIncrementEarnings(){ return incrementEarnings; }
+
+    public String getOpenTime() { return openTime; }
 }
