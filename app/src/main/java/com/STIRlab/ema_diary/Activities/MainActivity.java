@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
         client = new RDS_Connect();
         try {
-            client.doGetRequest(username, email);
+            client.getUser(username, email);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         SP.edit().putBoolean("Remember", true).apply();
 
         try {
-            Log.i(TAG, client.doGetRequest(username, email));
+            Log.i(TAG, client.getUser(username, email));
         } catch (Exception e) {
             Log.i(TAG, CognitoSettings.formatException(e));
         }

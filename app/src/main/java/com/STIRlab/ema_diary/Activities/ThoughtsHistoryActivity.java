@@ -16,9 +16,7 @@ import java.util.List;
 public class ThoughtsHistoryActivity extends AppCompatActivity {
 
     private ThoughtEntryAdapter adapter;
-
     private List<ThoughtEntry> history;
-
     private RecyclerView recyclerView;
 
     @Override
@@ -33,6 +31,7 @@ public class ThoughtsHistoryActivity extends AppCompatActivity {
         history = new ArrayList<ThoughtEntry>();
 
         //TODO: add logic for grabbing array from AWS
+
 
         adapter = new ThoughtEntryAdapter(this, history);
 
