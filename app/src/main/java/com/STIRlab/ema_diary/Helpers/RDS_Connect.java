@@ -104,6 +104,59 @@ public class RDS_Connect {
         return info;
     }
 
+    public String getEarnings(String userid, String email){
+        try {
+            double d = parseUserInfo(userid, email).getDouble("earnings");
+
+            float earnings = (float)d;
+
+            return formatDecimal(earnings).replaceAll("^\\s+","");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+    public String getStreak(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("streak");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+    public String getDaysLeft(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("days_left");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
+    public String getSurveyStatus(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("survey_status");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+    public String getSurveyCount(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("num_complete_surveys");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+
+        return null;
+    }
+
     public String parseHistory(String userid, String historyType) throws JSONException {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
@@ -177,59 +230,31 @@ public class RDS_Connect {
 
     }
 
-
-    public String getEarnings(String userid, String email){
-        try {
-            double d = parseUserInfo(userid, email).getDouble("earnings");
-
-            float earnings = (float)d;
-
-            return formatDecimal(earnings).replaceAll("^\\s+","");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-
-        return null;
+    private JSONObject getThoughtsHistory(String user_id) throws JSONException {
+        JSONObject obj = new JSONObject(parseHistory(user_id, "thoughts"));
+        return obj;
     }
 
-    public String getStreak(String userid, String email){
-        try {
-            return parseUserInfo(userid, email).getString("streak");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
+    public ArrayList<ThoughtEntry> getThoughtEntries(String userid) throws JSONException {
+        ArrayList<ThoughtEntry> returnHistory = new ArrayList<ThoughtEntry>();
+        JSONObject obj = getThoughtsHistory(userid);
+        JSONArray array = obj.getJSONArray("thoughts");
+
+        for(int i = 0; i < array.length(); i++){
+            JSONObject tempObj = array.getJSONObject(i);
+
+            String id = tempObj.getString("thought_id");
+            String submitTime = tempObj.getString("submitted_at");
+            int screenshots = tempObj.getInt("num_screenshots");
+
+            ThoughtEntry tempEntry= new ThoughtEntry(id, submitTime, screenshots);
+            returnHistory.add(tempEntry);
         }
 
-        return null;
+        return returnHistory;
+
     }
 
-    public String getDaysLeft(String userid, String email){
-        try {
-            return parseUserInfo(userid, email).getString("days_left");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-
-        return null;
-    }
-
-    public String getSurveyStatus(String userid, String email){
-        try {
-            return parseUserInfo(userid, email).getString("survey_status");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-
-        return null;
-    }
-    public String getSurveyCount(String userid, String email){
-        try {
-            return parseUserInfo(userid, email).getString("num_complete_surveys");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-
-        return null;
-    }
 
 
 

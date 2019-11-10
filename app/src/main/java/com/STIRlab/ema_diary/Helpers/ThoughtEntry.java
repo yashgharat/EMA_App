@@ -3,13 +3,13 @@ package com.STIRlab.ema_diary.Helpers;
 public class ThoughtEntry {
 
     private String thoughtID;
-    private String rawTime, formattedTime;
+    private String submitTime, formattedTime;
     private int screenshotCount;
 
-    public ThoughtEntry(String thoughtID, String rawTime, int screenshotCount)
+    public ThoughtEntry(String thoughtID, String submitTime, int screenshotCount)
     {
         this.thoughtID = thoughtID;
-        this.rawTime = rawTime;
+        this.submitTime = submitTime;
         this.screenshotCount = screenshotCount;
     }
 
