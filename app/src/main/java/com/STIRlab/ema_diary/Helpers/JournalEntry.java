@@ -1,5 +1,11 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 public class JournalEntry {
 
     private String submitTime, formattedTime, openTime, surveyId;
@@ -21,7 +27,18 @@ public class JournalEntry {
         return surveyId;
     }
 
-    public String getFormattedTime(){
+    public String getFormattedTime() throws ParseException {
+        Date mParsedDate;
+        String mOutputDateString;
+
+        //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+
+        SimpleDateFormat mInputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", java.util.Locale.getDefault());
+        SimpleDateFormat mOutputDateFormat = new SimpleDateFormat("EEEE at HH:mm a", java.util.Locale.getDefault());
+
+        mParsedDate = mInputDateFormat.parse(submitTime);
+        mOutputDateString = mOutputDateFormat.format(mParsedDate);
+
         return formattedTime;
     }
 
