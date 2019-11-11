@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -30,7 +31,7 @@ public class HelpActivity extends AppCompatActivity {
     private QuestionAdapter adapter;
     private RecyclerView recyclerView;
     private List<Question> questionList;
-    private SwipeRefreshLayout swipeRefreshLayout;
+//    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,14 @@ public class HelpActivity extends AppCompatActivity {
         ret = findViewById(R.id.helpPrevious);
 
         recyclerView = findViewById(R.id.faq_recycler);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+        }});
+
+//        swipeRefreshLayout = findViewById(R.id.faqSwipe);
 
         init();
 
@@ -61,18 +70,18 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                init();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                init();
+//                swipeRefreshLayout.setRefreshing(false);
+//            }
+//        });
     }
 
     private void init() {
         questionList = getQuestions();
-        adapter = new QuestionAdapter(this, questionList);
+        adapter = new QuestionAdapter(HelpActivity.this, questionList);
         recyclerView.setAdapter(adapter);
 
     }
