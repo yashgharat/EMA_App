@@ -43,8 +43,15 @@ public class ThoughtEntryAdapter extends RecyclerView.Adapter<ThoughtEntryAdapte
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.screenshotCount.setText(String.valueOf(entry.getScreenshotCount()));
-        holder.screenshotLabel.setText(entry.getScreenshotLabel());
+        if(entry.getScreenshotCount() > 0) {
+            holder.screenshotLabel.setText("Includes screenshot");
+            holder.screenshotLabel.setTextColor(context.getColor(R.color.secondary));
+        }
+        else
+        {
+            holder.screenshotLabel.setText("No screenshot");
+            holder.screenshotLabel.setTextColor(context.getColor(R.color.apparent));
+        }
     }
 
     @Override
@@ -60,7 +67,6 @@ public class ThoughtEntryAdapter extends RecyclerView.Adapter<ThoughtEntryAdapte
             super(itemView);
 
             time = itemView.findViewById(R.id.thoughts_time);
-            screenshotCount= itemView.findViewById(R.id.screenshot_count);
             screenshotLabel = itemView.findViewById(R.id.screenshot_label);
         }
     }

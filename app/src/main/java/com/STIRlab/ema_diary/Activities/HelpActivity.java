@@ -10,46 +10,40 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.STIRlab.ema_diary.Helpers.Question;
+import com.STIRlab.ema_diary.Helpers.QuestionAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HelpActivity extends AppCompatActivity {
 
-    private CardView Q1;
     private CardView cardHotline;
 
-    private TextView Q1Ans;
-
     private FloatingActionButton ret;
+
+    private QuestionAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<Question> questionList;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        Q1 = findViewById(R.id.cardQ1);
         cardHotline = findViewById(R.id.cardHotline);
 
         ret = findViewById(R.id.helpPrevious);
 
-        Q1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ImageView iv = findViewById(R.id.q1Arrow);
-                TextView ans = findViewById(R.id.q1Answer);
+        recyclerView = findViewById(R.id.faq_recycler);
 
-                if(ans.getVisibility() == View.GONE){
-                    iv.setImageResource(R.drawable.ic_keyboard_arrow_up_blue_30dp);
-                    ans.setVisibility(View.VISIBLE);
-                }
-                else{
-                    iv.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                    ans.setVisibility(View.GONE);
-                }
-
-            }
-        });
+        init();
 
         cardHotline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,5 +61,31 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                init();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void init() {
+        questionList = getQuestions();
+        adapter = new QuestionAdapter(this, questionList);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    private ArrayList<Question> getQuestions() {
+        ArrayList<Question> list = new ArrayList<Question>();
+
+        String questions[] = HelpActivity.this.getResources().getStringArray(R.array.question_array);
+        String answers[] = HelpActivity.this.getResources().getStringArray(R.array.ans_array);
+
+        for (int i = 0; i < questions.length; i++) {
+            list.add(new Question(questions[i], answers[i]));
+        }
+        return list;
     }
 }

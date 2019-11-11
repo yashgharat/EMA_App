@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="question_array">
+        <item name="q1">When should I submit my journal entry? </item>
+        <item name="q2">When should I use the Share My Thoughts feature? </item>
+        <item name="q3">How will I be compensated? </item>
+        <item name="q4">When and how will I receive my earnings? </item>
+        <item name="q5">How do I know when the study is finished? </item>
+        <item name="q6">How do I keep my streak going? </item>
+        <item name="q7">What data does the app collect? </item>
+        <item name="q8">How is my data protected/secured? </item>
+        <item name="q9">Who do I contact if I have an issue with the study or the app? </item>
+    </string-array>
+</resources>
