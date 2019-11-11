@@ -42,28 +42,6 @@ public class RDS_Connect {
     //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete_surveys":0,"earnings":0,"survey_status":"closed"}
 
 
-//          "surveys": [
-//    {
-//        "survey_id": 48,
-//            "opened_on": "2019-11-09T19:00:00.000Z",
-//            "submitted_at": "2019-11-10T03:13:04.000Z",
-//            "earnings_so_far": 1.5,
-//            "isComplete": true,
-//            "earnings_added": 1.5
-//    },
-//    {
-//        "survey_id": 44,
-//            "opened_on": "2019-11-08T19:00:00.000Z",
-//            "submitted_at": null,
-//            "earnings_so_far": 0,
-//            "isComplete": false,
-//            "earnings_added": 0
-//    }
-//      ],
-//              "num_completed": 1,
-//              "num_missed": 1
-//}
-
     public RDS_Connect(){
         client = new OkHttpClient();
     }
@@ -245,6 +223,8 @@ public class RDS_Connect {
         ArrayList<ThoughtEntry> returnHistory = new ArrayList<ThoughtEntry>();
         JSONObject obj = getThoughtsHistory(userid);
         JSONArray array = obj.getJSONArray("thoughts");
+
+        Log.i(TAG, array.toString(2));
 
         for(int i = 0; i < array.length(); i++){
             JSONObject tempObj = array.getJSONObject(i);

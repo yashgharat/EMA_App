@@ -55,6 +55,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
         missedCount = findViewById(R.id.missedCount);
         completeCount = findViewById(R.id.completedCount);
+
         swipeRefreshLayout = findViewById(R.id.journal_swipe);
 
         recyclerView = findViewById(R.id.recyclerJournal);
