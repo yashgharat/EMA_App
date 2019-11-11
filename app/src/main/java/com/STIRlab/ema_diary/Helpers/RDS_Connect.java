@@ -306,7 +306,7 @@ public class RDS_Connect {
                                 if(response.isSuccessful()){
                                     String responseStr = response.body().string();
                                     returnStr = responseStr;
-                                    Log.i(TAG, "here" + returnStr);
+                                    Log.i(TAG, "success");
                                 }
                                 else{
                                     Log.e(TAG, "in PUT Call: " + response.toString());
