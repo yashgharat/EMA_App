@@ -27,7 +27,6 @@
         android:textSize="17sp"
         android:drawablePadding="5dp"
         android:drawableLeft="@drawable/ic_check_black_24dp"
-        android:drawableTint="@color/secondary"
         android:layout_marginTop="10dp"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="15dp"

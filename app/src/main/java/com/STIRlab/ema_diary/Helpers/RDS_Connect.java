@@ -208,6 +208,8 @@ public class RDS_Connect {
         ArrayList<JournalEntry> returnHistory = new ArrayList<JournalEntry>();
         JSONObject obj = getJournalHistory(userid);
         JSONArray array = obj.getJSONArray("surveys");
+        Log.i(TAG, array.toString(2));
+
 
         for(int i = 0; i < array.length(); i++){
             JSONObject tempObj = array.getJSONObject(i);
@@ -215,9 +217,13 @@ public class RDS_Connect {
             String id = tempObj.getString("survey_id");
             String openTime = tempObj.getString("opened_on");
             String submitTime = tempObj.getString("submitted_at");
-            int earnings = tempObj.getInt("earnings_so_far");
-            Boolean isComplete = tempObj.getBoolean("isComplete");
-            int increment = tempObj.getInt("earnings_added");
+            double initEarnings = tempObj.getDouble("earnings_so_far");
+            String earnings = formatDecimal((float)initEarnings).replaceAll("^\\s+","");
+
+            boolean isComplete = tempObj.getBoolean("isComplete");
+            double initIncrement = tempObj.getDouble("earnings_added");
+            String increment = formatDecimal((float)initIncrement).replaceAll("^\\s+","");
+
 
 
             JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, isComplete,
@@ -226,7 +232,7 @@ public class RDS_Connect {
             returnHistory.add(tempEntry);
         }
 
-        
+
         return returnHistory;
     }
 

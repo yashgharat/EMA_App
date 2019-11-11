@@ -1,18 +1,24 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.content.Context;
+import android.text.format.DateUtils;
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class JournalEntry {
+    private final String TAG = "JOURNAL_ENTRY";
 
     private String submitTime, formattedTime, openTime, surveyId;
-    private Boolean complete;
-    private int totalEarnings, incrementEarnings;
+    private boolean complete;
+    private String totalEarnings, incrementEarnings;
 
-    public JournalEntry(String surveyId, String openTime, String submitTime, Boolean complete, int totalEarnings, int incrementEarnings)
+    public JournalEntry(String surveyId, String openTime, String submitTime, boolean complete, String totalEarnings, String incrementEarnings)
     {
         this.surveyId = surveyId;
         this.openTime = openTime;
@@ -27,31 +33,55 @@ public class JournalEntry {
         return surveyId;
     }
 
-    public String getFormattedTime() throws ParseException {
+    public String getFormattedTime(Context context) throws ParseException {
         Date mParsedDate;
-        String mOutputDateString;
-
+        SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
+        InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+        if (complete)
+        {
+            mParsedDate = InputDateFormat.parse(submitTime);
+//            InputDateFormat.setTimeZone(TimeZone.getDefault());
+//            String temp = InputDateFormat.format(mParsedDate);
 
-        SimpleDateFormat mInputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", java.util.Locale.getDefault());
-        SimpleDateFormat mOutputDateFormat = new SimpleDateFormat("EEEE at HH:mm a", java.util.Locale.getDefault());
+            formattedTime = DateUtils.getRelativeDateTimeString(context, mParsedDate.getTime(),
+                    DateUtils.MINUTE_IN_MILLIS,
+                    DateUtils.WEEK_IN_MILLIS,
+                    DateUtils.FORMAT_SHOW_WEEKDAY
+                            | DateUtils.FORMAT_CAP_AMPM
+                            | DateUtils.FORMAT_CAP_MIDNIGHT).toString();
 
-        mParsedDate = mInputDateFormat.parse(submitTime);
-        mOutputDateString = mOutputDateFormat.format(mParsedDate);
+            formattedTime = formattedTime.replace(", ", " at ");
+        }
+        else
+        {
+            mParsedDate = InputDateFormat.parse(openTime);
+
+            long now = System.currentTimeMillis();
+
+            formattedTime = DateUtils.getRelativeTimeSpanString(mParsedDate.getTime(), now, DateUtils.DAY_IN_MILLIS,
+                    DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_CAP_AMPM).toString();
+
+            formattedTime += " by Midnight";
+
+
+        }
 
         return formattedTime;
     }
 
-    public Boolean isComplete(){
+    public boolean isComplete(){
+
         return complete;
     }
 
-    public int gettotalEarnings()
+    public String gettotalEarnings()
     {
         return totalEarnings;
     }
 
-    public int getIncrementEarnings(){ return incrementEarnings; }
+    public String getIncrementEarnings(){ return incrementEarnings; }
 
     public String getOpenTime() { return openTime; }
+
 }
