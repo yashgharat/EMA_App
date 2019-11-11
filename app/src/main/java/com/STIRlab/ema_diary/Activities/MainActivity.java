@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardThoughts;
 
     private LinearLayout layoutJournal;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private CognitoSettings cognitoSettings;
     private CognitoUserPool pool;
@@ -110,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         earnings = findViewById(R.id.earnings);
         numSurveys = findViewById(R.id.numSurveys);
         streakCnt = findViewById(R.id.streakCnt);
+
+        swipeRefreshLayout = findViewById(R.id.main_swipe);
 
 
         if (SP.getBoolean("virgin", true)) {
