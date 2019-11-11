@@ -34,17 +34,17 @@ public class JournalEntry {
     }
 
     public String getFormattedTime(Context context) throws ParseException {
-        Date mParsedDate;
+        Date ParsedDate;
         SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
         if (complete)
         {
-            mParsedDate = InputDateFormat.parse(submitTime);
+            ParsedDate = InputDateFormat.parse(submitTime);
 //            InputDateFormat.setTimeZone(TimeZone.getDefault());
-//            String temp = InputDateFormat.format(mParsedDate);
+//            String temp = InputDateFormat.format(ParsedDate);
 
-            formattedTime = DateUtils.getRelativeDateTimeString(context, mParsedDate.getTime(),
+            formattedTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
                     DateUtils.MINUTE_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
                     DateUtils.FORMAT_SHOW_WEEKDAY
@@ -55,11 +55,11 @@ public class JournalEntry {
         }
         else
         {
-            mParsedDate = InputDateFormat.parse(openTime);
+            ParsedDate = InputDateFormat.parse(openTime);
 
             long now = System.currentTimeMillis();
 
-            formattedTime = DateUtils.getRelativeTimeSpanString(mParsedDate.getTime(), now, DateUtils.DAY_IN_MILLIS,
+            formattedTime = DateUtils.getRelativeTimeSpanString(ParsedDate.getTime(), now, DateUtils.DAY_IN_MILLIS,
                     DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_CAP_AMPM).toString();
 
             formattedTime += " by Midnight";

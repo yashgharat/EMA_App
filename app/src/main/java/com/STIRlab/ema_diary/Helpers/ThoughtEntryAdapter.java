@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.STIRlab.ema_diary.R;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class ThoughtEntryAdapter extends RecyclerView.Adapter<ThoughtEntryAdapter.ThoughtEntryViewHolder> {
@@ -37,14 +38,18 @@ public class ThoughtEntryAdapter extends RecyclerView.Adapter<ThoughtEntryAdapte
         ThoughtEntry entry = history.get(position);
 
         //binding the data with the viewholder views
-        holder.time.setText(entry.getFormattedTime());
+        try {
+            holder.time.setText(entry.getFormattedTime(context));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         holder.screenshotCount.setText(String.valueOf(entry.getScreenshotCount()));
-        holder.screenshotLabel.setText(String.valueOf(entry.getScreenshotLabel()));
+        holder.screenshotLabel.setText(entry.getScreenshotLabel());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return history.size();
     }
 
     class ThoughtEntryViewHolder extends RecyclerView.ViewHolder {
