@@ -17,10 +17,11 @@ public class ScrapeDataHelper {
 
     final ScrapeDataHelper.app[] appArray = new ScrapeDataHelper.app[500];
 
-
     private SharedPreferences SP;
 
     int appSize = 0;
+
+    private long totalScreentime;
 
     public static class app{
         public String appName, packageName, time;
@@ -43,34 +44,27 @@ public class ScrapeDataHelper {
 
 
         final PackageManager packageManager = context.getPackageManager();
-        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        //Making a list of all the apps
-        final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
+
+        final List<ApplicationInfo> apps = packageManager.getInstalledApplications(0);
 
         int j = 0;
-        //Looping through all the apps to retrieve info
+        for(ApplicationInfo app : apps) {
+            appArray[j].appName = app.loadLabel(packageManager).toString();
+            appArray[j].packageName = app.packageName;
 
-        for (ResolveInfo info : apps) {
-            appSize = apps.size();
-
-            final ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
-            final String appName = (String) applicationInfo.loadLabel(packageManager);
-            final String packageName = applicationInfo.packageName;
-            final String time = String.valueOf(UsageStatsHelper.getPackageUsage(packageName,context));
-
-            appArray[j].appName = appName;
-            appArray[j].packageName = packageName;
+            String time = String.valueOf(UsageStatsHelper.getPackageUsage(appArray[j].packageName,context));
             appArray[j].time = time;
 
+            totalScreentime += Long.parseLong(time);
             j++;
         }
-        SP.edit().putString("username", "07b0d8ac-d86c-456f-8718-a0b86a8d0106");
+
+
         String username = SP.getString("username", null);
 
         //This is to make sure no app is duplicated in the database
         //Calling a function to save the collected permissions in a database
-        BackgroundWorker backgroundWorker = new BackgroundWorker(context, appArray, String.valueOf(screenTime), j, username);
+        BackgroundWorker backgroundWorker = new BackgroundWorker(context, appArray, String.valueOf(totalScreentime), j, username);
         backgroundWorker.execute();
         return true;
     }

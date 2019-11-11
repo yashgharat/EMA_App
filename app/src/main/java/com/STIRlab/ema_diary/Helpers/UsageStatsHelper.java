@@ -26,7 +26,7 @@ public class UsageStatsHelper {
 
         if(stat == null)
         {
-            return -1;
+            return 0;
         }
         else
             return stat.getTotalTimeInForeground();

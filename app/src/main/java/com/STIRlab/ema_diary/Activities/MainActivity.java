@@ -79,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
         pool = cognitoSettings.getUserPool();
         cognitoSettings.refreshSession(SP);
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        ScreenTimeReceiver screenTimeReceiver = new ScreenTimeReceiver();
-        registerReceiver(screenTimeReceiver, filter);
+//        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+//        filter.addAction(Intent.ACTION_SCREEN_OFF);
+//        ScreenTimeReceiver screenTimeReceiver = new ScreenTimeReceiver();
+//        registerReceiver(screenTimeReceiver, filter);
 
         client = new RDS_Connect();
         try {
@@ -156,6 +156,8 @@ public class MainActivity extends AppCompatActivity {
         String status = client.getSurveyStatus(username, email);
         TextView cardTitle = findViewById(R.id.titleJournal);
         TextView cardMsg = findViewById(R.id.msgJournal);
+
+
 
         if(status.equals("closed"))
         {
