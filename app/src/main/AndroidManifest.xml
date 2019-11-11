@@ -40,18 +40,7 @@
         <activity android:name=".Activities.newPassword" />
         <activity
             android:name=".Activities.ManifestActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="survey-complete"
-                    android:scheme="ema-diary-study" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,8 +54,18 @@
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true"
-            android:label="@string/app_name" />
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="survey-complete"
+                    android:scheme="ema-diary-study" />
+            </intent-filter>
+        </activity>
         <receiver
             android:name=".Helpers.NotifyPublisher"
             android:enabled="true"
