@@ -29,7 +29,7 @@
         android:layout_marginRight="11dp"
         android:textColor="@color/darkProminent"
         android:textSize="23dp"
-        android:text="Thank you for participating. All 30 days have passed, and your participation has come to an end.\n\nPlease take the following post-survey to help us understand your experience and hear your feedback.\n\nYou’ll then receive an email from us going over the next steps." />
+        android:text="Thank you for participating. All 30 days have passed, and your participation is coming to an end.\n\nPlease take the following post-survey to help us understand your experience and hear your feedback.\n\nYou’ll then receive an email from us going over the next steps." />
 
     <Button
         android:id="@+id/btnPost"

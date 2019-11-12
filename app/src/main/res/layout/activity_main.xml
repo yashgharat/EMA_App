@@ -42,10 +42,11 @@
                     android:text="$00.00"
                     android:textColor="@color/secondary"
                     android:textSize="18dp"
-                    app:layout_constraintRight_toRightOf="@id/constraint"
+                    app:layout_constraintLeft_toLeftOf="@id/earned_label"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/earned_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="30dp"
@@ -53,7 +54,9 @@
                     android:textColor="@color/disabled"
                     android:textSize="15dp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/earnings" />
+                    app:layout_constraintTop_toBottomOf="@+id/earnings"
+                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:drawableTint="@color/disabled"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ProgressBar
