@@ -157,6 +157,13 @@ public class MainActivity extends AppCompatActivity {
         streakCnt.setText(client.getStreak(username,email));
 
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                client.getSurveyStatus(username, email);
+            }
+        });
+
         String status = client.getSurveyStatus(username, email);
         TextView cardTitle = findViewById(R.id.titleJournal);
         TextView cardMsg = findViewById(R.id.msgJournal);
