@@ -83,7 +83,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
     private void init(){
         try {
             history = client.getJournalEntries(userId);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         adapter = new JournalEntryAdapter(JournalHistoryActivity.this, history);
@@ -91,7 +91,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
         try {
             completeCount.setText(String.valueOf(client.getNumCompleted(userId)));
             missedCount.setText(String.valueOf(client.getNumMissed(userId)));
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
