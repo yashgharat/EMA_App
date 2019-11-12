@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class PinActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private String localPin;
+    private AlertDialog userDialog;
     private TextView title;
     private CognitoSettings cognitoSettings;
 
@@ -51,9 +53,10 @@ public class PinActivity extends AppCompatActivity {
 
 
         CirclePinField inputPin = findViewById(R.id.pinField);
+        inputPin.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(inputPin, InputMethodManager.SHOW_IMPLICIT);
-        inputPin.didTouchFocusSelect();
+        imm.showSoftInput(inputPin, InputMethodManager.SHOW_FORCED);
 
         inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
@@ -64,17 +67,32 @@ public class PinActivity extends AppCompatActivity {
                     startActivity(main);
 
                 } else {
-                    new AlertDialog.Builder(PinActivity.this, R.style.AlertDialogStyle)
-                            .setTitle("Error")
-                            .setMessage("Pin not recognized")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .show();
+                    showDialogMessage("Alert", "Pin not recognized", false);
                 }
                 return false;
             }
         });
     }
+
+    private void showDialogMessage(String title, String body, final boolean exitActivity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                    if (exitActivity) {
+                        onBackPressed();
+                    }
+                } catch (Exception e) {
+                    onBackPressed();
+                }
+            }
+        });
+        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        userDialog = builder.create();
+        userDialog.show();
+
+    }
+
 }

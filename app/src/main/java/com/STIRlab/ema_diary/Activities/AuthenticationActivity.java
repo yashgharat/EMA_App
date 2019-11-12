@@ -174,25 +174,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
                 if (isConnected) {
-                    new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
-                            .setTitle("Error")
-                            .setMessage("Email and/or password is incorrect")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Continue with delete operation
-                                }
-                            })
-                            .show();
+                    showDialogMessage("Error", "Email and/or password is incorrect", false);
                 } else {
-                    new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
-                            .setTitle("Error")
-                            .setMessage("Not connected to the internet")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Continue with delete operation
-                                }
-                            })
-                            .show();
+                    showDialogMessage("Error", "Not connected to the internet", false);
                 }
             }
         };
@@ -217,15 +201,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                     thisUser.getSessionInBackground(authenticationHandler);
                 } else {
-                    new AlertDialog.Builder(AuthenticationActivity.this, R.style.AlertDialogStyle)
-                            .setTitle("Error")
-                            .setMessage("Please enter email and password")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Continue with delete operation
-                                }
-                            })
-                            .show();
+                    showDialogMessage("Error", "Please enter email and password", false);
                 }
             }
         });
@@ -338,4 +314,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         userDialog.show();
 
     }
+
+
 }

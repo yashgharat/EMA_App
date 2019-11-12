@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +24,7 @@ public class createPinActivity extends AppCompatActivity {
     private CirclePinField inPin;
     private SharedPreferences SP;
     private TextView title;
+    private AlertDialog userDialog;
     private SharedPreferences.Editor editor;
 
     @Override
@@ -37,6 +40,12 @@ public class createPinActivity extends AppCompatActivity {
         title.setText(SP.getString("pinTitle", "NULL"));
 
         inPin = findViewById(R.id.pinField);
+        inPin.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(inPin, InputMethodManager.SHOW_IMPLICIT);
+        imm.showSoftInput(inPin, InputMethodManager.SHOW_FORCED);
+
+
         inPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
             public boolean onTextComplete(@NotNull String str) {
@@ -69,18 +78,32 @@ public class createPinActivity extends AppCompatActivity {
                 this.startActivity(intent);
 
             } else {
-                new AlertDialog.Builder(createPinActivity.this, R.style.AlertDialogStyle)
-                        .setTitle("Error")
-                        .setMessage("Pins do not match up")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .show();
+                showDialogMessage("Error", "Pins are different", false);
                 inPin.setText(null);
                 Log.i("pinFail", "didnt work");
             }
 
         }
+    }
+
+    private void showDialogMessage(String title, String body, final boolean exitActivity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                    if (exitActivity) {
+                        onBackPressed();
+                    }
+                } catch (Exception e) {
+                    onBackPressed();
+                }
+            }
+        });
+        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        userDialog = builder.create();
+        userDialog.show();
+
     }
 }
