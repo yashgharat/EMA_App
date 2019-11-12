@@ -19,9 +19,10 @@
     <string name="first_time">First time?</string>
     <string name="localPin" />
     <string name="agreement_p1">Thank you for agreeing to participate in 30 Days. Please grant access to device data and usage below.</string>
-    <string name="agreement_p2">We know that privacy is a big deal, so your personal information will be kept confidential and will only be shared with the research team.</string>
+    <string name="agreement_p2">We know that privacy is a big deal, so your personal information will be protected using advanced encryption and anonymized.</string>
     <string name="moreInfo_p1">The following types of data will be collected in order to better understand social media usage and online privacy:</string>
-    <string name="moreInfo_p2">• Time spent using the device\n• Time spent using each app\n• Which apps are installed</string>
+    <string name="moreInfo_p2">• Which apps are installed\n• Time spent using the device\n• Time spent using each app</string>
     <string name="dealAnswer">The deal has to do with: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. In pellentesque massa placerat duis ultricies lacus. Sit amet massa vitae tortor condimentum lacinia. Nisl vel pretium lectus quam id. Fermentum dui faucibus in ornare quam viverra. Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Varius sit amet mattis vulputate. Non sodales neque sodales ut etiam sit amet nisl. Et malesuada fames ac turpis egestas sed tempus urna et. Quisque egestas diam in arcu cursus euismod quis. Dignissim diam quis enim lobortis scelerisque.\n</string>
     <string name="interaction">Tell us about an interaction you had with someone online today</string>
+    <string name="earned">You earn $1.50 for each journal entry submitted.\n\nAdditionally, the study is broken up into 6 periods of 5 days each, and if you submit a journal entry for each of the 5 days within a period, you will receive a $10 bonus.\n\nFor example, if you submit the first 5 journal entries in a row, you will receive a $10 bonus after the 5th entry. Or, if you submit the 6th through the 10th journal entries, you will receive a $10 bonus after the 10th entry.\n\nSince there are 6 of these periods, you can earn up to $60 in bonuses. This means you can earn up to $105 from submitting journal entries.</string>
 </resources>

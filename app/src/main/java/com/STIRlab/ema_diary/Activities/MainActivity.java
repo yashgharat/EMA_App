@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -27,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
@@ -49,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
+    private AlertDialog userDialog;
 
-    private TextView viewHistory_1, viewHistory_2, studyCounter, earnings, numSurveys, streakCnt;
+    private TextView viewHistory_1, viewHistory_2, studyCounter;
+    private TextView earnings, numSurveys, streakCnt, earnedLabel;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         earnings = findViewById(R.id.earnings);
         numSurveys = findViewById(R.id.numSurveys);
         streakCnt = findViewById(R.id.streakCnt);
+        earnedLabel = findViewById(R.id.earned_label);
 
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
@@ -220,6 +225,13 @@ public class MainActivity extends AppCompatActivity {
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.apparent)));
         }
+
+        earnedLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialogMessage("Earnings", getString(R.string.earned), false);
+            }
+        });
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -366,6 +378,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+
+    }
+
+    private void showDialogMessage(String title, String body, final boolean exitActivity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    userDialog.dismiss();
+                    if (exitActivity) {
+                        onBackPressed();
+                    }
+                } catch (Exception e) {
+                    onBackPressed();
+                }
+            }
+        });
+
+        userDialog = builder.create();
+        userDialog.show();
 
     }
 
