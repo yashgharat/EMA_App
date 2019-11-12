@@ -72,7 +72,7 @@ public class ThoughtsHistoryActivity extends AppCompatActivity {
     private void init(){
         try {
             history = client.getThoughtEntries(userId);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -36,7 +37,7 @@ public class RDS_Connect {
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // baseURL
-    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
+    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
 
     //{"user_id":"90621533-45ad-413d-bda7-aafc0bc0071f","email":"easymoney@dmailpro.net",
     //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete_surveys":0,"earnings":0,"survey_status":"closed"}
@@ -49,8 +50,9 @@ public class RDS_Connect {
 
     public String getUser(String userid, String email) throws Exception {
 
-        while(returnStr == null) {
-            String url = baseURL + "user?id=" + beginQuote +
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+        String url = baseURL + "user?id=" + beginQuote +
                     encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
 
             getRequestHelper(url, new Callback() {
@@ -62,16 +64,19 @@ public class RDS_Connect {
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
+                        countDownLatch.countDown();
                         String responseStr = response.body().string();
                         returnStr = responseStr;
                     } else {
+                        countDownLatch.countDown();
                         Log.e(TAG, call.toString());
                         Log.e(TAG, "request not successful");
                         Log.e(TAG, url);
                     }
                 }
             });
-        }
+
+            countDownLatch.await();
 
         return returnStr;
 
@@ -135,15 +140,16 @@ public class RDS_Connect {
         return null;
     }
 
-    public String parseHistory(String userid, String historyType) throws JSONException {
+    public String parseHistory(String userid, String historyType) throws Exception {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
-        while(returnStr == null) {
+        CountDownLatch countDownLatch = new CountDownLatch(1);
 
-            getRequestHelper(url, new Callback() {
+        getRequestHelper(url, new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Log.e(TAG, "call failed: " + e.toString());
+                    countDownLatch.countDown();
                 }
 
                 @Override
@@ -151,38 +157,40 @@ public class RDS_Connect {
                     if (response.isSuccessful()) {
                         String responseStr = response.body().string();
                         returnStr = responseStr;
+                        countDownLatch.countDown();
                     } else {
                         Log.e(TAG, call.toString());
                         Log.e(TAG, "request not successful");
                         Log.e(TAG, url);
+                        countDownLatch.countDown();
                     }
                 }
             });
 
-        }
+        countDownLatch.await();
 
         return returnStr;
     }
 
-    private JSONObject getJournalHistory(String user_id) throws JSONException {
+    private JSONObject getJournalHistory(String user_id) throws Exception {
         JSONObject obj = new JSONObject(parseHistory(user_id, "survey"));
 
         return obj;
     }
 
-    public int getNumCompleted(String userid) throws JSONException {
+    public int getNumCompleted(String userid) throws Exception {
         JSONObject obj = getJournalHistory(userid);
 
         return  obj.getInt("num_completed");
     }
 
-    public int getNumMissed(String userid) throws JSONException {
+    public int getNumMissed(String userid) throws Exception {
         JSONObject obj = getJournalHistory(userid);
 
         return  obj.getInt("num_missed");
     }
 
-    public ArrayList<JournalEntry> getJournalEntries(String userid) throws JSONException {
+    public ArrayList<JournalEntry> getJournalEntries(String userid) throws Exception {
         ArrayList<JournalEntry> returnHistory = new ArrayList<JournalEntry>();
         JSONObject obj = getJournalHistory(userid);
         JSONArray array = obj.getJSONArray("surveys");
@@ -214,12 +222,12 @@ public class RDS_Connect {
         return returnHistory;
     }
 
-    private JSONObject getThoughtsHistory(String user_id) throws JSONException {
+    private JSONObject getThoughtsHistory(String user_id) throws Exception {
         JSONObject obj = new JSONObject(parseHistory(user_id, "thoughts"));
         return obj;
     }
 
-    public ArrayList<ThoughtEntry> getThoughtEntries(String userid) throws JSONException {
+    public ArrayList<ThoughtEntry> getThoughtEntries(String userid) throws Exception {
         ArrayList<ThoughtEntry> returnHistory = new ArrayList<ThoughtEntry>();
         JSONObject obj = getThoughtsHistory(userid);
         JSONArray array = obj.getJSONArray("thoughts");
