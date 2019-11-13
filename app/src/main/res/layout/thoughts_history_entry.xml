@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/darkForeground">
+    android:background="@color/apparent">
 
     <TextView
         android:id="@+id/thoughts_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Monday at 10 PM"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="17sp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="Includes screenshot"
         android:textSize="15sp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:padding="2dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
@@ -34,7 +34,7 @@
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/darkProminent"
+        android:background="@color/prominent"
         android:layout_marginTop="15dp"
         app:layout_constraintTop_toBottomOf="@id/screenshot_label"
         app:layout_constraintLeft_toLeftOf="parent"/>

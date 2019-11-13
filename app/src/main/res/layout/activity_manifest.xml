@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBackground"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".Activities.ManifestActivity">
 
@@ -16,7 +16,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="50dp"
         android:text="Data Usage"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="34sp"
         android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="11dp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="18sp"
         android:text="@string/agreement_p1" />
 
@@ -38,7 +38,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="80dp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="18sp"
         android:text="@string/agreement_p2" />
 
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/darkForeground"
+        android:textColor="@color/apparent"
         android:textSize="18dp"
         android:text="Grant Access" />
 

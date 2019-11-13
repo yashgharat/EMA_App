@@ -43,7 +43,7 @@
                     android:layout_marginEnd="18dp"
                     android:layout_marginTop="10dp"
                     android:text="NULL"
-                    android:textColor="@color/darkProminent"
+                    android:textColor="@color/prominent"
                     android:textSize="17sp"/>
 
             </LinearLayout>
@@ -57,7 +57,7 @@
                 android:layout_marginBottom="15dp"
                 android:paddingBottom="5dp"
                 android:text="ZIP"
-                android:textColor="@color/darkProminent"
+                android:textColor="@color/prominent"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/faq_layout" />

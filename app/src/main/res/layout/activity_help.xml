@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkForeground"
+    android:background="@color/apparent"
     android:orientation="vertical"
     tools:context=".Activities.HelpActivity">
 
@@ -29,7 +29,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginBottom="30dp"
         android:text="Help Center"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                 android:layout_marginEnd="11dp"
                 android:layout_marginBottom="30dp"
                 android:text="Frequently Asked Questions"
-                android:textColor="@color/darkProminent"
+                android:textColor="@color/prominent"
                 android:textSize="23sp" />`
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -72,7 +72,7 @@
                 android:layout_marginEnd="11dp"
                 android:layout_marginBottom="30dp"
                 android:text="Get Support"
-                android:textColor="@color/darkProminent"
+                android:textColor="@color/prominent"
                 android:textSize="23sp" />
 
             <androidx.cardview.widget.CardView
@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="Call Sexual Assault Hotline"
-                            android:textColor="@color/darkProminent"
+                            android:textColor="@color/prominent"
                             android:textSize="17sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +114,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="Confidential help is available and free"
-                            android:textColor="@color/darkProminent"
+                            android:textColor="@color/prominent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleHotline" />
@@ -160,7 +160,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="Contact the Team"
-                            android:textColor="@color/darkProminent"
+                            android:textColor="@color/prominent"
                             android:textSize="17sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -172,7 +172,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="For research questions or support"
-                            android:textColor="@color/darkProminent"
+                            android:textColor="@color/prominent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleTCS" />

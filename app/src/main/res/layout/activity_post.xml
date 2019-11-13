@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/darkBackground"
+    android:background="@color/background"
     tools:context=".Activities.PostActivity">
 
     <TextView
@@ -16,7 +16,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="50dp"
         android:text="30 Days Complete"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="40dp"
         android:textStyle="bold" />
 
@@ -27,7 +27,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="11dp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="23dp"
         android:text="Thank you for participating. All 30 days have passed, and your participation is coming to an end.\n\nPlease take the following post-survey to help us understand your experience and hear your feedback.\n\nYou’ll then receive an email from us going over the next steps." />
 
@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@drawable/ripple_effect"
         android:text="Take Post-Survey"
-        android:textColor="@color/darkBackground"
+        android:textColor="@color/background"
         android:textSize="18dp" />
 
 </LinearLayout>

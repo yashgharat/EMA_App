@@ -14,14 +14,6 @@
     <color name="unapparent">#F0F0F5</color>
     <color name="background">#FAFAFC</color>
 
-<!--dark-->
-    <color name="darkForeground">#2F3032</color>
-    <color name="darkBackground">#1F1F1F</color>
-    <color name="darkProminent">#F0F0F5</color>
-
-<!--Transparent-->
-    <color name="transparent">#80000000</color>
-
 </resources>
 
 
