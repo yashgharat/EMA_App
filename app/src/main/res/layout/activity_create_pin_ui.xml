@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBackground"
+    android:background="@color/background"
     tools:context=".Activities.createPinUIActivity">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Secure Lock"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:layout_marginTop="150dp"
         android:layout_marginStart="70dp"
@@ -27,7 +27,7 @@
         android:layout_marginTop="25dp"
         android:text="Set a 4-digit passcode to lock 30 Days"
         android:textSize="17sp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/secureLockTitle"/>
 
@@ -37,7 +37,7 @@
         android:layout_height="42dp"
         android:text="Use Secure Lock"
         android:background="@color/primary"
-        android:textColor="@color/darkForeground"
+        android:textColor="@color/apparent"
         android:layout_marginTop="75dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

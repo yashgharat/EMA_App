@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkForeground"
+    android:background="@color/apparent"
     tools:context=".Activities.ThoughtsHistoryActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="Thought History"
         android:textSize="39sp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:layout_marginTop="37dp"
         android:layout_marginStart="30dp"
         android:paddingBottom="30dp"

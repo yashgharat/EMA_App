@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkBackground"
+    android:background="@color/background"
     tools:context=".Activities.TutorialActivity">
 
     <TextView
@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="100dp"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:text="Please allow access to app settings"
         android:textSize="25sp"
         android:gravity="center"/>
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="This allows 30 Days to gather the data it needs"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="16sp"
         android:gravity="center"
         android:layout_marginTop="25dp"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1. Select 30 Days\n2. Click &quot;Permit usage access&quot;\n3. Return here and hit next"
-        android:textColor="@color/darkProminent"
+        android:textColor="@color/prominent"
         android:textSize="16sp"
         android:gravity="center"
         android:layout_marginTop="30dp"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:text="OK"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/darkBackground"
+        android:textColor="@color/background"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginBottom="300dp"
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:text="Next"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/darkBackground"
+        android:textColor="@color/background"
         android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
