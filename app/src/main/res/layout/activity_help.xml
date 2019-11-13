@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/apparent"
+    android:background="@color/themeBackground"
     android:orientation="vertical"
     tools:context=".Activities.HelpActivity">
 
@@ -18,7 +18,7 @@
         android:scaleType="fitCenter"
         android:scaleX="1"
         android:scaleY="1"
-        app:backgroundTint="@color/transparent"
+        app:backgroundTint="@color/unapparent"
         app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
     <TextView

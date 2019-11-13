@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/themeBackground"
     tools:context=".Activities.PostActivity">
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_gravity="center"
         android:background="@drawable/ripple_effect"
         android:text="Take Post-Survey"
-        android:textColor="@color/background"
+        android:textColor="@color/themeBackground"
         android:textSize="18dp" />
 
 </LinearLayout>
