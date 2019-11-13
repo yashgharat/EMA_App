@@ -2,6 +2,8 @@ package com.STIRlab.ema_diary.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
 import android.app.TimePickerDialog;
@@ -12,20 +14,27 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.SwitchTheme;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private final String TAG = "SETTINGS";
 
     private CardView setTime, newPin;
-    private TextView back, signOut;
+    private TextView signOut;
+    private FloatingActionButton previous;
+    private SwitchCompat switchCompat;
+
     private LinearLayout layout;
 
     private CognitoSettings cognitoSettings;
@@ -42,8 +51,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         setTime = findViewById(R.id.timePick);
         newPin = findViewById(R.id.SecureLock);
-        back = findViewById(R.id.finishSettings);
+        previous = findViewById(R.id.settingsPrevious);
         signOut = findViewById(R.id.linkSignOut);
+        switchCompat = findViewById(R.id.switchTheme);
         layout = findViewById(R.id.settingsLayout);
 
         setTime.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
+        previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -105,6 +115,31 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            switchCompat.setChecked(true);
+
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SwitchTheme.getInstance(SettingsActivity.this).setIsDark(true);
+                    Intent intent = getIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    startActivity(intent);
+
+                } else {
+                    SwitchTheme.getInstance(SettingsActivity.this).setIsDark(false);
+                    Intent intent = getIntent();
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    finish();
+                    startActivity(intent);
+                }
+
+
+            }
+        });
 
     }
 

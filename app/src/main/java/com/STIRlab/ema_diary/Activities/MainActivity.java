@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setText("Available from 2PM to midnight");
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.apparent)));
+                    new ColorDrawable(getResources().getColor(R.color.themeBackground)));
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.apparent)));
+                    new ColorDrawable(getResources().getColor(R.color.themeBackground)));
         }
 
         earnedLabel.setOnClickListener(new View.OnClickListener() {

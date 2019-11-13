@@ -9,8 +9,10 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.SwitchTheme;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
@@ -32,6 +34,11 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        if(SwitchTheme.getInstance(SplashScreen.this).isDark())
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        else
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         SP = getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         localPin = SP.getString("Pin", "null");
