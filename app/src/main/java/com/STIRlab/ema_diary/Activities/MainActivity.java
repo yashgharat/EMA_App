@@ -137,8 +137,6 @@ public class MainActivity extends AppCompatActivity {
             client.startStudy(username);
         }
 
-
-
         SP.edit().putBoolean("Remember", true).apply();
 
         try {
