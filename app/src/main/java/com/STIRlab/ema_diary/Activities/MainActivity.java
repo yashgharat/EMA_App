@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -132,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.i("VIRGIN: ", "HERE");
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
+
+            client.startStudy(username);
         }
 
 
@@ -144,10 +147,14 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, CognitoSettings.formatException(e));
         }
 
-        if(Integer.parseInt(client.getDaysLeft(username, email)) < 1)
-        {
-            Intent post = new Intent(this, PostActivity.class);
-            startActivity(post);
+        try {
+            if(!client.finishedPost(username, email).equals("null"))
+            {
+                Intent post = new Intent(this, PostActivity.class);
+                startActivity(post);
+            }
+        } catch (Exception e) {
+            Log.i(TAG, CognitoSettings.formatException(e));
         }
 
         setNotification();
@@ -275,6 +282,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button scrapeBtn = findViewById(R.id.scrapeBtn);
+        scrapeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scraper.scrape();
+            }
+        });
+
 
     }
 
@@ -398,8 +413,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog = builder.create();
+        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog.show();
 
     }

@@ -140,6 +140,15 @@ public class RDS_Connect {
         return null;
     }
 
+    public String finishedPost(String userid, String email) throws Exception {
+        String date = parseUserInfo(userid, email).getString("took_post_survey_at");
+        if(date != null)
+            return date;
+        else
+            return null;
+
+    }
+
     public String parseHistory(String userid, String historyType) throws Exception {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
@@ -430,16 +439,41 @@ public class RDS_Connect {
 
     }
 
+    public String startStudy(String userid)
+    {
+        String url = baseURL + "start-study?user_id=" + beginQuote + encodeValue(userid) + endQuote;
+        patchRequestHelper(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    String responseStr = response.body().string();
+                    returnStr = responseStr;
+                    Log.i(TAG, "here" + returnStr);
+                }
+                else{
+                    Log.e(TAG, call.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
+                }
+            }
+        });
+        return returnStr;
+    }
 
 
-        private Call patchRequestHelper(String url, Callback callback){
-        Request request = new Request.Builder()
-                .url(url)
-                .patch(RequestBody.create(null, new byte[0]))
-                .build();
-        Call call = client.newCall(request);
-        call.enqueue(callback);
-        return call;
+    private Call patchRequestHelper(String url, Callback callback){
+    Request request = new Request.Builder()
+            .url(url)
+            .patch(RequestBody.create(null, new byte[0]))
+            .build();
+    Call call = client.newCall(request);
+    call.enqueue(callback);
+    return call;
     }
 
 

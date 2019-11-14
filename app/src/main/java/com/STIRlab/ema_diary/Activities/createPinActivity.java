@@ -101,8 +101,8 @@ public class createPinActivity extends AppCompatActivity {
                 }
             }
         });
-        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog = builder.create();
+        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog.show();
 
     }
