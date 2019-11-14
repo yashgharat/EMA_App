@@ -40,22 +40,30 @@ public class ScrapeDataHelper {
     }
 
     public boolean scrape(){
-        int screenTime = (int) SP.getLong("total_screen_time", 0);
-
 
         final PackageManager packageManager = context.getPackageManager();
-
-        final List<ApplicationInfo> apps = packageManager.getInstalledApplications(0);
+        final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        //Making a list of all the apps
+        final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
 
         int j = 0;
-        for(ApplicationInfo app : apps) {
-            appArray[j].appName = app.loadLabel(packageManager).toString();
-            appArray[j].packageName = app.packageName;
+        //Looping through all the apps to retrieve info
 
-            String time = String.valueOf(UsageStatsHelper.getPackageUsage(appArray[j].packageName,context));
+        for (ResolveInfo info : apps) {
+            appSize = apps.size();
+
+            final ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
+            final String appName = (String) applicationInfo.loadLabel(packageManager);
+            final String packageName = applicationInfo.packageName;
+            final String time = String.valueOf(UsageStatsHelper.getPackageUsage(packageName,context));
+
+            appArray[j].appName = appName;
+            appArray[j].packageName = packageName;
             appArray[j].time = time;
 
             totalScreentime += Long.parseLong(time);
+
             j++;
         }
 

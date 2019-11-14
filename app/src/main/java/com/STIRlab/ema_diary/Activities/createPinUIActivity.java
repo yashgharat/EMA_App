@@ -57,6 +57,8 @@ public class createPinUIActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     userDialog.dismiss();
+                    Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
+                    startActivity(i);
                     if (exitActivity) {
                         onBackPressed();
                     }
@@ -65,8 +67,8 @@ public class createPinUIActivity extends AppCompatActivity {
                 }
             }
         });
-        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog = builder.create();
+        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog.show();
 
     }
