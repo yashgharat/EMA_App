@@ -48,7 +48,7 @@ public class UsageStatsHelper {
         long endTime = System.currentTimeMillis();
         long startTime = endTime - DAY_IN_MILLISECONDS;
 
-        List<UsageStats> usageStatsList = manager.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY,startTime,endTime);
+        List<UsageStats> usageStatsList = manager.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY,startTime,endTime);
         return usageStatsList;
     }
 

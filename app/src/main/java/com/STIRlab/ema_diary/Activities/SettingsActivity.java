@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity {
         newPin = findViewById(R.id.SecureLock);
         previous = findViewById(R.id.settingsPrevious);
         signOut = findViewById(R.id.linkSignOut);
-        switchCompat = findViewById(R.id.switchTheme);
+        //switchCompat = findViewById(R.id.switchTheme);
         layout = findViewById(R.id.settingsLayout);
 
         setTime.setOnClickListener(new View.OnClickListener() {
@@ -116,30 +116,32 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
-            switchCompat.setChecked(true);
+        //TODO: Add dark mode
 
-        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    SwitchTheme.getInstance(SettingsActivity.this).setIsDark(true);
-                    Intent intent = getIntent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    finish();
-                    startActivity(intent);
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+//            switchCompat.setChecked(true);
 
-                } else {
-                    SwitchTheme.getInstance(SettingsActivity.this).setIsDark(false);
-                    Intent intent = getIntent();
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    finish();
-                    startActivity(intent);
-                }
-
-
-            }
-        });
+//        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    SwitchTheme.getInstance(SettingsActivity.this).setIsDark(true);
+//                    Intent intent = getIntent();
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                    finish();
+//                    startActivity(intent);
+//
+//                } else {
+//                    SwitchTheme.getInstance(SettingsActivity.this).setIsDark(false);
+//                    Intent intent = getIntent();
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+//                    finish();
+//                    startActivity(intent);
+//                }
+//
+//
+//            }
+//        });
 
     }
 

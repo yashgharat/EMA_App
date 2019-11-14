@@ -40,7 +40,7 @@ public class RDS_Connect {
     private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
 
     //{"user_id":"90621533-45ad-413d-bda7-aafc0bc0071f","email":"easymoney@dmailpro.net",
-    //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete_surveys":0,"earnings":0,"survey_status":"closed"}
+    //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete _surveys":0,"earnings":0,"survey_status":"closed"}
 
 
     public RDS_Connect(){
