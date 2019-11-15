@@ -134,7 +134,11 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
 
-            client.startStudy(username);
+            try {
+                client.startStudy(username);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         SP.edit().putBoolean("Remember", true).apply();
@@ -146,9 +150,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         try {
-            if(!client.finishedPost(username, email).equals("null"))
+            String pass = client.finishedPost(username, email);
+            if(!pass.equals("null"))
             {
                 Intent post = new Intent(this, PostActivity.class);
+                post.putExtra("data", pass);
                 startActivity(post);
             }
         } catch (Exception e) {
@@ -280,13 +286,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button scrapeBtn = findViewById(R.id.scrapeBtn);
-        scrapeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scraper.scrape();
-            }
-        });
+//        Button scrapeBtn = findViewById(R.id.scrapeBtn);
+//        scrapeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                scraper.scrape();
+//            }
+//        });
 
 
     }

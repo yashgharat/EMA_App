@@ -37,8 +37,18 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/ripple_effect"
-        android:text="Take Post-Survey"
+        android:text="Take Post Survey"
         android:textColor="@color/themeBackground"
         android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/postSignOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Out"
+        android:textColor="@color/primaryDark"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_marginTop="30dp"/>
 
 </LinearLayout>

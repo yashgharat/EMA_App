@@ -67,6 +67,7 @@ public class RDS_Connect {
                         countDownLatch.countDown();
                         String responseStr = response.body().string();
                         returnStr = responseStr;
+                        Log.e(TAG, url);
                     } else {
                         countDownLatch.countDown();
                         Log.e(TAG, call.toString());
@@ -141,12 +142,7 @@ public class RDS_Connect {
     }
 
     public String finishedPost(String userid, String email) throws Exception {
-        String date = parseUserInfo(userid, email).getString("took_post_survey_at");
-        if(date != null)
-            return date;
-        else
-            return null;
-
+        return parseUserInfo(userid, email).getString("took_post_survey_at");
     }
 
     public String parseHistory(String userid, String historyType) throws Exception {
@@ -439,9 +435,12 @@ public class RDS_Connect {
 
     }
 
-    public String startStudy(String userid)
+    public String startStudy(String userid) throws Exception
     {
         String url = baseURL + "start-study?user_id=" + beginQuote + encodeValue(userid) + endQuote;
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
         patchRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -462,6 +461,8 @@ public class RDS_Connect {
                 }
             }
         });
+        countDownLatch.countDown();
+
         return returnStr;
     }
 

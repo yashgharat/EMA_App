@@ -52,7 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         setTime = findViewById(R.id.timePick);
         newPin = findViewById(R.id.SecureLock);
         previous = findViewById(R.id.settingsPrevious);
-        signOut = findViewById(R.id.linkSignOut);
+        signOut = findViewById(R.id.settingsSignOut);
         //switchCompat = findViewById(R.id.switchTheme);
         layout = findViewById(R.id.settingsLayout);
 

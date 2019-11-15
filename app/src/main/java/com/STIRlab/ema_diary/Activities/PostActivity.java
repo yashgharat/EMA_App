@@ -4,20 +4,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
+import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.STIRlab.ema_diary.R;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+
+import org.w3c.dom.Text;
 
 public class PostActivity extends AppCompatActivity {
+    private final String TAG = "POST";
 
     private Button surveyBtn;
+    private TextView signOut;
 
+    private RDS_Connect client;
     private SharedPreferences SP;
+    private CognitoSettings cognitoSettings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +41,32 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
+        client = new RDS_Connect();
+        cognitoSettings = new CognitoSettings(this);
+
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+
+        Intent updateServiceIntent = new Intent(this, NotifyPublisher.class);
+        PendingIntent pendingUpdateIntent = PendingIntent.getService(this, 0, updateServiceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        // Cancel alarms
+        try {
+            alarmManager.cancel(pendingUpdateIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "AlarmManager update was not canceled. " + CognitoSettings.formatException(e));
+        }
+
+        String data = getIntent().getStringExtra("data");
+
+        String email = SP.getString("email", "null");
 
         String username = SP.getString("username", "null");
 
         surveyBtn = findViewById(R.id.btnPost);
+        signOut = findViewById(R.id.postSignOut);
+
+
         surveyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,5 +81,45 @@ public class PostActivity extends AppCompatActivity {
 
             }
         });
+
+        try {
+            Log.i(TAG, client.getUser(username, email));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+            if (!data.equals("null")) {
+                Log.i(TAG, "HERE");
+                surveyBtn.setVisibility(View.INVISIBLE);
+            }
+
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
+                    @Override
+                    public void onSuccess() {
+                        Log.i(TAG, "Logged out");
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception) {
+                        Log.e(TAG, "Log out failed");
+                        Log.e(TAG, CognitoSettings.formatException(exception));
+                    }
+                });
+
+                SP.edit().clear().apply();
+                Intent i = new Intent(PostActivity.this, AuthenticationActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }
