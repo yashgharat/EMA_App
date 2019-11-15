@@ -22,8 +22,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        tools:ignore="GoogleAppInde`xingWarning">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Activities.ThoughtsHistoryActivity" />
         <activity android:name=".Activities.TutorialActivity" />
         <activity android:name=".Activities.JournalHistoryActivity" />
