@@ -467,14 +467,14 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <Button
-                android:id="@+id/scrapeBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/ripple_effect"
-                android:textColor="@color/apparent"
-                android:text="Scrape Test"/>
+<!--            <Button-->
+<!--                android:id="@+id/scrapeBtn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:background="@drawable/ripple_effect"-->
+<!--                android:textColor="@color/apparent"-->
+<!--                android:text="Scrape Test"/>-->
         </LinearLayout>
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
