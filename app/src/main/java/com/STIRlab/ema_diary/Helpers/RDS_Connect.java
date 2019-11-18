@@ -211,7 +211,7 @@ public class RDS_Connect {
             double initEarnings = tempObj.getDouble("earnings_so_far");
             String earnings = formatDecimal((float)initEarnings).replaceAll("^\\s+","");
 
-            boolean isComplete = tempObj.getBoolean("isComplete");
+            boolean isComplete = tempObj.getBoolean("is_complete");
             double initIncrement = tempObj.getDouble("earnings_added");
             String increment = formatDecimal((float)initIncrement).replaceAll("^\\s+","");
 
