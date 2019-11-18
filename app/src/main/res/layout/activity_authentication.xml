@@ -1,90 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@color/themeBackground"
     tools:context=".Activities.AuthenticationActivity">
 
     <TextView
         android:id="@+id/authTitle"
-        android:layout_width="287dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
         android:text="@string/auth_Title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="40sp"
+        android:textStyle="bold"
         android:textColor="@color/prominent"
-        android:layout_marginStart="62dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please sign in with your email address and password"
+        android:textColor="@color/apparent"
+        android:textSize="20sp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="30dp"/>
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="287dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:ems="10"
         android:hint="@string/email_hint"
         android:textColor="@color/prominent"
         android:textColorHint="@color/normal"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/authTitle"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="62dp" />
-
+        android:inputType="textEmailAddress"/>
     <EditText
         android:id="@+id/password"
-        android:layout_width="287dp"
-        android:layout_height="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:textColor="@color/prominent"
         android:textColorHint="@color/normal"
         android:hint="@string/password_hint"
-        android:inputType="textPassword"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteX="62dp" />
-
-<!--    <Button-->
-<!--        android:id="@+id/btnSignIn"-->
-<!--        android:layout_width="289dp"-->
-<!--        android:layout_height="54dp"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:text="@string/sign_in"-->
-<!--        android:background="@drawable/ripple_effect"-->
-<!--        android:textColor="@color/apparent"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/password"-->
-<!--        />-->
+        android:inputType="textPassword"/>
 
     <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
         android:id="@+id/btnSignIn"
-        android:layout_width="289dp"
-        android:layout_height="54dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/sign_in"
         android:background="@drawable/ripple_effect"
-        android:textColor="@color/apparent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
-        app:spinning_bar_color="@color/themeBackground"/>
+        android:textColor="@color/themeBackground"
+        app:spinning_bar_color="@color/themeBackground"
+        android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/forgotPasswordLink"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Forgot Password?"
-        android:textColor="@color/secondary"
         android:layout_marginTop="30dp"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/btnSignIn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:layout_gravity="center">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/forgotPasswordlabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot your password?"
+            android:textColor="@color/apparent"
+            android:textSize="18sp"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/forgotPasswordLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reset It"
+            android:textColor="@color/secondary"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>

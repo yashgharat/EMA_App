@@ -24,6 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.EnterEmailActivity"></activity>
         <activity android:name=".Activities.ThoughtsHistoryActivity" />
         <activity android:name=".Activities.TutorialActivity" />
         <activity android:name=".Activities.JournalHistoryActivity" />
@@ -66,6 +67,7 @@
                     android:scheme="ema-diary-study" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name=".Helpers.NotifyPublisher"
             android:enabled="true"
@@ -81,9 +83,7 @@
             android:name=".Helpers.ScreenTimeReceiver"
             android:enabled="true"
             android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-
-        </receiver>
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"></receiver>
     </application>
 
 </manifest>

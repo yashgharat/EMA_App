@@ -53,7 +53,6 @@ public class AuthenticationActivity extends AppCompatActivity {
     private SharedPreferences SP;
     private SharedPreferences.Editor editor;
     private NewPasswordContinuation newPass;
-    private ForgotPasswordContinuation forgotPasswordContinuation;
     private String temp;
     private int localPin;
 
@@ -62,6 +61,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private TextView forgotPassword;
     private AlertDialog userDialog;
+    private EditText editTextEmail, editTextPassword;
 
 
     private Executor executor = new Executor() {
@@ -78,9 +78,9 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
 
 
-        final EditText editTextEmail = findViewById(R.id.email);
-        final EditText editTextPassword = findViewById(R.id.password);
+        editTextPassword = findViewById(R.id.password);
 
+        editTextEmail = findViewById(R.id.email);
         forgotPassword = findViewById(R.id.forgotPasswordLink);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
@@ -203,6 +203,8 @@ public class AuthenticationActivity extends AppCompatActivity {
                 } else {
                     showDialogMessage("Error", "Please enter email and password", false);
                 }
+
+                buttonLogin.startMorphRevertAnimation();
             }
         });
 
@@ -210,32 +212,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = editTextEmail.getText().toString();
-
-                if (username.length() > 0 && isValid(username)) {
-                    cognitoSettings.getUserPool().getUser(username).forgotPasswordInBackground(new ForgotPasswordHandler() {
-                        @Override
-                        public void onSuccess() {
-                            showDialogMessage("Password successfully changed!", "", false);
-                            editTextPassword.setText("");
-                            editTextPassword.requestFocus();
-                        }
-
-                        @Override
-                        public void getResetCode(ForgotPasswordContinuation continuation) {
-                            getForgotPasswordCode(continuation);
-                        }
-
-                        @Override
-                        public void onFailure(Exception exception) {
-                            showDialogMessage("Password reset failed", CognitoSettings.formatException(exception), false);
-
-                        }
-                    });
-                }
-                else{
-                    showDialogMessage("Error", "Enter valid username", false);
-                }
+                Intent i = new Intent(AuthenticationActivity.this, EnterEmailActivity.class);
+                startActivityForResult(i, 3);
             }
         });
     }
@@ -248,16 +226,10 @@ public class AuthenticationActivity extends AppCompatActivity {
             temp = data.getStringExtra("result");
             Log.i(TAG, "HERE");
         }
-        else if (requestCode == 3 && resultCode == RESULT_OK){
-            String newPass = data.getStringExtra("newPass");
-            String code = data.getStringExtra("code");
-            if (newPass != null && code != null) {
-                if (!newPass.isEmpty() && !code.isEmpty()) {
-                    forgotPasswordContinuation.setPassword(newPass);
-                    forgotPasswordContinuation.setVerificationCode(code);
-                    forgotPasswordContinuation.continueTask();
-                }
-            }
+        else if(requestCode == 3){
+            editTextEmail.setText("");
+            editTextPassword.setText("");
+            editTextEmail.requestFocus();
         }
     }
 
@@ -274,25 +246,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         }
     }
 
-    private static boolean isValid(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
 
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
 
-    private void getForgotPasswordCode(ForgotPasswordContinuation continuation) {
-        this.forgotPasswordContinuation = continuation;
-        Intent intent = new Intent(this, ForgotPasswordActivity.class);
-        intent.putExtra("destination", forgotPasswordContinuation.getParameters().getDestination());
-        intent.putExtra("deliveryMed", forgotPasswordContinuation.getParameters().getDeliveryMedium());
-        startActivityForResult(intent, 3);
-    }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);

@@ -38,6 +38,7 @@
         android:textColor="@color/prominent"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:layout_marginTop="100dp"
+        android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
