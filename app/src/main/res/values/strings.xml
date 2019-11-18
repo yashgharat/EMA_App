@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">30 Days</string>
     <string name="action_settings">Settings</string>
-    <string name="auth_Title">Welcome to Our Diary Study</string>
+    <string name="auth_Title">Welcome to 30 Days</string>
     <string name="email_hint">Email Address</string>
     <string name="password_hint">Password</string>
     <string name="sign_in">Sign In</string>

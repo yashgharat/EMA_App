@@ -30,6 +30,7 @@
                     android:text="30 Days"
                     android:textColor="@color/prominent"
                     android:textSize="55sp"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -182,6 +183,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="Ready For Daily Journal"
+                            android:textStyle="bold"
                             android:textColor="@color/prominent"
                             android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -194,7 +196,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="Due by Midnight"
-                            android:textColor="@color/prominent"
+                            android:textColor="@color/apparent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleJournal" />
@@ -291,6 +293,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="Share Your Thoughts"
+                            android:textStyle="bold"
                             android:textColor="@color/prominent"
                             android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -303,7 +306,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="Talk about your experiences anytime."
-                            android:textColor="@color/prominent"
+                            android:textColor="@color/apparent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleThoughts" />
@@ -378,6 +381,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="Help Center"
+                            android:textStyle="bold"
                             android:textColor="@color/prominent"
                             android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -390,7 +394,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="Read the FAQ or get support"
-                            android:textColor="@color/prominent"
+                            android:textColor="@color/apparent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleHelp" />
@@ -437,6 +441,8 @@
                             android:layout_marginStart="15dp"
                             android:text="Settings"
                             android:textColor="@color/prominent"
+                            android:textStyle="bold"
+
                             android:textSize="20sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -448,7 +454,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="Customize journal reminders and more"
-                            android:textColor="@color/prominent"
+                            android:textColor="@color/apparent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleSettings" />

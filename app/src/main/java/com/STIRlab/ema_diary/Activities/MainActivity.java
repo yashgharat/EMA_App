@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
             cardJournal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String url = "http://ucf.qualtrics.com/jfe/form/SV_2i6xiz49SKg0JRb?user_id=" + username;
+                    String url = "http://ucf.qualtrics.com/jfe/form/SV_9z6wKsiRjfT6hJb" + username;
 
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                     builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));

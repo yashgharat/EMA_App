@@ -13,21 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="30dp"
         android:layout_marginBottom="50dp"
         android:text="Data Usage"
         android:textColor="@color/prominent"
-        android:textSize="34sp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/agr_p1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:layout_marginBottom="30dp"
-        android:layout_marginRight="11dp"
-        android:textColor="@color/prominent"
+        android:layout_marginHorizontal="30dp"
+        android:textColor="@color/apparent"
         android:textSize="18sp"
         android:text="@string/agreement_p1" />
 
@@ -35,10 +34,9 @@
         android:id="@+id/agr_p2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginHorizontal="30dp"
         android:layout_marginBottom="80dp"
-        android:textColor="@color/prominent"
+        android:textColor="@color/apparent"
         android:textSize="18sp"
         android:text="@string/agreement_p2" />
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.STIRlab.ema_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
@@ -20,6 +21,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText pass;
     private EditText code;
     private Button btnReset;
+
+    private FloatingActionButton previous;
 
     private AlertDialog userDialog;
 
@@ -31,6 +34,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         pass = findViewById(R.id.forgotPass);
         code = findViewById(R.id.veriCode);
         btnReset = findViewById(R.id.btnReset);
+        previous = findViewById(R.id.forgotPasswordPrevious);
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

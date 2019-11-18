@@ -30,7 +30,7 @@
         android:layout_marginBottom="30dp"
         android:text="Help Center"
         android:textColor="@color/prominent"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textStyle="bold" />
 
     <ScrollView
@@ -103,6 +103,7 @@
                             android:layout_marginStart="15dp"
                             android:text="Call Sexual Assault Hotline"
                             android:textColor="@color/prominent"
+                            android:textStyle="bold"
                             android:textSize="17sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -114,7 +115,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="Confidential help is available and free"
-                            android:textColor="@color/prominent"
+                            android:textColor="@color/apparent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleHotline" />
@@ -160,6 +161,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
                             android:text="Contact the Team"
+                            android:textStyle="bold"
                             android:textColor="@color/prominent"
                             android:textSize="17sp"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -172,7 +174,7 @@
                             android:layout_marginStart="15dp"
                             android:layout_marginBottom="20dp"
                             android:text="For research questions or support"
-                            android:textColor="@color/prominent"
+                            android:textColor="@color/apparent"
                             android:textSize="12sp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/titleTCS" />
