@@ -121,7 +121,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
 
-                buttonLogin.stopAnimation();
+                buttonLogin.startMorphRevertAnimation();
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 startActivity(myIntent);
@@ -160,6 +160,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     newPasswordContinuation.setPassword(String.valueOf(editTextPassword.getText()));
                     continuation.continueTask();
                 }
+                buttonLogin.startMorphRevertAnimation();
             }
 
             @Override
@@ -169,6 +170,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 ConnectivityManager cm = (ConnectivityManager) AuthenticationActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
+                buttonLogin.setEnabled(true);
                 buttonLogin.startMorphRevertAnimation();
 
                 boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -185,6 +187,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonLogin.setEnabled(false);
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
                 editor.apply();
 
@@ -204,7 +207,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                     showDialogMessage("Error", "Please enter email and password", false);
                 }
 
-                buttonLogin.startMorphRevertAnimation();
             }
         });
 
@@ -212,6 +214,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                forgotPassword.setEnabled(false);
                 Intent i = new Intent(AuthenticationActivity.this, EnterEmailActivity.class);
                 startActivityForResult(i, 3);
             }
@@ -227,6 +230,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             Log.i(TAG, "HERE");
         }
         else if(requestCode == 3){
+            forgotPassword.setEnabled(true);
             editTextEmail.setText("");
             editTextPassword.setText("");
             editTextEmail.requestFocus();

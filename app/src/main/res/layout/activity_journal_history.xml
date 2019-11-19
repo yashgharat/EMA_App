@@ -92,20 +92,26 @@
         android:layout_marginLeft="30dp"
         android:paddingBottom="30dp"/>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/journal_swipe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/journal_history_title"
-        app:layout_constraintLeft_toLeftOf="parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerJournal"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/journal_swipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"/>
+            app:layout_constraintTop_toBottomOf="@id/journal_history_title"
+            app:layout_constraintLeft_toLeftOf="parent">
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerJournal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"/>
+            </ScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 
