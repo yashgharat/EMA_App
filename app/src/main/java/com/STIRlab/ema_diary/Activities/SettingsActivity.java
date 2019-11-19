@@ -97,9 +97,6 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess() {
                         Log.i(TAG, "Logged out");
-                        SP.edit().clear().apply();
-                        Intent i = new Intent(SettingsActivity.this, AuthenticationActivity.class);
-                        startActivity(i);
                     }
 
                     @Override

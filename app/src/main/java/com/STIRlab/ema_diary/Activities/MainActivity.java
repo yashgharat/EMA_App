@@ -106,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         viewHistory_2 = findViewById(R.id.viewHistory_2);
 
+        viewHistory_1.setEnabled(true);
+        viewHistory_2.setEnabled(true);
+
+
         userProgress = findViewById(R.id.progressBar);
 
         cardJournal = findViewById(R.id.cardJournal);
@@ -249,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewHistory_1.setEnabled(false);
                 Intent intent = new Intent(MainActivity.this, JournalHistoryActivity.class);
                 startActivityForResult(intent, 15);
             }
@@ -257,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                viewHistory_2.setEnabled(false);
                 Intent intent = new Intent(MainActivity.this, ThoughtsHistoryActivity.class);
                 startActivityForResult(intent, 15);
             }
