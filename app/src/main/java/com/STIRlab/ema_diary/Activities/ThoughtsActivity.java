@@ -103,6 +103,7 @@ public class ThoughtsActivity extends AppCompatActivity {
                         }
                     }
                     else{
+                        Log.i(TAG, "No screenshot");
                         try {
                             client.uploadInteraction(userid, uploadText);
                         } catch (JSONException e) {

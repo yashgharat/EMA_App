@@ -51,6 +51,7 @@ public class TutorialActivity extends AppCompatActivity {
                 }
                 btnOk.setClickable(false);
                 btnNext.setVisibility(View.VISIBLE);
+                btnOk.setVisibility(View.GONE);
             }
         });
 

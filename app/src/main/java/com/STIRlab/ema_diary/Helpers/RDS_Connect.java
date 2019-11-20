@@ -419,7 +419,9 @@ public class RDS_Connect {
 
         RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
 
-        putRequestHelper(url, rBody, new Callback() {
+        Log.i(TAG, jgenerate.toString());
+
+        postRequestHelper(url, rBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e(TAG, "request not successful");
@@ -427,7 +429,16 @@ public class RDS_Connect {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e(TAG, "success");
+                if(response.isSuccessful()){
+                    String responseStr = response.body().string();
+                    returnStr = responseStr;
+                    Log.i(TAG, "here" + returnStr);
+                }
+                else{
+                    Log.e(TAG, "in PUT Call: " + response.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
+                }
             }
         });
 

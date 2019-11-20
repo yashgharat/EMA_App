@@ -106,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         viewHistory_2 = findViewById(R.id.viewHistory_2);
 
-        viewHistory_1.setEnabled(true);
-        viewHistory_2.setEnabled(true);
 
 
         userProgress = findViewById(R.id.progressBar);
@@ -183,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 client.getSurveyStatus(username, email);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -395,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
         NotificationChannel notificationChannel = new NotificationChannel("notifyUser",
                 "Daily notification", NotificationManager.IMPORTANCE_HIGH);
         notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(Color.RED);
+        notificationChannel.setLightColor(Color.CYAN);
         notificationChannel.enableVibration(true);
         notificationChannel.setDescription("test notification");
 
@@ -406,6 +405,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        viewHistory_1.setEnabled(true);
+        viewHistory_2.setEnabled(true);
     }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
