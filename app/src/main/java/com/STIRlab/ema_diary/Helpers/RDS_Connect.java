@@ -126,7 +126,7 @@ public class RDS_Connect {
         try {
             return parseUserInfo(userid, email).getString("survey_status");
         } catch (Exception e) {
-            Log.e(TAG, e.toString());
+            Log.e(TAG, "HERE" + e.toString());
         }
 
         return null;
@@ -138,6 +138,14 @@ public class RDS_Connect {
             Log.e(TAG, e.toString());
         }
 
+        return null;
+    }
+    public String getResumeUrl(String userid, String email){
+        try {
+            return parseUserInfo(userid, email).getString("resume_url");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
         return null;
     }
 

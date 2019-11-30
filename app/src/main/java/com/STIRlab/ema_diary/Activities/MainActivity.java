@@ -202,6 +202,33 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setEnabled(false);
 
         }
+        else if(status.equals("pending"))
+        {
+            String url = client.getResumeUrl(username, email);
+            cardMsg.setClickable(true);
+            cardMsg.setEnabled(true);
+            cardTitle.setText("Daily Journal in Progress");
+            cardMsg.setText("Due by Midnight");
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
+                    new ColorDrawable(getResources().getColor(R.color.primaryDark)));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
+
+            cardJournal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
+                    builder.setShowTitle(true);
+
+                    CustomTabsIntent viewSurvey = builder.build();
+                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+
+                    studyCounter.setText(client.getDaysLeft(username, email));
+
+                }
+            });
+
+        }
         else if(status.equals("open"))
         {
             cardMsg.setClickable(true);
