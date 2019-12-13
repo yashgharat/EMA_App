@@ -21,6 +21,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Auth
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
+import com.mukesh.OnOtpCompletionListener;
+import com.mukesh.OtpView;
 import com.poovam.pinedittextfield.CirclePinField;
 import com.poovam.pinedittextfield.PinField;
 
@@ -52,15 +54,15 @@ public class PinActivity extends AppCompatActivity {
         cognitoSettings = new CognitoSettings(this);
 
 
-        CirclePinField inputPin = findViewById(R.id.pinField);
+        OtpView inputPin = findViewById(R.id.pinField);
         inputPin.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(inputPin, InputMethodManager.SHOW_IMPLICIT);
         imm.showSoftInput(inputPin, InputMethodManager.SHOW_FORCED);
 
-        inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
+        inputPin.setOtpCompletionListener(new OnOtpCompletionListener() {
             @Override
-            public boolean onTextComplete(@NotNull String str) {
+            public void onOtpCompleted(String str) {
                 if(str.equals(localPin)){
                     finish();
                     Intent main = new Intent(PinActivity.this, MainActivity.class);
@@ -69,7 +71,6 @@ public class PinActivity extends AppCompatActivity {
                 } else {
                     showDialogMessage("Alert", "Pin not recognized", false);
                 }
-                return false;
             }
         });
     }

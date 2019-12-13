@@ -88,11 +88,6 @@ public class MainActivity extends AppCompatActivity {
         pool = cognitoSettings.getUserPool();
         cognitoSettings.refreshSession(SP);
 
-//        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-//        filter.addAction(Intent.ACTION_SCREEN_OFF);
-//        ScreenTimeReceiver screenTimeReceiver = new ScreenTimeReceiver();
-//        registerReceiver(screenTimeReceiver, filter);
-
         client = new RDS_Connect();
         try {
             client.getUser(username, email);
@@ -132,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, newPassword.class);
             startActivityForResult(i, 10);
 
-            //Log.i("VIRGIN: ", "HERE");
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
 

@@ -41,6 +41,7 @@ dependencies {
     implementation 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
 
     implementation 'com.poovam:pin-edittext-field:1.2.1'
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.0.0'
 
     implementation 'com.auth0.android:jwtdecode:1.3.0'
 

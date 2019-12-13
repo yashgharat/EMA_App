@@ -8,25 +8,43 @@
     android:layout_height="match_parent"
     tools:context=".Activities.PinActivity">
 
-    <com.poovam.pinedittextfield.CirclePinField
+<!--    <com.poovam.pinedittextfield.CirclePinField-->
+<!--        android:id="@+id/pinField"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="82dp"-->
+<!--        android:layout_y="140dp"-->
+<!--        android:focusedByDefault="true"-->
+<!--        android:textSelectHandle="@drawable/text_handle"-->
+<!--        android:textSize="18sp"-->
+<!--        app:circleRadius="15dp"-->
+<!--        app:fieldBgColor="@color/unapparent"-->
+<!--        app:fillerColor="@color/secondary"-->
+<!--        app:fillerRadius="10dp"-->
+<!--        app:highlightColor="@color/primaryDark"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        android:layout_marginTop="200dp"-->
+<!--        app:noOfFields="4"-->
+<!--        tools:layout_editor_absoluteX="16dp" />-->
+
+
+    <com.mukesh.OtpView
         android:id="@+id/pinField"
-        android:layout_width="match_parent"
-        android:layout_height="82dp"
-        android:layout_y="140dp"
-        android:focusedByDefault="true"
-        android:textSelectHandle="@drawable/text_handle"
-        android:textSize="18sp"
-        app:circleRadius="15dp"
-        app:fieldBgColor="@color/unapparent"
-        app:fillerColor="@color/secondary"
-        app:fillerRadius="10dp"
-        app:highlightColor="@color/primaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberPassword"
+        android:itemBackground="@color/themeBackground"
+        android:textColor="@color/primaryDark"
+        app:state_filled="true"
+        app:itemCount="4"
+        app:lineColor="@color/primaryDark"
+        app:viewType="rectangle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="200dp"
-        app:noOfFields="4"
-        tools:layout_editor_absoluteX="16dp" />
+        />
 
     <TextView
         android:id="@+id/title_pin"

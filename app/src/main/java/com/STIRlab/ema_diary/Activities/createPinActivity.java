@@ -14,6 +14,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.R;
+import com.mukesh.OnOtpCompletionListener;
+import com.mukesh.OtpView;
 import com.poovam.pinedittextfield.CirclePinField;
 import com.poovam.pinedittextfield.PinField;
 
@@ -21,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class createPinActivity extends AppCompatActivity {
 
-    private CirclePinField inPin;
+    private OtpView inPin;
     private SharedPreferences SP;
     private TextView title;
     private AlertDialog userDialog;
@@ -46,12 +48,10 @@ public class createPinActivity extends AppCompatActivity {
         imm.showSoftInput(inPin, InputMethodManager.SHOW_FORCED);
 
 
-        inPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
+        inPin.setOtpCompletionListener(new OnOtpCompletionListener() {
             @Override
-            public boolean onTextComplete(@NotNull String str) {
+            public void onOtpCompleted(String str) {
                 pinConfirm(str);
-
-                return false;
             }
         });
     }

@@ -21,6 +21,7 @@ allprojects {
     repositories {
         maven{url "https://github.com/omadahealth/omada-nexus/raw/master/release"}
         maven{url "https://s3-us-west-2.amazonaws.com/si-mobile-sdks/android/"}
+        maven { url "https://jitpack.io" }
         google()
         jcenter()
     }
