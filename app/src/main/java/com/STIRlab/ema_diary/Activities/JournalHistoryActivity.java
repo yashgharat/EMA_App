@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.JournalEntry;
@@ -34,6 +35,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ScrollView scroll;
 
     private TextView missedCount, completeCount;
     private String userId;

@@ -66,7 +66,7 @@ public class TutorialActivity extends AppCompatActivity {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        btnNext.startMorphRevertAnimation();
+//                        btnNext.startMorphRevertAnimation();
                         finish();
                     }
                 }, delayInMillis);

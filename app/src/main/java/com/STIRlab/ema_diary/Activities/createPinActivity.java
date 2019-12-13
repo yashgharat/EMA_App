@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class createPinActivity extends AppCompatActivity {
 
-    private OtpView inPin;
+    private CirclePinField inputPin;
     private SharedPreferences SP;
     private TextView title;
     private AlertDialog userDialog;
@@ -41,20 +41,20 @@ public class createPinActivity extends AppCompatActivity {
 
         title.setText(SP.getString("pinTitle", "NULL"));
 
-        inPin = findViewById(R.id.pinField);
-        inPin.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(inPin, InputMethodManager.SHOW_IMPLICIT);
-        imm.showSoftInput(inPin, InputMethodManager.SHOW_FORCED);
+        inputPin = findViewById(R.id.pinField);
+        inputPin.requestFocus();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        inputPin.requestFocus();
 
-
-        inPin.setOtpCompletionListener(new OnOtpCompletionListener() {
+        inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
-            public void onOtpCompleted(String str) {
+            public boolean onTextComplete(@NotNull String str) {
                 pinConfirm(str);
+                return false;
             }
         });
     }
+
 //    @Override
 //    public void onBackPressed() {
 //
@@ -69,7 +69,6 @@ public class createPinActivity extends AppCompatActivity {
             createPinActivity.this.startActivity(in);
         } else {
             if(str.equals(in.getStringExtra("inputPin"))){
-                //UserAttributes.localPin = Integer.parseInt(in.getStringExtra("inputPin"));
                 editor.putString("Pin", in.getStringExtra("inputPin"));
                 editor.apply();
 
@@ -79,7 +78,7 @@ public class createPinActivity extends AppCompatActivity {
 
             } else {
                 showDialogMessage("Error", "Pins are different", false);
-                inPin.setText(null);
+                inputPin.setText(null);
                 Log.i("pinFail", "didnt work");
             }
 

@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        if(status.equals("closed"))
+        if(status == null || status.equals("closed"))
         {
             cardTitle.setText("Daily Journal Later Today");
             cardMsg.setText("Available from 2PM to midnight");

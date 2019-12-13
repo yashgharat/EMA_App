@@ -54,23 +54,24 @@ public class PinActivity extends AppCompatActivity {
         cognitoSettings = new CognitoSettings(this);
 
 
-        OtpView inputPin = findViewById(R.id.pinField);
+        CirclePinField inputPin = findViewById(R.id.pinField);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         inputPin.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(inputPin, InputMethodManager.SHOW_IMPLICIT);
-        imm.showSoftInput(inputPin, InputMethodManager.SHOW_FORCED);
 
-        inputPin.setOtpCompletionListener(new OnOtpCompletionListener() {
+        inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
-            public void onOtpCompleted(String str) {
+            public boolean onTextComplete(@NotNull String str) {
                 if(str.equals(localPin)){
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                     finish();
                     Intent main = new Intent(PinActivity.this, MainActivity.class);
                     startActivity(main);
 
                 } else {
                     showDialogMessage("Alert", "Pin not recognized", false);
+
                 }
+                return false;
             }
         });
     }

@@ -48,6 +48,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
         }
         if(entry.isComplete()) {
             holder.isComplete.setText("Complete");
+            holder.isComplete.setTextColor(context.getColor(R.color.secondary));
 
             Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
             drawable = DrawableCompat.wrap(drawable);

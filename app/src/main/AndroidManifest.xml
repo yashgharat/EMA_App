@@ -50,7 +50,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.createPinActivity" />
-        <activity android:name=".Activities.PinActivity" />
+        <activity
+            android:name=".Activities.PinActivity"
+            android:exported="true"/>
         <activity android:name=".Activities.AuthenticationActivity" />
         <activity
             android:name=".Activities.MainActivity"
