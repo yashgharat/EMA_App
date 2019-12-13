@@ -63,8 +63,8 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
 
             try {
                 JSONObject tempapp = new JSONObject().put(appname, new JSONObject()
-                                                            .put("Time In Foreground", time + " ms")
-                                                            .put("Package-name", packageName));
+                                                            .put("time-in-foreground", time + " ms")
+                                                            .put("package-name", packageName));
                 appUsage.put(tempapp);
             } catch (JSONException e) {
                 Log.e(TAG, e.toString());
@@ -72,8 +72,8 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
             }
         }
         try {
-            upload.put("manifest", appUsage);
-            upload.put("Screen time", screenTime);
+            upload.put("app-manifest", appUsage);
+            upload.put("screen-time-millisec", screenTime);
             Log.i(TAG, upload.toString(2));
 
             client.uploadFile(userid, upload);

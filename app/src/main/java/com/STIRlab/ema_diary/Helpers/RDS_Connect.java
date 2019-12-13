@@ -471,7 +471,6 @@ public class RDS_Connect {
                 if(response.isSuccessful()){
                     String responseStr = response.body().string();
                     returnStr = responseStr;
-                    Log.i(TAG, "here" + returnStr);
                 }
                 else{
                     Log.e(TAG, call.toString());
