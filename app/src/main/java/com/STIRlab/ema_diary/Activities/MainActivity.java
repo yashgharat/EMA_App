@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
             cardTitle.setText("Daily Journal in Progress");
             cardMsg.setText("Due by Midnight");
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
-                    new ColorDrawable(getResources().getColor(R.color.primaryDark)));
+                    new ColorDrawable(getResources().getColor(R.color.secondary)));
             layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
 
             cardJournal.setOnClickListener(new View.OnClickListener() {
