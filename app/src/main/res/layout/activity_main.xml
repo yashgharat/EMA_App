@@ -15,132 +15,41 @@
         android:layout_height="175dp"
         android:background="@color/themeBackground">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent">
+        <ImageView
+            android:id="@+id/dash_logo"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-                <TextView
-                    android:id="@+id/thirty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:text="30 Days"
-                    android:textColor="@color/prominent"
-                    android:textSize="55sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/earnings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="30dp"
-                    android:text="$00.00"
-                    android:textColor="@color/secondary"
-                    android:textSize="18dp"
-                    app:layout_constraintLeft_toLeftOf="@id/earned_label"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/earned_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="30dp"
-                    android:text="earned"
-                    android:textColor="@color/disabled"
-                    android:textSize="15dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/earnings"
-                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
-                    android:drawableTint="@color/disabled"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_marginHorizontal="30dp"
-                android:maxHeight="10dp"
-                android:progress="3"
-                android:progressBackgroundTint="@color/disabled"
-                android:progressTint="@color/secondary"
-                app:layout_constraintTop_toBottomOf="@id/constraint"
-                app:layout_constraintLeft_toLeftOf="parent"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/progressBar"
-                app:layout_constraintLeft_toLeftOf="parent">
-
-                <ImageView
-                    android:id="@+id/streakIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="5dp"
-                    android:tint="@color/secondary"
-                    app:srcCompat="@drawable/ic__ionicons_svg_ios_flash"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="VectorDrawableCompat" />
-
-                <TextView
-                    android:id="@+id/streakCnt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="5"
-                    android:layout_marginStart="5dp"
-                    android:textColor="@color/secondary"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toRightOf="@id/streakIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/streaklabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp"
-                    android:text="day streak"
-                    android:textColor="@color/secondary"
-                    android:textSize="20sp"
-                    app:layout_constraintLeft_toRightOf="@id/streakCnt"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/studyCounter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:text="9"
-                    android:gravity="center"
-                    android:textColor="@color/prominent"
-                    android:textSize="18sp"
-                    app:layout_constraintRight_toLeftOf="@id/days_leftcounter"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/days_leftcounter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="days to go"
-                    android:layout_marginEnd="30dp"
-                    android:textColor="@color/apparent"
-                    android:textSize="18sp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/study_ctr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="18"
+            android:textColor="@color/prominent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginTop="7dp"
+            app:layout_constraintEnd_toStartOf="@id/study_ctr_label"
+            app:layout_constraintTop_toBottomOf="@id/dash_logo" />
+        <TextView
+            android:id="@+id/study_ctr_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" days left in this study"
+            app:layout_constraintTop_toBottomOf="@id/dash_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="7dp"
+            />
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
