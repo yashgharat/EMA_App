@@ -24,7 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.EnterEmailActivity"></activity>
+        <activity android:name=".Activities.screenshotPromptActivity"></activity>
+        <activity android:name=".Activities.EnterEmailActivity" />
         <activity android:name=".Activities.ThoughtsHistoryActivity" />
         <activity android:name=".Activities.TutorialActivity" />
         <activity android:name=".Activities.JournalHistoryActivity" />
@@ -52,7 +53,7 @@
         <activity android:name=".Activities.createPinActivity" />
         <activity
             android:name=".Activities.PinActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity android:name=".Activities.AuthenticationActivity" />
         <activity
             android:name=".Activities.MainActivity"
@@ -85,7 +86,7 @@
             android:name=".Helpers.ScreenTimeReceiver"
             android:enabled="true"
             android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED"></receiver>
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" />
     </application>
 
 </manifest>

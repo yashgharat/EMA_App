@@ -5,6 +5,8 @@
     <color name="primary">#76A6FF</color>
     <color name="secondary">#51D4D7</color>
     <color name="destructive">#FF828C</color>
+    <color name="positive">#51D4B7</color>
+    <color name="neutral">#F2C025</color>
 
 <!--grays-->
     <color name="prominent">#1F1F1F</color>

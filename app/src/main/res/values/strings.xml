@@ -1,4 +1,4 @@
-<resources>
+                                                                                    <resources>
     <string name="app_name">30 Days</string>
     <string name="action_settings">Settings</string>
     <string name="auth_Title">Welcome to 30 Days</string>
@@ -23,6 +23,7 @@
     <string name="moreInfo_p1">The following types of data will be collected to help us get a better understanding of teens’ social media usage:</string>
     <string name="moreInfo_p2">• Which apps are installed\n• Time spent using the device\n• Time spent using each app</string>
     <string name="dealAnswer">The deal has to do with: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. In pellentesque massa placerat duis ultricies lacus. Sit amet massa vitae tortor condimentum lacinia. Nisl vel pretium lectus quam id. Fermentum dui faucibus in ornare quam viverra. Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Varius sit amet mattis vulputate. Non sodales neque sodales ut etiam sit amet nisl. Et malesuada fames ac turpis egestas sed tempus urna et. Quisque egestas diam in arcu cursus euismod quis. Dignissim diam quis enim lobortis scelerisque.\n</string>
-    <string name="interaction">Tell us about an interaction you had with someone online today</string>
+    <string name="interaction">Describe the online interaction in the screenshot you selected</string>
     <string name="earned">You earn $1.50 for each journal entry submitted.\n\nAdditionally, the study is broken up into 6 periods of 5 days each, and if you submit a journal entry for each of the 5 days within a period, you will receive a $10 bonus.\n\nFor example, if you submit the first 5 journal entries in a row, you will receive a $10 bonus after the 5th entry. Or, if you submit the 6th through the 10th journal entries, you will receive a $10 bonus after the 10th entry.\n\nSince there are 6 of these periods, you can earn up to $60 in bonuses. This means you can earn up to $105 from submitting journal entries.</string>
+    <string name="screenshot_prompt">To help us learn more about online social behaviors and risks, please upload screenshots from your own online experiences.\n\nWe only receive the photos that you choose to upload. Photos are secured and encrypted, and will be anonymized in our research.</string>
 </resources>

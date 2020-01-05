@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView viewHistory_1, viewHistory_2, studyCounter;
-    private TextView earnings, numSurveys, streakCnt, earnedLabel;
+    private TextView viewHistory_1, viewHistory_2;
+    private TextView numSurveys;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -99,11 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
-        viewHistory_2 = findViewById(R.id.viewHistory_2);
 
 
-
-        userProgress = findViewById(R.id.progressBar);
 
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
@@ -112,11 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
         layoutJournal = findViewById(R.id.layoutJournal);
 
-        studyCounter = findViewById(R.id.studyCounter);
-        earnings = findViewById(R.id.earnings);
         numSurveys = findViewById(R.id.numSurveys);
-        streakCnt = findViewById(R.id.streakCnt);
-        earnedLabel = findViewById(R.id.earned_label);
+
 
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
@@ -164,11 +158,8 @@ public class MainActivity extends AppCompatActivity {
         if(curEarnings == null)
             curEarnings = "0";
 
-        earnings.setText("$"+ curEarnings);
-        studyCounter.setText(client.getDaysLeft(username, email));
         numSurveys.setText(client.getSurveyCount(username,email));
         userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft(username, email)))*3);
-        streakCnt.setText(client.getStreak(username,email));
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -217,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
                     CustomTabsIntent viewSurvey = builder.build();
                     viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
 
-                    studyCounter.setText(client.getDaysLeft(username, email));
 
                 }
             });
@@ -247,7 +237,6 @@ public class MainActivity extends AppCompatActivity {
 
                     scraper.scrape();
                     SP.edit().putLong("total_screen_time", 0).apply();
-                    studyCounter.setText(client.getDaysLeft(username, email));
 
                 }
             });
@@ -262,13 +251,6 @@ public class MainActivity extends AppCompatActivity {
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.themeBackground)));
         }
-
-        earnedLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDialogMessage("Earnings", getString(R.string.earned), false);
-            }
-        });
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
