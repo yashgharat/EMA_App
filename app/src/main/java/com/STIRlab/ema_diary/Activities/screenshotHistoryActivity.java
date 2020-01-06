@@ -11,20 +11,17 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
-import com.STIRlab.ema_diary.Helpers.ThoughtEntry;
-import com.STIRlab.ema_diary.Helpers.ThoughtEntryAdapter;
+import com.STIRlab.ema_diary.Helpers.ScreenshotEntry;
+import com.STIRlab.ema_diary.Helpers.ScreenshotEntryAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONException;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class ThoughtsHistoryActivity extends AppCompatActivity {
+public class screenshotHistoryActivity extends AppCompatActivity {
 
-    private ThoughtEntryAdapter adapter;
-    private List<ThoughtEntry> history;
+    private ScreenshotEntryAdapter adapter;
+    private List<ScreenshotEntry> history;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -76,7 +73,7 @@ public class ThoughtsHistoryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        adapter = new ThoughtEntryAdapter(this, history);
+        adapter = new ScreenshotEntryAdapter(this, history);
         recyclerView.setAdapter(adapter);
     }
 }

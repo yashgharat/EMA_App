@@ -14,13 +14,13 @@ import com.STIRlab.ema_diary.R;
 import java.text.ParseException;
 import java.util.List;
 
-public class ThoughtEntryAdapter extends RecyclerView.Adapter<ThoughtEntryAdapter.ThoughtEntryViewHolder> {
+public class ScreenshotEntryAdapter extends RecyclerView.Adapter<ScreenshotEntryAdapter.ThoughtEntryViewHolder> {
 
 
     private Context context;
-    private List<ThoughtEntry> history;
+    private List<ScreenshotEntry> history;
 
-    public ThoughtEntryAdapter(Context context, List<ThoughtEntry> history){
+    public ScreenshotEntryAdapter(Context context, List<ScreenshotEntry> history){
         this.context = context;
         this.history = history;
     }
@@ -35,7 +35,7 @@ public class ThoughtEntryAdapter extends RecyclerView.Adapter<ThoughtEntryAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ThoughtEntryViewHolder holder, int position) {
-        ThoughtEntry entry = history.get(position);
+        ScreenshotEntry entry = history.get(position);
 
         //binding the data with the viewholder views
         try {

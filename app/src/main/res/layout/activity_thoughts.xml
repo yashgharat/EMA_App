@@ -6,27 +6,26 @@
     android:layout_height="match_parent"
     android:background="@color/themeBackground"
     android:orientation="vertical"
-    tools:context=".Activities.ThoughtsActivity">
+    tools:context=".Activities.ScreenshotActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <TextView
         android:id="@+id/thoughtsPrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:clickable="true"
-        android:scaleType="fitCenter"
-        android:scaleX="1"
-        android:scaleY="1"
-        app:backgroundTint="@color/unapparent"
-        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+        android:text="Cancel"
+        android:textColor="@color/primary"
+        android:textStyle="bold"
+        android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/thoughts_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="88dp"
         android:layout_marginBottom="30dp"
         android:text="Share a Screenshot"
         android:textColor="@color/prominent"
@@ -66,50 +65,48 @@
                 android:elevation="22dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:hint="Describe an online interaction..."
+                android:hint="Describe the interaction..."
                 android:inputType="textMultiLine"
                 android:padding="8dp"
                 android:textColor="@color/prominent"
                 android:textColorHint="@color/normal" />
 
-            <ImageView
-                android:id="@+id/thumbView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="20dp">
 
-            <EditText
-                android:id="@+id/caption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:hint="Enter a caption here"
-                android:padding="8dp"
-                android:textColorHint="@color/normal"
-                android:textColor="@color/prominent"
-                android:visibility="gone"/>
+                <ImageView
+                    android:id="@+id/thumbView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_marginStart="30dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-            <TextView
-                android:id="@+id/screenshotLink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:drawableLeft="@drawable/ic_add_black_24dp"
-                android:padding="8dp"
-                android:text=" Add a Screenshot"
-                android:textColor="@color/primaryDark"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/screenshotLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="30dp"
+                    android:textStyle="bold"
+                    android:text="Replace Screenshot"
+                    android:textColor="@color/primaryDark"
+                    android:textSize="17sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
                 android:id="@+id/btnThoughts"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/ripple_effect"
                 android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                 android:drawableTint="@color/themeBackground"

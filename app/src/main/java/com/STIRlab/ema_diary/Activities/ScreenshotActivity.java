@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.STIRlab.ema_diary.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 
@@ -35,19 +34,17 @@ import java.io.IOException;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
-public class ThoughtsActivity extends AppCompatActivity {
+public class ScreenshotActivity extends AppCompatActivity {
 
     private final String TAG = "THOUGHTS";
     final int THUMBSIZE = 128;
 
-    private FloatingActionButton ret;
     private CircularProgressButton submit;
 
-    private TextView addPic;
+    private TextView ret;
     private ImageView thumbnail;
 
     private EditText inputInteraction;
-    private EditText caption;
 
     private RDS_Connect client;
 
@@ -66,21 +63,14 @@ public class ThoughtsActivity extends AppCompatActivity {
         client = new RDS_Connect();
 
         ret = findViewById(R.id.thoughtsPrevious);
-        addPic = findViewById(R.id.screenshotLink);
         inputInteraction = findViewById(R.id.thoughts_upload);
         submit = findViewById(R.id.btnThoughts);
         thumbnail = findViewById(R.id.thumbView);
-        caption = findViewById(R.id.caption);
 
-        addPic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),2);
-            }
-        });
+        bitmap = getIntent().getExtras().getParcelable("bitmap");
+        thumbImage = getIntent().getExtras().getParcelable("thumbimage");
+
+        thumbnail.setImageBitmap(thumbImage);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +83,7 @@ public class ThoughtsActivity extends AppCompatActivity {
 
                     if(bitmap != null) {
                         try {
-                            File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ThoughtsActivity.this);
+                            File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ScreenshotActivity.this);
 
                             client.uploadInteractionWithPicture(userid, uploadText, "", newFile);
                         } catch (IOException e) {
@@ -117,9 +107,10 @@ public class ThoughtsActivity extends AppCompatActivity {
                 }
                 inputInteraction.setText("");
                 thumbnail.setImageBitmap(null);
-                caption.setText("");
-                caption.setVisibility(View.GONE);
                 submit.startMorphRevertAnimation();
+
+                Intent intent = new Intent(ScreenshotActivity.this, screenshotHistoryActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -169,8 +160,6 @@ public class ThoughtsActivity extends AppCompatActivity {
                     }
                     thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 200 , 200);
                     thumbnail.setImageBitmap(thumbImage);
-                    caption.setVisibility(View.VISIBLE);
-                    addPic.setText("Upload Different Screenshot");
                     break;
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     Log.e(TAG, "Selecting picture cancelled");

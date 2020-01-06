@@ -26,12 +26,12 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Activities.screenshotPromptActivity"></activity>
         <activity android:name=".Activities.EnterEmailActivity" />
-        <activity android:name=".Activities.ThoughtsHistoryActivity" />
+        <activity android:name=".Activities.screenshotHistoryActivity" />
         <activity android:name=".Activities.TutorialActivity" />
         <activity android:name=".Activities.JournalHistoryActivity" />
         <activity android:name=".Activities.PostActivity" />
         <activity android:name=".Activities.ForgotPasswordActivity" />
-        <activity android:name=".Activities.ThoughtsActivity" />
+        <activity android:name=".Activities.ScreenshotActivity" />
         <activity android:name=".Activities.HelpActivity" />
         <activity android:name=".Activities.MoreInfoActivity" />
         <activity android:name=".Activities.SettingsActivity" />

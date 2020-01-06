@@ -1,10 +1,6 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.graphics.Bitmap;
 import android.util.Log;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -240,8 +236,8 @@ public class RDS_Connect {
         return obj;
     }
 
-    public ArrayList<ThoughtEntry> getThoughtEntries(String userid) throws Exception {
-        ArrayList<ThoughtEntry> returnHistory = new ArrayList<ThoughtEntry>();
+    public ArrayList<ScreenshotEntry> getThoughtEntries(String userid) throws Exception {
+        ArrayList<ScreenshotEntry> returnHistory = new ArrayList<ScreenshotEntry>();
         JSONObject obj = getThoughtsHistory(userid);
         JSONArray array = obj.getJSONArray("thoughts");
 
@@ -254,7 +250,7 @@ public class RDS_Connect {
             String submitTime = tempObj.getString("submitted_at");
             int screenshots = tempObj.getInt("num_screenshots");
 
-            ThoughtEntry tempEntry= new ThoughtEntry(id, submitTime, screenshots);
+            ScreenshotEntry tempEntry= new ScreenshotEntry(id, submitTime, screenshots);
             returnHistory.add(tempEntry);
         }
 

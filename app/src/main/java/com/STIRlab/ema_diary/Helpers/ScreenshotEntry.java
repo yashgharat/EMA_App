@@ -9,13 +9,13 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class ThoughtEntry {
+public class ScreenshotEntry {
 
     private String thoughtID;
     private String submitTime, formattedTime;
     private int screenshotCount;
 
-    public ThoughtEntry(String thoughtID, String submitTime, int screenshotCount)
+    public ScreenshotEntry(String thoughtID, String submitTime, int screenshotCount)
     {
         this.thoughtID = thoughtID;
         this.submitTime = submitTime;

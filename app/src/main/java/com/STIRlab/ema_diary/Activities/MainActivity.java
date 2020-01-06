@@ -1,16 +1,13 @@
 package com.STIRlab.ema_diary.Activities;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.usage.UsageEvents;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -25,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,7 +37,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
-import com.STIRlab.ema_diary.Helpers.ScreenTimeReceiver;
 import com.STIRlab.ema_diary.R;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -265,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewHistory_2.setEnabled(false);
-                Intent intent = new Intent(MainActivity.this, ThoughtsHistoryActivity.class);
+                Intent intent = new Intent(MainActivity.this, screenshotHistoryActivity.class);
                 startActivityForResult(intent, 15);
             }
         });
@@ -273,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
         cardThoughts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, ThoughtsActivity.class);
+                Intent i = new Intent(MainActivity.this, screenshotPromptActivity.class);
                 startActivityForResult(i, 40);
             }
         });
