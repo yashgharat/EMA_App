@@ -171,35 +171,45 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/num_stats_layout">
 
-            <View
+            <ImageView
+                android:id="@+id/prog_0"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:background="@drawable/rectangle"
+                app:srcCompat="@drawable/rectangle"
+                android:background="@drawable/border"
                 />
-            <View
+            <ImageView
+                android:id="@+id/prog_1"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:background="@drawable/rectangle"
+                app:srcCompat="@drawable/rectangle"
+                android:background="@drawable/border"
                 />
-            <View
+            <ImageView
+                android:id="@+id/prog_2"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:background="@drawable/rectangle"
-
+                app:srcCompat="@drawable/rectangle"
+                android:background="@drawable/border"
                 />
-            <View
+            <ImageView
+                android:id="@+id/prog_3"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:background="@drawable/rectangle"
+                app:srcCompat="@drawable/rectangle"
+                android:background="@drawable/border"
                 />
-            <View
+            <ImageView
+                android:id="@+id/prog_4"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
-                android:background="@drawable/rectangle"
+                android:layout_marginEnd="3dp"
+                app:srcCompat="@drawable/rectangle"
+                android:background="@drawable/border"
                 />
 
         </LinearLayout>

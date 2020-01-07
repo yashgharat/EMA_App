@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView viewHistory_1, viewHistory_2;
+    private TextView viewHistory_1, totalEarnings, totalEntries, totalScreenshots;
     private TextView numSurveys;
 
     private CardView cardJournal;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
     private RDS_Connect client;
     private ScrapeDataHelper scraper;
 
+    private ImageView[] progressBar;
+
     public ProgressBar userProgress;
 
     @Override
@@ -78,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
         setContentView(R.layout.activity_main);
+
+        progressBar = new ImageView[]{findViewById(R.id.prog_0), findViewById(R.id.prog_1), findViewById(R.id.prog_2),
+                findViewById(R.id.prog_3), findViewById(R.id.prog_4)};
 
         cognitoSettings = new CognitoSettings(this);
         pool = cognitoSettings.getUserPool();
@@ -95,19 +101,23 @@ public class MainActivity extends AppCompatActivity {
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
 
-
-
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
         cardHelp = findViewById(R.id.cardHelp);
         cardThoughts = findViewById(R.id.cardThoughts);
 
+        totalEarnings = findViewById(R.id.total_earnings);
+        totalEntries = findViewById(R.id.total_entries);
+        totalScreenshots = findViewById(R.id.total_screenshots);
+
         layoutJournal = findViewById(R.id.layoutJournal);
 
         numSurveys = findViewById(R.id.numSurveys);
 
-
         swipeRefreshLayout = findViewById(R.id.main_swipe);
+
+
+
 
 
         if (SP.getBoolean("virgin", true)) {
@@ -256,14 +266,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        viewHistory_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                viewHistory_2.setEnabled(false);
-                Intent intent = new Intent(MainActivity.this, screenshotHistoryActivity.class);
-                startActivityForResult(intent, 15);
-            }
-        });
 
         cardThoughts.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -410,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         viewHistory_1.setEnabled(true);
-        viewHistory_2.setEnabled(true);
+
     }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
