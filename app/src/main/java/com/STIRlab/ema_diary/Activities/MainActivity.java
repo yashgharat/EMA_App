@@ -43,6 +43,10 @@ import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.w3c.dom.Text;
+
 import java.text.NumberFormat;
 
 
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog userDialog;
 
     private TextView viewHistory_1, totalEntries, totalScreenshots, studyCounter;
-    private TextView numSurveys;
+    private TextView numSurveys, cardTitle, cardMsg;
 
     private org.fabiomsr.moneytextview.MoneyTextView totalEarnings;
 
@@ -73,16 +77,20 @@ public class MainActivity extends AppCompatActivity {
     private RDS_Connect client;
     private ScrapeDataHelper scraper;
 
+    private JSONArray statuses;
+
     private ImageView[] progressBar;
     private ImageView info;
+
+    private String cardStatus, username, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
-        String username = SP.getString("username", "null");
-        String email = SP.getString("email", "null");
+        username = SP.getString("username", "null");
+        email = SP.getString("email", "null");
         setContentView(R.layout.activity_main);
 
         progressBar = new ImageView[]{findViewById(R.id.prog_0), findViewById(R.id.prog_1), findViewById(R.id.prog_2),
@@ -126,6 +134,12 @@ public class MainActivity extends AppCompatActivity {
         totalEarnings.setAmount(Float.parseFloat(client.getEarnings()));
         totalEntries.setText(client.getEntryCount());
         totalScreenshots.setText(client.getScreenshotCount());
+
+        try {
+            statuses = client.getStatuses();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
 
         info = findViewById(R.id.main_info);
 
@@ -180,88 +194,23 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                client.getSurveyStatus();
+                setCardColor();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        String status = client.getSurveyStatus();
-        TextView cardTitle = findViewById(R.id.titleJournal);
-        TextView cardMsg = findViewById(R.id.msgJournal);
-
-        if(status == null || status.equals("closed"))
-        {
-            cardTitle.setText("Daily Journal Later Today");
-            cardMsg.setText("Available from 2PM to midnight");
-
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.themeBackground)));
-            cardMsg.setClickable(false);
-            cardMsg.setEnabled(false);
-
+        cardStatus = null;
+        try {
+            cardStatus = statuses.getString(statuses.length());
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
         }
-        else if(status.equals("pending"))
-        {
-            String url = client.getResumeUrl();
-            cardMsg.setClickable(true);
-            cardMsg.setEnabled(true);
-            cardTitle.setText("Daily Journal in Progress");
-            cardMsg.setText("Due by Midnight");
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
-                    new ColorDrawable(getResources().getColor(R.color.secondary)));
-            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
 
-            cardJournal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
-                    builder.setShowTitle(true);
+        cardTitle = findViewById(R.id.titleJournal);
+        cardMsg = findViewById(R.id.msgJournal);
 
-                    CustomTabsIntent viewSurvey = builder.build();
-                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
-                }
-            });
+        setCardColor();
 
-        }
-        else if(status.equals("open"))
-        {
-            cardMsg.setClickable(true);
-            cardMsg.setEnabled(true);
-            cardTitle.setText("Ready for Daily Journal");
-            cardMsg.setText("Due by Midnight");
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.apparent)),
-                    new ColorDrawable(getResources().getColor(R.color.primaryDark)));
-            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
-
-            cardJournal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String url = "http://ucf.qualtrics.com/jfe/form/SV_9z6wKsiRjfT6hJb?user_id=" + username;
-
-                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
-                    builder.setShowTitle(true);
-
-                    CustomTabsIntent viewSurvey = builder.build();
-                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
-
-                    scraper.scrape();
-                    SP.edit().putLong("total_screen_time", 0).apply();
-
-                }
-            });
-
-        }
-        else if(status.equals("submitted"))
-        {
-            cardTitle.setText("Daily Journal Complete");
-            cardMsg.setText("Available again tomorrow at 2PM");
-            cardMsg.setClickable(false);
-            cardMsg.setEnabled(false);
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.themeBackground)));
-        }
 
         viewHistory_1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -306,6 +255,116 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
 
+    }
+
+    public void updateProgress() throws Exception {
+        for(int i = 0; i < statuses.length()-1; i++)
+        {
+            String curStatus = statuses.getString(i);
+
+        }
+    }
+
+    public void updateEntryBonus(){
+
+    }
+
+    public void setCardColor()
+    {
+        if(cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed"))
+        {
+            cardTitle.setText("Come Back at 2 PM");
+            cardMsg.setText("Daily Journal will be available later");
+
+            cardTitle.setTextColor(getResources().getColor(R.color.black));
+            cardMsg.setTextColor(getResources().getColor(R.color.normal));
+
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
+                    new ColorDrawable(getResources().getColor(R.color.themeBackground)));
+            cardMsg.setClickable(false);
+            cardMsg.setEnabled(false);
+
+        }
+        else if(cardStatus.equals("pending"))
+        {
+            String url = client.getResumeUrl();
+            cardMsg.setClickable(true);
+            cardMsg.setEnabled(true);
+            cardTitle.setText("Finish Daily Journal Entry");
+            cardMsg.setText("Complete by Midnight");
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
+                    new ColorDrawable(getResources().getColor(R.color.neutral)));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
+
+            cardJournal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
+                    builder.setShowTitle(true);
+
+                    CustomTabsIntent viewSurvey = builder.build();
+                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+                }
+            });
+
+        }
+        else if(cardStatus.equals("open"))
+        {
+            cardMsg.setClickable(true);
+            cardMsg.setEnabled(true);
+            cardTitle.setText("Finish Daily Journal Entry");
+            cardMsg.setText("Complete by Midnight");
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
+                    new ColorDrawable(getResources().getColor(R.color.neutral)));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
+
+            cardJournal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String url = "http://ucf.qualtrics.com/jfe/form/SV_9z6wKsiRjfT6hJb?user_id=" + username;
+
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
+                    builder.setShowTitle(true);
+
+                    CustomTabsIntent viewSurvey = builder.build();
+                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+
+                    scraper.scrape();
+                    SP.edit().putLong("total_screen_time", 0).apply();
+
+                }
+            });
+
+        }
+        else if(cardStatus.equals("submitted"))
+        {
+            cardTitle.setText("Daily Journal Complete");
+            cardMsg.setText("Waiting for researcher to approve");
+            cardMsg.setClickable(false);
+            cardMsg.setEnabled(false);
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.neutral)),
+                    new ColorDrawable(getResources().getColor(R.color.primaryDark)));
+        }
+        else if(cardStatus.equals("approved"))
+        {
+            cardTitle.setText("Daily Journal Complete");
+            cardMsg.setText("Researcher approved");
+            cardMsg.setClickable(false);
+            cardMsg.setEnabled(false);
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
+                    new ColorDrawable(getResources().getColor(R.color.positive)));
+        }
+        else if(cardStatus.equals("rejected"))
+        {
+            cardTitle.setText("Daily Journal Complete");
+            cardMsg.setText("Researcher approved");
+            cardMsg.setClickable(false);
+            cardMsg.setEnabled(false);
+            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
+                    new ColorDrawable(getResources().getColor(R.color.destructive)));
+        }
     }
 
     public void broadcastIntent() {

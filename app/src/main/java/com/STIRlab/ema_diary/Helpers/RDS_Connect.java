@@ -119,15 +119,6 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getSurveyStatus(){
-        try {
-            return parseUserInfo().getString("survey_status");
-        } catch (Exception e) {
-            Log.e(TAG, "HERE" + e.toString());
-        }
-
-        return null;
-    }
     public String getSurveyCount(){
         try {
             return parseUserInfo().getString("num_complete_surveys");
@@ -157,6 +148,14 @@ public class RDS_Connect {
 
     public String finishedPost() throws Exception {
         return parseUserInfo().getString("took_post_survey_at");
+    }
+
+    public String getEntryBonusStatus() throws Exception {
+        return parseUserInfo().getJSONObject("surveys_progress").getString("bonus_status");
+    }
+
+    public JSONArray getStatuses() throws Exception {
+        return parseUserInfo().getJSONObject("surveys_progress").getJSONArray("period_statuses");
     }
 
     public String parseHistory(String historyType) throws Exception {
