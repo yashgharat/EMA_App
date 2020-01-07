@@ -2,7 +2,7 @@
 <resources>
     <string-array name="question_array">
         <item name="q1">When should I submit my journal entry? </item>
-        <item name="q2">When should I use the Share My Thoughts feature? </item>
+        <item name="q2">When should I use the Share My screenshots feature? </item>
         <item name="q3">How will I be compensated? </item>
         <item name="q4">When and how will I receive my earnings? </item>
         <item name="q5">How do I know when the study is finished? </item>

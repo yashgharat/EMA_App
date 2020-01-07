@@ -36,7 +36,7 @@ import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 public class ScreenshotActivity extends AppCompatActivity {
 
-    private final String TAG = "THOUGHTS";
+    private final String TAG = "screenshots";
     final int THUMBSIZE = 128;
 
     private CircularProgressButton submit;
@@ -57,14 +57,16 @@ public class ScreenshotActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thoughts);
+        setContentView(R.layout.activity_screenshots);
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
+        String username = SP.getString("username", "null");
+        String email = SP.getString("email", "null");
 
-        client = new RDS_Connect();
+        client = new RDS_Connect(username, email);
 
-        ret = findViewById(R.id.thoughtsPrevious);
-        inputInteraction = findViewById(R.id.thoughts_upload);
-        submit = findViewById(R.id.btnThoughts);
+        ret = findViewById(R.id.screenshotsPrevious);
+        inputInteraction = findViewById(R.id.screenshots_upload);
+        submit = findViewById(R.id.btnscreenshots);
         thumbnail = findViewById(R.id.thumbView);
 
         bitmap = getIntent().getExtras().getParcelable("bitmap");
@@ -85,7 +87,7 @@ public class ScreenshotActivity extends AppCompatActivity {
                         try {
                             File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ScreenshotActivity.this);
 
-                            client.uploadInteractionWithPicture(userid, uploadText, "", newFile);
+                            client.uploadInteractionWithPicture(uploadText, "", newFile);
                         } catch (IOException e) {
                             e.printStackTrace();
                         } catch (JSONException e) {

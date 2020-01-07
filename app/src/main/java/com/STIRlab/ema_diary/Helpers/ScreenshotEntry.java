@@ -11,19 +11,19 @@ import java.util.TimeZone;
 
 public class ScreenshotEntry {
 
-    private String thoughtID;
+    private String screenshotID;
     private String submitTime, formattedTime;
     private int screenshotCount;
 
-    public ScreenshotEntry(String thoughtID, String submitTime, int screenshotCount)
+    public ScreenshotEntry(String screenshotID, String submitTime, int screenshotCount)
     {
-        this.thoughtID = thoughtID;
+        this.screenshotID = screenshotID;
         this.submitTime = submitTime;
         this.screenshotCount = screenshotCount;
     }
 
-    public String getThoughtID() {
-        return thoughtID;
+    public String getscreenshotID() {
+        return screenshotID;
     }
 
     public String getFormattedTime(Context context) throws ParseException {

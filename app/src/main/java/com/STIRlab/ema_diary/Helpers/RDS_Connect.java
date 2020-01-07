@@ -27,7 +27,7 @@ public class RDS_Connect {
 
     private OkHttpClient client;
 
-    private String returnStr;
+    private String returnStr, userid, email;
     private JSONObject history;
 
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
@@ -39,12 +39,14 @@ public class RDS_Connect {
     //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete _surveys":0,"earnings":0,"survey_status":"closed"}
 
 
-    public RDS_Connect(){
+    public RDS_Connect(String username, String email){
         client = new OkHttpClient();
+        this.userid = username;
+        this.email = email;
     }
 
 
-    public String getUser(String userid, String email) throws Exception {
+    public String getUser() throws Exception {
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -79,14 +81,14 @@ public class RDS_Connect {
 
     }
 
-    public JSONObject parseUserInfo(String userid, String email) throws Exception {
-        JSONObject info = new JSONObject(getUser(userid, email));
+    public JSONObject parseUserInfo() throws Exception {
+        JSONObject info = new JSONObject(getUser());
         return info;
     }
 
-    public String getEarnings(String userid, String email){
+    public String getEarnings(){
         try {
-            double d = parseUserInfo(userid, email).getDouble("earnings");
+            double d = parseUserInfo().getDouble("earnings");
 
             float earnings = (float)d;
 
@@ -98,9 +100,9 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getStreak(String userid, String email){
+    public String getStreak(){
         try {
-            return parseUserInfo(userid, email).getString("streak");
+            return parseUserInfo().getString("streak");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -108,9 +110,9 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getDaysLeft(String userid, String email){
+    public String getDaysLeft(){
         try {
-            return parseUserInfo(userid, email).getString("days_left");
+            return parseUserInfo().getString("days_left");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -118,38 +120,47 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getSurveyStatus(String userid, String email){
+    public String getSurveyStatus(){
         try {
-            return parseUserInfo(userid, email).getString("survey_status");
+            return parseUserInfo().getString("survey_status");
         } catch (Exception e) {
             Log.e(TAG, "HERE" + e.toString());
         }
 
         return null;
     }
-    public String getSurveyCount(String userid, String email){
+    public String getSurveyCount(){
         try {
-            return parseUserInfo(userid, email).getString("num_complete_surveys");
+            return parseUserInfo().getString("num_complete_surveys");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
 
         return null;
     }
-    public String getResumeUrl(String userid, String email){
+    public String getScreenshotCount(){
         try {
-            return parseUserInfo(userid, email).getString("resume_url");
+            return parseUserInfo().getString("num_thoughts");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
         return null;
     }
 
-    public String finishedPost(String userid, String email) throws Exception {
-        return parseUserInfo(userid, email).getString("took_post_survey_at");
+    public String getResumeUrl(){
+        try {
+            return parseUserInfo().getString("resume_url");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        return null;
     }
 
-    public String parseHistory(String userid, String historyType) throws Exception {
+    public String finishedPost() throws Exception {
+        return parseUserInfo().getString("took_post_survey_at");
+    }
+
+    public String parseHistory(String historyType) throws Exception {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -181,27 +192,27 @@ public class RDS_Connect {
         return returnStr;
     }
 
-    private JSONObject getJournalHistory(String user_id) throws Exception {
-        JSONObject obj = new JSONObject(parseHistory(user_id, "survey"));
+    private JSONObject getJournalHistory() throws Exception {
+        JSONObject obj = new JSONObject(parseHistory("survey"));
 
         return obj;
     }
 
-    public int getNumCompleted(String userid) throws Exception {
-        JSONObject obj = getJournalHistory(userid);
+    public int getNumCompleted() throws Exception {
+        JSONObject obj = getJournalHistory();
 
         return  obj.getInt("num_completed");
     }
 
-    public int getNumMissed(String userid) throws Exception {
-        JSONObject obj = getJournalHistory(userid);
+    public int getNumMissed() throws Exception {
+        JSONObject obj = getJournalHistory();
 
         return  obj.getInt("num_missed");
     }
 
-    public ArrayList<JournalEntry> getJournalEntries(String userid) throws Exception {
+    public ArrayList<JournalEntry> getJournalEntries() throws Exception {
         ArrayList<JournalEntry> returnHistory = new ArrayList<JournalEntry>();
-        JSONObject obj = getJournalHistory(userid);
+        JSONObject obj = getJournalHistory();
         JSONArray array = obj.getJSONArray("surveys");
         Log.i(TAG, array.toString(2));
 
@@ -231,22 +242,22 @@ public class RDS_Connect {
         return returnHistory;
     }
 
-    private JSONObject getThoughtsHistory(String user_id) throws Exception {
-        JSONObject obj = new JSONObject(parseHistory(user_id, "thoughts"));
+    private JSONObject getscreenshotsHistory() throws Exception {
+        JSONObject obj = new JSONObject(parseHistory("screenshots"));
         return obj;
     }
 
-    public ArrayList<ScreenshotEntry> getThoughtEntries(String userid) throws Exception {
+    public ArrayList<ScreenshotEntry> getScreenshotEntries() throws Exception {
         ArrayList<ScreenshotEntry> returnHistory = new ArrayList<ScreenshotEntry>();
-        JSONObject obj = getThoughtsHistory(userid);
-        JSONArray array = obj.getJSONArray("thoughts");
+        JSONObject obj = getscreenshotsHistory();
+        JSONArray array = obj.getJSONArray("screenshots");
 
         Log.i(TAG, array.toString(2));
 
         for(int i = 0; i < array.length(); i++){
             JSONObject tempObj = array.getJSONObject(i);
 
-            String id = tempObj.getString("thought_id");
+            String id = tempObj.getString("screenshot_id");
             String submitTime = tempObj.getString("submitted_at");
             int screenshots = tempObj.getInt("num_screenshots");
 
@@ -261,7 +272,7 @@ public class RDS_Connect {
 
 
 
-    public String updatePassword(String userid) throws Exception{
+    public String updatePassword() throws Exception{
         String url = baseURL + "did-set-pw?user_id=" + beginQuote + encodeValue(userid) + endQuote;
         patchRequestHelper(url, new Callback() {
             @Override
@@ -287,7 +298,7 @@ public class RDS_Connect {
     }
 
 
-    public String uploadFile(String userid, JSONObject json) throws JSONException {
+    public String uploadFile(JSONObject json) throws JSONException {
         String url = baseURL + "create-scraped-data-url";
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -347,8 +358,8 @@ public class RDS_Connect {
         return returnStr;
     }
 
-    public String uploadInteractionWithPicture(String userid, String desc, String caption, File file) throws JSONException {
-        String url = baseURL + "create-thought-url";
+    public String uploadInteractionWithPicture(String desc, String caption, File file) throws JSONException {
+        String url = baseURL + "create-screenshot-url";
 
         MediaType PNG = MediaType.parse("image/png");
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -413,7 +424,7 @@ public class RDS_Connect {
     }
 
     public String uploadInteraction(String userid, String desc) throws JSONException {
-        String url = baseURL + "create-thought-url";
+        String url = baseURL + "create-screenshot-url";
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 

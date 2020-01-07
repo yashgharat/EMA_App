@@ -38,7 +38,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
     private ScrollView scroll;
 
     private TextView missedCount, completeCount;
-    private String userId;
+    private String username;
 
     private FloatingActionButton previous;
 
@@ -50,8 +50,9 @@ public class JournalHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_journal_history);
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
-        userId = SP.getString("username", null);
-        client = new RDS_Connect();
+        String username = SP.getString("username", "null");
+        String email = SP.getString("email", "null");
+        client = new RDS_Connect(username, email);
 
         previous = findViewById(R.id.journalHistoryPrevious);
 
@@ -84,15 +85,15 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
     private void init(){
         try {
-            history = client.getJournalEntries(userId);
+            history = client.getJournalEntries();
         } catch (Exception e) {
             e.printStackTrace();
         }
         adapter = new JournalEntryAdapter(JournalHistoryActivity.this, history);
         recyclerView.setAdapter(adapter);
         try {
-            completeCount.setText(String.valueOf(client.getNumCompleted(userId)));
-            missedCount.setText(String.valueOf(client.getNumMissed(userId)));
+            completeCount.setText(String.valueOf(client.getNumCompleted()));
+            missedCount.setText(String.valueOf(client.getNumMissed()));
         } catch (Exception e) {
             e.printStackTrace();
         }

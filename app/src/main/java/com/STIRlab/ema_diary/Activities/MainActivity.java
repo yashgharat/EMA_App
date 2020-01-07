@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView viewHistory_1, totalEarnings, totalEntries, totalScreenshots;
+    private TextView viewHistory_1, totalEarnings, totalEntries, totalScreenshots, studyCounter;
     private TextView numSurveys;
 
     private CardView cardJournal;
     private CardView cardSettings;
     private CardView cardHelp;
-    private CardView cardThoughts;
+    private CardView cardscreenshots;
 
     private LinearLayout layoutJournal;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
         pool = cognitoSettings.getUserPool();
         cognitoSettings.refreshSession(SP);
 
-        client = new RDS_Connect();
+        client = new RDS_Connect(username, email);
         try {
-            client.getUser(username, email);
+            client.getUser();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,11 +104,12 @@ public class MainActivity extends AppCompatActivity {
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
         cardHelp = findViewById(R.id.cardHelp);
-        cardThoughts = findViewById(R.id.cardThoughts);
+        cardscreenshots = findViewById(R.id.cardscreenshots);
 
         totalEarnings = findViewById(R.id.total_earnings);
         totalEntries = findViewById(R.id.total_entries);
         totalScreenshots = findViewById(R.id.total_screenshots);
+        studyCounter = findViewById(R.id.study_ctr);
 
         layoutJournal = findViewById(R.id.layoutJournal);
 
@@ -117,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
 
+        studyCounter.setText(client.getDaysLeft());
+        totalEarnings.setText(client.getEarnings());
+        totalScreenshots.setText(client.getScreenshotCount());
 
 
 
@@ -139,13 +143,13 @@ public class MainActivity extends AppCompatActivity {
         SP.edit().putBoolean("Remember", true).apply();
 
         try {
-            Log.i(TAG, client.getUser(username, email));
+            Log.i(TAG, client.getUser());
         } catch (Exception e) {
             Log.i(TAG, CognitoSettings.formatException(e));
         }
 
         try {
-            String pass = client.finishedPost(username, email);
+            String pass = client.finishedPost();
             if(!pass.equals("null"))
             {
                 Intent post = new Intent(this, PostActivity.class);
@@ -158,24 +162,24 @@ public class MainActivity extends AppCompatActivity {
 
         setNotification();
 
-        String curEarnings = client.getEarnings(username, email);
+        String curEarnings = client.getEarnings();
 
         if(curEarnings == null)
             curEarnings = "0";
 
-        numSurveys.setText(client.getSurveyCount(username,email));
-        userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft(username, email)))*3);
+        numSurveys.setText(client.getSurveyCount());
+        userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft()))*3);
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                client.getSurveyStatus(username, email);
+                client.getSurveyStatus();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
-        String status = client.getSurveyStatus(username, email);
+        String status = client.getSurveyStatus();
         TextView cardTitle = findViewById(R.id.titleJournal);
         TextView cardMsg = findViewById(R.id.msgJournal);
 
@@ -194,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(status.equals("pending"))
         {
-            String url = client.getResumeUrl(username, email);
+            String url = client.getResumeUrl();
             cardMsg.setClickable(true);
             cardMsg.setEnabled(true);
             cardTitle.setText("Daily Journal in Progress");
@@ -267,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        cardThoughts.setOnClickListener(new View.OnClickListener() {
+        cardscreenshots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, screenshotPromptActivity.class);

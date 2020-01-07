@@ -41,7 +41,10 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_post);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
-        client = new RDS_Connect();
+        String username = SP.getString("username", "null");
+        String email = SP.getString("email", "null");
+        client = new RDS_Connect(username, email);
+
         cognitoSettings = new CognitoSettings(this);
 
 
@@ -58,10 +61,6 @@ public class PostActivity extends AppCompatActivity {
         }
 
         String data = getIntent().getStringExtra("data");
-
-        String email = SP.getString("email", "null");
-
-        String username = SP.getString("username", "null");
 
         surveyBtn = findViewById(R.id.btnPost);
         signOut = findViewById(R.id.postSignOut);
@@ -83,7 +82,7 @@ public class PostActivity extends AppCompatActivity {
         });
 
         try {
-            Log.i(TAG, client.getUser(username, email));
+            Log.i(TAG, client.getUser());
         } catch (Exception e) {
             e.printStackTrace();
         }

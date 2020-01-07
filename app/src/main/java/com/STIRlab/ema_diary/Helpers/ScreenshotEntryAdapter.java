@@ -14,7 +14,7 @@ import com.STIRlab.ema_diary.R;
 import java.text.ParseException;
 import java.util.List;
 
-public class ScreenshotEntryAdapter extends RecyclerView.Adapter<ScreenshotEntryAdapter.ThoughtEntryViewHolder> {
+public class ScreenshotEntryAdapter extends RecyclerView.Adapter<ScreenshotEntryAdapter.screenshotEntryViewHolder> {
 
 
     private Context context;
@@ -27,14 +27,14 @@ public class ScreenshotEntryAdapter extends RecyclerView.Adapter<ScreenshotEntry
 
     @NonNull
     @Override
-    public ThoughtEntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public screenshotEntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.thoughts_history_entry, null);
-        return new ThoughtEntryViewHolder(view);
+        View view = inflater.inflate(R.layout.screenshots_history_entry, null);
+        return new screenshotEntryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ThoughtEntryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull screenshotEntryViewHolder holder, int position) {
         ScreenshotEntry entry = history.get(position);
 
         //binding the data with the viewholder views
@@ -59,14 +59,14 @@ public class ScreenshotEntryAdapter extends RecyclerView.Adapter<ScreenshotEntry
         return history.size();
     }
 
-    class ThoughtEntryViewHolder extends RecyclerView.ViewHolder {
+    class screenshotEntryViewHolder extends RecyclerView.ViewHolder {
 
         TextView time, screenshotCount, screenshotLabel;
 
-        public ThoughtEntryViewHolder(View itemView) {
+        public screenshotEntryViewHolder(View itemView) {
             super(itemView);
 
-            time = itemView.findViewById(R.id.thoughts_time);
+            time = itemView.findViewById(R.id.screenshots_time);
             screenshotLabel = itemView.findViewById(R.id.screenshot_label);
         }
     }

@@ -9,7 +9,7 @@
     tools:context=".Activities.ScreenshotActivity">
 
     <TextView
-        android:id="@+id/thoughtsPrevious"
+        android:id="@+id/screenshotsPrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -21,7 +21,7 @@
         android:textSize="17sp"/>
 
     <TextView
-        android:id="@+id/thoughts_title"
+        android:id="@+id/screenshots_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -44,7 +44,7 @@
             android:animateLayoutChanges="true">
 
             <TextView
-                android:id="@+id/thoughts_sub"
+                android:id="@+id/screenshots_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -55,7 +55,7 @@
                 android:textSize="23sp" />
 
             <EditText
-                android:id="@+id/thoughts_upload"
+                android:id="@+id/screenshots_upload"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
@@ -102,7 +102,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-                android:id="@+id/btnThoughts"
+                android:id="@+id/btnscreenshots"
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
                 android:layout_gravity="center"

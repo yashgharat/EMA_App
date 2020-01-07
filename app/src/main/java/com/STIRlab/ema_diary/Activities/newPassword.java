@@ -24,9 +24,8 @@ public class newPassword extends AppCompatActivity {
 
     private SharedPreferences SP;
 
-    private RDS_Connect client = new RDS_Connect();
+    private RDS_Connect client;
     private AlertDialog userDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +33,10 @@ public class newPassword extends AppCompatActivity {
         setContentView(R.layout.activity_new_password);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
+
+        String username = SP.getString("username", "null");
+        String email = SP.getString("email", "null");
+        client = new RDS_Connect(username, email);
 
         cognitoSettings = new CognitoSettings(newPassword.this);
 
@@ -59,7 +62,7 @@ public class newPassword extends AppCompatActivity {
                             SP.edit().putString("dwString", String.valueOf(txtPassDos.getText())).apply();
 
                             try {
-                                Log.i(TAG, client.updatePassword(SP.getString("username", "null")));
+                                Log.i(TAG, client.updatePassword());
                             } catch (Exception e) {
                                 Log.e(TAG, e.toString());
                             }

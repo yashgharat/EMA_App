@@ -31,19 +31,20 @@ public class screenshotHistoryActivity extends AppCompatActivity {
 
     private FloatingActionButton previous;
 
-    private String userId;
+    private String userId, email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_thoughts_history);
+        setContentView(R.layout.activity_screenshots_history);
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
-        client = new RDS_Connect();
         userId = SP.getString("username", null);
+        email = SP.getString("email", null);
+        client = new RDS_Connect(userId, email);
 
-        swipeRefreshLayout = findViewById(R.id.thoughts_swipe);
-        previous = findViewById(R.id.thoughtsHistoryPrevious);
+        swipeRefreshLayout = findViewById(R.id.screenshots_swipe);
+        previous = findViewById(R.id.screenshotsHistoryPrevious);
 
-        recyclerView = findViewById(R.id.recyclerThoughts);
+        recyclerView = findViewById(R.id.recyclerscreenshots);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -68,7 +69,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
 
     private void init(){
         try {
-            history = client.getThoughtEntries(userId);
+            history = client.getScreenshotEntries();
         } catch (Exception e) {
             e.printStackTrace();
         }

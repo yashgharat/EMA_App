@@ -8,7 +8,7 @@
     tools:context=".Activities.screenshotHistoryActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/thoughtsHistoryPrevious"
+        android:id="@+id/screenshotsHistoryPrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -24,28 +24,28 @@
         />
 
     <TextView
-        android:id="@+id/thoughts_history_title"
+        android:id="@+id/screenshots_history_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thought History"
+        android:text="screenshot History"
         android:textSize="34sp"
         android:textStyle="bold"
         android:textColor="@color/prominent"
         android:layout_marginTop="37dp"
         android:layout_marginStart="30dp"
         android:paddingBottom="30dp"
-        app:layout_constraintTop_toBottomOf="@id/thoughtsHistoryPrevious"
+        app:layout_constraintTop_toBottomOf="@id/screenshotsHistoryPrevious"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/thoughts_swipe"
+        android:id="@+id/screenshots_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/thoughts_history_title"
+        app:layout_constraintTop_toBottomOf="@id/screenshots_history_title"
         app:layout_constraintLeft_toLeftOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerThoughts"
+            android:id="@+id/recyclerscreenshots"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"/>

@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.usage.UsageEvents;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -25,13 +26,15 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
 
     private ScrapeDataHelper.app[] list = new ScrapeDataHelper.app[500];
 
-    private String screenTime, userid;
+    private String screenTime, username, email;
     private int size;
 
     private JSONObject upload, manifest;
     private JSONArray appUsage = new JSONArray();
+    private SharedPreferences SP;
 
-    RDS_Connect client = new RDS_Connect();
+
+    private RDS_Connect client;
 
 
     public BackgroundWorker(Context ctx, ScrapeDataHelper.app[] list, String screenTime, int size, String userid) {
@@ -42,7 +45,13 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
         upload = new JSONObject();
         manifest = new JSONObject();
         this.size = size;
-        this.userid = userid;
+
+        SP = ctx.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
+        username = SP.getString("username", "null");
+        email = SP.getString("email", "null");
+
+        client = new RDS_Connect(username, email);
+
     }
 
     @Override
@@ -76,7 +85,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
             upload.put("screen-time-millisec", screenTime);
             Log.i(TAG, upload.toString(2));
 
-            client.uploadFile(userid, upload);
+            client.uploadFile(upload);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
