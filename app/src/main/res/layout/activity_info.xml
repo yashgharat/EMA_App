@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/themeBackground"
+    android:orientation="vertical"
+    tools:context=".Activities.infoActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/main_info_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:scaleX="1"
+        android:scaleY="1"
+        app:backgroundTint="@color/unapparent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+
+    <TextView
+        android:id="@+id/main_info_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30dp"
+        android:text="Study Progress"
+        android:textColor="@color/prominent"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/main_info_prog_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="Progress Bar"
+                android:textColor="@color/prominent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/main_info_prog_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/prog_bar_paragraph"
+                android:textColor="@color/normal"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:tint="@color/neutral"
+                        app:srcCompat="@drawable/rectangle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Incomplete"
+                        android:textColor="@color/normal"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:tint="@color/primaryDark"
+                        app:srcCompat="@drawable/rectangle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Complete, waiting for researcher"
+                        android:textColor="@color/normal"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:tint="@color/positive"
+                        app:srcCompat="@drawable/rectangle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Accepted by researcher"
+                        android:textColor="@color/normal"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:tint="@color/destructive"
+                        app:srcCompat="@drawable/rectangle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Rejected by researcher"
+                        android:textColor="@color/normal"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="8dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:tint="@color/disabled"
+                        app:srcCompat="@drawable/rectangle" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Missed"
+                        android:textColor="@color/normal"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/main_info_journal_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="Daily Journal Earnings"
+                android:textColor="@color/prominent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/main_info_journal_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/main_info_journal_paragraph"
+                android:textColor="@color/normal"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/main_info_bonus_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="Bonus Earnings"
+                android:textColor="@color/prominent"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/main_info_bonus_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/main_info_bonus_paragraph"
+                android:textColor="@color/normal"
+                android:textSize="17sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

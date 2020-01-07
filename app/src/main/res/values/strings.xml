@@ -1,4 +1,4 @@
-                                                                                    <resources>
+<resources>
     <string name="app_name">30 Days</string>
     <string name="action_settings">Settings</string>
     <string name="auth_Title">Welcome to 30 Days</string>
@@ -26,4 +26,7 @@
     <string name="interaction">Describe the online interaction in the screenshot you selected</string>
     <string name="earned">You earn $1.50 for each journal entry submitted.\n\nAdditionally, the study is broken up into 6 periods of 5 days each, and if you submit a journal entry for each of the 5 days within a period, you will receive a $10 bonus.\n\nFor example, if you submit the first 5 journal entries in a row, you will receive a $10 bonus after the 5th entry. Or, if you submit the 6th through the 10th journal entries, you will receive a $10 bonus after the 10th entry.\n\nSince there are 6 of these periods, you can earn up to $60 in bonuses. This means you can earn up to $105 from submitting journal entries.</string>
     <string name="screenshot_prompt">To help us learn more about online social behaviors and risks, please upload screenshots from your own online experiences.\n\nWe only receive the photos that you choose to upload. Photos are secured and encrypted, and will be anonymized in our research.</string>
+    <string name="prog_bar_paragraph">The Progress Bar is split into five colored segments, representing a five-day period. Each segment indicates the journal entry for that day:</string>
+    <string name="main_info_journal_paragraph">You will receive $1.50 for each journal entry accepted by the researcher</string>
+    <string name="main_info_bonus_paragraph">If all five journal entries in a five-day period are accepted, you will receive a $5 bonus. Similarly, if you submit a screenshot within this five-day period and it is accepted, you will receive an additional $5 bonus.</string>
 </resources>

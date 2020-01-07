@@ -9,11 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.STIRlab.ema_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MoreInfoActivity extends AppCompatActivity {
 
     private Button btnGrantAccess;
-    private ImageView previous;
+    private FloatingActionButton previous;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -43,6 +43,8 @@ import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 
+import java.text.NumberFormat;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView viewHistory_1, totalEarnings, totalEntries, totalScreenshots, studyCounter;
+    private TextView viewHistory_1, totalEntries, totalScreenshots, studyCounter;
     private TextView numSurveys;
+
+    private org.fabiomsr.moneytextview.MoneyTextView totalEarnings;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -70,8 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private ScrapeDataHelper scraper;
 
     private ImageView[] progressBar;
-
-    public ProgressBar userProgress;
+    private ImageView info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,12 +120,14 @@ public class MainActivity extends AppCompatActivity {
 
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
+        int currency = Integer.parseInt(client.getEarnings());
 
         studyCounter.setText(client.getDaysLeft());
-        totalEarnings.setText(client.getEarnings());
+        totalEarnings.setAmount(Float.parseFloat(client.getEarnings()));
+        totalEntries.setText(client.getEntryCount());
         totalScreenshots.setText(client.getScreenshotCount());
 
-
+        info = findViewById(R.id.main_info);
 
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
@@ -162,14 +167,15 @@ public class MainActivity extends AppCompatActivity {
 
         setNotification();
 
-        String curEarnings = client.getEarnings();
-
-        if(curEarnings == null)
-            curEarnings = "0";
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, infoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         numSurveys.setText(client.getSurveyCount());
-        userProgress.setProgress((30-Integer.parseInt(client.getDaysLeft()))*3);
-
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -182,8 +188,6 @@ public class MainActivity extends AppCompatActivity {
         String status = client.getSurveyStatus();
         TextView cardTitle = findViewById(R.id.titleJournal);
         TextView cardMsg = findViewById(R.id.msgJournal);
-
-
 
         if(status == null || status.equals("closed"))
         {
@@ -216,8 +220,6 @@ public class MainActivity extends AppCompatActivity {
 
                     CustomTabsIntent viewSurvey = builder.build();
                     viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
-
-
                 }
             });
 

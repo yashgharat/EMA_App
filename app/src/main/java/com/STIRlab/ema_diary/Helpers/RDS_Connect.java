@@ -100,13 +100,12 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getStreak(){
+    public String getEntryCount(){
         try {
-            return parseUserInfo().getString("streak");
+            return parseUserInfo().getString("num_complete_surveys");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-
         return null;
     }
 

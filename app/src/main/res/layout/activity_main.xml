@@ -79,14 +79,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <TextView
+                <org.fabiomsr.moneytextview.MoneyTextView
                     android:id="@+id/total_earnings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$28.50"
-                    android:textColor="@color/positive"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
+                    app:symbol="$"
+                    app:baseTextSize="17sp"
+                    app:symbolGravity="start"
+                    app:decimalSeparator="."
+                    app:baseTextColor="@color/positive"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -114,7 +115,7 @@
                     android:text="2"
                     android:textColor="@color/neutral"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:paddingTop="2dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -143,7 +144,8 @@
                     android:text="0"
                     android:textColor="@color/neutral"
                     android:textSize="20sp"
-                    android:textStyle="bold"
+                    android:paddingTop="2dp"
+
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -228,6 +230,7 @@
             app:layout_constraintTop_toBottomOf="@id/progress_layout"/>
 
         <ImageView
+            android:id="@+id/main_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
