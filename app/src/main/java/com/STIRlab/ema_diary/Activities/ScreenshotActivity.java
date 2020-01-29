@@ -110,9 +110,6 @@ public class ScreenshotActivity extends AppCompatActivity {
                 inputInteraction.setText("");
                 thumbnail.setImageBitmap(null);
                 submit.startMorphRevertAnimation();
-
-                Intent intent = new Intent(ScreenshotActivity.this, screenshotHistoryActivity.class);
-                startActivity(intent);
             }
         });
 

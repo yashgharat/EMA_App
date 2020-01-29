@@ -158,6 +158,10 @@ public class RDS_Connect {
         return parseUserInfo().getJSONObject("surveys_progress").getJSONArray("period_statuses");
     }
 
+    public int getPeriodCount() throws Exception {
+        return parseUserInfo().getJSONObject("surveys_progress").getInt("period_count");
+    }
+
     public String parseHistory(String historyType) throws Exception {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 

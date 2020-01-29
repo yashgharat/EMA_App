@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.STIRlab.ema_diary.Helpers.ScreenshotEntry;
@@ -30,6 +31,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
     private SharedPreferences SP;
 
     private FloatingActionButton previous;
+    private TextView label;
 
     private String userId, email;
     @Override
@@ -43,6 +45,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
 
         swipeRefreshLayout = findViewById(R.id.screenshots_swipe);
         previous = findViewById(R.id.screenshotsHistoryPrevious);
+        label = findViewById(R.id.when_empty);
 
         recyclerView = findViewById(R.id.recyclerscreenshots);
         recyclerView.setHasFixedSize(false);
@@ -74,7 +77,15 @@ public class screenshotHistoryActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        adapter = new ScreenshotEntryAdapter(this, history);
-        recyclerView.setAdapter(adapter);
+        if(history != null) {
+            label.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adapter = new ScreenshotEntryAdapter(this, history);
+            recyclerView.setAdapter(adapter);
+        }
+        else {
+            label.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
     }
 }

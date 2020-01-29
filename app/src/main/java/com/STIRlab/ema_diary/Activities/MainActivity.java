@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView viewHistory_1, totalEntries, totalScreenshots, studyCounter;
+    private TextView viewHistory_1, viewHistory_2, totalEntries, totalScreenshots, studyCounter;
     private TextView numSurveys, cardTitle, cardMsg;
 
     private org.fabiomsr.moneytextview.MoneyTextView totalEarnings;
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
+        viewHistory_2 = findViewById(R.id.viewHistory_2);
+
 
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
@@ -194,6 +196,11 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                try {
+                    updateProgress();
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
                 setCardColor();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -209,6 +216,11 @@ public class MainActivity extends AppCompatActivity {
         cardTitle = findViewById(R.id.titleJournal);
         cardMsg = findViewById(R.id.msgJournal);
 
+        try {
+            updateProgress();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
         setCardColor();
 
 
@@ -220,6 +232,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 15);
             }
         });
+        viewHistory_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewHistory_2.setEnabled(false);
+                Intent intent = new Intent(MainActivity.this, screenshotHistoryActivity.class);
+                startActivityForResult(intent, 15);
+            }
+        });
+
 
 
         cardscreenshots.setOnClickListener(new View.OnClickListener() {
@@ -258,9 +279,72 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateProgress() throws Exception {
-        for(int i = 0; i < statuses.length()-1; i++)
+        for(int i = 0; i < 5; i++)
         {
             String curStatus = statuses.getString(i);
+
+            int curDay = client.getPeriodCount();
+
+            if(curStatus == null)
+            {
+                progressBar[i].setColorFilter(getResources().getColor(R.color.normal));
+                progressBar[i].setBackgroundColor(getResources().getColor(R.color.normal));
+            }
+            else if(i == curDay - 1)
+            {
+                if(curStatus.equals("approved"))
+                {
+                    progressBar[i].setColorFilter(Color.parseColor("#A7E9DB"));
+                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.positive));
+                }
+                else if(curStatus.equals("rejected"))
+                {
+                    progressBar[i].setColorFilter(Color.parseColor("#FFC0C5"));
+                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.destructive));
+                }
+                else if(curStatus.equals("submitted"))
+                {
+                    progressBar[i].setColorFilter(Color.parseColor("#BAD2FF"));
+                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.primaryDark));
+                }
+                else if(curStatus.equals("pending") || curStatus.equals("open"))
+                {
+                    progressBar[i].setColorFilter(Color.parseColor("#FCF6DF"));
+                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.neutral));
+                }
+                else if(curStatus.equals("missed") || curStatus.equals("closed"))
+                {
+                    progressBar[i].setColorFilter(getResources().getColor(R.color.normal));
+                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.apparent));
+                }
+            }
+            else if(curStatus.equals("approved"))
+            {
+                progressBar[i].setColorFilter(getResources().getColor(R.color.positive));
+                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+
+            }
+            else if(curStatus.equals("rejected"))
+            {
+                progressBar[i].setColorFilter(getResources().getColor(R.color.destructive));
+                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+            }
+            else if(curStatus.equals("submitted"))
+            {
+                progressBar[i].setColorFilter(getResources().getColor(R.color.primaryDark));
+                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+            }
+            else if(curStatus.equals("pending") || curStatus.equals("open"))
+            {
+                progressBar[i].setColorFilter(getResources().getColor(R.color.neutral));
+                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+            }
+            else if(curStatus.equals("missed") || curStatus.equals("closed"))
+            {
+                progressBar[i].setColorFilter(getResources().getColor(R.color.disabled));
+                progressBar[i].setBackgroundColor(getResources().getColor(R.color.disabled));
+
+            }
 
         }
     }
