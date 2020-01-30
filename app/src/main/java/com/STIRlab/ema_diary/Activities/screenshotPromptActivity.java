@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
@@ -31,6 +32,8 @@ public class screenshotPromptActivity extends AppCompatActivity {
     private Button addPic;
     private Bitmap bitmap;
 
+    private TextView prev;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,6 @@ public class screenshotPromptActivity extends AppCompatActivity {
 
         addPic = findViewById(R.id.add_pic_button);
 
-
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +49,14 @@ public class screenshotPromptActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"),2);
+            }
+        });
+
+        prev = findViewById(R.id.chooseScreenshotCancel);
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 

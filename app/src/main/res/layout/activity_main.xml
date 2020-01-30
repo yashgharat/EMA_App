@@ -312,6 +312,7 @@
                                 app:layout_constraintTop_toBottomOf="@id/titleJournal" />
 
                             <ImageView
+                                android:id="@+id/journalDrawable"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -319,7 +320,7 @@
                                 android:tint="@color/disabled"
                                 app:layout_constraintRight_toRightOf="@id/journal"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic__ionicons_svg_ios_create" />
+                                app:srcCompat="@drawable/journal_40dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout

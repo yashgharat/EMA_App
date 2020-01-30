@@ -138,7 +138,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:text="Accepted by researcher"
+                        android:text="Approved by researcher"
                         android:textColor="@color/normal"
                         android:textSize="15sp" />
                 </LinearLayout>

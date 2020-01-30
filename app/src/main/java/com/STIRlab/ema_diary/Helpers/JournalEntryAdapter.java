@@ -46,7 +46,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(entry.isComplete()) {
+        if(!entry.getStatus().equals("missed")) {
             holder.isComplete.setText("Complete");
             holder.isComplete.setTextColor(context.getColor(R.color.secondary));
 
@@ -67,8 +67,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
 
             holder.earnings.setTextColor(context.getResources().getColor(R.color.normal));
         }
-        holder.earnings.setText("$" + entry.gettotalEarnings());
-        holder.increment.setText("+$" + entry.getIncrementEarnings());
+
     }
 
     @Override

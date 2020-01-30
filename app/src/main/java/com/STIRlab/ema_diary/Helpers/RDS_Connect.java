@@ -222,23 +222,24 @@ public class RDS_Connect {
         for(int i = 0; i < array.length(); i++){
             JSONObject tempObj = array.getJSONObject(i);
 
+
             String id = tempObj.getString("survey_id");
             String openTime = tempObj.getString("opened_on");
             String submitTime = tempObj.getString("submitted_at");
-            double initEarnings = tempObj.getDouble("earnings_so_far");
-            String earnings = formatDecimal((float)initEarnings).replaceAll("^\\s+","");
 
-            boolean isComplete = tempObj.getBoolean("is_complete");
-            double initIncrement = tempObj.getDouble("earnings_added");
-            String increment = formatDecimal((float)initIncrement).replaceAll("^\\s+","");
+            boolean status = tempObj.getBoolean("status");
 
 
 
-            JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, isComplete,
-                    earnings, increment);
+
+            JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, status);
+
+
 
             returnHistory.add(tempEntry);
         }
+
+        Log.i(TAG, returnHistory.get(0).getID());
 
 
         return returnHistory;
