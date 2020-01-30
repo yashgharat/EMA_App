@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.STIRlab.ema_diary.Helpers.JournalEntry;
 import com.STIRlab.ema_diary.Helpers.JournalEntryAdapter;
 import com.STIRlab.ema_diary.Helpers.RDS_Connect;
+import com.STIRlab.ema_diary.Helpers.ScreenshotEntryAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,10 +38,12 @@ public class JournalHistoryActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ScrollView scroll;
 
-    private TextView missedCount, completeCount;
+    private TextView label;
     private String username;
 
     private FloatingActionButton previous;
+
+
 
     private RDS_Connect client;
     private SharedPreferences SP;
@@ -56,8 +59,8 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
         previous = findViewById(R.id.journalHistoryPrevious);
 
-        missedCount = findViewById(R.id.missedCount);
-        completeCount = findViewById(R.id.completedCount);
+
+        label = findViewById(R.id.when_empty_journal);
 
         swipeRefreshLayout = findViewById(R.id.journal_swipe);
 
@@ -89,13 +92,16 @@ public class JournalHistoryActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        adapter = new JournalEntryAdapter(JournalHistoryActivity.this, history);
-        recyclerView.setAdapter(adapter);
-        try {
-            completeCount.setText(String.valueOf(client.getNumCompleted()));
-            missedCount.setText(String.valueOf(client.getNumMissed()));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(history != null) {
+            label.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adapter = new JournalEntryAdapter(this, history);
+            recyclerView.setAdapter(adapter);
         }
+        else {
+            label.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+
     }
 }

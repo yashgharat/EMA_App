@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         int currency = Integer.parseInt(client.getEarnings());
 
+
         studyCounter.setText(client.getDaysLeft());
         totalEarnings.setAmount(Float.parseFloat(client.getEarnings()));
         totalEntries.setText(client.getEntryCount());

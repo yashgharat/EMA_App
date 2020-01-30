@@ -172,10 +172,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
+            android:background="@drawable/prog_layout"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/num_stats_layout">
+            app:layout_constraintTop_toBottomOf="@id/num_stats_layout"
+            android:layout_marginTop="20dp"
+            >
 
             <ImageView
                 android:id="@+id/prog_0"
@@ -217,8 +219,8 @@
                 app:srcCompat="@drawable/rectangle"
                 android:background="@drawable/border"
                 />
-
         </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
