@@ -39,7 +39,7 @@ public class RDS_Connect {
     //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete _surveys":0,"earnings":0,"survey_status":"closed"}
 
 
-    public RDS_Connect(String username, String email){
+    public RDS_Connect(String username, String email) {
         client = new OkHttpClient();
         this.userid = username;
         this.email = email;
@@ -51,31 +51,31 @@ public class RDS_Connect {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         String url = baseURL + "user?id=" + beginQuote +
-                    encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
+                encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
 
-            getRequestHelper(url, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "call failed: " + e.toString());
+        getRequestHelper(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    countDownLatch.countDown();
+                    String responseStr = response.body().string();
+                    returnStr = responseStr;
+                    Log.e(TAG, url);
+                } else {
+                    countDownLatch.countDown();
+                    Log.e(TAG, call.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
                 }
+            }
+        });
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        countDownLatch.countDown();
-                        String responseStr = response.body().string();
-                        returnStr = responseStr;
-                        Log.e(TAG, url);
-                    } else {
-                        countDownLatch.countDown();
-                        Log.e(TAG, call.toString());
-                        Log.e(TAG, "request not successful");
-                        Log.e(TAG, url);
-                    }
-                }
-            });
-
-            countDownLatch.await();
+        countDownLatch.await();
 
         return returnStr;
 
@@ -86,13 +86,13 @@ public class RDS_Connect {
         return info;
     }
 
-    public String getEarnings(){
+    public String getEarnings() {
         try {
             double d = parseUserInfo().getDouble("earnings");
 
-            float earnings = (float)d;
+            float earnings = (float) d;
 
-            return formatDecimal(earnings).replaceAll("^\\s+","");
+            return formatDecimal(earnings).replaceAll("^\\s+", "");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -100,7 +100,7 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getEntryCount(){
+    public String getEntryCount() {
         try {
             return parseUserInfo().getString("num_complete_surveys");
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getDaysLeft(){
+    public String getDaysLeft() {
         try {
             return parseUserInfo().getString("days_left");
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getSurveyCount(){
+    public String getSurveyCount() {
         try {
             return parseUserInfo().getString("num_complete_surveys");
         } catch (Exception e) {
@@ -128,7 +128,8 @@ public class RDS_Connect {
 
         return null;
     }
-    public String getScreenshotCount(){
+
+    public String getScreenshotCount() {
         try {
             return parseUserInfo().getString("num_thoughts");
         } catch (Exception e) {
@@ -137,7 +138,7 @@ public class RDS_Connect {
         return null;
     }
 
-    public String getResumeUrl(){
+    public String getResumeUrl() {
         try {
             return parseUserInfo().getString("resume_url");
         } catch (Exception e) {
@@ -168,26 +169,26 @@ public class RDS_Connect {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         getRequestHelper(url, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "call failed: " + e.toString());
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+                countDownLatch.countDown();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseStr = response.body().string();
+                    returnStr = responseStr;
+                    countDownLatch.countDown();
+                } else {
+                    Log.e(TAG, call.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
                     countDownLatch.countDown();
                 }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    if (response.isSuccessful()) {
-                        String responseStr = response.body().string();
-                        returnStr = responseStr;
-                        countDownLatch.countDown();
-                    } else {
-                        Log.e(TAG, call.toString());
-                        Log.e(TAG, "request not successful");
-                        Log.e(TAG, url);
-                        countDownLatch.countDown();
-                    }
-                }
-            });
+            }
+        });
 
         countDownLatch.await();
 
@@ -203,13 +204,13 @@ public class RDS_Connect {
     public int getNumCompleted() throws Exception {
         JSONObject obj = getJournalHistory();
 
-        return  obj.getInt("num_completed");
+        return obj.getInt("num_completed");
     }
 
     public int getNumMissed() throws Exception {
         JSONObject obj = getJournalHistory();
 
-        return  obj.getInt("num_missed");
+        return obj.getInt("num_missed");
     }
 
     public ArrayList<JournalEntry> getJournalEntries() throws Exception {
@@ -219,9 +220,8 @@ public class RDS_Connect {
         Log.i(TAG, array.toString(2));
 
 
-        for(int i = 0; i < array.length(); i++){
+        for (int i = 0; i < array.length(); i++) {
             JSONObject tempObj = array.getJSONObject(i);
-
 
             String id = tempObj.getString("survey_id");
             String openTime = tempObj.getString("opened_on");
@@ -229,16 +229,10 @@ public class RDS_Connect {
             String status = tempObj.getString("status");
 
 
-
-
             JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, status);
-
-
 
             returnHistory.add(tempEntry);
         }
-
-        Log.i(TAG, returnHistory.get(0).getID());
 
 
         return returnHistory;
@@ -256,14 +250,14 @@ public class RDS_Connect {
 
         Log.i(TAG, array.toString(2));
 
-        for(int i = 0; i < array.length(); i++){
+        for (int i = 0; i < array.length(); i++) {
             JSONObject tempObj = array.getJSONObject(i);
 
             String id = tempObj.getString("screenshot_id");
             String submitTime = tempObj.getString("submitted_at");
             int screenshots = tempObj.getInt("num_screenshots");
 
-            ScreenshotEntry tempEntry= new ScreenshotEntry(id, submitTime, screenshots);
+            ScreenshotEntry tempEntry = new ScreenshotEntry(id, submitTime, screenshots);
             returnHistory.add(tempEntry);
         }
 
@@ -272,9 +266,7 @@ public class RDS_Connect {
     }
 
 
-
-
-    public String updatePassword() throws Exception{
+    public String updatePassword() throws Exception {
         String url = baseURL + "did-set-pw?user_id=" + beginQuote + encodeValue(userid) + endQuote;
         patchRequestHelper(url, new Callback() {
             @Override
@@ -284,12 +276,11 @@ public class RDS_Connect {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     returnStr = responseStr;
                     Log.i(TAG, "here" + returnStr);
-                }
-                else{
+                } else {
                     Log.e(TAG, call.toString());
                     Log.e(TAG, "request not successful");
                     Log.e(TAG, url);
@@ -305,7 +296,7 @@ public class RDS_Connect {
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-        JSONObject jgenerate= new JSONObject().put("user_id", userid).put("file_ext","json");
+        JSONObject jgenerate = new JSONObject().put("user_id", userid).put("file_ext", "json");
 
         RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
 
@@ -318,7 +309,7 @@ public class RDS_Connect {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     Log.i(TAG, responseStr);
 
@@ -333,12 +324,11 @@ public class RDS_Connect {
 
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     String responseStr = response.body().string();
                                     returnStr = responseStr;
                                     Log.i(TAG, "success");
-                                }
-                                else{
+                                } else {
                                     Log.e(TAG, "in PUT Call: " + response.toString());
                                     Log.e(TAG, "request not successful");
                                     Log.e(TAG, url);
@@ -348,8 +338,7 @@ public class RDS_Connect {
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
-                }
-                else{
+                } else {
                     Log.e(TAG, "in POST Call: " + response.toString());
                     Log.e(TAG, "request not successful");
                     Log.e(TAG, url);
@@ -371,9 +360,9 @@ public class RDS_Connect {
                 .put("caption", caption)
                 .put("file_ext", "png");
 
-        JSONObject jgenerate= new JSONObject()
+        JSONObject jgenerate = new JSONObject()
                 .put("user_id", userid)
-                .put("description",desc)
+                .put("description", desc)
                 .put("screenshot", pic);
 
         RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
@@ -387,7 +376,7 @@ public class RDS_Connect {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     Log.i(TAG, responseStr);
 
@@ -401,20 +390,18 @@ public class RDS_Connect {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            if(response.isSuccessful()){
+                            if (response.isSuccessful()) {
                                 String responseStr = response.body().string();
                                 returnStr = responseStr;
                                 Log.i(TAG, "here" + returnStr);
-                            }
-                            else{
+                            } else {
                                 Log.e(TAG, "in PUT Call: " + response.toString());
                                 Log.e(TAG, "request not successful");
                                 Log.e(TAG, url);
                             }
                         }
                     });
-                }
-                else{
+                } else {
                     Log.e(TAG, "in POST Call: " + response.toString());
                     Log.e(TAG, "request not successful");
                     Log.e(TAG, url);
@@ -430,9 +417,9 @@ public class RDS_Connect {
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-        JSONObject jgenerate= new JSONObject()
+        JSONObject jgenerate = new JSONObject()
                 .put("user_id", userid)
-                .put("description",desc);
+                .put("description", desc);
 
         RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
 
@@ -446,12 +433,11 @@ public class RDS_Connect {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     returnStr = responseStr;
                     Log.i(TAG, "here" + returnStr);
-                }
-                else{
+                } else {
                     Log.e(TAG, "in PUT Call: " + response.toString());
                     Log.e(TAG, "request not successful");
                     Log.e(TAG, url);
@@ -463,8 +449,7 @@ public class RDS_Connect {
 
     }
 
-    public String startStudy(String userid) throws Exception
-    {
+    public String startStudy(String userid) throws Exception {
         String url = baseURL + "start-study?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -477,11 +462,10 @@ public class RDS_Connect {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     returnStr = responseStr;
-                }
-                else{
+                } else {
                     Log.e(TAG, call.toString());
                     Log.e(TAG, "request not successful");
                     Log.e(TAG, url);
@@ -494,18 +478,18 @@ public class RDS_Connect {
     }
 
 
-    private Call patchRequestHelper(String url, Callback callback){
-    Request request = new Request.Builder()
-            .url(url)
-            .patch(RequestBody.create(null, new byte[0]))
-            .build();
-    Call call = client.newCall(request);
-    call.enqueue(callback);
-    return call;
+    private Call patchRequestHelper(String url, Callback callback) {
+        Request request = new Request.Builder()
+                .url(url)
+                .patch(RequestBody.create(null, new byte[0]))
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 
 
-    private Call getRequestHelper(String url, Callback callback){
+    private Call getRequestHelper(String url, Callback callback) {
 
         Request request = new Request.Builder()
                 .url(url)
@@ -515,7 +499,7 @@ public class RDS_Connect {
         return call;
     }
 
-    private Call postRequestHelper(String url, RequestBody rBody, Callback callback){
+    private Call postRequestHelper(String url, RequestBody rBody, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .post(rBody)
@@ -525,7 +509,7 @@ public class RDS_Connect {
         return call;
     }
 
-    private Call putRequestHelper(String url, RequestBody rBody, Callback callback){
+    private Call putRequestHelper(String url, RequestBody rBody, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .put(rBody)
