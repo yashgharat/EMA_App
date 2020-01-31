@@ -226,8 +226,7 @@ public class RDS_Connect {
             String id = tempObj.getString("survey_id");
             String openTime = tempObj.getString("opened_on");
             String submitTime = tempObj.getString("submitted_at");
-
-            boolean status = tempObj.getBoolean("status");
+            String status = tempObj.getString("status");
 
 
 

@@ -46,8 +46,8 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(!entry.getStatus().equals("missed")) {
-            holder.isComplete.setText("Complete");
+        if(entry.getStatus().equals("approved")) {
+            holder.isComplete.setText("Approved");
             holder.isComplete.setTextColor(context.getColor(R.color.secondary));
 
             Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
@@ -55,9 +55,9 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             DrawableCompat.setTint(drawable, context.getColor(R.color.secondary));
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
-        else{
-            holder.isComplete.setText("Missed");
-            holder.isComplete.setTextColor(context.getResources().getColor(R.color.destructive));
+        else if(entry.getStatus().equals("rejected")){
+            holder.isComplete.setText("");
+            holder.isComplete.setTextColor(context.getResources().getColor(R.color.themeBackground));
 
             Drawable drawable = context.getDrawable(R.drawable.ic_close_black_24dp);
             drawable = DrawableCompat.wrap(drawable);
@@ -65,7 +65,38 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
 
-            holder.earnings.setTextColor(context.getResources().getColor(R.color.normal));
+        }
+        else if(entry.getStatus().equals("submitted")){
+            holder.isComplete.setText("");
+            holder.isComplete.setTextColor(context.getResources().getColor(R.color.themeBackground));
+
+            Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, context.getColor(R.color.primary));
+            holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+
+
+        }
+        else if(entry.getStatus().equals("open") || entry.getStatus().equals("pending")){
+            holder.isComplete.setText("");
+            holder.isComplete.setTextColor(context.getResources().getColor(R.color.themeBackground));
+
+            Drawable drawable = context.getDrawable(R.drawable.journal_20dp);
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, context.getColor(R.color.neutral));
+            holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+
+
+        }
+        else if(entry.getStatus().equals("missed")){
+            holder.isComplete.setText("Missed");
+            holder.isComplete.setTextColor(context.getResources().getColor(R.color.disabled));
+
+            Drawable drawable = context.getDrawable(R.drawable.ic_close_black_24dp);
+            drawable = DrawableCompat.wrap(drawable);
+            DrawableCompat.setTint(drawable, context.getColor(R.color.disabled));
+            holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+
         }
 
     }
@@ -77,15 +108,13 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
 
     class JournalEntryViewHolder extends RecyclerView.ViewHolder {
 
-        TextView time, isComplete, earnings, increment;
+        TextView time, isComplete;
 
         public JournalEntryViewHolder(View itemView) {
             super(itemView);
 
             time = itemView.findViewById(R.id.journal_time);
             isComplete= itemView.findViewById(R.id.is_complete);
-            earnings = itemView.findViewById(R.id.card_earnings);
-            increment = itemView.findViewById(R.id.card_increment);
         }
     }
 }

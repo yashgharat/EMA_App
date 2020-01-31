@@ -29,7 +29,7 @@
         android:id="@+id/journal_history_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Journal History"
+        android:text="All Journal Entries"
         android:textSize="34sp"
         android:textStyle="bold"
         android:textColor="@color/prominent"

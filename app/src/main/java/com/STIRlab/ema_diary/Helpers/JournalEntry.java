@@ -16,16 +16,14 @@ public class JournalEntry {
 
     private String submitTime, formattedTime, openTime, surveyId, status;
 
-    public JournalEntry(String surveyId, String openTime, String submitTime, String status)
-    {
+    public JournalEntry(String surveyId, String openTime, String submitTime, String status) {
         this.surveyId = surveyId;
         this.openTime = openTime;
         this.submitTime = submitTime;
         this.status = status;
     }
 
-    public String getID()
-    {
+    public String getID() {
         return surveyId;
     }
 
@@ -34,8 +32,7 @@ public class JournalEntry {
         SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-        if (!status.equals("missed"))
-        {
+        if (!status.equals("missed")) {
             ParsedDate = InputDateFormat.parse(submitTime);
 //            InputDateFormat.setTimeZone(TimeZone.getDefault());
 //            String temp = InputDateFormat.format(ParsedDate);
@@ -43,20 +40,17 @@ public class JournalEntry {
             formattedTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
                     DateUtils.MINUTE_IN_MILLIS,
                     DateUtils.WEEK_IN_MILLIS,
-                    DateUtils.FORMAT_SHOW_WEEKDAY
-                            | DateUtils.FORMAT_CAP_AMPM
+                    DateUtils.FORMAT_CAP_AMPM
                             | DateUtils.FORMAT_CAP_MIDNIGHT).toString();
 
             formattedTime = formattedTime.replace(", ", " at ");
-        }
-        else
-        {
+        } else {
             ParsedDate = InputDateFormat.parse(openTime);
 
             long now = System.currentTimeMillis();
 
             formattedTime = DateUtils.getRelativeTimeSpanString(ParsedDate.getTime(), now, DateUtils.DAY_IN_MILLIS,
-                    DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_CAP_AMPM).toString();
+                    DateUtils.FORMAT_CAP_AMPM).toString();
 
             formattedTime += " by Midnight";
 
@@ -66,12 +60,14 @@ public class JournalEntry {
         return formattedTime;
     }
 
-    public String getStatus(){
+    public String getStatus() {
 
         return status;
     }
 
 
-    public String getOpenTime() { return openTime; }
+    public String getOpenTime() {
+        return openTime;
+    }
 
 }
