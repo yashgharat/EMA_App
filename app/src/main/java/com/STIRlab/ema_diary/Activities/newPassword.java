@@ -12,9 +12,9 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
-import com.STIRlab.ema_diary.Helpers.RDS_Connect;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
 public class newPassword extends AppCompatActivity {
@@ -24,7 +24,7 @@ public class newPassword extends AppCompatActivity {
 
     private SharedPreferences SP;
 
-    private RDS_Connect client;
+    private APIHelper client;
     private AlertDialog userDialog;
 
     @Override
@@ -36,7 +36,7 @@ public class newPassword extends AppCompatActivity {
 
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        client = new RDS_Connect(username, email);
+        client = new APIHelper(username, email);
 
         cognitoSettings = new CognitoSettings(newPassword.this);
 

@@ -34,7 +34,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
     private SharedPreferences SP;
 
 
-    private RDS_Connect client;
+    private APIHelper client;
 
 
     public BackgroundWorker(Context ctx, ScrapeDataHelper.app[] list, String screenTime, int size, String userid) {
@@ -50,7 +50,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
         username = SP.getString("username", "null");
         email = SP.getString("email", "null");
 
-        client = new RDS_Connect(username, email);
+        client = new APIHelper(username, email);
 
     }
 

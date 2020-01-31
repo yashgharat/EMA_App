@@ -315,12 +315,12 @@
                                 android:id="@+id/journalDrawable"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="20dp"
                                 android:tint="@color/disabled"
                                 app:layout_constraintRight_toRightOf="@id/journal"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/journal_40dp" />
+                                app:srcCompat="@drawable/journal_20dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -425,12 +425,12 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="20dp"
                                 android:tint="@color/primaryDark"
                                 app:layout_constraintRight_toRightOf="@id/screenshots"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/upload_40dp" />
+                                app:srcCompat="@drawable/upload_20dp" />
 
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -514,12 +514,12 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="20dp"
                                 android:tint="@color/primaryDark"
                                 app:layout_constraintRight_toRightOf="@id/help"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_help_black_40dp" />
+                                app:srcCompat="@drawable/ic_help_black_24dp" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>
@@ -573,12 +573,12 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="20dp"
                                 android:tint="@color/primaryDark"
                                 app:layout_constraintRight_toRightOf="@id/settings"
                                 app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/ic_settings_black_40dp" />
+                                app:srcCompat="@drawable/ic_settings_black_20dp" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </LinearLayout>

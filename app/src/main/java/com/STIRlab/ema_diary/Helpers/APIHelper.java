@@ -22,8 +22,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RDS_Connect {
-    private final String TAG = "RDS_Connect";
+public class APIHelper {
+    private final String TAG = "APIHelper";
 
     private OkHttpClient client;
 
@@ -39,7 +39,7 @@ public class RDS_Connect {
     //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete _surveys":0,"earnings":0,"survey_status":"closed"}
 
 
-    public RDS_Connect(String username, String email) {
+    public APIHelper(String username, String email) {
         client = new OkHttpClient();
         this.userid = username;
         this.email = email;

@@ -8,23 +8,16 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.JournalEntry;
 import com.STIRlab.ema_diary.Helpers.JournalEntryAdapter;
-import com.STIRlab.ema_diary.Helpers.RDS_Connect;
-import com.STIRlab.ema_diary.Helpers.ScreenshotEntryAdapter;
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONException;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 public class JournalHistoryActivity extends AppCompatActivity {
@@ -45,7 +38,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
 
 
-    private RDS_Connect client;
+    private APIHelper client;
     private SharedPreferences SP;
 
     @Override
@@ -55,7 +48,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        client = new RDS_Connect(username, email);
+        client = new APIHelper(username, email);
 
         previous = findViewById(R.id.journalHistoryPrevious);
 

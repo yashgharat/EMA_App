@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
-import com.STIRlab.ema_diary.Helpers.RDS_Connect;
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
 
 import org.json.JSONException;
@@ -46,7 +46,7 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private EditText inputInteraction;
 
-    private RDS_Connect client;
+    private APIHelper client;
 
     private AlertDialog userDialog;
     private Bitmap bitmap, thumbImage;
@@ -62,7 +62,7 @@ public class ScreenshotActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
 
-        client = new RDS_Connect(username, email);
+        client = new APIHelper(username, email);
 
         ret = findViewById(R.id.screenshotsPrevious);
         inputInteraction = findViewById(R.id.screenshots_upload);

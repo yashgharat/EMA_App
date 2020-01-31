@@ -18,11 +18,9 @@ import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
-import com.STIRlab.ema_diary.Helpers.RDS_Connect;
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
-
-import org.w3c.dom.Text;
 
 public class PostActivity extends AppCompatActivity {
     private final String TAG = "POST";
@@ -30,7 +28,7 @@ public class PostActivity extends AppCompatActivity {
     private Button surveyBtn;
     private TextView signOut;
 
-    private RDS_Connect client;
+    private APIHelper client;
     private SharedPreferences SP;
     private CognitoSettings cognitoSettings;
 
@@ -43,7 +41,7 @@ public class PostActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        client = new RDS_Connect(username, email);
+        client = new APIHelper(username, email);
 
         cognitoSettings = new CognitoSettings(this);
 

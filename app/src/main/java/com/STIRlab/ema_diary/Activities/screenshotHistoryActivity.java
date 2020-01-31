@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.STIRlab.ema_diary.Helpers.RDS_Connect;
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.ScreenshotEntry;
 import com.STIRlab.ema_diary.Helpers.ScreenshotEntryAdapter;
 import com.STIRlab.ema_diary.R;
@@ -27,7 +27,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private RDS_Connect client;
+    private APIHelper client;
     private SharedPreferences SP;
 
     private FloatingActionButton previous;
@@ -41,7 +41,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         userId = SP.getString("username", null);
         email = SP.getString("email", null);
-        client = new RDS_Connect(userId, email);
+        client = new APIHelper(userId, email);
 
         swipeRefreshLayout = findViewById(R.id.screenshots_swipe);
         previous = findViewById(R.id.screenshotsHistoryPrevious);
