@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.infoActivity"></activity>
+        <activity android:name=".Activities.Earnings.currentEarningsActivity"></activity>
+        <activity android:name=".Activities.Earnings.pastEarningsActivity" />
+        <activity android:name=".Activities.Earnings.allEarningsActivity" />
+        <activity android:name=".Activities.infoActivity" />
         <activity android:name=".Activities.screenshotPromptActivity" />
         <activity android:name=".Activities.EnterEmailActivity" />
         <activity android:name=".Activities.screenshotHistoryActivity" />

@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
         cardStatus = null;
         try {
-            cardStatus = statuses.getString(statuses.length());
+            cardStatus = statuses.getString(statuses.length()-1);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
@@ -355,6 +355,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setCardColor()
     {
+        Log.i(TAG, cardStatus);
         if(cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed"))
         {
             cardTitle.setText("Come Back at 2 PM");
@@ -364,9 +365,8 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setTextColor(getResources().getColor(R.color.normal));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_remove_circle_black_20dp));
-            Drawable drawable = MainActivity.this.getDrawable(R.drawable.ic_remove_circle_black_20dp);
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, MainActivity.this.getColor(R.color.disabled));
+            journalState.setColorFilter(getResources().getColor(R.color.disabled));
+
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.themeBackground)));
@@ -376,6 +376,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(cardStatus.equals("pending"))
         {
+            Log.i(TAG, "inPending");
             String url = client.getResumeUrl();
             cardMsg.setClickable(true);
             cardMsg.setEnabled(true);
@@ -386,13 +387,11 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.journal_20dp));
-            Drawable drawable = MainActivity.this.getDrawable(R.drawable.journal_20dp);
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, MainActivity.this.getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
                     new ColorDrawable(getResources().getColor(R.color.neutral)));
-            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect_yellow));
 
             cardJournal.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -418,9 +417,8 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.journal_20dp));
-            Drawable drawable = MainActivity.this.getDrawable(R.drawable.journal_20dp);
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, MainActivity.this.getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
                     new ColorDrawable(getResources().getColor(R.color.neutral)));
@@ -456,9 +454,7 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
-            Drawable drawable = MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp);
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, MainActivity.this.getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.neutral)),
                     new ColorDrawable(getResources().getColor(R.color.primaryDark)));
@@ -474,9 +470,8 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
-            Drawable drawable = MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp);
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, MainActivity.this.getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.positive)));
@@ -492,9 +487,7 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_close_black_20dp));
-            Drawable drawable = MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp);
-            drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, MainActivity.this.getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.destructive)));
