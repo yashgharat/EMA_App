@@ -36,6 +36,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.STIRlab.ema_diary.Activities.Earnings.allEarningsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog userDialog;
 
     private TextView viewHistory_1, viewHistory_2, totalEntries, totalScreenshots, studyCounter;
-    private TextView numSurveys, cardTitle, cardMsg;
+    private TextView numSurveys, cardTitle, cardMsg, viewEarnings;
 
     private org.fabiomsr.moneytextview.MoneyTextView totalEarnings;
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewHistory_1 = findViewById(R.id.viewHistory_1);
         viewHistory_2 = findViewById(R.id.viewHistory_2);
-
+        viewEarnings = findViewById(R.id.view_earnings);
 
         cardJournal = findViewById(R.id.cardJournal);
         cardSettings = findViewById(R.id.cardSettings);
@@ -241,6 +242,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        viewEarnings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewEarnings.setEnabled(false);
+                Intent intent = new Intent(MainActivity.this, allEarningsActivity.class);
+                startActivityForResult(intent, 15);
+            }
+        });
 
 
         cardscreenshots.setOnClickListener(new View.OnClickListener() {
@@ -604,6 +613,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         viewHistory_1.setEnabled(true);
+        viewHistory_2.setEnabled(true);
+        viewEarnings.setEnabled(true);
 
     }
 
