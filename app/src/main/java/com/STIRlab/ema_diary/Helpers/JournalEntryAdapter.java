@@ -23,7 +23,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
     private Context context;
     private List<JournalEntry> history;
 
-    public JournalEntryAdapter(Context context, List<JournalEntry> history){
+    public JournalEntryAdapter(Context context, List<JournalEntry> history) {
         this.context = context;
         this.history = history;
     }
@@ -46,7 +46,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(entry.getStatus().equals("approved")) {
+        if (entry.getStatus().equals("approved")) {
             holder.isComplete.setText("Approved");
             holder.isComplete.setTextColor(context.getColor(R.color.secondary));
 
@@ -54,8 +54,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, context.getColor(R.color.secondary));
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-        }
-        else if(entry.getStatus().equals("rejected")){
+        } else if (entry.getStatus().equals("rejected")) {
             holder.isComplete.setText("");
             holder.isComplete.setTextColor(context.getResources().getColor(R.color.themeBackground));
 
@@ -65,8 +64,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
 
-        }
-        else if(entry.getStatus().equals("submitted")){
+        } else if (entry.getStatus().equals("submitted")) {
             holder.isComplete.setText("");
             holder.isComplete.setTextColor(context.getResources().getColor(R.color.themeBackground));
 
@@ -76,8 +74,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
 
-        }
-        else if(entry.getStatus().equals("open") || entry.getStatus().equals("pending")){
+        } else if (entry.getStatus().equals("open") || entry.getStatus().equals("pending")) {
             holder.isComplete.setText("");
             holder.isComplete.setTextColor(context.getResources().getColor(R.color.themeBackground));
 
@@ -87,8 +84,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
 
 
-        }
-        else if(entry.getStatus().equals("missed")){
+        } else if (entry.getStatus().equals("missed")) {
             holder.isComplete.setText("Missed");
             holder.isComplete.setTextColor(context.getResources().getColor(R.color.disabled));
 
@@ -114,7 +110,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             super(itemView);
 
             time = itemView.findViewById(R.id.journal_time);
-            isComplete= itemView.findViewById(R.id.is_complete);
+            isComplete = itemView.findViewById(R.id.is_complete);
         }
     }
 }

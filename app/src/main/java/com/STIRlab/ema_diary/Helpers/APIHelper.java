@@ -204,18 +204,51 @@ public class APIHelper {
         return new JSONObject(getAllEarnings());
     }
 
-    public int getTotalEarnings() throws Exception {
+    public float getTotalEarnings() throws Exception {
         JSONObject earnings = parseEarnings();
 
-        return earnings.getInt("total_earnings");
+        return (float) earnings.getDouble("total_earnings");
     }
-    public int getPossibleEarnings() throws Exception {
+
+    public float getPossibleEarnings() throws Exception {
         JSONObject earnings = parseEarnings();
 
-        return earnings.getInt("possible_earnings");
+        return (float) earnings.getDouble("possible_earnings");
     }
-    public JSONArray getPeriods() throws Exception {
-        return parseEarnings().getJSONArray("periods");
+
+    public ArrayList<earningsPeriod> getPeriods() throws Exception {
+        ArrayList<earningsPeriod> returnEarnings = new ArrayList<earningsPeriod>();
+
+        JSONObject obj = parseEarnings();
+        JSONArray array = obj.getJSONArray("periods");
+        Log.i(TAG, array.toString(2));
+
+
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject tempObj = array.getJSONObject(i);
+
+            JSONObject surveys = tempObj.getJSONObject("surveys"), thoughts = tempObj.getJSONObject("thoughts");
+
+            int earnings = tempObj.getInt("earnings_so_far"), increment = tempObj.getInt("earnings_added");
+            double surveyBonusEarnings = surveys.getDouble("bonus_earnings"), thoughtsBonusEarnings = thoughts.getDouble("bonus_earnings");
+            double surveyBasicEarnings = surveys.getDouble("basic_earnings");
+
+            int survey_count = surveys.getInt("submit_count"), thoughts_count = thoughts.getInt("submit_count");
+            int approve = surveys.getInt("approve_count");
+            String start_date = tempObj.getString("start_date"), end_date = tempObj.getString("end_date");
+            String surveys_bonus = surveys.getString("bonus_status"), thoughts_bonus = thoughts.getString("bonus_status");
+            boolean isFirst = (i == 0);
+
+
+            earningsPeriod tempEntry = new earningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
+            survey_count, thoughts_count, approve, start_date, end_date,
+                    surveys_bonus, thoughts_bonus, isFirst);
+
+            returnEarnings.add(tempEntry);
+        }
+
+
+        return returnEarnings;
     }
 
 

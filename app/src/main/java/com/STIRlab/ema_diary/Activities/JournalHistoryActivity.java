@@ -29,7 +29,6 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ScrollView scroll;
 
     private TextView label;
     private String username;

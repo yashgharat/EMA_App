@@ -37,6 +37,7 @@
                 app:layout_constraintTop_toBottomOf="@id/card_earnings_title">
 
                 <ImageView
+                    android:id="@+id/card_journal_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -55,6 +56,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
+                    android:id="@+id/card_upload_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -84,23 +86,23 @@
                 app:baseTextColor="@color/positive"
                 app:baseTextSize="17sp"
                 app:decimalSeparator="."
-                app:layout_constraintEnd_toStartOf="@id/cur_earnings_next"
+                app:layout_constraintEnd_toStartOf="@id/card_earnings_next"
                 app:layout_constraintTop_toTopOf="parent"
                 app:symbol="$"
                 app:symbolGravity="start" />
 
             <TextView
-                android:id="@+id/cardincrement_earnings"
+                android:id="@+id/card_increment_earnings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="10dp"
                 android:text="+$1.50"
                 android:textColor="@color/disabled"
-                app:layout_constraintEnd_toStartOf="@id/cur_earnings_next"
+                app:layout_constraintEnd_toStartOf="@id/card_earnings_next"
                 app:layout_constraintTop_toBottomOf="@id/card_earnings" />
             <ImageView
-                android:id="@+id/cur_earnings_next"
+                android:id="@+id/card_earnings_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_chevron_right_black_20dp"

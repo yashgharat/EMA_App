@@ -34,8 +34,6 @@ public class JournalEntry {
         //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
         if (!status.equals("missed")) {
             ParsedDate = InputDateFormat.parse(submitTime);
-//            InputDateFormat.setTimeZone(TimeZone.getDefault());
-//            String temp = InputDateFormat.format(ParsedDate);
 
             formattedTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
                     DateUtils.MINUTE_IN_MILLIS,

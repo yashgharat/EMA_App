@@ -104,18 +104,6 @@
                     app:symbol="$"
                     app:symbolGravity="start" />
 
-
-                <ImageView
-                    android:id="@+id/basic_earnings_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="5dp"
-                    android:tint="@color/disabled"
-                    app:layout_constraintTop_toBottomOf="@id/basic_earnings"
-                    app:layout_constraintBottom_toTopOf="@id/separator1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_chevron_right_black_20dp" />
-
                 <View
                     android:id="@+id/separator1"
                     android:layout_width="match_parent"
@@ -181,16 +169,6 @@
                     app:symbolGravity="start" />
 
 
-                <ImageView
-                    android:id="@+id/survey_bonus_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="5dp"
-                    android:tint="@color/disabled"
-                    app:layout_constraintBottom_toTopOf="@id/separator2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_chevron_right_black_20dp" />
-
                 <View
                     android:id="@+id/separator2"
                     android:layout_width="match_parent"
@@ -254,17 +232,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:symbol="$"
                     app:symbolGravity="start" />
-
-
-                <ImageView
-                    android:id="@+id/thought_bonus_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="5dp"
-                    android:tint="@color/disabled"
-                    app:layout_constraintBottom_toTopOf="@id/separator3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:srcCompat="@drawable/ic_chevron_right_black_20dp" />
 
                 <View
                     android:id="@+id/separator3"
