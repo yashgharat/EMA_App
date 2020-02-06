@@ -180,20 +180,23 @@ public class APIHelper {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    countDownLatch.countDown();
                     String responseStr = response.body().string();
                     returnStr = responseStr;
                     Log.e(TAG, url);
-                } else {
                     countDownLatch.countDown();
+                } else {
                     Log.e(TAG, call.toString());
                     Log.e(TAG, "request not successful");
                     Log.e(TAG, url);
+                    countDownLatch.countDown();
+
                 }
+                Log.i(TAG, returnStr);
             }
         });
 
         countDownLatch.await();
+
 
         return returnStr;
 
@@ -201,7 +204,8 @@ public class APIHelper {
 
 
     public JSONObject parseEarnings() throws Exception {
-        return new JSONObject(getAllEarnings());
+        JSONObject temp = new JSONObject(getAllEarnings());
+        return temp;
     }
 
     public float getTotalEarnings() throws Exception {
@@ -238,7 +242,6 @@ public class APIHelper {
             String start_date = tempObj.getString("start_date"), end_date = tempObj.getString("end_date");
             String surveys_bonus = surveys.getString("bonus_status"), thoughts_bonus = thoughts.getString("bonus_status");
             boolean isFirst = (i == 0);
-
 
             earningsPeriod tempEntry = new earningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
             survey_count, thoughts_count, approve, start_date, end_date,

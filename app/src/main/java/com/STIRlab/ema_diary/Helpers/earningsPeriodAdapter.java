@@ -1,6 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
     @Override
     public earningsPeriodAdapter.EarningsPeriodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.all_earnings_card, null);
+        View view = inflater.inflate(R.layout.all_earnings_card, parent, false);
         return new EarningsPeriodViewHolder(view);
     }
 
@@ -48,6 +49,7 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
                 holder.earningsSoFar.setBaseColor(context.getColor(R.color.disabled));
         holder.earningsAdded.setText("+$" + item.getIncrement());
 
+        Log.i("InAdapter", item.getThoughts_bonus());
 
         if(item.getSurveys_bonus().equals("open"))
         {
@@ -65,26 +67,26 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
             holder.surveyCount.setText("");
             holder.surveyCount.setBackground(context.getDrawable(R.drawable.ic_close_black_20dp));
             holder.surveyCount.setBackgroundColor(context.getColor(R.color.disabled));
-            holder.upload.setColorFilter(context.getColor(R.color.neutral));
+            holder.upload.setColorFilter(context.getColor(R.color.disabled));
         }
         if(item.getThoughts_bonus().equals("missed")){
             holder.thoughtCount.setText("");
             holder.thoughtCount.setBackground(context.getDrawable(R.drawable.ic_close_black_20dp));
             holder.thoughtCount.setBackgroundColor(context.getColor(R.color.disabled));
-            holder.journal.setColorFilter(context.getColor(R.color.neutral));
+            holder.journal.setColorFilter(context.getColor(R.color.disabled));
         }
         if(item.getSurveys_bonus().equals("approved"))
         {
             holder.surveyCount.setText("");
             holder.surveyCount.setBackground(context.getDrawable(R.drawable.ic_check_black_24dp));
             holder.surveyCount.setBackgroundColor(context.getColor(R.color.positive));
-            holder.upload.setColorFilter(context.getColor(R.color.neutral));
+            holder.upload.setColorFilter(context.getColor(R.color.positive));
         }
         if(item.getThoughts_bonus().equals("approved")){
             holder.thoughtCount.setText("");
             holder.thoughtCount.setBackground(context.getDrawable(R.drawable.ic_check_black_20dp));
             holder.thoughtCount.setBackgroundColor(context.getColor(R.color.positive));
-            holder.journal.setColorFilter(context.getColor(R.color.neutral));
+            holder.journal.setColorFilter(context.getColor(R.color.positive));
         }
 
 

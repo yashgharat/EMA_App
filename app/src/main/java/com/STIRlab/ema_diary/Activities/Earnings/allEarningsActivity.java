@@ -8,6 +8,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -56,6 +57,8 @@ public class allEarningsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        init();
+
         try {
             allEarnings.setAmount(client.getTotalEarnings());
             possible_earnings.setText("Will earn $" + client.getPossibleEarnings() + " if pending items are approved");
@@ -84,6 +87,7 @@ public class allEarningsActivity extends AppCompatActivity {
     private void init(){
         try {
             earnings = client.getPeriods();
+            Log.i("EARNINGS", earnings.get(0).getSurveys_bonus());
         } catch (Exception e) {
             e.printStackTrace();
         }

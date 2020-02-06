@@ -1,5 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
