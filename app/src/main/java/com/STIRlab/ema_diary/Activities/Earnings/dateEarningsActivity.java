@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.STIRlab.ema_diary.R;
 
-public class currentEarningsActivity extends AppCompatActivity {
+public class dateEarningsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_current_earnings);
+        setContentView(R.layout.activity_date_earnings);
     }
 }
