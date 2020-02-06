@@ -241,7 +241,7 @@ public class APIHelper {
             int approve = surveys.getInt("approve_count");
             String start_date = tempObj.getString("start_date"), end_date = tempObj.getString("end_date");
             String surveys_bonus = surveys.getString("bonus_status"), thoughts_bonus = thoughts.getString("bonus_status");
-            boolean isFirst = (i == 0);
+            boolean isFirst = (i == array.length()-1);
 
             earningsPeriod tempEntry = new earningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
             survey_count, thoughts_count, approve, start_date, end_date,

@@ -44,16 +44,31 @@
                     android:tint="@color/neutral"
                     app:srcCompat="@drawable/journal_20dp" />
 
-                <TextView
-                    android:id="@+id/card_surveys_submit_count"
-                    android:layout_width="wrap_content"
+
+                <RelativeLayout
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="2"
-                    android:textAlignment="center"
-                    android:textColor="@color/neutral"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_width="wrap_content"> // Only works inside a RelativeLayout
+                    <ImageView
+                        android:id="@+id/card_surveys_submit_count_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
+
+                    <TextView
+                        android:id="@+id/card_surveys_submit_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="2"
+                        android:textAlignment="center"
+                        android:textColor="@color/neutral"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:layout_alignLeft="@id/card_surveys_submit_count_icon"
+                        android:layout_alignTop="@id/card_surveys_submit_count_icon"
+                        android:layout_alignRight="@id/card_surveys_submit_count_icon"
+                        android:layout_alignBottom="@id/card_surveys_submit_count_icon"
+                        android:gravity="center" />
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/card_upload_icon"
@@ -64,32 +79,44 @@
                     android:tint="@color/neutral"
                     app:srcCompat="@drawable/upload_20dp" />
 
-                <TextView
-                    android:id="@+id/card_screenshots_submit_count"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:text="0"
-                    android:textAlignment="center"
-                    android:textColor="@color/neutral"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    android:layout_width="wrap_content"> // Only works inside a RelativeLayout
+                    <ImageView
+                        android:id="@+id/card_screenshots_submit_count_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"/>
+
+                    <TextView
+                        android:id="@+id/card_screenshots_submit_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="0"
+                        android:textAlignment="center"
+                        android:textColor="@color/neutral"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:layout_alignLeft="@id/card_screenshots_submit_count_icon"
+                        android:layout_alignTop="@id/card_screenshots_submit_count_icon"
+                        android:layout_alignRight="@id/card_screenshots_submit_count_icon"
+                        android:layout_alignBottom="@id/card_screenshots_submit_count_icon"
+                        android:gravity="center" />
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <org.fabiomsr.moneytextview.MoneyTextView
+            <TextView
                 android:id="@+id/card_earnings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                app:amount="0"
-                app:baseTextColor="@color/positive"
-                app:baseTextSize="17sp"
-                app:decimalSeparator="."
+                android:text="$28.50"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:textColor="@color/positive"
                 app:layout_constraintEnd_toStartOf="@id/card_earnings_next"
-                app:layout_constraintTop_toTopOf="parent"
-                app:symbol="$"
-                app:symbolGravity="start" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/card_increment_earnings"
@@ -101,6 +128,7 @@
                 android:textColor="@color/disabled"
                 app:layout_constraintEnd_toStartOf="@id/card_earnings_next"
                 app:layout_constraintTop_toBottomOf="@id/card_earnings" />
+
             <ImageView
                 android:id="@+id/card_earnings_next"
                 android:layout_width="wrap_content"

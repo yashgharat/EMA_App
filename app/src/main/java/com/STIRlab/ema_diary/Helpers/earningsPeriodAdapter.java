@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.STIRlab.ema_diary.R;
 
+import org.w3c.dom.Text;
+
 import java.text.ParseException;
 import java.util.List;
 
@@ -44,9 +46,9 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
             e.printStackTrace();
         }
 
-        holder.earningsSoFar.setAmount((float)item.getEarnings());
+        holder.earningsSoFar.setText("$" + item.getEarnings());
         if(item.getEarnings() == 0)
-                holder.earningsSoFar.setBaseColor(context.getColor(R.color.disabled));
+                holder.earningsSoFar.setTextColor(context.getColor(R.color.disabled));
         holder.earningsAdded.setText("+$" + item.getIncrement());
 
         Log.i("InAdapter", item.getThoughts_bonus());
@@ -55,38 +57,40 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
         {
             holder.surveyCount.setText(item.getSurveys());
             holder.surveyCount.setTextColor(context.getColor(R.color.neutral));
-            holder.upload.setColorFilter(context.getColor(R.color.neutral));
+            holder.surveyCountIcon.setImageResource(0);
+            holder.journal.setColorFilter(context.getColor(R.color.neutral));
         }
         if(item.getThoughts_bonus().equals("open")){
             holder.thoughtCount.setText(item.getThoughts());
             holder.thoughtCount.setTextColor(context.getColor(R.color.neutral));
-            holder.journal.setColorFilter(context.getColor(R.color.neutral));
+            holder.thoughtCountIcon.setImageResource(0);
+            holder.upload.setColorFilter(context.getColor(R.color.neutral));
         }
         if(item.getSurveys_bonus().equals("missed"))
         {
             holder.surveyCount.setText("");
-            holder.surveyCount.setBackground(context.getDrawable(R.drawable.ic_close_black_20dp));
-            holder.surveyCount.setBackgroundColor(context.getColor(R.color.disabled));
-            holder.upload.setColorFilter(context.getColor(R.color.disabled));
+            holder.surveyCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_close_black_20dp));
+            holder.surveyCountIcon.setColorFilter(context.getResources().getColor(R.color.disabled));
+            holder.journal.setColorFilter(context.getColor(R.color.disabled));
         }
         if(item.getThoughts_bonus().equals("missed")){
             holder.thoughtCount.setText("");
-            holder.thoughtCount.setBackground(context.getDrawable(R.drawable.ic_close_black_20dp));
-            holder.thoughtCount.setBackgroundColor(context.getColor(R.color.disabled));
-            holder.journal.setColorFilter(context.getColor(R.color.disabled));
+            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_close_black_20dp));
+            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.disabled));
+            holder.upload.setColorFilter(context.getColor(R.color.disabled));
         }
         if(item.getSurveys_bonus().equals("approved"))
         {
             holder.surveyCount.setText("");
-            holder.surveyCount.setBackground(context.getDrawable(R.drawable.ic_check_black_24dp));
-            holder.surveyCount.setBackgroundColor(context.getColor(R.color.positive));
-            holder.upload.setColorFilter(context.getColor(R.color.positive));
+            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
+            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
+            holder.journal.setColorFilter(context.getColor(R.color.positive));
         }
         if(item.getThoughts_bonus().equals("approved")){
             holder.thoughtCount.setText("");
-            holder.thoughtCount.setBackground(context.getDrawable(R.drawable.ic_check_black_20dp));
-            holder.thoughtCount.setBackgroundColor(context.getColor(R.color.positive));
-            holder.journal.setColorFilter(context.getColor(R.color.positive));
+            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
+            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
+            holder.upload.setColorFilter(context.getColor(R.color.positive));
         }
 
 
@@ -108,8 +112,8 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
     class EarningsPeriodViewHolder extends RecyclerView.ViewHolder {
 
         TextView date, surveyCount, thoughtCount, earningsAdded;
-        org.fabiomsr.moneytextview.MoneyTextView earningsSoFar;
-        ImageView next, journal, upload;
+        TextView earningsSoFar;
+        ImageView next, journal, upload, surveyCountIcon, thoughtCountIcon;
 
         public EarningsPeriodViewHolder(View itemView) {
             super(itemView);
@@ -120,6 +124,9 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
 
             earningsSoFar = itemView.findViewById(R.id.card_earnings);
             earningsAdded = itemView.findViewById(R.id.card_increment_earnings);
+
+            surveyCountIcon = itemView.findViewById(R.id.card_surveys_submit_count_icon);
+            thoughtCountIcon = itemView.findViewById(R.id.card_screenshots_submit_count_icon);
 
             journal = itemView.findViewById(R.id.card_journal_icon);
             upload = itemView.findViewById(R.id.card_upload_icon);

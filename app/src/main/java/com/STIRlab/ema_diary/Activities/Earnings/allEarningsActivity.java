@@ -19,6 +19,8 @@ import com.STIRlab.ema_diary.Helpers.earningsPeriodAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class allEarningsActivity extends AppCompatActivity {
@@ -49,7 +51,6 @@ public class allEarningsActivity extends AppCompatActivity {
         prev = findViewById(R.id.allEarningsPrevious);
         allEarnings = findViewById(R.id.all_earnings);
         possible_earnings = findViewById(R.id.possible_earnings);
-        label = findViewById(R.id.when_empty_earnings);
 
         swipeRefreshLayout = findViewById(R.id.earnings_swipe);
 
@@ -87,20 +88,12 @@ public class allEarningsActivity extends AppCompatActivity {
     private void init(){
         try {
             earnings = client.getPeriods();
-            Log.i("EARNINGS", earnings.get(0).getSurveys_bonus());
+            Collections.reverse(earnings);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(earnings != null) {
-            label.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            adapter = new earningsPeriodAdapter(this, earnings);
-            recyclerView.setAdapter(adapter);
-        }
-        else {
-            label.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }
+        adapter = new earningsPeriodAdapter(this, earnings);
+        recyclerView.setAdapter(adapter);
 
     }
 }
