@@ -163,6 +163,62 @@ public class APIHelper {
         return parseUserInfo().getJSONObject("surveys_progress").getInt("period_count");
     }
 
+
+    public String getAllEarnings() throws Exception {
+
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+        String url = baseURL + "/earnings?user_id=" + beginQuote +
+                encodeValue(userid) + endQuote;
+
+        getRequestHelper(url, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "call failed: " + e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    countDownLatch.countDown();
+                    String responseStr = response.body().string();
+                    returnStr = responseStr;
+                    Log.e(TAG, url);
+                } else {
+                    countDownLatch.countDown();
+                    Log.e(TAG, call.toString());
+                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, url);
+                }
+            }
+        });
+
+        countDownLatch.await();
+
+        return returnStr;
+
+    }
+
+
+    public JSONObject parseEarnings() throws Exception {
+        return new JSONObject(getAllEarnings());
+    }
+
+    public int getTotalEarnings() throws Exception {
+        JSONObject earnings = parseEarnings();
+
+        return earnings.getInt("total_earnings");
+    }
+    public int getPossibleEarnings() throws Exception {
+        JSONObject earnings = parseEarnings();
+
+        return earnings.getInt("possible_earnings");
+    }
+    public JSONArray getPeriods() throws Exception {
+        return parseEarnings().getJSONArray("periods");
+    }
+
+
     public String parseHistory(String historyType) throws Exception {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
 
