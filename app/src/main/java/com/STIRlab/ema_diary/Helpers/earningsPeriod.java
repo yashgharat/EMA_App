@@ -2,6 +2,7 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -10,11 +11,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class earningsPeriod {
+public class earningsPeriod implements Serializable {
 
     private double earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings;
     private int surveys, thoughts, approve;
-    private String start_date, end_date, returnDate;
+    private String start_date, end_date;
     private String surveys_bonus, thoughts_bonus;
     private boolean isFirst;
 
@@ -57,6 +58,16 @@ public class earningsPeriod {
     }
 
     public String getFormattedDate() throws ParseException {
+
+        if (!isFirst) {
+            return dateFormatter();
+
+        } else {
+            return  "Current Earnings";
+        }
+    }
+
+    public String dateFormatter() throws ParseException {
         StringBuilder sb;
         Date Start, End;
         SimpleDateFormat startFormat;
@@ -66,31 +77,25 @@ public class earningsPeriod {
 
         Start = InputDateFormat.parse(start_date);
         End = InputDateFormat.parse(end_date);
-        if (!isFirst) {
-            LocalDate startLocal = Start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate endLocal = End.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate startLocal = Start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate endLocal = End.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            if (startLocal.getYear() == endLocal.getYear()) {
+        if (startLocal.getYear() == endLocal.getYear()) {
 
-                if (startLocal.getMonth() == endLocal.getMonth()) {
-                    startFormat = new SimpleDateFormat("MMMM d");
-                    endFormat = new SimpleDateFormat("d, yyyy");
-                } else {
-                    startFormat = new SimpleDateFormat("MMM d ");
-                    endFormat = new SimpleDateFormat(" MMM d, yyyy");
-                }
-
+            if (startLocal.getMonth() == endLocal.getMonth()) {
+                startFormat = new SimpleDateFormat("MMMM d");
+                endFormat = new SimpleDateFormat("d, yyyy");
             } else {
-                startFormat = new SimpleDateFormat("MMM d, yyyy ");
+                startFormat = new SimpleDateFormat("MMM d ");
                 endFormat = new SimpleDateFormat(" MMM d, yyyy");
             }
 
-            returnDate = startFormat.format(Start) + "-" + endFormat.format(End);
-
         } else {
-            returnDate = "Current Earnings";
+            startFormat = new SimpleDateFormat("MMM d, yyyy ");
+            endFormat = new SimpleDateFormat(" MMM d, yyyy");
         }
-        return returnDate;
+
+        return startFormat.format(Start) + "-" + endFormat.format(End);
     }
 
     public String getSurveys_bonus() {

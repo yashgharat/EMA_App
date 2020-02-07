@@ -1,6 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.STIRlab.ema_diary.Activities.Earnings.dateEarningsActivity;
 import com.STIRlab.ema_diary.R;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.util.List;
@@ -94,10 +95,12 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
         }
 
 
-        holder.next.setOnClickListener(new View.OnClickListener() {
+        holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                    Intent intent = new Intent(context, dateEarningsActivity.class);
+                    intent.putExtra("period", item);
+                    context.startActivity(intent);
             }
         });
 
@@ -114,6 +117,7 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
         TextView date, surveyCount, thoughtCount, earningsAdded;
         TextView earningsSoFar;
         ImageView next, journal, upload, surveyCountIcon, thoughtCountIcon;
+        CardView card;
 
         public EarningsPeriodViewHolder(View itemView) {
             super(itemView);
@@ -131,6 +135,8 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
             journal = itemView.findViewById(R.id.card_journal_icon);
             upload = itemView.findViewById(R.id.card_upload_icon);
             next = itemView.findViewById(R.id.card_earnings_next);
+
+            card = itemView.findViewById(R.id.all_earnings_card);
 
         }
     }
