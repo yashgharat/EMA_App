@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -69,8 +70,11 @@ public class ScreenshotActivity extends AppCompatActivity {
         submit = findViewById(R.id.btnscreenshots);
         thumbnail = findViewById(R.id.thumbView);
 
-        bitmap = getIntent().getExtras().getParcelable("bitmap");
-        thumbImage = getIntent().getExtras().getParcelable("thumbimage");
+        byte[] bitBytes = getIntent().getByteArrayExtra("bitBytes");
+        bitmap = BitmapFactory.decodeByteArray(bitBytes,0,bitBytes.length);
+
+        byte[] thumbBytes = getIntent().getByteArrayExtra("thumbBytes");
+        thumbImage = BitmapFactory.decodeByteArray(thumbBytes,0,thumbBytes.length);
 
         thumbnail.setImageBitmap(thumbImage);
 

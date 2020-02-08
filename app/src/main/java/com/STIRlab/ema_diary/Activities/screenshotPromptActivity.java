@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -98,10 +99,17 @@ public class screenshotPromptActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
                     }
-                    Bitmap thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 200, 200);
+                    Bitmap thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
                     Intent uploadSS = new Intent(screenshotPromptActivity.this, ScreenshotActivity.class);
-                    uploadSS.putExtra("thumbimage", thumbImage);
-                    uploadSS.putExtra("bitmap", bitmap);
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] bitBytes = stream.toByteArray();
+
+                    thumbImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byte[] thumbBytes = stream.toByteArray();
+                    uploadSS.putExtra("bitBytes",bitBytes);
+                    uploadSS.putExtra("thumbBytes", thumbBytes);
 
                     startActivity(uploadSS);
                     break;
