@@ -195,14 +195,14 @@
                 app:srcCompat="@drawable/rectangle"
                 android:background="@drawable/border"
                 />
+
             <ImageView
                 android:id="@+id/prog_2"
                 android:layout_width="62dp"
-                android:layout_height="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
-                app:srcCompat="@drawable/rectangle"
                 android:background="@drawable/border"
-                />
+                app:srcCompat="@drawable/rectangle" />
             <ImageView
                 android:id="@+id/prog_3"
                 android:layout_width="62dp"
@@ -211,14 +211,14 @@
                 app:srcCompat="@drawable/rectangle"
                 android:background="@drawable/border"
                 />
+
             <ImageView
                 android:id="@+id/prog_4"
                 android:layout_width="62dp"
-                android:layout_height="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
-                app:srcCompat="@drawable/rectangle"
                 android:background="@drawable/border"
-                />
+                app:srcCompat="@drawable/rectangle" />
         </LinearLayout>
 
 
