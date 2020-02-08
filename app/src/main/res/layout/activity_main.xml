@@ -182,43 +182,38 @@
             <ImageView
                 android:id="@+id/prog_0"
                 android:layout_width="62dp"
-                android:layout_height="10dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
-                app:srcCompat="@drawable/rectangle"
-                android:background="@drawable/border"
-                />
+                app:srcCompat="@drawable/light_gray_no_border" />
             <ImageView
                 android:id="@+id/prog_1"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                app:srcCompat="@drawable/rectangle"
-                android:background="@drawable/border"
-                />
+                app:srcCompat="@drawable/light_gray_no_border" />
+
 
             <ImageView
                 android:id="@+id/prog_2"
                 android:layout_width="62dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
-                android:background="@drawable/border"
-                app:srcCompat="@drawable/rectangle" />
+                app:srcCompat="@drawable/light_gray_no_border" />
+
             <ImageView
                 android:id="@+id/prog_3"
                 android:layout_width="62dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                app:srcCompat="@drawable/rectangle"
-                android:background="@drawable/border"
-                />
+                app:srcCompat="@drawable/light_gray_no_border" />
 
             <ImageView
                 android:id="@+id/prog_4"
                 android:layout_width="62dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
-                android:background="@drawable/border"
-                app:srcCompat="@drawable/rectangle" />
+                app:srcCompat="@drawable/light_gray_no_border" />
+
         </LinearLayout>
 
 

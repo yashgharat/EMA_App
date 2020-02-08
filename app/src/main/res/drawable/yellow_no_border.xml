@@ -7,10 +7,10 @@
         android:bottomLeftRadius="6dp">
     </corners>
     <stroke
-        android:width="20dp"
-        android:color="#51d4b7">
+        android:width="3dp"
+        android:color="#999999">
     </stroke>
     <solid
-        android:color="#A7E9DB">
+        android:color="#f2c025">
     </solid>
 </shape>

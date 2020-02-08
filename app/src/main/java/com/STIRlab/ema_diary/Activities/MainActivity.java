@@ -296,62 +296,59 @@ public class MainActivity extends AppCompatActivity {
 
             if(curStatus == null)
             {
-                progressBar[i].setColorFilter(getResources().getColor(R.color.normal));
-                progressBar[i].setBackgroundColor(getResources().getColor(R.color.normal));
+                progressBar[i].setImageResource(R.drawable.light_gray_no_border);
             }
             else if(i == curDay - 1)
             {
                 if(curStatus.equals("approved"))
                 {
-                    progressBar[i].setColorFilter(Color.parseColor("#A7E9DB"));
-                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.positive));
+                    progressBar[i].setImageResource(R.drawable.green_border);
                 }
                 else if(curStatus.equals("rejected"))
                 {
-                    progressBar[i].setColorFilter(Color.parseColor("#FFC0C5"));
-                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.destructive));
+                    progressBar[i].setImageResource(R.drawable.red_border);
+
                 }
                 else if(curStatus.equals("submitted"))
                 {
-                    progressBar[i].setColorFilter(Color.parseColor("#BAD2FF"));
-                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.primaryDark));
+                    progressBar[i].setImageResource(R.drawable.blue_border);
+
                 }
                 else if(curStatus.equals("pending") || curStatus.equals("open"))
                 {
-                    progressBar[i].setColorFilter(Color.parseColor("#FCF6DF"));
-                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.neutral));
+                    progressBar[i].setImageResource(R.drawable.yellow_border);
+
                 }
                 else if(curStatus.equals("missed") || curStatus.equals("closed"))
                 {
-                    progressBar[i].setColorFilter(getResources().getColor(R.color.normal));
-                    progressBar[i].setBackgroundColor(getResources().getColor(R.color.apparent));
+                    progressBar[i].setImageResource(R.drawable.gray_border);
+
                 }
             }
             else if(curStatus.equals("approved"))
             {
-                progressBar[i].setColorFilter(getResources().getColor(R.color.positive));
-                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+                progressBar[i].setImageResource(R.drawable.green_no_border);
+
 
             }
             else if(curStatus.equals("rejected"))
             {
-                progressBar[i].setColorFilter(getResources().getColor(R.color.destructive));
-                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+                progressBar[i].setImageResource(R.drawable.red_no_border);
+
             }
             else if(curStatus.equals("submitted"))
             {
-                progressBar[i].setColorFilter(getResources().getColor(R.color.primaryDark));
-                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+                progressBar[i].setImageResource(R.drawable.blue_no_border);
+
             }
             else if(curStatus.equals("pending") || curStatus.equals("open"))
             {
-                progressBar[i].setColorFilter(getResources().getColor(R.color.neutral));
-                progressBar[i].setBackgroundColor(getResources().getColor(R.color.themeBackground));
+                progressBar[i].setImageResource(R.drawable.yellow_no_border);
+
             }
             else if(curStatus.equals("missed") || curStatus.equals("closed"))
             {
-                progressBar[i].setColorFilter(getResources().getColor(R.color.disabled));
-                progressBar[i].setBackgroundColor(getResources().getColor(R.color.disabled));
+                progressBar[i].setImageResource(R.drawable.gray_no_border);
 
             }
 
