@@ -48,6 +48,9 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -288,11 +291,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateProgress() throws Exception {
+
+        statuses = new JSONArray(new ArrayList<String>());
+
+        int curDay = 4; //client.getPeriodCount();
+
+        statuses.put("approved");
+        statuses.put("rejected");
+        statuses.put("submitted");
+        statuses.put("pending");
+
+
         for(int i = 0; i < 5; i++)
         {
             String curStatus = statuses.getString(i);
 
-            int curDay = client.getPeriodCount();
 
             if(curStatus == null)
             {
