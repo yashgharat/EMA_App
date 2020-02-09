@@ -1,6 +1,8 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -442,7 +444,7 @@ public class APIHelper {
     }
 
     public String uploadInteractionWithPicture(String desc, String caption, File file) throws JSONException {
-        String url = baseURL + "create-screenshot-url";
+        String url = baseURL + "create-thought-url";
 
         MediaType PNG = MediaType.parse("image/png");
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -484,8 +486,6 @@ public class APIHelper {
                         public void onResponse(Call call, Response response) throws IOException {
                             if (response.isSuccessful()) {
                                 String responseStr = response.body().string();
-                                returnStr = responseStr;
-                                Log.i(TAG, "here" + returnStr);
                             } else {
                                 Log.e(TAG, "in PUT Call: " + response.toString());
                                 Log.e(TAG, "request not successful");
@@ -504,8 +504,8 @@ public class APIHelper {
         return returnStr;
     }
 
-    public String uploadInteraction(String userid, String desc) throws JSONException {
-        String url = baseURL + "create-screenshot-url";
+    public String uploadInteraction(String userid, String desc, Context context) throws JSONException {
+        String url = baseURL + "create-thought-url";
 
         MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -528,7 +528,6 @@ public class APIHelper {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     returnStr = responseStr;
-                    Log.i(TAG, "here" + returnStr);
                 } else {
                     Log.e(TAG, "in PUT Call: " + response.toString());
                     Log.e(TAG, "request not successful");

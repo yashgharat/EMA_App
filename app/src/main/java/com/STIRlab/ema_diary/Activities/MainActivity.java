@@ -287,22 +287,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateProgress() throws Exception {
 
-        statuses = new JSONArray();
-
-        int curDay = 4; //client.getPeriodCount();
-
-        statuses.put("approved");
-        statuses.put("rejected");
-        statuses.put("submitted");
-        statuses.put("pending");
-
+        int curDay = client.getPeriodCount();
 
         for(int i = 0; i < 5; i++)
         {
             String curStatus = statuses.getString(i);
-
-            Log.e(TAG, "i: "+ i +" status: " + curStatus);
-
 
             if(curStatus == null)
             {

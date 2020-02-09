@@ -70,11 +70,9 @@ public class ScreenshotActivity extends AppCompatActivity {
         submit = findViewById(R.id.btnscreenshots);
         thumbnail = findViewById(R.id.thumbView);
 
-        byte[] bitBytes = getIntent().getByteArrayExtra("bitBytes");
-        bitmap = BitmapFactory.decodeByteArray(bitBytes,0,bitBytes.length);
+        bitmap = screenshotPromptActivity.bitmap;
 
-        byte[] thumbBytes = getIntent().getByteArrayExtra("thumbBytes");
-        thumbImage = BitmapFactory.decodeByteArray(thumbBytes,0,thumbBytes.length);
+        thumbImage = screenshotPromptActivity.thumbImage;
 
         thumbnail.setImageBitmap(thumbImage);
 
@@ -92,16 +90,16 @@ public class ScreenshotActivity extends AppCompatActivity {
                             File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ScreenshotActivity.this);
 
                             client.uploadInteractionWithPicture(uploadText, "", newFile);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (JSONException e) {
+                        } catch (IOException | JSONException e) {
                             e.printStackTrace();
                         }
+
+                        inputInteraction.setText("");
+                        thumbnail.setImageBitmap(null);
                     }
                     else{
-                        Log.i(TAG, "No screenshot");
                         try {
-                            client.uploadInteraction(userid, uploadText);
+                            client.uploadInteraction(userid, uploadText, ScreenshotActivity.this);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -111,8 +109,7 @@ public class ScreenshotActivity extends AppCompatActivity {
                 {
                     showDialogMessage("Error", "Please input some text", false);
                 }
-                inputInteraction.setText("");
-                thumbnail.setImageBitmap(null);
+
                 submit.startMorphRevertAnimation();
             }
         });

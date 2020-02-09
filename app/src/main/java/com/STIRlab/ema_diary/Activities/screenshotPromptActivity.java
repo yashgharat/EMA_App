@@ -31,7 +31,7 @@ public class screenshotPromptActivity extends AppCompatActivity {
 
     private AlertDialog userDialog;
     private Button addPic;
-    private Bitmap bitmap;
+    public static Bitmap bitmap, thumbImage;
 
     private TextView prev;
 
@@ -49,7 +49,7 @@ public class screenshotPromptActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"),2);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 2);
             }
         });
 
@@ -87,7 +87,7 @@ public class screenshotPromptActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
             case 2:
                 if (resultCode == Activity.RESULT_OK) {
                     Uri selectedImage = data.getData();
@@ -99,18 +99,8 @@ public class screenshotPromptActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
                     }
-                    Bitmap thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
+                    thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
                     Intent uploadSS = new Intent(screenshotPromptActivity.this, ScreenshotActivity.class);
-
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] bitBytes = stream.toByteArray();
-
-                    thumbImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byte[] thumbBytes = stream.toByteArray();
-                    uploadSS.putExtra("bitBytes",bitBytes);
-                    uploadSS.putExtra("thumbBytes", thumbBytes);
-
                     startActivity(uploadSS);
                     break;
                 } else if (resultCode == Activity.RESULT_CANCELED) {
