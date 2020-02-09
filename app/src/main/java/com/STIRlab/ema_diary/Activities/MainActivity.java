@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -33,7 +32,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Activities.Earnings.allEarningsActivity;
@@ -47,9 +45,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -292,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateProgress() throws Exception {
 
-        statuses = new JSONArray(new ArrayList<String>());
+        statuses = new JSONArray();
 
         int curDay = 4; //client.getPeriodCount();
 
@@ -306,12 +301,14 @@ public class MainActivity extends AppCompatActivity {
         {
             String curStatus = statuses.getString(i);
 
+            Log.e(TAG, "i: "+ i +" status: " + curStatus);
+
 
             if(curStatus == null)
             {
                 progressBar[i].setImageResource(R.drawable.light_gray_no_border);
             }
-            else if(i == curDay - 1)
+            else if(i == curDay-1)
             {
                 if(curStatus.equals("approved"))
                 {
@@ -324,11 +321,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else if(curStatus.equals("submitted"))
                 {
-                    progressBar[i].setImageResource(R.drawable.blue_border);
+                    progressBar[i].setImageResource(R.drawable.blue_border  );
 
                 }
                 else if(curStatus.equals("pending") || curStatus.equals("open"))
                 {
+
+                    Log.e(TAG, "inPending");
                     progressBar[i].setImageResource(R.drawable.yellow_border);
 
                 }

@@ -7,7 +7,7 @@
         android:bottomLeftRadius="6dp">
     </corners>
     <stroke
-        android:width="20dp"
+        android:width="3dp"
         android:color="#b5b5c4">
     </stroke>
     <solid
