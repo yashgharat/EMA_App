@@ -2,6 +2,7 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtViewHolder> {
 
 
+    private static final String TAG = "THOUGHT_ADAPTER";
     private Context context;
     private List<Thought> history;
 
@@ -47,11 +49,12 @@ public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtV
         }
 
         if(entry.getStatus().equals("submitted")){
+            Log.i(TAG, "in submitted");
             holder.thoughtLabel.setText("");
 
             Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
             drawable = DrawableCompat.wrap(drawable);
-            DrawableCompat.setTint(drawable, context.getColor(R.color.secondary));
+            DrawableCompat.setTint(drawable, context.getColor(R.color.primary));
             holder.thoughtLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
         else if(entry.getStatus().equals("rejected")) {
@@ -65,6 +68,7 @@ public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtV
 
         else if(entry.getStatus().equals("approved")) {
             holder.thoughtLabel.setText("Approved");
+            holder.thoughtLabel.setTextColor(context.getColor(R.color.positive));
 
             Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
             drawable = DrawableCompat.wrap(drawable);
