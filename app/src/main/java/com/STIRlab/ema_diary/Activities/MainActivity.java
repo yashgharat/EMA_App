@@ -383,7 +383,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(cardStatus.equals("pending"))
         {
-            Log.i(TAG, "inPending");
             String url = client.getResumeUrl();
             cardMsg.setClickable(true);
             cardMsg.setEnabled(true);
