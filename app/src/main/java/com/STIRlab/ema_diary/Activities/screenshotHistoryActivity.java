@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.APIHelper;
-import com.STIRlab.ema_diary.Helpers.ScreenshotEntry;
-import com.STIRlab.ema_diary.Helpers.ScreenshotEntryAdapter;
+import com.STIRlab.ema_diary.Helpers.Thought;
+import com.STIRlab.ema_diary.Helpers.ThoughtAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,8 +21,8 @@ import java.util.List;
 
 public class screenshotHistoryActivity extends AppCompatActivity {
 
-    private ScreenshotEntryAdapter adapter;
-    private List<ScreenshotEntry> history;
+    private ThoughtAdapter adapter;
+    private List<Thought> history;
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -72,7 +72,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
 
     private void init(){
         try {
-            history = client.getScreenshotEntries();
+            history = client.getThoughtEntries();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class screenshotHistoryActivity extends AppCompatActivity {
         if(history != null) {
             label.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
-            adapter = new ScreenshotEntryAdapter(this, history);
+            adapter = new ThoughtAdapter(this, history);
             recyclerView.setAdapter(adapter);
         }
         else {

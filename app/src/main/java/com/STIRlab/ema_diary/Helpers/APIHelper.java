@@ -2,7 +2,6 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -332,26 +331,26 @@ public class APIHelper {
         return returnHistory;
     }
 
-    private JSONObject getscreenshotsHistory() throws Exception {
-        JSONObject obj = new JSONObject(parseHistory("screenshots"));
+    private JSONObject getThoughtsHistory() throws Exception {
+        JSONObject obj = new JSONObject(parseHistory("thoughts"));
         return obj;
     }
 
-    public ArrayList<ScreenshotEntry> getScreenshotEntries() throws Exception {
-        ArrayList<ScreenshotEntry> returnHistory = new ArrayList<ScreenshotEntry>();
-        JSONObject obj = getscreenshotsHistory();
-        JSONArray array = obj.getJSONArray("screenshots");
+    public ArrayList<Thought> getThoughtEntries() throws Exception {
+        ArrayList<Thought> returnHistory = new ArrayList<Thought>();
+        JSONObject obj = getThoughtsHistory();
+        JSONArray array = obj.getJSONArray("thoughts");
 
         Log.i(TAG, array.toString(2));
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject tempObj = array.getJSONObject(i);
 
-            String id = tempObj.getString("screenshot_id");
+            String id = tempObj.getString("thought_id");
             String submitTime = tempObj.getString("submitted_at");
-            int screenshots = tempObj.getInt("num_screenshots");
+            String status= tempObj.getString("status");
 
-            ScreenshotEntry tempEntry = new ScreenshotEntry(id, submitTime, screenshots);
+            Thought tempEntry = new Thought(id, submitTime, status);
             returnHistory.add(tempEntry);
         }
 

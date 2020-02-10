@@ -9,21 +9,19 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class ScreenshotEntry {
+public class Thought {
 
-    private String screenshotID;
+    private String thoughtID, status;
     private String submitTime, formattedTime;
-    private int screenshotCount;
 
-    public ScreenshotEntry(String screenshotID, String submitTime, int screenshotCount)
-    {
-        this.screenshotID = screenshotID;
+    public Thought(String screenshotID, String submitTime, String status) {
+        this.thoughtID = screenshotID;
         this.submitTime = submitTime;
-        this.screenshotCount = screenshotCount;
+        this.status = status;
     }
 
-    public String getscreenshotID() {
-        return screenshotID;
+    public String getThoughtID() {
+        return thoughtID;
     }
 
     public String getFormattedTime(Context context) throws ParseException {
@@ -36,8 +34,7 @@ public class ScreenshotEntry {
         formattedTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
                 DateUtils.MINUTE_IN_MILLIS,
                 DateUtils.WEEK_IN_MILLIS,
-                DateUtils.FORMAT_SHOW_WEEKDAY
-                        | DateUtils.FORMAT_CAP_AMPM
+                DateUtils.FORMAT_CAP_AMPM
                         | DateUtils.FORMAT_CAP_MIDNIGHT).toString();
 
         formattedTime = formattedTime.replace(", ", " at ");
@@ -45,15 +42,10 @@ public class ScreenshotEntry {
         return formattedTime;
     }
 
-    public int getScreenshotCount() {
-        return screenshotCount;
+
+    public String getStatus() {
+        return status;
     }
 
-    public String getScreenshotLabel(){
-        if(screenshotCount > 1)
-        {
-            return "screenshots";
-        }
-        return "screenshot";
-    }
+
 }
