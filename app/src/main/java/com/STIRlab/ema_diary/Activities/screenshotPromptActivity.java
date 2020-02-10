@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -46,10 +48,9 @@ public class screenshotPromptActivity extends AppCompatActivity {
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 2);
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(screenshotPromptActivity.this);
             }
         });
 
@@ -88,23 +89,17 @@ public class screenshotPromptActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case 2:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri selectedImage = data.getData();
-                    bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                    } catch (FileNotFoundException e) {
-                        showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
-                    } catch (IOException e) {
-                        showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
-                    }
-                    thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
-                    Intent uploadSS = new Intent(screenshotPromptActivity.this, ScreenshotActivity.class);
-                    startActivity(uploadSS);
-                    break;
-                } else if (resultCode == Activity.RESULT_CANCELED) {
-                    Log.e(TAG, "Selecting picture cancelled");
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    Intent intent = new Intent(screenshotPromptActivity.this, ScreenshotActivity.class);
+                    intent.putExtra("imagePath", resultUri.toString());
+                    finish();
+                    startActivity(intent);
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                    Log.i(TAG, error.toString());
                 }
                 break;
         }

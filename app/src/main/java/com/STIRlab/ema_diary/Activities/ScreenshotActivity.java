@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
@@ -70,10 +71,16 @@ public class ScreenshotActivity extends AppCompatActivity {
         submit = findViewById(R.id.btnscreenshots);
         thumbnail = findViewById(R.id.thumbView);
 
-        bitmap = screenshotPromptActivity.bitmap;
+        Uri image = Uri.parse(getIntent().getStringExtra("imagePath"));
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
+        } catch (FileNotFoundException e) {
+            showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
+        } catch (IOException e) {
+            showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
+        }
 
-        thumbImage = screenshotPromptActivity.thumbImage;
-
+        thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
         thumbnail.setImageBitmap(thumbImage);
 
         submit.setOnClickListener(new View.OnClickListener() {
