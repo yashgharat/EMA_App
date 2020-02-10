@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
@@ -52,6 +53,8 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private AlertDialog userDialog;
     private Bitmap bitmap, thumbImage;
+
+    private Thread thread;
 
     private SharedPreferences SP;
 
@@ -103,13 +106,15 @@ public class ScreenshotActivity extends AppCompatActivity {
 
                         inputInteraction.setText("");
                         thumbnail.setImageBitmap(null);
-                    }
-                    else{
-                        try {
-                            client.uploadInteraction(userid, uploadText, ScreenshotActivity.this);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+
+                        ScreenshotActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(ScreenshotActivity.this, "Submission successful", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        finish();
                     }
                 }
                 else
@@ -120,7 +125,6 @@ public class ScreenshotActivity extends AppCompatActivity {
                 submit.startMorphRevertAnimation();
             }
         });
-
 
         ret.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,24 +158,7 @@ public class ScreenshotActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
-            case 2:
-                if (resultCode == Activity.RESULT_OK) {
-                    Uri selectedImage = data.getData();
-                    bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                    } catch (FileNotFoundException e) {
-                        showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
-                    } catch (IOException e) {
-                        showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
-                    }
-                    thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 200 , 200);
-                    thumbnail.setImageBitmap(thumbImage);
-                    break;
-                } else if (resultCode == Activity.RESULT_CANCELED) {
-                    Log.e(TAG, "Selecting picture cancelled");
-                }
-                break;
+
         }
     }
 
