@@ -196,10 +196,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 try {
+                    statuses = client.getStatuses();
+                    cardStatus = statuses.getString(statuses.length()-1);
                     updateProgress();
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
+
                 setCardColor();
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -287,7 +290,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateProgress() throws Exception {
 
-        int curDay = client.getPeriodCount();
+        int curDay = statuses.length();
+
+        Log.e(TAG, "curday: " + curDay);
 
         for(int i = 0; i < 5; i++)
         {
@@ -383,7 +388,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(cardStatus.equals("pending"))
         {
-            String url = client.getResumeUrl();
+            String curID = client.getCurrentSurvey();
+
             cardMsg.setClickable(true);
             cardMsg.setEnabled(true);
             cardTitle.setText("Finish Daily Journal Entry");
@@ -407,6 +413,8 @@ public class MainActivity extends AppCompatActivity {
                     builder.setShowTitle(true);
 
                     CustomTabsIntent viewSurvey = builder.build();
+                    String url = "http://ucf.qualtrics.com/jfe/form/SV_9z6wKsiRjfT6hJb?survey_id=" + curID;
+                    Log.e(TAG, url);
                     viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
                 }
             });
@@ -414,6 +422,9 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(cardStatus.equals("open"))
         {
+
+            String curID = client.getCurrentSurvey();
+
             cardMsg.setClickable(true);
             cardMsg.setEnabled(true);
             cardTitle.setText("Finish Daily Journal Entry");
@@ -433,11 +444,12 @@ public class MainActivity extends AppCompatActivity {
             cardJournal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String url = "http://ucf.qualtrics.com/jfe/form/SV_9z6wKsiRjfT6hJb?user_id=" + username;
-
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                     builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
                     builder.setShowTitle(true);
+
+                    String url = "http://ucf.qualtrics.com/jfe/form/SV_9z6wKsiRjfT6hJb?survey_id=" + curID;
+                    Log.e(TAG, url);
 
                     CustomTabsIntent viewSurvey = builder.build();
                     viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));

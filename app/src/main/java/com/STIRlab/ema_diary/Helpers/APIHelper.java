@@ -139,9 +139,9 @@ public class APIHelper {
         return null;
     }
 
-    public String getResumeUrl() {
+    public String getCurrentSurvey() {
         try {
-            return parseUserInfo().getString("resume_url");
+            return parseUserInfo().getString("current_survey_id");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
