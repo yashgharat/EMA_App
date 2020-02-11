@@ -50,17 +50,19 @@ public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtV
 
         if(entry.getStatus().equals("submitted")){
             Log.i(TAG, "in submitted");
-            holder.thoughtLabel.setText("");
+            holder.thoughtLabel.setText("Waiting for approval");
+            holder.thoughtLabel.setTextColor(context.getColor(R.color.primary));
 
-            Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
+            Drawable drawable = context.getDrawable(R.drawable.ic_check_black_20dp);
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, context.getColor(R.color.primary));
             holder.thoughtLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
         else if(entry.getStatus().equals("rejected")) {
-            holder.thoughtLabel.setText("");
+            holder.thoughtLabel.setText("Rejected");
+            holder.thoughtLabel.setTextColor(context.getColor(R.color.destructive));
 
-            Drawable drawable = context.getDrawable(R.drawable.ic_close_black_24dp);
+            Drawable drawable = context.getDrawable(R.drawable.ic_close_black_20dp);
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, context.getColor(R.color.destructive));
             holder.thoughtLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
@@ -70,7 +72,7 @@ public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtV
             holder.thoughtLabel.setText("Approved");
             holder.thoughtLabel.setTextColor(context.getColor(R.color.positive));
 
-            Drawable drawable = context.getDrawable(R.drawable.ic_check_black_24dp);
+            Drawable drawable = context.getDrawable(R.drawable.ic_check_black_20dp);
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, context.getColor(R.color.positive));
             holder.thoughtLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
