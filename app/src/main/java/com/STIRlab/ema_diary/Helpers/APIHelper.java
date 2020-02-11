@@ -540,7 +540,7 @@ public class APIHelper {
     }
 
     public String startStudy(String userid) throws Exception {
-        String url = baseURL + "start-study?user_id=" + beginQuote + encodeValue(userid) + endQuote;
+        String url = baseURL + "start-study?user_id=" + beginQuote + encodeValue(userid) + endQuote + "&platform=" + beginQuote + "android" + endQuote;
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
