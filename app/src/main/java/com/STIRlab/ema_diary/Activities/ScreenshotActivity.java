@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONException;
 
@@ -44,7 +46,7 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private CircularProgressButton submit;
 
-    private TextView ret;
+    private TextView ret, replaceScreenshot;
     private ImageView thumbnail;
 
     private EditText inputInteraction;
@@ -53,6 +55,7 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private AlertDialog userDialog;
     private Bitmap bitmap, thumbImage;
+    private Uri image;
 
     private Thread thread;
 
@@ -73,18 +76,20 @@ public class ScreenshotActivity extends AppCompatActivity {
         inputInteraction = findViewById(R.id.screenshots_upload);
         submit = findViewById(R.id.btnscreenshots);
         thumbnail = findViewById(R.id.thumbView);
+        replaceScreenshot = findViewById(R.id.replace_screenshot);
 
-        Uri image = Uri.parse(getIntent().getStringExtra("imagePath"));
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
-        } catch (FileNotFoundException e) {
-            showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
-        } catch (IOException e) {
-            showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
-        }
+        image = Uri.parse(getIntent().getStringExtra("imagePath"));
 
-        thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
-        thumbnail.setImageBitmap(thumbImage);
+        init();
+
+        replaceScreenshot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CropImage.activity()
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(ScreenshotActivity.this);
+            }
+        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +163,17 @@ public class ScreenshotActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
-
+            case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == RESULT_OK) {
+                    Uri resultUri = result.getUri();
+                    image = resultUri;
+                    init();
+                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                    Exception error = result.getError();
+                    Log.i(TAG, error.toString());
+                }
+                break;
         }
     }
 
@@ -177,6 +192,19 @@ public class ScreenshotActivity extends AppCompatActivity {
         fos.close();
 
         return f;
+    }
+
+    private void init(){
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
+        } catch (FileNotFoundException e) {
+            showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
+        } catch (IOException e) {
+            showDialogMessage("EXCEPTION", CognitoSettings.formatException(e), false);
+        }
+
+        thumbImage = ThumbnailUtils.extractThumbnail(bitmap, 100, 100);
+        thumbnail.setImageBitmap(thumbImage);
     }
 
 }

@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
-import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,9 +25,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -84,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         username = SP.getString("username", "null");
@@ -179,7 +184,12 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, CognitoSettings.formatException(e));
         }
 
-        setNotification();
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setNotificationOreo();
+        }
+        else {
+            setNotification();
+        }
 
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -526,7 +536,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setNotification() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setNotificationOreo() {
 
         createNotificationChannel();
 
@@ -553,6 +564,31 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setNotification() {
+
+        int hour = SP.getInt("hour", 14);
+        int min = SP.getInt("minute", 0);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.set(java.util.Calendar.HOUR_OF_DAY, hour);
+        calendar.set(java.util.Calendar.MINUTE, min);
+        calendar.set(java.util.Calendar.SECOND, 0);
+
+        Intent i = new Intent(this, NotifyPublisher.class);
+
+        if (PendingIntent.getBroadcast(MainActivity.this, 0, i,
+                PendingIntent.FLAG_NO_CREATE) == null) {
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200, i, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Log.i(TAG, hour + ":" + min);
+            Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+    }
+
     public void setCardColorTran(LinearLayout layout, ColorDrawable start, ColorDrawable end) {
         ColorDrawable[] color = {start, end};
         TransitionDrawable trans = new TransitionDrawable(color);
@@ -564,6 +600,7 @@ public class MainActivity extends AppCompatActivity {
         trans.startTransition(1000);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void createNotificationChannel() {
 
         NotificationChannel notificationChannel = new NotificationChannel("notifyUser",
@@ -574,7 +611,8 @@ public class MainActivity extends AppCompatActivity {
         notificationChannel.setDescription("test notification");
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(notificationChannel);
+        if(notificationManager.getNotificationChannel("notifyUser")==null)
+            notificationManager.createNotificationChannel(notificationChannel);
     }
 
     @Override

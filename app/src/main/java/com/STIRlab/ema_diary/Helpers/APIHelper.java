@@ -611,7 +611,7 @@ public class APIHelper {
 
     private static String encodeValue(String value) {
         try {
-            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+            return URLEncoder.encode(value, "utf-8");
         } catch (UnsupportedEncodingException ex) {
             throw new RuntimeException(ex.getCause());
         }

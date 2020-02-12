@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.Calendar;
 
 public class earningsPeriod implements Serializable {
 
@@ -77,12 +78,17 @@ public class earningsPeriod implements Serializable {
 
         Start = InputDateFormat.parse(start_date);
         End = InputDateFormat.parse(end_date);
-        LocalDate startLocal = Start.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate endLocal = End.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        if (startLocal.getYear() == endLocal.getYear()) {
+        Calendar startCal = Calendar.getInstance();
+        Calendar endCal = Calendar.getInstance();
 
-            if (startLocal.getMonth() == endLocal.getMonth()) {
+        startCal.setTime(Start);
+        endCal.setTime(End);
+
+
+        if (startCal.get(Calendar.YEAR) == endCal.get(Calendar.YEAR)) {
+
+            if (startCal.get(Calendar.MONTH) == endCal.get(Calendar.MONTH)) {
                 startFormat = new SimpleDateFormat("MMMM d");
                 endFormat = new SimpleDateFormat("d, yyyy");
             } else {
