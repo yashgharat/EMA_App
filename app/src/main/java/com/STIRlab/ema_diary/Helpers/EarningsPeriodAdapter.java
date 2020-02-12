@@ -13,33 +13,33 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.STIRlab.ema_diary.Activities.Earnings.dateEarningsActivity;
+import com.STIRlab.ema_diary.Activities.Earnings.DateEarningsActivity;
 import com.STIRlab.ema_diary.R;
 
 import java.text.ParseException;
 import java.util.List;
 
-public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAdapter.EarningsPeriodViewHolder> {
+public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAdapter.EarningsPeriodViewHolder> {
 
     private Context context;
-    private List<earningsPeriod> earnings;
+    private List<EarningsPeriod> earnings;
 
-    public earningsPeriodAdapter(Context context, List<earningsPeriod> earnings) {
+    public EarningsPeriodAdapter(Context context, List<EarningsPeriod> earnings) {
         this.context = context;
         this.earnings = earnings;
     }
 
     @NonNull
     @Override
-    public earningsPeriodAdapter.EarningsPeriodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EarningsPeriodAdapter.EarningsPeriodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.all_earnings_card, parent, false);
         return new EarningsPeriodViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull earningsPeriodAdapter.EarningsPeriodViewHolder holder, int position) {
-        earningsPeriod item = earnings.get(position);
+    public void onBindViewHolder(@NonNull EarningsPeriodAdapter.EarningsPeriodViewHolder holder, int position) {
+        EarningsPeriod item = earnings.get(position);
 
         try {
             holder.date.setText(item.getFormattedDate());
@@ -52,42 +52,42 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
                 holder.earningsSoFar.setTextColor(context.getColor(R.color.disabled));
         holder.earningsAdded.setText("+$" + item.getIncrement());
 
-        Log.i("InAdapter", item.getThoughts_bonus());
+        Log.i("InAdapter", item.getThoughtsBonus());
 
-        if(item.getSurveys_bonus().equals("open"))
+        if(item.getSurveysBonus().equals("open"))
         {
             holder.surveyCount.setText(item.getSurveys());
             holder.surveyCount.setTextColor(context.getColor(R.color.neutral));
             holder.surveyCountIcon.setImageResource(0);
             holder.journal.setColorFilter(context.getColor(R.color.neutral));
         }
-        if(item.getThoughts_bonus().equals("open")){
+        if(item.getThoughtsBonus().equals("open")){
             holder.thoughtCount.setText(item.getThoughts());
             holder.thoughtCount.setTextColor(context.getColor(R.color.neutral));
             holder.thoughtCountIcon.setImageResource(0);
             holder.upload.setColorFilter(context.getColor(R.color.neutral));
         }
-        if(item.getSurveys_bonus().equals("missed"))
+        if(item.getSurveysBonus().equals("missed"))
         {
             holder.surveyCount.setText("");
             holder.surveyCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_close_black_20dp));
             holder.surveyCountIcon.setColorFilter(context.getResources().getColor(R.color.disabled));
             holder.journal.setColorFilter(context.getColor(R.color.disabled));
         }
-        if(item.getThoughts_bonus().equals("missed")){
+        if(item.getThoughtsBonus().equals("missed")){
             holder.thoughtCount.setText("");
             holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_close_black_20dp));
             holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.disabled));
             holder.upload.setColorFilter(context.getColor(R.color.disabled));
         }
-        if(item.getSurveys_bonus().equals("approved"))
+        if(item.getSurveysBonus().equals("approved"))
         {
             holder.surveyCount.setText("");
             holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
             holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
             holder.journal.setColorFilter(context.getColor(R.color.positive));
         }
-        if(item.getThoughts_bonus().equals("approved")){
+        if(item.getThoughtsBonus().equals("approved")){
             holder.thoughtCount.setText("");
             holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
             holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
@@ -98,7 +98,7 @@ public class earningsPeriodAdapter extends RecyclerView.Adapter<earningsPeriodAd
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent = new Intent(context, dateEarningsActivity.class);
+                    Intent intent = new Intent(context, DateEarningsActivity.class);
                     intent.putExtra("period", item);
                     context.startActivity(intent);
             }

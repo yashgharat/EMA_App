@@ -1,29 +1,25 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.Calendar;
 
-public class earningsPeriod implements Serializable {
+public class EarningsPeriod implements Serializable {
 
     private double earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings;
     private int surveys, thoughts, approve;
-    private String start_date, end_date;
-    private String surveys_bonus, thoughts_bonus;
+    private String startDate, endDate;
+    private String surveysBonus, thoughtsBonus;
     private boolean isFirst;
 
 
-    public earningsPeriod(double earnings, double increment, double surveyBonusEarnings, double thoughtsBonusEarnings, double surveyBasicEarnings,
-                          int surveys, int thoughts, int approve, String start_date, String end_date,
-                          String surveys_bonus, String thoughts_bonus, boolean isFirst) {
+    public EarningsPeriod(double earnings, double increment, double surveyBonusEarnings, double thoughtsBonusEarnings, double surveyBasicEarnings,
+                          int surveys, int thoughts, int approve, String startDate, String endDate,
+                          String surveysBonus, String thoughtsBonus, boolean isFirst) {
 
         this.earnings = earnings;
         this.increment = increment;
@@ -33,10 +29,10 @@ public class earningsPeriod implements Serializable {
         this.surveys = surveys;
         this.thoughts = thoughts;
         this.approve = approve;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.surveys_bonus = surveys_bonus;
-        this.thoughts_bonus = thoughts_bonus;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.surveysBonus = surveysBonus;
+        this.thoughtsBonus = thoughtsBonus;
         this.isFirst = isFirst;
 
     }
@@ -76,8 +72,8 @@ public class earningsPeriod implements Serializable {
         SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        Start = InputDateFormat.parse(start_date);
-        End = InputDateFormat.parse(end_date);
+        Start = InputDateFormat.parse(startDate);
+        End = InputDateFormat.parse(endDate);
 
         Calendar startCal = Calendar.getInstance();
         Calendar endCal = Calendar.getInstance();
@@ -104,12 +100,12 @@ public class earningsPeriod implements Serializable {
         return startFormat.format(Start) + "-" + endFormat.format(End);
     }
 
-    public String getSurveys_bonus() {
-        return surveys_bonus;
+    public String getSurveysBonus() {
+        return surveysBonus;
     }
 
-    public String getThoughts_bonus() {
-        return thoughts_bonus;
+    public String getThoughtsBonus() {
+        return thoughtsBonus;
     }
 
     public double getSurveyBonusEarnings() {

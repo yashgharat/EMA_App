@@ -9,7 +9,7 @@
     tools:context=".Activities.TutorialActivity">
 
     <TextView
-        android:id="@+id/tutorialTitle"
+        android:id="@+id/tutorial_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
@@ -20,7 +20,7 @@
         android:textSize="25sp"
         android:gravity="center"/>
     <TextView
-        android:id="@+id/tutorialSub"
+        android:id="@+id/tutorial_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="This allows 30 Days to gather the data it needs"
@@ -30,7 +30,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="25dp" />
     <TextView
-        android:id="@+id/Steps"
+        android:id="@+id/steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1. Select 30 Days\n2. Click &quot;Permit usage access&quot;\n3. Return here and hit next"
@@ -41,7 +41,7 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/btnOK"
+        android:id="@+id/button_OK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="OK"
@@ -52,7 +52,7 @@
         android:layout_gravity="center"/>
 
     <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-        android:id="@+id/tutorialNext"
+        android:id="@+id/tutorial_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"

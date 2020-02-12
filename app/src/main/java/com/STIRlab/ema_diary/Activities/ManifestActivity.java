@@ -21,8 +21,8 @@ public class ManifestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manifest);
 
-        btnGrant = findViewById(R.id.btnGrantAccess);
-        lblMoreInfo = findViewById(R.id.moreInfo);
+        btnGrant = findViewById(R.id.button_grant_access);
+        lblMoreInfo = findViewById(R.id.more_info);
 
         btnGrant.setOnClickListener(new View.OnClickListener() {
             @Override

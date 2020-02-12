@@ -60,8 +60,8 @@ public class PostActivity extends AppCompatActivity {
 
         String data = getIntent().getStringExtra("data");
 
-        surveyBtn = findViewById(R.id.btnPost);
-        signOut = findViewById(R.id.postSignOut);
+        surveyBtn = findViewById(R.id.button_post);
+        signOut = findViewById(R.id.post_sign_out);
 
 
         surveyBtn.setOnClickListener(new View.OnClickListener() {

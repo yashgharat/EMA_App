@@ -31,7 +31,7 @@
         android:text="Thank you for participating. All 30 days have passed, and your participation is coming to an end.\n\nPlease take the following post-survey to help us understand your experience and hear your feedback.\n\nYou’ll then receive an email from us going over the next steps." />
 
     <Button
-        android:id="@+id/btnPost"
+        android:id="@+id/button_post"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,7 +41,7 @@
         android:textSize="18dp" />
 
     <TextView
-        android:id="@+id/postSignOut"
+        android:id="@+id/post_sign_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Out"

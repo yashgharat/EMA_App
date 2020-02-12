@@ -41,7 +41,7 @@
         android:text="@string/agreement_p2" />
 
     <Button
-        android:id="@+id/btnGrantAccess"
+        android:id="@+id/button_grant_access"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -51,7 +51,7 @@
         android:text="Grant Access" />
 
     <TextView
-        android:id="@+id/moreInfo"
+        android:id="@+id/more_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"

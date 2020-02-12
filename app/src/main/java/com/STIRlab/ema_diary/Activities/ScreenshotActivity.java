@@ -4,13 +4,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,7 +33,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
@@ -72,10 +69,10 @@ public class ScreenshotActivity extends AppCompatActivity {
 
         client = new APIHelper(username, email);
 
-        ret = findViewById(R.id.screenshotsPrevious);
+        ret = findViewById(R.id.screenshots_previous);
         inputInteraction = findViewById(R.id.screenshots_upload);
-        submit = findViewById(R.id.btnscreenshots);
-        thumbnail = findViewById(R.id.thumbView);
+        submit = findViewById(R.id.button_screenshots);
+        thumbnail = findViewById(R.id.thumb_view);
         replaceScreenshot = findViewById(R.id.replace_screenshot);
 
         image = Uri.parse(getIntent().getStringExtra("imagePath"));

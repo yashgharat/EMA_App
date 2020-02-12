@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themeBackground"
-    tools:context=".Activities.Earnings.dateEarningsActivity">
+    tools:context=".Activities.Earnings.DateEarningsActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/dateEarningsPrevious"
+        android:id="@+id/date_earnings_previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -34,7 +34,7 @@
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateEarningsPrevious" />
+        app:layout_constraintTop_toBottomOf="@id/date_earnings_previous" />
 
     <TextView
         android:id="@+id/date_sub"

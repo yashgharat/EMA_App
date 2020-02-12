@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class screenshotHistoryActivity extends AppCompatActivity {
+public class ScreenshotHistoryActivity extends AppCompatActivity {
 
     private ThoughtAdapter adapter;
     private List<Thought> history;
@@ -44,10 +44,10 @@ public class screenshotHistoryActivity extends AppCompatActivity {
         client = new APIHelper(userId, email);
 
         swipeRefreshLayout = findViewById(R.id.screenshots_swipe);
-        previous = findViewById(R.id.screenshotsHistoryPrevious);
+        previous = findViewById(R.id.screenshots_history_previous);
         label = findViewById(R.id.when_empty);
 
-        recyclerView = findViewById(R.id.recyclerscreenshots);
+        recyclerView = findViewById(R.id.recycler_screenshots);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

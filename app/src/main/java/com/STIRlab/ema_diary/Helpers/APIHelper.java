@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 
@@ -221,8 +220,8 @@ public class APIHelper {
         return (float) earnings.getDouble("possible_earnings");
     }
 
-    public ArrayList<earningsPeriod> getPeriods() throws Exception {
-        ArrayList<earningsPeriod> returnEarnings = new ArrayList<earningsPeriod>();
+    public ArrayList<EarningsPeriod> getPeriods() throws Exception {
+        ArrayList<EarningsPeriod> returnEarnings = new ArrayList<EarningsPeriod>();
 
         JSONObject obj = parseEarnings();
         JSONArray array = obj.getJSONArray("periods");
@@ -244,7 +243,7 @@ public class APIHelper {
             String surveys_bonus = surveys.getString("bonus_status"), thoughts_bonus = thoughts.getString("bonus_status");
             boolean isFirst = (i == array.length()-1);
 
-            earningsPeriod tempEntry = new earningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
+            EarningsPeriod tempEntry = new EarningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
             survey_count, thoughts_count, approve, start_date, end_date,
                     surveys_bonus, thoughts_bonus, isFirst);
 

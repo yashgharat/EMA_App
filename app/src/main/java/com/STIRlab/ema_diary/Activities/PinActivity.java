@@ -5,9 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -15,14 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.mukesh.OnOtpCompletionListener;
-import com.mukesh.OtpView;
 import com.poovam.pinedittextfield.CirclePinField;
 import com.poovam.pinedittextfield.PinField;
 
@@ -54,7 +44,7 @@ public class PinActivity extends AppCompatActivity {
         cognitoSettings = new CognitoSettings(this);
 
 
-        CirclePinField inputPin = findViewById(R.id.pinField);
+        CirclePinField inputPin = findViewById(R.id.pin_field);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         inputPin.requestFocus();
 

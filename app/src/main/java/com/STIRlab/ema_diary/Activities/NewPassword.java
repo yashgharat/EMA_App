@@ -17,7 +17,7 @@ import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
-public class newPassword extends AppCompatActivity {
+public class NewPassword extends AppCompatActivity {
 
     private CognitoSettings cognitoSettings;
     private final String TAG = "NEW_PASS";
@@ -38,12 +38,12 @@ public class newPassword extends AppCompatActivity {
         String email = SP.getString("email", "null");
         client = new APIHelper(username, email);
 
-        cognitoSettings = new CognitoSettings(newPassword.this);
+        cognitoSettings = new CognitoSettings(NewPassword.this);
 
-        Button btnSet = findViewById(R.id.btnSetPass);
+        Button btnSet = findViewById(R.id.button_set_pass);
 
-        EditText txtPassUno = findViewById(R.id.newPassUno);
-        EditText txtPassDos = findViewById(R.id.newPassDos);
+        EditText txtPassUno = findViewById(R.id.new_pass_uno);
+        EditText txtPassDos = findViewById(R.id.new_pass_dos);
 
         String oldPass = SP.getString("oldPass","null");
 

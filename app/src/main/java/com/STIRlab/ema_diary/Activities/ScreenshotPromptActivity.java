@@ -4,30 +4,22 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-
-public class screenshotPromptActivity extends AppCompatActivity {
+public class ScreenshotPromptActivity extends AppCompatActivity {
 
     private static final String TAG = "SCREENSHOT_PROMPT";
 
@@ -50,11 +42,11 @@ public class screenshotPromptActivity extends AppCompatActivity {
             public void onClick(View view) {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(screenshotPromptActivity.this);
+                        .start(ScreenshotPromptActivity.this);
             }
         });
 
-        prev = findViewById(R.id.chooseScreenshotCancel);
+        prev = findViewById(R.id.choose_screenshot_cancel);
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +85,7 @@ public class screenshotPromptActivity extends AppCompatActivity {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
                     Uri resultUri = result.getUri();
-                    Intent intent = new Intent(screenshotPromptActivity.this, ScreenshotActivity.class);
+                    Intent intent = new Intent(ScreenshotPromptActivity.this, ScreenshotActivity.class);
                     intent.putExtra("imagePath", resultUri.toString());
                     finish();
                     startActivity(intent);

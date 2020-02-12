@@ -7,21 +7,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.R;
-import com.mukesh.OnOtpCompletionListener;
-import com.mukesh.OtpView;
 import com.poovam.pinedittextfield.CirclePinField;
 import com.poovam.pinedittextfield.PinField;
 
 import org.jetbrains.annotations.NotNull;
 
-public class createPinActivity extends AppCompatActivity {
+public class CreatePinActivity extends AppCompatActivity {
 
     private CirclePinField inputPin;
     private SharedPreferences SP;
@@ -41,7 +38,7 @@ public class createPinActivity extends AppCompatActivity {
 
         title.setText(SP.getString("pinTitle", "NULL"));
 
-        inputPin = findViewById(R.id.pinField);
+        inputPin = findViewById(R.id.pin_field);
         inputPin.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         inputPin.requestFocus();
@@ -63,17 +60,17 @@ public class createPinActivity extends AppCompatActivity {
     private void pinConfirm(String str) {
         Intent in = getIntent();
         if(in.getStringExtra("inputPin") == null){
-            in = new Intent(createPinActivity.this, createPinActivity.class);
+            in = new Intent(CreatePinActivity.this, CreatePinActivity.class);
             in.putExtra("inputPin", str);
             editor.putString("pinTitle", "Confirm Pin");
-            createPinActivity.this.startActivity(in);
+            CreatePinActivity.this.startActivity(in);
         } else {
             if(str.equals(in.getStringExtra("inputPin"))){
                 editor.putString("Pin", in.getStringExtra("inputPin"));
                 editor.apply();
 
                 finish();
-                Intent intent = new Intent(createPinActivity.this, MainActivity.class);
+                Intent intent = new Intent(CreatePinActivity.this, MainActivity.class);
                 this.startActivity(intent);
 
             } else {

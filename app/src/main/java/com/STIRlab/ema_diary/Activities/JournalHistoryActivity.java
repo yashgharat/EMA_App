@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.JournalEntry;
@@ -49,14 +48,14 @@ public class JournalHistoryActivity extends AppCompatActivity {
         String email = SP.getString("email", "null");
         client = new APIHelper(username, email);
 
-        previous = findViewById(R.id.journalHistoryPrevious);
+        previous = findViewById(R.id.journal_history_previous);
 
 
         label = findViewById(R.id.when_empty_journal);
 
         swipeRefreshLayout = findViewById(R.id.journal_swipe);
 
-        recyclerView = findViewById(R.id.recyclerJournal);
+        recyclerView = findViewById(R.id.recycler_journal);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.STIRlab.ema_diary.R;
@@ -31,10 +30,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        pass = findViewById(R.id.forgotPass);
-        code = findViewById(R.id.veriCode);
-        btnReset = findViewById(R.id.btnReset);
-        previous = findViewById(R.id.forgotPasswordPrevious);
+        pass = findViewById(R.id.forgot_pass);
+        code = findViewById(R.id.veri_code);
+        btnReset = findViewById(R.id.button_reset);
+        previous = findViewById(R.id.forgot_password_previous);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override

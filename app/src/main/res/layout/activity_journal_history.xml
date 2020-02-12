@@ -9,7 +9,7 @@
     tools:context=".Activities.JournalHistoryActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/journalHistoryPrevious"
+        android:id="@+id/journal_history_previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -33,7 +33,7 @@
         android:textSize="34sp"
         android:textStyle="bold"
         android:textColor="@color/prominent"
-        app:layout_constraintTop_toBottomOf="@id/journalHistoryPrevious"
+        app:layout_constraintTop_toBottomOf="@id/journal_history_previous"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="37dp"
         android:layout_marginLeft="30dp"
@@ -65,7 +65,7 @@
                     />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerJournal"
+                    android:id="@+id/recycler_journal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />

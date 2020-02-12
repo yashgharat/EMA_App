@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,11 +24,9 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ForgotPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoIdToken;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.tokens.CognitoRefreshToken;
 import com.google.gson.JsonElement;
@@ -39,7 +36,6 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
-import java.util.regex.Pattern;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
@@ -81,7 +77,7 @@ public class AuthenticationActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.password);
 
         editTextEmail = findViewById(R.id.email);
-        forgotPassword = findViewById(R.id.forgotPasswordLink);
+        forgotPassword = findViewById(R.id.forgot_password_link);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
@@ -183,7 +179,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         };
 
-        buttonLogin = findViewById(R.id.btnSignIn);
+        buttonLogin = findViewById(R.id.button_sign_in);
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

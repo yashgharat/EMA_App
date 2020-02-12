@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/themeBackground"
-    tools:context=".Activities.createPinUIActivity">
+    tools:context=".Activities.CreatePinUIActivity">
 
     <TextView
-        android:id="@+id/secureLockTitle"
+        android:id="@+id/secure_lock_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Secure Lock"
@@ -20,7 +20,7 @@
         android:layout_marginStart="30dp" />
 
     <TextView
-        android:id="@+id/quickPara"
+        android:id="@+id/quick_para"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -30,7 +30,7 @@
         android:textColor="@color/apparent" />
 
     <Button
-        android:id="@+id/btnQuickSignIn"
+        android:id="@+id/button_quick_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -41,7 +41,7 @@
         android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/skipLink"
+        android:id="@+id/skip_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/secondary"

@@ -2,7 +2,6 @@ package com.STIRlab.ema_diary.Activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
@@ -14,14 +13,11 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
-import com.STIRlab.ema_diary.Helpers.SwitchTheme;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,10 +45,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         cognitoSettings = new CognitoSettings(this);
 
-        setTime = findViewById(R.id.timePick);
-        newPin = findViewById(R.id.SecureLock);
-        previous = findViewById(R.id.settingsPrevious);
-        signOut = findViewById(R.id.settingsSignOut);
+        setTime = findViewById(R.id.time_pick);
+        newPin = findViewById(R.id.secure_lock);
+        previous = findViewById(R.id.settings_previous);
+        signOut = findViewById(R.id.settings_sign_out);
         //switchCompat = findViewById(R.id.switchTheme);
         layout = findViewById(R.id.settingsLayout);
 
@@ -78,7 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
         newPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SettingsActivity.this, createPinActivity.class);
+                Intent i = new Intent(SettingsActivity.this, CreatePinActivity.class);
                 startActivityForResult(i, 10);
             }
         });

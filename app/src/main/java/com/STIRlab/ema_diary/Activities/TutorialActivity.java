@@ -25,7 +25,7 @@ import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 public class TutorialActivity extends AppCompatActivity {
     private final String TAG = "TUTORIAL";
-    private final int PHONE_STATE = 69;
+    private final int PHONESTATE = 69;
 
     private Button btnOk;
     private CircularProgressButton btnNext;
@@ -39,8 +39,8 @@ public class TutorialActivity extends AppCompatActivity {
 
         dataHelper = new ScrapeDataHelper(this);
 
-        btnOk = findViewById(R.id.btnOK);
-        btnNext = findViewById(R.id.tutorialNext);
+        btnOk = findViewById(R.id.button_OK);
+        btnNext = findViewById(R.id.tutorial_next);
         
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +82,7 @@ public class TutorialActivity extends AppCompatActivity {
         switch (requestCode){
             case 10:
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONE_STATE);
+                    requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONESTATE);
                     int i = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     Log.i(TAG, String.valueOf(i));
                 }

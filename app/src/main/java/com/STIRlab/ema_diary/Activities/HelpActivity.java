@@ -3,16 +3,12 @@ package com.STIRlab.ema_diary.Activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Helpers.Question;
 import com.STIRlab.ema_diary.Helpers.QuestionAdapter;
@@ -38,9 +34,9 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        cardHotline = findViewById(R.id.cardHotline);
+        cardHotline = findViewById(R.id.card_hotline);
 
-        ret = findViewById(R.id.helpPrevious);
+        ret = findViewById(R.id.help_previous);
 
         recyclerView = findViewById(R.id.faq_recycler);
         recyclerView.setHasFixedSize(false);

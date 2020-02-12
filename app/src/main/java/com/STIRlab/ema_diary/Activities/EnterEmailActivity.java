@@ -36,10 +36,10 @@ public class EnterEmailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_enter_email);
         cognitoSettings = new CognitoSettings(this);
 
-        editTextEmail = findViewById(R.id.resetEmail);
-        sendEmail = findViewById(R.id.btnSendEmail);
+        editTextEmail = findViewById(R.id.reset_email);
+        sendEmail = findViewById(R.id.button_send_email);
 
-        previous = findViewById(R.id.enterEmailPrevious);
+        previous = findViewById(R.id.enter_email_previous);
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override

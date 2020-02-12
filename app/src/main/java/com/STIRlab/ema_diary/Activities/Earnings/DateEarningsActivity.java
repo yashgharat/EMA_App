@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.STIRlab.ema_diary.Helpers.earningsPeriod;
+import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
-public class dateEarningsActivity extends AppCompatActivity {
+public class DateEarningsActivity extends AppCompatActivity {
 
     private FloatingActionButton prev;
 
@@ -27,9 +27,9 @@ public class dateEarningsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_date_earnings);
 
 
-        earningsPeriod item = (earningsPeriod) getIntent().getSerializableExtra("period");
+        EarningsPeriod item = (EarningsPeriod) getIntent().getSerializableExtra("period");
 
-        prev = findViewById(R.id.dateEarningsPrevious);
+        prev = findViewById(R.id.date_earnings_previous);
         title = findViewById(R.id.date_earnings_title);
         date = findViewById(R.id.date_sub);
 

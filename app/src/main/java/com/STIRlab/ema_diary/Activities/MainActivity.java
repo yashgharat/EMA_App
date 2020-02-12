@@ -37,7 +37,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.STIRlab.ema_diary.Activities.Earnings.allEarningsActivity;
+import com.STIRlab.ema_diary.Activities.Earnings.AllEarningsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
@@ -112,24 +112,24 @@ public class MainActivity extends AppCompatActivity {
         scraper = new ScrapeDataHelper(this);
 
 
-        viewHistory_1 = findViewById(R.id.viewHistory_1);
-        viewHistory_2 = findViewById(R.id.viewHistory_2);
+        viewHistory_1 = findViewById(R.id.view_history_1);
+        viewHistory_2 = findViewById(R.id.view_history_2);
         viewEarnings = findViewById(R.id.view_earnings);
 
-        cardJournal = findViewById(R.id.cardJournal);
-        cardSettings = findViewById(R.id.cardSettings);
-        cardHelp = findViewById(R.id.cardHelp);
-        cardscreenshots = findViewById(R.id.cardscreenshots);
+        cardJournal = findViewById(R.id.card_journal);
+        cardSettings = findViewById(R.id.card_settings);
+        cardHelp = findViewById(R.id.card_help);
+        cardscreenshots = findViewById(R.id.card_screenshots);
 
         totalEarnings = findViewById(R.id.total_earnings);
         totalEntries = findViewById(R.id.total_entries);
         totalScreenshots = findViewById(R.id.total_screenshots);
         studyCounter = findViewById(R.id.study_ctr);
 
-        layoutJournal = findViewById(R.id.layoutJournal);
-        journalState = findViewById(R.id.journalDrawable);
+        layoutJournal = findViewById(R.id.layout_journal);
+        journalState = findViewById(R.id.journal_drawable);
 
-        numSurveys = findViewById(R.id.numSurveys);
+        numSurveys = findViewById(R.id.num_surveys);
 
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
 
-            Intent i = new Intent(this, newPassword.class);
+            Intent i = new Intent(this, NewPassword.class);
             startActivityForResult(i, 10);
 
             SP.edit().putInt("hour", 14).apply();
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, infoActivity.class);
+                Intent intent = new Intent(MainActivity.this, InfoActivity.class);
                 startActivity(intent);
             }
         });
@@ -224,8 +224,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, e.toString());
         }
 
-        cardTitle = findViewById(R.id.titleJournal);
-        cardMsg = findViewById(R.id.msgJournal);
+        cardTitle = findViewById(R.id.title_journal);
+        cardMsg = findViewById(R.id.msg_journal);
 
         try {
             updateProgress();
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewHistory_2.setEnabled(false);
-                Intent intent = new Intent(MainActivity.this, screenshotHistoryActivity.class);
+                Intent intent = new Intent(MainActivity.this, ScreenshotHistoryActivity.class);
                 startActivityForResult(intent, 15);
             }
         });
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 viewEarnings.setEnabled(false);
-                Intent intent = new Intent(MainActivity.this, allEarningsActivity.class);
+                Intent intent = new Intent(MainActivity.this, AllEarningsActivity.class);
                 startActivityForResult(intent, 15);
             }
         });
@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         cardscreenshots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, screenshotPromptActivity.class);
+                Intent i = new Intent(MainActivity.this, ScreenshotPromptActivity.class);
                 startActivityForResult(i, 40);
             }
         });
@@ -520,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 10:
-                Intent i = new Intent(this, createPinUIActivity.class);
+                Intent i = new Intent(this, CreatePinUIActivity.class);
                 startActivityForResult(i, 20);
             case 20:
                 Intent o = new Intent(this, ManifestActivity.class);

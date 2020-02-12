@@ -8,7 +8,7 @@ import android.view.View;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class infoActivity extends AppCompatActivity {
+public class InfoActivity extends AppCompatActivity {
 
     private FloatingActionButton ret;
 

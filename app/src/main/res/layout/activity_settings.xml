@@ -12,7 +12,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/settingsPrevious"
+        android:id="@+id/settings_previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -37,7 +37,7 @@
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/timePick"
+        android:id="@+id/time_pick"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="30dp"
@@ -52,14 +52,14 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/Reminder"
+                android:id="@+id/reminder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="12dp">
 
                 <TextView
-                    android:id="@+id/titleReminder"
+                    android:id="@+id/title_reminder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -81,14 +81,14 @@
                     android:textColor="@color/apparent"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleReminder" />
+                    app:layout_constraintTop_toBottomOf="@id/title_reminder" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_keyboard_arrow_right_blue_30dp"
                     android:tint="@color/primaryDark"
-                    app:layout_constraintRight_toRightOf="@id/Reminder"
+                    app:layout_constraintRight_toRightOf="@id/reminder"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"/>
@@ -98,7 +98,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/SecureLock"
+        android:id="@+id/secure_lock"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginStart="30dp"
@@ -113,14 +113,14 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lockConstraint"
+                android:id="@+id/lock_constraint"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="12dp">
 
                 <TextView
-                    android:id="@+id/titleSetLock"
+                    android:id="@+id/title_set_lock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -132,7 +132,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/lockDesc"
+                    android:id="@+id/lock_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -142,14 +142,14 @@
                     android:textColor="@color/apparent"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/titleSetLock" />
+                    app:layout_constraintTop_toBottomOf="@id/title_set_lock" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_keyboard_arrow_right_blue_30dp"
                     android:tint="@color/primaryDark"
-                    app:layout_constraintRight_toRightOf="@id/lockConstraint"
+                    app:layout_constraintRight_toRightOf="@id/lock_constraint"
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"/>
@@ -179,7 +179,7 @@
 <!--    </LinearLayout>-->
 
     <TextView
-        android:id="@+id/settingsSignOut"
+        android:id="@+id/settings_sign_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Out"

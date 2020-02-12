@@ -8,32 +8,29 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.APIHelper;
-import com.STIRlab.ema_diary.Helpers.JournalEntryAdapter;
-import com.STIRlab.ema_diary.Helpers.earningsPeriod;
-import com.STIRlab.ema_diary.Helpers.earningsPeriodAdapter;
+import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
+import com.STIRlab.ema_diary.Helpers.EarningsPeriodAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class allEarningsActivity extends AppCompatActivity {
+public class AllEarningsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private List<earningsPeriod> earnings;
-    private earningsPeriodAdapter adapter;
+    private List<EarningsPeriod> earnings;
+    private EarningsPeriodAdapter adapter;
 
     private FloatingActionButton prev;
     private org.fabiomsr.moneytextview.MoneyTextView allEarnings;
-    private TextView possible_earnings, label;
+    private TextView possibleEarnings, label;
 
     private APIHelper client;
     private SharedPreferences SP;
@@ -48,13 +45,13 @@ public class allEarningsActivity extends AppCompatActivity {
         client = new APIHelper(username, email);
 
 
-        prev = findViewById(R.id.allEarningsPrevious);
+        prev = findViewById(R.id.all_earnings_previous);
         allEarnings = findViewById(R.id.all_earnings);
-        possible_earnings = findViewById(R.id.possible_earnings);
+        possibleEarnings = findViewById(R.id.possible_earnings);
 
         swipeRefreshLayout = findViewById(R.id.earnings_swipe);
 
-        recyclerView = findViewById(R.id.recyclerEarnings);
+        recyclerView = findViewById(R.id.recycler_earnings);
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,7 +59,7 @@ public class allEarningsActivity extends AppCompatActivity {
 
         try {
             allEarnings.setAmount(client.getTotalEarnings());
-            possible_earnings.setText("Will earn $" + client.getPossibleEarnings() + " if pending items are approved");
+            possibleEarnings.setText("Will earn $" + client.getPossibleEarnings() + " if pending items are approved");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,7 +89,7 @@ public class allEarningsActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        adapter = new earningsPeriodAdapter(this, earnings);
+        adapter = new EarningsPeriodAdapter(this, earnings);
         recyclerView.setAdapter(adapter);
 
     }

@@ -24,12 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.Earnings.dateEarningsActivity" />
-        <activity android:name=".Activities.Earnings.allEarningsActivity" />
-        <activity android:name=".Activities.infoActivity" />
-        <activity android:name=".Activities.screenshotPromptActivity" />
+        <activity android:name=".Activities.Earnings.DateEarningsActivity" />
+        <activity android:name=".Activities.Earnings.AllEarningsActivity" />
+        <activity android:name=".Activities.InfoActivity" />
+        <activity android:name=".Activities.ScreenshotPromptActivity" />
         <activity android:name=".Activities.EnterEmailActivity" />
-        <activity android:name=".Activities.screenshotHistoryActivity" />
+        <activity android:name=".Activities.ScreenshotHistoryActivity" />
         <activity android:name=".Activities.TutorialActivity" />
         <activity android:name=".Activities.JournalHistoryActivity" />
         <activity android:name=".Activities.PostActivity" />
@@ -41,8 +41,8 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".Activities.createPinUIActivity" />
-        <activity android:name=".Activities.newPassword" />
+        <activity android:name=".Activities.CreatePinUIActivity" />
+        <activity android:name=".Activities.NewPassword" />
         <activity
             android:name=".Activities.ManifestActivity"
             android:exported="true" />
@@ -53,7 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.createPinActivity" />
+        <activity android:name=".Activities.CreatePinActivity" />
         <activity
             android:name=".Activities.PinActivity"
             android:exported="true" />
@@ -88,11 +88,6 @@
                 <action android:name="android.intent.action.MY_PACKAGE_SUSPENDED" />
             </intent-filter>
         </receiver>
-        <receiver
-            android:name=".Helpers.ScreenTimeReceiver"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED" />
     </application>
 
 </manifest>

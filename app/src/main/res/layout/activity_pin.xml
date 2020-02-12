@@ -9,7 +9,7 @@
     tools:context=".Activities.PinActivity">
 
     <com.poovam.pinedittextfield.CirclePinField
-        android:id="@+id/pinField"
+        android:id="@+id/pin_field"
         android:layout_width="match_parent"
         android:layout_height="82dp"
         android:layout_y="140dp"

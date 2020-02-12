@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/themeBackground"
     android:orientation="vertical"
-    tools:context=".Activities.infoActivity">
+    tools:context=".Activities.InfoActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/main_info_previous"

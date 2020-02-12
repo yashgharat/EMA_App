@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.R;
 
-public class createPinUIActivity extends AppCompatActivity {
+public class CreatePinUIActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
     private AlertDialog userDialog;
@@ -27,14 +27,14 @@ public class createPinUIActivity extends AppCompatActivity {
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
-        Button btnLock = findViewById(R.id.btnQuickSignIn);
+        Button btnLock = findViewById(R.id.button_quick_sign_in);
 
-        TextView skipLink = findViewById(R.id.skipLink);
+        TextView skipLink = findViewById(R.id.skip_link);
 
         btnLock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(createPinUIActivity.this, createPinActivity.class);
+                Intent i = new Intent(CreatePinUIActivity.this, CreatePinActivity.class);
                 finish();
                 startActivity(i);
 
@@ -57,7 +57,7 @@ public class createPinUIActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     userDialog.dismiss();
-                    Intent i = new Intent(createPinUIActivity.this, MainActivity.class);
+                    Intent i = new Intent(CreatePinUIActivity.this, MainActivity.class);
                     startActivity(i);
                     if (exitActivity) {
                         onBackPressed();
