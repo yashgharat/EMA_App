@@ -520,11 +520,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 10:
-                Intent i = new Intent(this, CreatePinUIActivity.class);
-                startActivityForResult(i, 20);
-            case 20:
                 Intent o = new Intent(this, ManifestActivity.class);
-                startActivityForResult(o, 30);
+                startActivityForResult(o, 20);
+            case 20:
+                Intent i = new Intent(this, CreatePinUIActivity.class);
+                startActivityForResult(i, 30);
             case 30:
                 break;
             case 50:

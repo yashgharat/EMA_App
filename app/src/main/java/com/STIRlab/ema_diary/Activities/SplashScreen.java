@@ -35,7 +35,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        if(SwitchTheme.getInstance(SplashScreen.this).isDark())
+        if (SwitchTheme.getInstance(SplashScreen.this).isDark())
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         else
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -56,8 +56,7 @@ public class SplashScreen extends AppCompatActivity {
             Intent main = new Intent(SplashScreen.this, MainActivity.class);
             startActivity(main);
             finish();
-        }
-        else{
+        } else {
             Intent main = new Intent(SplashScreen.this, AuthenticationActivity.class);
             startActivity(main);
             finish();

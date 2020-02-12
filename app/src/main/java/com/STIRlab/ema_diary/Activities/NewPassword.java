@@ -43,23 +43,18 @@ public class NewPassword extends AppCompatActivity {
         Button btnSet = findViewById(R.id.button_set_pass);
 
         EditText txtPassUno = findViewById(R.id.new_pass_uno);
-        EditText txtPassDos = findViewById(R.id.new_pass_dos);
 
         String oldPass = SP.getString("oldPass","null");
-
-        Log.i(TAG, "REACHED");
-
+        
 
         btnSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txtPassDos.getText().toString().equals(txtPassUno.getText().toString())){
-                    Log.i(TAG, "REACHED");
 
-                    CognitoSettings.user.changePasswordInBackground(CognitoSettings.oldPass, txtPassDos.getText().toString(), new GenericHandler() {
+                    CognitoSettings.user.changePasswordInBackground(CognitoSettings.oldPass, txtPassUno.getText().toString(), new GenericHandler() {
                         @Override
                         public void onSuccess() {
-                            SP.edit().putString("dwString", String.valueOf(txtPassDos.getText())).apply();
+                            SP.edit().putString("dwString", String.valueOf(txtPassUno.getText())).apply();
 
                             try {
                                 Log.i(TAG, client.updatePassword());
@@ -77,11 +72,6 @@ public class NewPassword extends AppCompatActivity {
                             Log.i(TAG + "FAILURE", exception.toString());
                         }
                     });
-                }
-                else
-                {
-                    showDialogMessage("Error", "Passwords do not match", false);
-                }
             }
         });
 
