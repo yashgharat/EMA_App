@@ -170,8 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             String pass = client.finishedPost();
-            if(!pass.equals("null"))
-            {
+            if (!pass.equals("null")) {
                 Intent post = new Intent(this, PostActivity.class);
                 post.putExtra("data", pass);
                 startActivity(post);
@@ -197,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             public void onRefresh() {
                 try {
                     statuses = client.getStatuses();
-                    cardStatus = statuses.getString(statuses.length()-1);
+                    cardStatus = statuses.getString(statuses.length() - 1);
                     updateProgress();
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
@@ -210,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
         cardStatus = null;
         try {
-            cardStatus = statuses.getString(statuses.length()-1);
+            cardStatus = statuses.getString(statuses.length() - 1);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
@@ -294,66 +293,43 @@ public class MainActivity extends AppCompatActivity {
 
         Log.e(TAG, "curday: " + curDay);
 
-        for(int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             String curStatus = statuses.getString(i);
 
-            if(curStatus == null)
-            {
+            if (curStatus == null) {
                 progressBar[i].setImageResource(R.drawable.light_gray_no_border);
-            }
-            else if(i == curDay-1)
-            {
-                if(curStatus.equals("approved"))
-                {
+            } else if (i == curDay - 1) {
+                if (curStatus.equals("approved")) {
                     progressBar[i].setImageResource(R.drawable.green_border);
-                }
-                else if(curStatus.equals("rejected"))
-                {
+                } else if (curStatus.equals("rejected")) {
                     progressBar[i].setImageResource(R.drawable.red_border);
 
-                }
-                else if(curStatus.equals("submitted"))
-                {
-                    progressBar[i].setImageResource(R.drawable.blue_border  );
+                } else if (curStatus.equals("submitted")) {
+                    progressBar[i].setImageResource(R.drawable.blue_border);
 
-                }
-                else if(curStatus.equals("pending") || curStatus.equals("open"))
-                {
+                } else if (curStatus.equals("pending") || curStatus.equals("open")) {
 
                     Log.e(TAG, "inPending");
                     progressBar[i].setImageResource(R.drawable.yellow_border);
 
-                }
-                else if(curStatus.equals("missed") || curStatus.equals("closed"))
-                {
+                } else if (curStatus.equals("missed") || curStatus.equals("closed")) {
                     progressBar[i].setImageResource(R.drawable.gray_border);
 
                 }
-            }
-            else if(curStatus.equals("approved"))
-            {
+            } else if (curStatus.equals("approved")) {
                 progressBar[i].setImageResource(R.drawable.green_no_border);
 
 
-            }
-            else if(curStatus.equals("rejected"))
-            {
+            } else if (curStatus.equals("rejected")) {
                 progressBar[i].setImageResource(R.drawable.red_no_border);
 
-            }
-            else if(curStatus.equals("submitted"))
-            {
+            } else if (curStatus.equals("submitted")) {
                 progressBar[i].setImageResource(R.drawable.blue_no_border);
 
-            }
-            else if(curStatus.equals("pending") || curStatus.equals("open"))
-            {
+            } else if (curStatus.equals("pending") || curStatus.equals("open")) {
                 progressBar[i].setImageResource(R.drawable.yellow_no_border);
 
-            }
-            else if(curStatus.equals("missed") || curStatus.equals("closed"))
-            {
+            } else if (curStatus.equals("missed") || curStatus.equals("closed")) {
                 progressBar[i].setImageResource(R.drawable.gray_no_border);
 
             }
@@ -361,15 +337,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void updateEntryBonus(){
+    public void updateEntryBonus() {
 
     }
 
-    public void setCardColor()
-    {
+    public void setCardColor() {
         Log.i(TAG, cardStatus);
-        if(cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed"))
-        {
+        if (cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed")) {
             cardTitle.setText("Come Back at 2 PM");
             cardMsg.setText("Daily Journal will be available later");
 
@@ -385,9 +359,7 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-        }
-        else if(cardStatus.equals("pending"))
-        {
+        } else if (cardStatus.equals("pending")) {
             String curID = client.getCurrentSurvey();
 
             cardMsg.setClickable(true);
@@ -419,9 +391,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        }
-        else if(cardStatus.equals("open"))
-        {
+        } else if (cardStatus.equals("open")) {
 
             String curID = client.getCurrentSurvey();
 
@@ -460,9 +430,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        }
-        else if(cardStatus.equals("submitted"))
-        {
+        } else if (cardStatus.equals("submitted")) {
             cardTitle.setText("Daily Journal Complete");
             cardMsg.setText("Waiting for researcher to approve");
             cardMsg.setClickable(false);
@@ -476,9 +444,7 @@ public class MainActivity extends AppCompatActivity {
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.neutral)),
                     new ColorDrawable(getResources().getColor(R.color.primaryDark)));
-        }
-        else if(cardStatus.equals("approved"))
-        {
+        } else if (cardStatus.equals("approved")) {
             cardTitle.setText("Daily Journal Complete");
             cardMsg.setText("Researcher approved");
             cardMsg.setClickable(false);
@@ -493,9 +459,7 @@ public class MainActivity extends AppCompatActivity {
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.positive)));
-        }
-        else if(cardStatus.equals("rejected"))
-        {
+        } else if (cardStatus.equals("rejected")) {
             cardTitle.setText("Daily Journal Complete");
             cardMsg.setText("Researcher approved");
             cardMsg.setClickable(false);
@@ -515,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
     public void broadcastIntent() {
         Intent intent = new Intent();
         intent.setAction("com.journaldev.AN_INTENT");
-        intent.setComponent(new ComponentName(getPackageName(),"com.STIRlab.ema_diary.Helpers.NotifyPublisher"));
+        intent.setComponent(new ComponentName(getPackageName(), "com.STIRlab.ema_diary.Helpers.NotifyPublisher"));
         getApplicationContext().sendBroadcast(intent);
     }
 
@@ -562,18 +526,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setNotification(){
+    public void setNotification() {
 
         createNotificationChannel();
 
         int hour = SP.getInt("hour", 14);
         int min = SP.getInt("minute", 0);
-
-        Intent i = new Intent(this, NotifyPublisher.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200,i, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Log.i(TAG, hour + ":"+ min);
-
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
@@ -582,15 +540,23 @@ public class MainActivity extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, min);
         calendar.set(Calendar.SECOND, 0);
 
-        Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
+        Intent i = new Intent(this, NotifyPublisher.class);
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        if (PendingIntent.getBroadcast(MainActivity.this, 0, i,
+                PendingIntent.FLAG_NO_CREATE) == null) {
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200, i, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Log.i(TAG, hour + ":" + min);
+            Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
     }
 
     public void setCardColorTran(LinearLayout layout, ColorDrawable start, ColorDrawable end) {
         ColorDrawable[] color = {start, end};
         TransitionDrawable trans = new TransitionDrawable(color);
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
             layout.setBackground(trans);
         } else {
             layout.setBackgroundDrawable(trans);
@@ -598,8 +564,7 @@ public class MainActivity extends AppCompatActivity {
         trans.startTransition(1000);
     }
 
-    public void createNotificationChannel()
-    {
+    public void createNotificationChannel() {
 
         NotificationChannel notificationChannel = new NotificationChannel("notifyUser",
                 "Daily notification", NotificationManager.IMPORTANCE_HIGH);
@@ -643,7 +608,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         userDialog = builder.create();
-        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         userDialog.show();
 
     }

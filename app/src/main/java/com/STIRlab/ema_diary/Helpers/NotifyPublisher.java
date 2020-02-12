@@ -22,7 +22,7 @@ import com.STIRlab.ema_diary.R;
 
 
 public class NotifyPublisher extends BroadcastReceiver {
-    public static final String TAG = "Publisher";
+    public static final String TAG = "PUBLISHER";
     public static final String NOTIFICATION_ID = "notification-id";
     public static final String NOTIFICATION = "notification";
 
@@ -41,6 +41,8 @@ public class NotifyPublisher extends BroadcastReceiver {
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.i(TAG, "Notification");
+
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
                 .setContentTitle("Daily Journal Reminder")
@@ -56,9 +58,10 @@ public class NotifyPublisher extends BroadcastReceiver {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
+        Log.i(TAG, "Notification");
+
         notificationManager.notify(200, notification);
 
-        Log.i(TAG, "Notification");
     }
 
 }
