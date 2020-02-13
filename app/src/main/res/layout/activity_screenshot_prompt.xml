@@ -1,36 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activities.ScreenshotPromptActivity">
 
-    <TextView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/choose_screenshot_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:textColor="@color/primaryDark"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:scaleX="1"
+        android:scaleY="1"
+        app:backgroundTint="@color/unapparent"
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp"
+            android:gravity="center">
 
     <TextView
         android:id="@+id/screenshot_prompt_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Choose a Screenshot"
+        android:text="Share a Screenshot"
         android:textStyle="bold"
         android:textColor="@color/prominent"
         android:textSize="34sp"
-        android:layout_marginTop="140dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginTop="70dp" />
     <TextView
         android:id="@+id/screenshot_prompt"
         android:layout_width="match_parent"
@@ -55,5 +64,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/primaryDark" />
 
+        </LinearLayout>
+    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

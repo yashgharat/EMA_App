@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -27,7 +28,7 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
     private Button addPic;
     public static Bitmap bitmap, thumbImage;
 
-    private TextView prev;
+    private FloatingActionButton prev;
 
 
     @Override

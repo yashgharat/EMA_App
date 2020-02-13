@@ -40,6 +40,7 @@ public class HelpActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.faq_recycler);
         recyclerView.setHasFixedSize(false);
+        recyclerView.setFocusable(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this){
             @Override
             public boolean canScrollVertically() {

@@ -38,6 +38,8 @@ public class CreatePinActivity extends AppCompatActivity {
 
         title.setText(SP.getString("pinTitle", "NULL"));
 
+        Boolean isFirst = getIntent().getBooleanExtra("is_first", true);
+
         inputPin = findViewById(R.id.pin_field);
         inputPin.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
@@ -46,7 +48,10 @@ public class CreatePinActivity extends AppCompatActivity {
         inputPin.setOnTextCompleteListener(new PinField.OnTextCompleteListener() {
             @Override
             public boolean onTextComplete(@NotNull String str) {
-                pinConfirm(str);
+                editor.putString("Pin", str).apply();
+                finish();
+                if(isFirst)
+                    startActivity(new Intent(CreatePinActivity.this, ManifestActivity.class));
                 return false;
             }
         });
@@ -68,10 +73,6 @@ public class CreatePinActivity extends AppCompatActivity {
             if(str.equals(in.getStringExtra("inputPin"))){
                 editor.putString("Pin", in.getStringExtra("inputPin"));
                 editor.apply();
-
-                finish();
-                Intent intent = new Intent(CreatePinActivity.this, MainActivity.class);
-                this.startActivity(intent);
 
             } else {
                 showDialogMessage("Error", "Pins are different", false);

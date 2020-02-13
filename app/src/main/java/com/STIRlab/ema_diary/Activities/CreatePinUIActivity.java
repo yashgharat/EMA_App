@@ -35,7 +35,6 @@ public class CreatePinUIActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CreatePinUIActivity.this, CreatePinActivity.class);
-                finish();
                 startActivity(i);
 
                 SP.edit().putBoolean("Remember", true).apply();
@@ -45,31 +44,10 @@ public class CreatePinUIActivity extends AppCompatActivity {
         skipLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialogMessage("Attention", "You can always set a pin in Settings if you change your mind", false);
+                Intent i = new Intent(CreatePinUIActivity.this, ManifestActivity.class);
+                startActivity(i);
             }
         });
     }
 
-    private void showDialogMessage(String title, String body, final boolean exitActivity) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    Intent i = new Intent(CreatePinUIActivity.this, MainActivity.class);
-                    startActivity(i);
-                    if (exitActivity) {
-                        onBackPressed();
-                    }
-                } catch (Exception e) {
-                    onBackPressed();
-                }
-            }
-        });
-        userDialog = builder.create();
-        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        userDialog.show();
-
-    }
 }

@@ -9,7 +9,9 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.Calendar;
+import java.util.Calendar;
+import java.util.Set;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,27 +57,14 @@ public class SettingsActivity extends AppCompatActivity {
         setTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Calendar cldr = Calendar.getInstance();
-                int curHour = cldr.get(Calendar.HOUR_OF_DAY);
-                int curMinutes = cldr.get(Calendar.MINUTE);
-                TimePickerDialog timePicker = new TimePickerDialog(SettingsActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourofDay, int mins) {
-                        SP.edit().putInt("hour", hourofDay).apply();
-                        SP.edit().putInt("minute", mins).apply();
-
-                    }
-                }, curHour, curMinutes, false);
-                timePicker.show();
-                
+                startActivityForResult(new Intent(SettingsActivity.this, DailyReminderActivity.class), 10);
             }
         });
 
         newPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SettingsActivity.this, CreatePinActivity.class);
-                startActivityForResult(i, 10);
+                startActivityForResult(new Intent(SettingsActivity.this, SecureLockActivity.class), 10);
             }
         });
 

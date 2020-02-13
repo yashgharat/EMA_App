@@ -67,7 +67,7 @@ public class TutorialActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        btnNext.startMorphRevertAnimation();
-                        finish();
+                        startActivity(new Intent(TutorialActivity.this, MainActivity.class));
                     }
                 }, delayInMillis);
             }

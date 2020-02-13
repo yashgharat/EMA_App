@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activities.SecureLockActivity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/secure_lock_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:scaleX="1"
+        android:scaleY="1"
+        app:backgroundTint="@color/unapparent"
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+
+    <TextView
+        android:id="@+id/secure_lock_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="37dp"
+        android:paddingBottom="30dp"
+        android:text="Secure Lock"
+        android:textColor="@color/prominent"
+        android:textSize="34sp"
+        android:textStyle="bold" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/secure_lock_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Secure Lock"
+                android:textStyle="bold"
+                android:textSize="17sp"
+                android:layout_marginTop="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set a 4-digit passcode to use"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/change_passcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="Change Passcode"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:textColor="@color/themeBackground"
+        android:visibility="gone"/>
+
+
+</LinearLayout>

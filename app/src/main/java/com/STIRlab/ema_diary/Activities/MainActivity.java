@@ -152,8 +152,14 @@ public class MainActivity extends AppCompatActivity {
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
 
-            Intent i = new Intent(this, NewPassword.class);
-            startActivityForResult(i, 10);
+            if(client.didSetPass() == 0) {
+                Intent i = new Intent(this, NewPassword.class);
+                startActivityForResult(i, 10);
+            }
+            else {
+                Intent i = new Intent(this, CreatePinUIActivity.class);
+                startActivityForResult(i, 20);
+            }
 
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
@@ -520,11 +526,11 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 10:
-                Intent o = new Intent(this, ManifestActivity.class);
-                startActivityForResult(o, 20);
-            case 20:
                 Intent i = new Intent(this, CreatePinUIActivity.class);
                 startActivityForResult(i, 30);
+            case 20:
+                Intent o = new Intent(this, ManifestActivity.class);
+                startActivityForResult(o, 20);
             case 30:
                 break;
             case 50:

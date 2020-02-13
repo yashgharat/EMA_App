@@ -1,6 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
 
+    private static final String TAG = "QUESTION_ADAPTER";
     private Context context;
     private List<Question> questionList;
     

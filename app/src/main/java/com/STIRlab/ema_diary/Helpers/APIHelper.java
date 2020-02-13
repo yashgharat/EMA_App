@@ -100,6 +100,15 @@ public class APIHelper {
         return null;
     }
 
+    public int didSetPass() {
+        try {
+            return parseUserInfo().getInt("did_set_pw");
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        return 0;
+    }
+
     public String getEntryCount() {
         try {
             return parseUserInfo().getString("num_complete_surveys");
