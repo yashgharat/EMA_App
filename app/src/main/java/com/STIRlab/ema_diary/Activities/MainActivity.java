@@ -634,6 +634,9 @@ public class MainActivity extends AppCompatActivity {
         viewHistory_2.setEnabled(true);
         viewEarnings.setEnabled(true);
 
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
+
     }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
@@ -656,6 +659,7 @@ public class MainActivity extends AppCompatActivity {
         userDialog.show();
 
     }
+
 
 
 }

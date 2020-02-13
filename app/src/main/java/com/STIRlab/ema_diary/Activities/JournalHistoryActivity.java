@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -93,6 +94,14 @@ public class JournalHistoryActivity extends AppCompatActivity {
             label.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
         }
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
 
     }
 }

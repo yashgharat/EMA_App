@@ -3,6 +3,7 @@ package com.STIRlab.ema_diary.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -45,5 +46,13 @@ public class DailyReminderActivity extends AppCompatActivity {
                 SP.edit().putInt("minute", mins).apply();
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
+
     }
 }

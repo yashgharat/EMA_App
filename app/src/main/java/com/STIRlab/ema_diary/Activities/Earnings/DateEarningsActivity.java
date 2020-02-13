@@ -2,10 +2,14 @@ package com.STIRlab.ema_diary.Activities.Earnings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.STIRlab.ema_diary.Activities.PinActivity;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,10 +25,14 @@ public class DateEarningsActivity extends AppCompatActivity {
     private TextView basicEarnings, surveyBonus, screenshotBonus, earningsAdded;
     private DecimalFormat df = new DecimalFormat("#.##");
 
+    private SharedPreferences SP;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_earnings);
+
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
 
         EarningsPeriod item = (EarningsPeriod) getIntent().getSerializableExtra("period");
@@ -92,6 +100,14 @@ public class DateEarningsActivity extends AppCompatActivity {
         else
             earningsAdded.setTextColor(getColor(R.color.positive));
 
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
 
     }
 }

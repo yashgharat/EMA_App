@@ -4,8 +4,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,11 +32,13 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
 
     private FloatingActionButton prev;
 
-
+    private SharedPreferences SP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screenshot_prompt);
+
+        SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
         addPic = findViewById(R.id.add_pic_button);
 
@@ -96,6 +100,14 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
+
     }
 
 }

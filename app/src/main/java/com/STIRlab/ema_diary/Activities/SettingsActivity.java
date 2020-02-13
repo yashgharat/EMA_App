@@ -140,4 +140,12 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed(){
         finish();
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
+
+    }
 }

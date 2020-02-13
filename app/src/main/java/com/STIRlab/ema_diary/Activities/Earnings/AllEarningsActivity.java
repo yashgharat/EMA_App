@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.STIRlab.ema_diary.Activities.PinActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriodAdapter;
@@ -22,6 +25,7 @@ import java.util.List;
 
 public class AllEarningsActivity extends AppCompatActivity {
 
+    private static final String TAG = "ALL_EARNINGS";
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -91,6 +95,14 @@ public class AllEarningsActivity extends AppCompatActivity {
         }
         adapter = new EarningsPeriodAdapter(this, earnings);
         recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SP.getString("Pin", null) != null)
+            startActivity(new Intent(this, PinActivity.class));
 
     }
 }
