@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import java.util.Calendar;
@@ -78,21 +80,33 @@ public class SettingsActivity extends AppCompatActivity {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
-                    @Override
-                    public void onSuccess() {
-                        Log.i(TAG, "Logged out");
-                    }
 
-                    @Override
-                    public void onFailure(Exception exception) {
+                new AlertDialog.Builder(SettingsActivity.this, R.style.AlertDialogStyle)
+                        .setTitle("Sign out of 30 Days?")
+                        .setCancelable(false)
+                        .setPositiveButton("Sign Out", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
+                                    @Override
+                                    public void onSuccess() {
+                                        Log.i(TAG, "Logged out");
+                                    }
 
-                    }
-                });
+                                    @Override
+                                    public void onFailure(Exception exception) {
 
-                SP.edit().clear().apply();
-                Intent i = new Intent(SettingsActivity.this, AuthenticationActivity.class);
-                startActivity(i);
+                                    }
+                                });
+
+                                SP.edit().clear().apply();
+                                Intent intent = new Intent(SettingsActivity.this, AuthenticationActivity.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+
 
             }
         });

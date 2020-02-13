@@ -8,24 +8,25 @@
     android:orientation="vertical"
     tools:context=".Activities.ScreenshotActivity">
 
-    <TextView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/screenshots_previous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:clickable="true"
-        android:text="Cancel"
-        android:textColor="@color/primary"
-        android:textStyle="bold"
-        android:textSize="17sp"/>
+        android:scaleType="fitCenter"
+        android:scaleX="1"
+        android:scaleY="1"
+        app:backgroundTint="@color/unapparent"
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
     <TextView
         android:id="@+id/screenshots_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:text="Share a Screenshot"
         android:textColor="@color/prominent"

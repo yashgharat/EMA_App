@@ -13,8 +13,11 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -43,7 +47,9 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private CircularProgressButton submit;
 
-    private TextView ret, replaceScreenshot;
+    private FloatingActionButton ret;
+
+    private TextView  replaceScreenshot;
     private ImageView thumbnail;
 
     private EditText inputInteraction;
@@ -75,7 +81,12 @@ public class ScreenshotActivity extends AppCompatActivity {
         thumbnail = findViewById(R.id.thumb_view);
         replaceScreenshot = findViewById(R.id.replace_screenshot);
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         image = Uri.parse(getIntent().getStringExtra("imagePath"));
+
+        submit.setEnabled(false);
+        submit.setBackgroundColor(getColor(R.color.disabled));
 
         init();
 
@@ -88,13 +99,33 @@ public class ScreenshotActivity extends AppCompatActivity {
             }
         });
 
+        inputInteraction.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(charSequence.toString().trim().length()==0){
+                    submit.setEnabled(false);
+                    submit.setBackgroundColor(getColor(R.color.disabled));
+                } else {
+                    submit.setEnabled(true);
+                    submit.setBackgroundColor(getColor(R.color.primaryDark));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 submit.startMorphAnimation();
                 String uploadText = inputInteraction.getText().toString();
-                if(uploadText.length() > 0)
-                {
                     String userid = SP.getString("username", "null");
 
                     if(bitmap != null) {
@@ -118,12 +149,6 @@ public class ScreenshotActivity extends AppCompatActivity {
 
                         finish();
                     }
-                }
-                else
-                {
-                    showDialogMessage("Error", "Please input some text", false);
-                }
-
                 submit.startMorphRevertAnimation();
             }
         });
@@ -209,7 +234,24 @@ public class ScreenshotActivity extends AppCompatActivity {
         super.onResume();
         if(SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
+    }
 
+    @Override
+    public void onBackPressed(){
+        if(inputInteraction.getText().length() > 0)
+        {
+            new AlertDialog.Builder(this, R.style.AlertDialogStyle)
+                    .setTitle("Discard Screenshot?")
+                    .setCancelable(false)
+                    .setPositiveButton("Discard", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("Keep Editing", null)
+                    .show();
+        }
     }
 
 }

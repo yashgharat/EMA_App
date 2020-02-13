@@ -27,7 +27,7 @@
         android:id="@+id/screenshots_history_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Screenshot History"
+        android:text="All Screenshots"
         android:textSize="34sp"
         android:textStyle="bold"
         android:textColor="@color/prominent"
