@@ -50,9 +50,6 @@ public class JournalEntry {
             formattedTime = DateUtils.getRelativeTimeSpanString(ParsedDate.getTime(), now, DateUtils.DAY_IN_MILLIS,
                     DateUtils.FORMAT_CAP_AMPM).toString();
 
-            formattedTime += " by Midnight";
-
-
         }
 
         return formattedTime;

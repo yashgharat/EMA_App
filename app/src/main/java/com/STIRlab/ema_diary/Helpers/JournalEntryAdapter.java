@@ -76,7 +76,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
 
 
         } else if (entry.getStatus().equals("open") || entry.getStatus().equals("pending")) {
-            holder.isComplete.setText("Incomplete");
+            holder.isComplete.setText("Ready to complete");
             holder.isComplete.setTextColor(context.getColor(R.color.neutral));
 
             Drawable drawable = context.getDrawable(R.drawable.journal_20dp);

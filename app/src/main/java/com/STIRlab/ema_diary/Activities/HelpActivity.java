@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.STIRlab.ema_diary.Helpers.Question;
 import com.STIRlab.ema_diary.Helpers.QuestionAdapter;
 import com.STIRlab.ema_diary.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.List;
 
 public class HelpActivity extends AppCompatActivity {
 
-    private CardView cardHotline;
+    private CardView cardHotline, cardContact;
 
     private FloatingActionButton ret;
 
@@ -41,6 +43,7 @@ public class HelpActivity extends AppCompatActivity {
 
 
         cardHotline = findViewById(R.id.card_hotline);
+        cardContact = findViewById(R.id.card_TCS);
 
         ret = findViewById(R.id.help_previous);
 
@@ -63,6 +66,41 @@ public class HelpActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse("tel:18006564673"));
                 startActivity(intent);
+            }
+        });
+
+        cardContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(HelpActivity.this);
+                View sheetView = HelpActivity.this.getLayoutInflater().inflate(R.layout.contact_us_botttom_sheet, null);
+                mBottomSheetDialog.setContentView(sheetView);
+
+                LinearLayout email = sheetView.findViewById(R.id.settings_bottom_sheet_email);
+                LinearLayout message = sheetView.findViewById(R.id.settings_bottom_sheet_message);
+
+                email.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                                "mailto","abc@gmail.com", null));
+                        intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com");
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
+
+                        startActivity(Intent.createChooser(intent, "Send Email"));
+
+                    }
+                });
+
+                message.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+                mBottomSheetDialog.show();
+
             }
         });
 

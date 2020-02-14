@@ -19,7 +19,7 @@
             android:id="@+id/dash_logo"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -51,8 +51,9 @@
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="17dp"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="17dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +63,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@color/disabled" />
         </LinearLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -83,14 +84,14 @@
                     android:id="@+id/total_earnings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:symbol="$"
                     app:amount="0"
-                    app:baseTextSize="17sp"
-                    app:symbolGravity="start"
-                    app:decimalSeparator="."
                     app:baseTextColor="@color/positive"
+                    app:baseTextSize="17sp"
+                    app:decimalSeparator="."
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:symbol="$"
+                    app:symbolGravity="start" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,12 +114,12 @@
                     android:id="@+id/total_entries"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/journal_20dp"
+                    android:drawableTint="@color/neutral"
+                    android:paddingTop="2dp"
                     android:text="2"
                     android:textColor="@color/neutral"
                     android:textSize="20sp"
-                    android:paddingTop="2dp"
-                    android:drawableLeft="@drawable/journal_20dp"
-                    android:drawableTint="@color/neutral"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -144,12 +145,12 @@
                     android:id="@+id/total_screenshots"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/upload_20dp"
+                    android:drawableTint="@color/neutral"
+                    android:paddingTop="2dp"
                     android:text="0"
                     android:textColor="@color/neutral"
                     android:textSize="20sp"
-                    android:paddingTop="2dp"
-                    android:drawableLeft="@drawable/upload_20dp"
-                    android:drawableTint="@color/neutral"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -171,43 +172,45 @@
             android:id="@+id/progress_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:orientation="horizontal"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/num_stats_layout"
-            android:layout_marginTop="20dp"
-            >
+            app:layout_constraintTop_toBottomOf="@id/num_stats_layout">
 
             <ImageView
                 android:id="@+id/prog_0"
-                android:layout_width="62dp"
+                android:layout_width="68dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/light_gray_no_border" />
+
             <ImageView
                 android:id="@+id/prog_1"
-                android:layout_width="62dp"
+                android:layout_width="68dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/light_gray_no_border" />
 
             <ImageView
                 android:id="@+id/prog_2"
-                android:layout_width="62dp"
-                android:layout_height="10dp"
+                android:layout_width="68dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/light_gray_no_border" />
 
             <ImageView
                 android:id="@+id/prog_3"
-                android:layout_width="62dp"
+                android:layout_width="65dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/light_gray_no_border" />
 
             <ImageView
                 android:id="@+id/prog_4"
-                android:layout_width="62dp"
+                android:layout_width="68dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/light_gray_no_border" />
@@ -226,7 +229,7 @@
             android:textColor="@color/primaryDark"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_layout"/>
+            app:layout_constraintTop_toBottomOf="@id/progress_layout" />
 
         <ImageView
             android:id="@+id/main_info"
@@ -262,8 +265,8 @@
                     android:id="@+id/card_journal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp">
 
                     <LinearLayout
                         android:id="@+id/layout_journal"
@@ -372,10 +375,10 @@
                     android:id="@+id/card_screenshots"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="30dp">
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -439,7 +442,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="15dp"
                                 android:layout_marginTop="5dp"
-                                android:text="View Uploads"
+                                android:text="View Screenshots"
                                 android:textColor="@color/primary"
                                 android:textSize="15sp"
                                 app:layout_constraintLeft_toLeftOf="parent" />
@@ -462,9 +465,9 @@
                     android:id="@+id/card_help"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="30dp">
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -521,9 +524,9 @@
                     android:id="@+id/card_settings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp">
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -557,7 +560,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:layout_marginBottom="20dp"
-                                android:text="Customize journal reminders and more"
+                                android:text="Customize daily reminders and more"
                                 android:textColor="@color/apparent"
                                 android:textSize="12sp"
                                 app:layout_constraintLeft_toLeftOf="parent"
