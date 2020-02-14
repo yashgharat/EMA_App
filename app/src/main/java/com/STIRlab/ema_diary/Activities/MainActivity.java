@@ -22,10 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.Calendar;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -34,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -49,6 +47,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.util.Calendar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView viewHistory_1, viewHistory_2, totalEntries, totalScreenshots, studyCounter;
+    private TextView totalEntries, totalScreenshots, studyCounter;
     private TextView numSurveys, cardTitle, cardMsg, viewEarnings;
 
     private org.fabiomsr.moneytextview.MoneyTextView totalEarnings;
@@ -67,8 +67,9 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardSettings;
     private CardView cardHelp;
     private CardView cardscreenshots;
+    private CardView cardViewEntries, cardViewScreenshots;
 
-    private LinearLayout layoutJournal;
+    private ConstraintLayout layoutJournal;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private CognitoSettings cognitoSettings;
@@ -111,22 +112,21 @@ public class MainActivity extends AppCompatActivity {
 
         scraper = new ScrapeDataHelper(this);
 
-
-        viewHistory_1 = findViewById(R.id.view_history_1);
-        viewHistory_2 = findViewById(R.id.view_history_2);
         viewEarnings = findViewById(R.id.view_earnings);
 
         cardJournal = findViewById(R.id.card_journal);
         cardSettings = findViewById(R.id.card_settings);
         cardHelp = findViewById(R.id.card_help);
         cardscreenshots = findViewById(R.id.card_screenshots);
+        cardViewEntries = findViewById(R.id.card_view_entries);
+        cardViewScreenshots = findViewById(R.id.card_view_screenshots);
 
         totalEarnings = findViewById(R.id.total_earnings);
         totalEntries = findViewById(R.id.total_entries);
         totalScreenshots = findViewById(R.id.total_screenshots);
         studyCounter = findViewById(R.id.study_ctr);
 
-        layoutJournal = findViewById(R.id.layout_journal);
+        layoutJournal = findViewById(R.id.journal);
         journalState = findViewById(R.id.journal_drawable);
 
         numSurveys = findViewById(R.id.num_surveys);
@@ -241,18 +241,18 @@ public class MainActivity extends AppCompatActivity {
         setCardColor();
 
 
-        viewHistory_1.setOnClickListener(new View.OnClickListener() {
+        cardViewEntries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewHistory_1.setEnabled(false);
+                cardViewEntries.setEnabled(false);
                 Intent intent = new Intent(MainActivity.this, JournalHistoryActivity.class);
                 startActivityForResult(intent, 15);
             }
         });
-        viewHistory_2.setOnClickListener(new View.OnClickListener() {
+        cardViewScreenshots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewHistory_2.setEnabled(false);
+                cardViewScreenshots.setEnabled(false);
                 Intent intent = new Intent(MainActivity.this, ScreenshotHistoryActivity.class);
                 startActivityForResult(intent, 15);
             }
@@ -595,7 +595,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setCardColorTran(LinearLayout layout, ColorDrawable start, ColorDrawable end) {
+    public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable end) {
         ColorDrawable[] color = {start, end};
         TransitionDrawable trans = new TransitionDrawable(color);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
@@ -630,8 +630,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        viewHistory_1.setEnabled(true);
-        viewHistory_2.setEnabled(true);
+        cardViewEntries.setEnabled(true);
+        cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
 
         if(SP.getString("Pin", null) != null)

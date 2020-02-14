@@ -29,14 +29,13 @@
         android:layout_marginTop="25dp" />
     <TextView
         android:id="@+id/steps"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="1. Select 30 Days\n2. Click &quot;Permit usage access&quot;\n3. Return here and tap next"
         android:textColor="@color/apparent"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"/>
+        android:layout_marginTop="30dp" />
 
     <Button
         android:id="@+id/button_OK"

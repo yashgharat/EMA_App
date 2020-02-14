@@ -172,10 +172,10 @@
             android:id="@+id/progress_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/num_stats_layout">
@@ -262,9 +262,9 @@
                 android:paddingBottom="20dp">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_journal"
+                    android:id="@+id/card_view_entries"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp">
 
@@ -275,48 +275,55 @@
                         android:background="@color/themeBackground"
                         android:orientation="vertical">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/journal"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_journal"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="12dp">
+                            android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/title_journal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:text="Ready For Daily Journal"
-                                android:textColor="@color/prominent"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/msg_journal"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/journal"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginBottom="20dp"
-                                android:text="Due by Midnight"
-                                android:textColor="@color/apparent"
-                                android:textSize="12sp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/title_journal" />
+                                android:layout_height="match_parent"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp">
 
-                            <ImageView
-                                android:id="@+id/journal_drawable"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="20dp"
-                                android:tint="@color/disabled"
-                                app:layout_constraintRight_toRightOf="@id/journal"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/journal_20dp" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/title_journal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:text="Ready For Daily Journal"
+                                    android:textColor="@color/prominent"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/msg_journal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:text="Due by Midnight"
+                                    android:textColor="@color/apparent"
+                                    android:textSize="12sp"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/title_journal" />
+
+                                <ImageView
+                                    android:id="@+id/journal_drawable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:tint="@color/disabled"
+                                    app:layout_constraintRight_toRightOf="@id/journal"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/journal_20dp" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/history"
@@ -372,7 +379,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/card_screenshots"
+                    android:id="@+id/card_view_screenshots"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -386,49 +393,55 @@
                         android:background="@drawable/card_ripple_effect"
                         android:orientation="vertical">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/screenshots"
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_screenshots"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="12dp">
+                            android:layout_height="match_parent">
 
-                            <TextView
-                                android:id="@+id/title_screenshots"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:text="Share a Screenshot"
-                                android:textColor="@color/prominent"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/msg_experience"
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:id="@+id/screenshots"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="15dp"
-                                android:layout_marginBottom="20dp"
-                                android:text="Upload online experiences anytime."
-                                android:textColor="@color/apparent"
-                                android:textSize="12sp"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/title_screenshots" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_marginTop="10dp"
-                                android:layout_marginEnd="20dp"
-                                android:tint="@color/primaryDark"
-                                app:layout_constraintRight_toRightOf="@id/screenshots"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/upload_20dp" />
+                                android:layout_marginBottom="12dp">
 
+                                <TextView
+                                    android:id="@+id/title_screenshots"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:text="Share a Screenshot"
+                                    android:textColor="@color/prominent"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                                <TextView
+                                    android:id="@+id/msg_experience"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="15dp"
+                                    android:layout_marginBottom="20dp"
+                                    android:text="Upload online experiences anytime."
+                                    android:textColor="@color/apparent"
+                                    android:textSize="12sp"
+                                    app:layout_constraintLeft_toLeftOf="parent"
+                                    app:layout_constraintTop_toBottomOf="@id/title_screenshots" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="20dp"
+                                    android:tint="@color/primaryDark"
+                                    app:layout_constraintRight_toRightOf="@id/screenshots"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    app:srcCompat="@drawable/upload_20dp" />
+
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        </androidx.cardview.widget.CardView>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:id="@+id/history2"
