@@ -413,7 +413,7 @@ public class MainActivity extends AppCompatActivity {
 
             cardMsg.setClickable(true);
             cardMsg.setEnabled(true);
-            cardTitle.setText("Finish Daily Journal Entry");
+            cardTitle.setText("Start Daily Journal Entry");
             cardMsg.setText("Complete by Midnight");
 
             cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
