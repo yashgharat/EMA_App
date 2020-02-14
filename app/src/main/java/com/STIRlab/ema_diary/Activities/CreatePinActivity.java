@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.poovam.pinedittextfield.CirclePinField;
 import com.poovam.pinedittextfield.PinField;
 
@@ -20,23 +23,67 @@ import org.jetbrains.annotations.NotNull;
 
 public class CreatePinActivity extends AppCompatActivity {
 
+    private final String TAG = "CREATE_PIN";
+
     private CirclePinField inputPin;
     private SharedPreferences SP;
-    private TextView title;
+    private TextView title, signOut;
     private AlertDialog userDialog;
     private SharedPreferences.Editor editor;
+    private CognitoSettings cognitoSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin);
-
-        title = findViewById(R.id.title_pin);
-
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
 
-        title.setText(SP.getString("pinTitle", "NULL"));
+        cognitoSettings = new CognitoSettings(this);
+
+        title = findViewById(R.id.title_pin);
+        signOut = findViewById(R.id.pin_signout);
+
+        String titleText = SP.getString("pinTitle", "NULL");
+
+        title.setText(titleText);
+
+        if (titleText.equals("Change Passcode")) {
+            signOut.setClickable(false);
+            signOut.setVisibility(View.INVISIBLE);
+        } else {
+            signOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new AlertDialog.Builder(CreatePinActivity.this, R.style.AlertDialogStyle)
+                            .setTitle("Sign out of 30 Days?")
+                            .setCancelable(false)
+                            .setPositiveButton("Sign Out", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Log.i(TAG, "Logged out");
+                                        }
+
+                                        @Override
+                                        public void onFailure(Exception exception) {
+
+                                        }
+                                    });
+
+                                    SP.edit().clear().apply();
+                                    Intent intent = new Intent(CreatePinActivity.this, AuthenticationActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+            });
+        }
+
 
         Boolean isFirst = getIntent().getBooleanExtra("is_first", true);
 

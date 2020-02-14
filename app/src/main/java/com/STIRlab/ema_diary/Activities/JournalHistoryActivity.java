@@ -1,10 +1,5 @@
 package com.STIRlab.ema_diary.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,9 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.JournalEntry;
 import com.STIRlab.ema_diary.Helpers.JournalEntryAdapter;
-import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -58,6 +58,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recycler_journal);
         recyclerView.setHasFixedSize(false);
+        recyclerView.setFocusable(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         init();

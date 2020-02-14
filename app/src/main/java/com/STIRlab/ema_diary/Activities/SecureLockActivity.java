@@ -1,9 +1,5 @@
 package com.STIRlab.ema_diary.Activities;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,6 +40,8 @@ public class SecureLockActivity extends AppCompatActivity {
 
         if(pin != null) {
             secureLockSwitch.setChecked(true);
+        } else {
+            secureLockSwitch.setChecked(false);
         }
         secureLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -96,6 +97,12 @@ public class SecureLockActivity extends AppCompatActivity {
         super.onResume();
         if(SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
+
+        if (pin != null) {
+            secureLockSwitch.setChecked(true);
+        } else {
+            secureLockSwitch.setChecked(false);
+        }
 
     }
 }

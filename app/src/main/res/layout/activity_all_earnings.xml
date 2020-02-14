@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,72 +21,77 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
-    <TextView
-        android:id="@+id/all_earnings_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="37dp"
-        android:paddingBottom="20dp"
-        android:text="All Earnings"
-        android:textColor="@color/prominent"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/all_earnings_previous" />
-
-    <org.fabiomsr.moneytextview.MoneyTextView
-        android:id="@+id/all_earnings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        app:amount="0"
-        app:baseTextColor="@color/positive"
-        app:baseTextSize="24sp"
-        app:decimalSeparator="."
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/all_earnings_title"
-        app:symbol="$"
-        app:symbolGravity="start" />
-
-    <TextView
-        android:id="@+id/possible_earnings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:text="Will earn $30.00 if pending items are approved"
-        android:textColor="@color/disabled"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/all_earnings" />
-
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/earnings_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/possible_earnings"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_earnings"
-                android:paddingBottom="10dp"
-                android:clipToPadding="false"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-            <View
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/all_earnings_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="110dp"
+                    android:paddingBottom="20dp"
+                    android:text="All Earnings"
+                    android:textColor="@color/prominent"
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/all_earnings_previous" />
+
+                <org.fabiomsr.moneytextview.MoneyTextView
+                    android:id="@+id/all_earnings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:amount="0"
+                    app:baseTextColor="@color/positive"
+                    app:baseTextSize="24sp"
+                    app:decimalSeparator="."
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/all_earnings_title"
+                    app:symbol="$"
+                    app:symbolGravity="start" />
+
+                <TextView
+                    android:id="@+id/possible_earnings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Will earn $30.00 if pending items are approved"
+                    android:textColor="@color/disabled"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/all_earnings" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_earnings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingBottom="10dp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

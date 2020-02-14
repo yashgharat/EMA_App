@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/themeBackground"
+    android:layout_marginStart="30dp"
+    android:layout_marginEnd="30dp"
     tools:context=".Activities.TutorialActivity">
 
     <TextView
         android:id="@+id/tutorial_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="30dp"
         android:layout_marginTop="100dp"
         android:textColor="@color/prominent"
         android:text="Final Steps"
         android:textStyle="bold"
-        android:textSize="25sp"
-        android:gravity="center"/>
+        android:textSize="34sp" />
     <TextView
         android:id="@+id/tutorial_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Please take the following steps to allow 30 Days to collect data during the study"
         android:textColor="@color/prominent"
-        android:textSize="16sp"
-        android:gravity="center"
+        android:textSize="17sp"
         android:layout_gravity="center"
         android:layout_marginTop="25dp" />
     <TextView

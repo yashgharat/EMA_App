@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themeBackground"
-    android:orientation="vertical"
     tools:context=".Activities.HelpActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,18 +20,6 @@
         app:backgroundTint="@color/unapparent"
         app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
-    <TextView
-        android:id="@+id/help_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="30dp"
-        android:text="Help Center"
-        android:textColor="@color/prominent"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,6 +30,18 @@
             android:orientation="vertical"
             android:paddingTop="15dp"
             android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/help_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="30dp"
+                android:text="Help Center"
+                android:textColor="@color/prominent"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/faq_sub"
@@ -197,4 +196,4 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
