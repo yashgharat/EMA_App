@@ -83,10 +83,8 @@ public class HelpActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                                "mailto","abc@gmail.com", null));
-                        intent.putExtra(Intent.EXTRA_EMAIL, "emailaddress@emailaddress.com");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
-                        intent.putExtra(Intent.EXTRA_TEXT, "I'm email body.");
+                                "mailto","stirlab@ucf.edu", null));
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Help with 30 Days");
 
                         startActivity(Intent.createChooser(intent, "Send Email"));
 
@@ -96,7 +94,8 @@ public class HelpActivity extends AppCompatActivity {
                 message.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        String number = "407-308-0387";  // The number on which you want to send SMS
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null)));
                     }
                 });
                 mBottomSheetDialog.show();
