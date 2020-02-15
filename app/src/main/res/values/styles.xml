@@ -26,6 +26,10 @@
         <item name="trackTint">@color/switch_color</item>
     </style>
 
+    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminateTint">@color/primaryDark</item>
+    </style>
+
 
 
 </resources>

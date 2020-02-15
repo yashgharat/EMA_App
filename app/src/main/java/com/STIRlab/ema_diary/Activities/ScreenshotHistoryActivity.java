@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,7 +54,11 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
         recyclerView.setFocusable(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        init();
+        try {
+            init(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,31 +70,46 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                init();
+                try {
+                    init(ScreenshotHistoryActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
 
     }
 
-    private void init(){
+    private void init(Context context) throws Exception{
+        Thread t = new Thread(() -> {
         try {
             history = client.getThoughtEntries();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(history != null) {
-            label.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            adapter = new ThoughtAdapter(this, history);
-            recyclerView.setAdapter(adapter);
-        }
-        else {
-            label.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }
+            ScreenshotHistoryActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    if(history != null) {
+                        label.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        adapter = new ThoughtAdapter(context, history);
+                        recyclerView.setAdapter(adapter);
+                    }
+                    else {
+                        label.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        });
+        swipeRefreshLayout.setRefreshing(true);
+        t.start();
+        t.join();
     }
+
 
     @Override
     public void onResume(){

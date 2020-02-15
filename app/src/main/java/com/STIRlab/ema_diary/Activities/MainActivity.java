@@ -303,6 +303,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void init(Context context) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+    }
+
     public void updateProgress() throws Exception {
 
         int curDay = statuses.length();
@@ -351,10 +360,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-    }
-
-    public void updateEntryBonus() {
-
     }
 
     public void setCardColor() {

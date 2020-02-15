@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/themeBackground"
     tools:context=".Activities.Earnings.AllEarningsActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -25,68 +26,67 @@
         android:id="@+id/earnings_swipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginBottom="15dp"
+        android:background="@color/themeBackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/themeBackground">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/all_earnings_title"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="110dp"
-                    android:paddingBottom="20dp"
-                    android:text="All Earnings"
-                    android:textColor="@color/prominent"
-                    android:textSize="34sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/all_earnings_previous" />
+                    android:orientation="vertical"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp">
 
-                <org.fabiomsr.moneytextview.MoneyTextView
-                    android:id="@+id/all_earnings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:amount="0"
-                    app:baseTextColor="@color/positive"
-                    app:baseTextSize="24sp"
-                    app:decimalSeparator="."
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/all_earnings_title"
-                    app:symbol="$"
-                    app:symbolGravity="start" />
+                    <TextView
+                        android:id="@+id/all_earnings_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="110dp"
+                        android:paddingBottom="20dp"
+                        android:text="All Earnings"
+                        android:textColor="@color/prominent"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/possible_earnings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Will earn $30.00 if pending items are approved"
-                    android:textColor="@color/disabled"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/all_earnings" />
+                    <org.fabiomsr.moneytextview.MoneyTextView
+                        android:id="@+id/all_earnings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:amount="0"
+                        app:baseTextColor="@color/positive"
+                        app:baseTextSize="24sp"
+                        app:decimalSeparator="."
+                        app:symbol="$"
+                        app:symbolGravity="start" />
+
+                    <TextView
+                        android:id="@+id/possible_earnings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Will earn $30.00 if pending items are approved"
+                        android:textColor="@color/disabled" />
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_earnings"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:clipToPadding="false"
+                    android:background="@color/themeBackground"
+                    android:paddingTop="20dp"
                     android:paddingBottom="10dp" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 

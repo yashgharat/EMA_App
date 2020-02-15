@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,8 +36,6 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
     private FloatingActionButton previous;
 
-
-
     private APIHelper client;
     private SharedPreferences SP;
 
@@ -61,7 +60,11 @@ public class JournalHistoryActivity extends AppCompatActivity {
         recyclerView.setFocusable(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        init();
+        try {
+            init(JournalHistoryActivity.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,35 +76,54 @@ public class JournalHistoryActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                init();
-                swipeRefreshLayout.setRefreshing(false);
+                try {
+                    init(JournalHistoryActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void init(){
-        try {
-            history = client.getJournalEntries();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(history != null) {
-            label.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            adapter = new JournalEntryAdapter(this, history);
-            recyclerView.setAdapter(adapter);
-        }
-        else {
-            label.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        }
+    private void init(Context context) throws Exception {
+        Thread t = new Thread(() -> {
+            try {
+                history = client.getJournalEntries();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            JournalHistoryActivity.this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (history != null) {
+                        label.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        adapter = new JournalEntryAdapter(context, history);
+                        recyclerView.setAdapter(adapter);
+                    } else {
+                        label.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+
+        });
+
+
+        swipeRefreshLayout.setRefreshing(true);
+        t.start();
+        t.join();
 
     }
 
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(SP.getString("Pin", null) != null)
+        if (SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
 
     }

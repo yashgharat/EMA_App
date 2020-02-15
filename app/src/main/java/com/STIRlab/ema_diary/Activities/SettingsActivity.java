@@ -35,8 +35,6 @@ public class SettingsActivity extends AppCompatActivity {
     private FloatingActionButton previous;
     private SwitchCompat switchCompat;
 
-    private LinearLayout layout;
-
     private CognitoSettings cognitoSettings;
 
     private SharedPreferences SP;
@@ -54,7 +52,6 @@ public class SettingsActivity extends AppCompatActivity {
         previous = findViewById(R.id.settings_previous);
         signOut = findViewById(R.id.settings_sign_out);
         //switchCompat = findViewById(R.id.switchTheme);
-        layout = findViewById(R.id.settingsLayout);
 
         setTime.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -469,6 +469,29 @@
                                 app:layout_constraintLeft_toRightOf="@+id/view_history_2"
                                 app:layout_constraintTop_toTopOf="@id/history2"
                                 app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />
+
+                            <TextView
+                                android:id="@+id/num_screenshots"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="30dp"
+                                android:text="0"
+                                android:textColor="@color/disabled"
+                                android:textSize="17sp"
+                                app:layout_constraintRight_toRightOf="@id/history2"
+                                app:layout_constraintTop_toTopOf="@+id/history2" />
+
+                            <ImageView
+                                android:id="@+id/check2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="20dp"
+                                android:tint="@color/disabled"
+                                app:layout_constraintRight_toRightOf="@id/num_screenshots"
+                                app:layout_constraintTop_toTopOf="@id/history2"
+                                app:srcCompat="@drawable/ic_check_black_24dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </LinearLayout>

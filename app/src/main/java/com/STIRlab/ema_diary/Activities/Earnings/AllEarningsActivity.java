@@ -1,5 +1,6 @@
 package com.STIRlab.ema_diary.Activities.Earnings;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.STIRlab.ema_diary.Activities.JournalHistoryActivity;
 import com.STIRlab.ema_diary.Activities.PinActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
@@ -38,6 +40,8 @@ public class AllEarningsActivity extends AppCompatActivity {
 
     private APIHelper client;
     private SharedPreferences SP;
+    private AlertDialog dialog;
+    private Thread t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,11 @@ public class AllEarningsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        init();
+        try {
+            init(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             allEarnings.setAmount(client.getTotalEarnings());
@@ -79,29 +87,43 @@ public class AllEarningsActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                init();
-                swipeRefreshLayout.setRefreshing(false);
+                try {
+                    init(AllEarningsActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
     }
 
-    private void init(){
-        try {
-            earnings = client.getPeriods();
-            Collections.reverse(earnings);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        adapter = new EarningsPeriodAdapter(this, earnings);
-        recyclerView.setAdapter(adapter);
+    private void init(Context context) throws Exception {
+        t = new Thread(() -> {
+            try {
+                earnings = client.getPeriods();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            AllEarningsActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter = new EarningsPeriodAdapter(context, earnings);
+                    recyclerView.setAdapter(adapter);
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+
+        });
+        swipeRefreshLayout.setRefreshing(true);
+        t.start();
 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(SP.getString("Pin", null) != null)
+        if (SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
 
     }

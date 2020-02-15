@@ -234,8 +234,6 @@ public class APIHelper {
 
         JSONObject obj = parseEarnings();
         JSONArray array = obj.getJSONArray("periods");
-        Log.i(TAG, array.toString(2));
-
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject tempObj = array.getJSONObject(i);
@@ -250,7 +248,7 @@ public class APIHelper {
             int approve = surveys.getInt("approve_count");
             String start_date = tempObj.getString("start_date"), end_date = tempObj.getString("end_date");
             String surveys_bonus = surveys.getString("bonus_status"), thoughts_bonus = thoughts.getString("bonus_status");
-            boolean isFirst = (i == array.length()-1);
+            boolean isFirst = (i == 0);
 
             EarningsPeriod tempEntry = new EarningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
             survey_count, thoughts_count, approve, start_date, end_date,
@@ -318,8 +316,6 @@ public class APIHelper {
         ArrayList<JournalEntry> returnHistory = new ArrayList<JournalEntry>();
         JSONObject obj = getJournalHistory();
         JSONArray array = obj.getJSONArray("surveys");
-        Log.i(TAG, array.toString(2));
-
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject tempObj = array.getJSONObject(i);
@@ -348,8 +344,6 @@ public class APIHelper {
         ArrayList<Thought> returnHistory = new ArrayList<Thought>();
         JSONObject obj = getThoughtsHistory();
         JSONArray array = obj.getJSONArray("thoughts");
-
-        Log.i(TAG, array.toString(2));
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject tempObj = array.getJSONObject(i);
