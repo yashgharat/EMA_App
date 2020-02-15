@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -52,6 +53,7 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_screenshots);
         recyclerView.setHasFixedSize(false);
         recyclerView.setFocusable(false);
+        ViewCompat.setNestedScrollingEnabled(recyclerView, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         try {

@@ -119,7 +119,7 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
 
         TextView date, surveyCount, thoughtCount, earningsAdded;
         TextView earningsSoFar;
-        ImageView next, journal, upload, surveyCountIcon, thoughtCountIcon;
+        ImageView journal, upload, surveyCountIcon, thoughtCountIcon;
         CardView card;
 
         public EarningsPeriodViewHolder(View itemView) {
@@ -137,7 +137,6 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
 
             journal = itemView.findViewById(R.id.card_journal_icon);
             upload = itemView.findViewById(R.id.card_upload_icon);
-            next = itemView.findViewById(R.id.card_earnings_next);
 
             card = itemView.findViewById(R.id.all_earnings_card);
 
