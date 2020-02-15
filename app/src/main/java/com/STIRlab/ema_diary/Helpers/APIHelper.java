@@ -217,16 +217,27 @@ public class APIHelper {
         return temp;
     }
 
-    public float getTotalEarnings() throws Exception {
-        JSONObject earnings = parseEarnings();
-
-        return (float) earnings.getDouble("total_earnings");
+    public double getTotalEarnings() {
+        JSONObject earnings = null;
+        try {
+            earnings = parseEarnings();
+            return earnings.getDouble("total_earnings");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
-    public float getPossibleEarnings() throws Exception {
-        JSONObject earnings = parseEarnings();
+    public double getPossibleEarnings() {
 
-        return (float) earnings.getDouble("possible_earnings");
+        JSONObject earnings = null;
+        try {
+            earnings = parseEarnings();
+            return earnings.getDouble("possible_earnings");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public ArrayList<EarningsPeriod> getPeriods() throws Exception {

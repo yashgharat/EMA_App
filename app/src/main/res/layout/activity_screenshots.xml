@@ -18,7 +18,7 @@
         android:scaleType="fitCenter"
         android:scaleX="1"
         android:scaleY="1"
-        app:backgroundTint="@color/unapparent"
+        app:backgroundTint="#fff"
         app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
 
@@ -29,8 +29,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
@@ -40,6 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="110dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
                 android:text="Share a Screenshot"
                 android:textColor="@color/prominent"
@@ -51,6 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:text="@string/interaction"
                 android:textColor="@color/apparent"
                 android:textSize="23sp" />
@@ -61,9 +63,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:background="@color/unapparent"
-                android:elevation="22dp"
+                android:elevation="5dp"
                 android:ems="10"
                 android:gravity="start|top"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:hint="Describe the interaction..."
                 android:inputType="textMultiLine"
                 android:padding="8dp"
@@ -90,9 +94,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     android:text="Replace Screenshot"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="25dp"
                     android:textColor="@color/primaryDark"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -107,6 +111,7 @@
                 android:layout_height="42dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="25dp"
                 android:background="@drawable/ripple_effect"
                 android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
                 android:drawableTint="@color/themeBackground"

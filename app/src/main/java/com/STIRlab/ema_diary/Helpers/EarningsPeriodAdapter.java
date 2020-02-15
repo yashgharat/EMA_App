@@ -16,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.STIRlab.ema_diary.Activities.Earnings.DateEarningsActivity;
 import com.STIRlab.ema_diary.R;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAdapter.EarningsPeriodViewHolder> {
 
@@ -47,10 +50,10 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
             e.printStackTrace();
         }
 
-        holder.earningsSoFar.setText("$" + item.getEarnings());
+        holder.earningsSoFar.setText(currencyFormat(item.getEarnings()));
         if(item.getEarnings() == 0)
                 holder.earningsSoFar.setTextColor(context.getColor(R.color.disabled));
-        holder.earningsAdded.setText("+$" + item.getIncrement());
+        holder.earningsAdded.setText("+" + currencyFormat(item.getIncrement()));
 
         Log.i("InAdapter", item.getThoughtsBonus());
 
@@ -139,6 +142,14 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
             card = itemView.findViewById(R.id.all_earnings_card);
 
         }
+    }
+
+    private String currencyFormat(double amount){
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        format.setMaximumFractionDigits(2);
+        format.setCurrency(Currency.getInstance(Locale.getDefault()));
+
+        return format.format(amount);
     }
 
 }

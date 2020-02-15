@@ -22,8 +22,11 @@ import com.STIRlab.ema_diary.Helpers.EarningsPeriodAdapter;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.NumberFormat;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.List;
+import java.util.Locale;
 
 public class AllEarningsActivity extends AppCompatActivity {
 
@@ -35,8 +38,7 @@ public class AllEarningsActivity extends AppCompatActivity {
     private EarningsPeriodAdapter adapter;
 
     private FloatingActionButton prev;
-    private org.fabiomsr.moneytextview.MoneyTextView allEarnings;
-    private TextView possibleEarnings, label;
+    private TextView allEarnings, possibleEarnings, label;
 
     private APIHelper client;
     private SharedPreferences SP;
@@ -65,13 +67,6 @@ public class AllEarningsActivity extends AppCompatActivity {
 
         try {
             init(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            allEarnings.setAmount(client.getTotalEarnings());
-            possibleEarnings.setText("Will earn $" + client.getPossibleEarnings() + " if pending items are approved");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,11 +100,20 @@ public class AllEarningsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+            double totalEarnings = client.getTotalEarnings();
+            double maybeEarnings = client.getPossibleEarnings();
+
             AllEarningsActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     adapter = new EarningsPeriodAdapter(context, earnings);
                     recyclerView.setAdapter(adapter);
+                    try {
+                        allEarnings.setText(currencyFormat(totalEarnings));
+                        possibleEarnings.setText("Will earn " + currencyFormat(maybeEarnings) + " if pending items are approved");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -126,5 +130,13 @@ public class AllEarningsActivity extends AppCompatActivity {
         if (SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
 
+    }
+
+    private String currencyFormat(double amount){
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        format.setMaximumFractionDigits(2);
+        format.setCurrency(Currency.getInstance(Locale.getDefault()));
+
+        return format.format(amount);
     }
 }

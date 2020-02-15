@@ -47,7 +47,10 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
+import java.util.Currency;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,10 +61,8 @@ public class MainActivity extends AppCompatActivity {
     private Handler mHandler = new Handler();
     private AlertDialog userDialog;
 
-    private TextView totalEntries, totalScreenshots, studyCounter;
-    private TextView numSurveys, cardTitle, cardMsg, viewEarnings;
-
-    private org.fabiomsr.moneytextview.MoneyTextView totalEarnings;
+    private TextView totalEarnings, totalEntries, totalScreenshots, studyCounter;
+    private TextView numSurveys, numScreenshots, cardTitle, cardMsg, viewEarnings;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
@@ -104,12 +105,6 @@ public class MainActivity extends AppCompatActivity {
         cognitoSettings.refreshSession(SP);
 
         client = new APIHelper(username, email);
-        try {
-            client.getUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         scraper = new ScrapeDataHelper(this);
 
         viewEarnings = findViewById(R.id.view_earnings);
@@ -130,33 +125,19 @@ public class MainActivity extends AppCompatActivity {
         journalState = findViewById(R.id.journal_drawable);
 
         numSurveys = findViewById(R.id.num_surveys);
+        numScreenshots = findViewById(R.id.num_screenshots);
 
         swipeRefreshLayout = findViewById(R.id.main_swipe);
-
-        int currency = Integer.parseInt(client.getEarnings());
-
-
-        studyCounter.setText(client.getDaysLeft());
-        totalEarnings.setAmount(Float.parseFloat(client.getEarnings()));
-        totalEntries.setText(client.getEntryCount());
-        totalScreenshots.setText(client.getScreenshotCount());
-
-        try {
-            statuses = client.getStatuses();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
 
         info = findViewById(R.id.main_info);
 
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
 
-            if(client.didSetPass() == 0) {
+            if (client.didSetPass() == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
-            }
-            else {
+            } else {
                 Intent i = new Intent(this, CreatePinUIActivity.class);
                 startActivityForResult(i, 20);
             }
@@ -174,12 +155,6 @@ public class MainActivity extends AppCompatActivity {
         SP.edit().putBoolean("Remember", true).apply();
 
         try {
-            Log.i(TAG, client.getUser());
-        } catch (Exception e) {
-            Log.i(TAG, CognitoSettings.formatException(e));
-        }
-
-        try {
             String pass = client.finishedPost();
             if (!pass.equals("null")) {
                 Intent post = new Intent(this, PostActivity.class);
@@ -192,10 +167,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setNotificationOreo();
-        }
-        else {
+        } else {
             setNotification();
         }
+
+        init(this);
 
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,40 +181,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        numSurveys.setText(client.getSurveyCount());
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                try {
-                    statuses = client.getStatuses();
-                    cardStatus = statuses.getString(statuses.length() - 1);
-                    updateProgress();
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                }
-
-                setCardColor();
-                swipeRefreshLayout.setRefreshing(false);
+                init(MainActivity.this);
             }
         });
 
-        cardStatus = null;
-        try {
-            cardStatus = statuses.getString(statuses.length() - 1);
-        } catch (JSONException e) {
-            Log.e(TAG, e.toString());
-        }
+
 
         cardTitle = findViewById(R.id.title_journal);
         cardMsg = findViewById(R.id.msg_journal);
-
-        try {
-            updateProgress();
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        setCardColor();
 
 
         cardViewEntries.setOnClickListener(new View.OnClickListener() {
@@ -307,9 +260,48 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
+                String daysLeft = client.getDaysLeft();
+                double amount = client.getTotalEarnings();
+                String entryCount = client.getEntryCount();
+                String screenshotCount = client.getScreenshotCount();
+                String surveyCount = client.getSurveyCount();
 
+                try {
+                    statuses = client.getStatuses();
+                } catch (Exception e) {
+                    Log.e(TAG, e.toString());
+                }
+
+                cardStatus = null;
+                try {
+                    cardStatus = statuses.getString(statuses.length() - 1);
+                } catch (JSONException e) {
+                    Log.e(TAG, e.toString());
+                }
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        studyCounter.setText(daysLeft);
+                        totalEarnings.setText(currencyFormat(amount));
+                        totalEntries.setText(entryCount);
+                        totalScreenshots.setText(screenshotCount);
+                        numSurveys.setText(surveyCount);
+                        numScreenshots.setText(screenshotCount);
+
+                        try {
+                            updateProgress();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        setCardColor();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }
         });
+        swipeRefreshLayout.setRefreshing(true);
+        t.start();
     }
 
     public void updateProgress() throws Exception {
@@ -622,7 +614,7 @@ public class MainActivity extends AppCompatActivity {
         notificationChannel.setDescription("test notification");
 
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        if(notificationManager.getNotificationChannel("notifyUser")==null)
+        if (notificationManager.getNotificationChannel("notifyUser") == null)
             notificationManager.createNotificationChannel(notificationChannel);
     }
 
@@ -639,32 +631,18 @@ public class MainActivity extends AppCompatActivity {
         cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
 
-        if(SP.getString("Pin", null) != null)
+        if (SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
 
     }
 
-    private void showDialogMessage(String title, String body, final boolean exitActivity) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogStyle);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    if (exitActivity) {
-                        onBackPressed();
-                    }
-                } catch (Exception e) {
-                    onBackPressed();
-                }
-            }
-        });
-        userDialog = builder.create();
-        userDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        userDialog.show();
+    private String currencyFormat(double amount){
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        format.setMaximumFractionDigits(2);
+        format.setCurrency(Currency.getInstance(Locale.getDefault()));
 
+        return format.format(amount);
     }
-
 
 
 }

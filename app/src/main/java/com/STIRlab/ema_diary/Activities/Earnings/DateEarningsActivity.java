@@ -15,7 +15,10 @@ import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Currency;
+import java.util.Locale;
 
 public class DateEarningsActivity extends AppCompatActivity {
 
@@ -23,8 +26,6 @@ public class DateEarningsActivity extends AppCompatActivity {
 
     private TextView title, date, approvedCount;
     private TextView basicEarnings, surveyBonus, screenshotBonus, earningsAdded;
-    private DecimalFormat df = new DecimalFormat("#.##");
-
     private SharedPreferences SP;
 
     @Override
@@ -74,10 +75,10 @@ public class DateEarningsActivity extends AppCompatActivity {
             approvedCount.setText("1 Approved Journal Entry");
         }
 
-        basicEarnings.setText("$" + df.format(item.getSurveyBasicEarnings()));
-        surveyBonus.setText("$" + df.format(item.getSurveyBonusEarnings()));
-        screenshotBonus.setText("$" + df.format(item.getThoughtsBonusEarnings()));
-        earningsAdded.setText("$" + df.format(item.getIncrement()));
+        basicEarnings.setText(currencyFormat(item.getSurveyBasicEarnings()));
+        surveyBonus.setText(currencyFormat(item.getSurveyBonusEarnings()));
+        screenshotBonus.setText(currencyFormat(item.getThoughtsBonusEarnings()));
+        earningsAdded.setText(currencyFormat(item.getIncrement()));
 
 
         if (item.getSurveyBasicEarnings() == 0)
@@ -109,5 +110,13 @@ public class DateEarningsActivity extends AppCompatActivity {
         if(SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
 
+    }
+
+    private String currencyFormat(double amount){
+        NumberFormat format = NumberFormat.getCurrencyInstance();
+        format.setMaximumFractionDigits(2);
+        format.setCurrency(Currency.getInstance(Locale.getDefault()));
+
+        return format.format(amount);
     }
 }

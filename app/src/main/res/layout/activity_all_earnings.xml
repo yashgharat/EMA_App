@@ -17,7 +17,7 @@
         android:scaleType="fitCenter"
         android:scaleX="1"
         android:scaleY="1"
-        app:backgroundTint="@color/unapparent"
+        app:backgroundTint="#fff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
@@ -60,16 +60,14 @@
                         android:textSize="34sp"
                         android:textStyle="bold" />
 
-                    <org.fabiomsr.moneytextview.MoneyTextView
+                    <TextView
                         android:id="@+id/all_earnings"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:amount="0"
-                        app:baseTextColor="@color/positive"
-                        app:baseTextSize="24sp"
-                        app:decimalSeparator="."
-                        app:symbol="$"
-                        app:symbolGravity="start" />
+                        android:text="0"
+                        android:textColor="@color/positive"
+                        android:textStyle="bold"
+                        android:textSize="24sp"/>
 
                     <TextView
                         android:id="@+id/possible_earnings"

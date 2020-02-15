@@ -17,7 +17,7 @@
         android:scaleType="fitCenter"
         android:scaleX="1"
         android:scaleY="1"
-        app:backgroundTint="@color/unapparent"
+        app:backgroundTint="#fff"
         app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
     <androidx.core.widget.NestedScrollView
