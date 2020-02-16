@@ -3,6 +3,8 @@ package com.STIRlab.ema_diary.Helpers;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +29,7 @@ public class APIHelper {
 
     private OkHttpClient client;
 
-    private String returnStr, userid, email;
+    private String userReturnStr, earningsReturnStr, historyReturnStr, userid, email;
     private JSONObject history;
 
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
@@ -64,7 +66,7 @@ public class APIHelper {
                 if (response.isSuccessful()) {
                     countDownLatch.countDown();
                     String responseStr = response.body().string();
-                    returnStr = responseStr;
+                    userReturnStr = responseStr;
                     Log.e(TAG, url);
                 } else {
                     countDownLatch.countDown();
@@ -77,7 +79,7 @@ public class APIHelper {
 
         countDownLatch.await();
 
-        return returnStr;
+        return userReturnStr;
 
     }
 
@@ -109,17 +111,9 @@ public class APIHelper {
         return 0;
     }
 
-    public String getEntryCount() {
-        try {
-            return parseUserInfo().getString("num_complete_surveys");
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
-        return null;
-    }
-
     public String getDaysLeft() {
         try {
+
             return parseUserInfo().getString("days_left");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
@@ -128,17 +122,16 @@ public class APIHelper {
         return null;
     }
 
-    public String getSurveyCount() {
+    public String getTotalSurveyCount() {
         try {
-            return parseUserInfo().getString("num_complete_surveys");
+            return  parseUserInfo().getString("num_complete_surveys");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
-
         return null;
     }
 
-    public String getScreenshotCount() {
+    public String getTotalScreenshotCount() {
         try {
             return parseUserInfo().getString("num_thoughts");
         } catch (Exception e) {
@@ -160,17 +153,47 @@ public class APIHelper {
         return parseUserInfo().getString("took_post_survey_at");
     }
 
-    public String getEntryBonusStatus() throws Exception {
-        return parseUserInfo().getJSONObject("surveys_progress").getString("bonus_status");
-    }
 
     public JSONArray getStatuses() throws Exception {
         return parseUserInfo().getJSONObject("surveys_progress").getJSONArray("period_statuses");
     }
 
-    public int getPeriodCount() throws Exception {
-        return parseUserInfo().getJSONObject("surveys_progress").getInt("period_count");
+    public int getPeriodSurveyCount() {
+        try {
+            return parseUserInfo().getJSONObject("surveys_progress").getInt("period_count");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
+
+    public String getPeriodSurveyBonusStatus(){
+        try {
+            return parseUserInfo().getJSONObject("surveys_progress").getString("bonus_status");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int getPeriodThoughtCount() {
+        try {
+            return parseUserInfo().getJSONObject("thoughts_progress").getInt("period_count");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public String getPeriodThoughtBonusStatus() {
+        try {
+            return parseUserInfo().getJSONObject("thoughts_progress").getString("bonus_status");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 
     public String getAllEarnings() throws Exception {
@@ -190,7 +213,7 @@ public class APIHelper {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
-                    returnStr = responseStr;
+                    earningsReturnStr = responseStr;
                     Log.e(TAG, url);
                     countDownLatch.countDown();
                 } else {
@@ -200,14 +223,14 @@ public class APIHelper {
                     countDownLatch.countDown();
 
                 }
-                Log.i(TAG, returnStr);
+                Log.i(TAG, earningsReturnStr);
             }
         });
 
         countDownLatch.await();
 
 
-        return returnStr;
+        return earningsReturnStr;
 
     }
 
@@ -272,6 +295,10 @@ public class APIHelper {
         return returnEarnings;
     }
 
+    public EarningsPeriod getCurrentPeriod() throws Exception {
+        return getPeriods().get(0);
+    }
+
 
     public String parseHistory(String historyType) throws Exception {
         String url = baseURL + historyType + "-history?user_id=" + beginQuote + encodeValue(userid) + endQuote;
@@ -289,7 +316,7 @@ public class APIHelper {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
-                    returnStr = responseStr;
+                    historyReturnStr = responseStr;
                     countDownLatch.countDown();
                 } else {
                     Log.e(TAG, call.toString());
@@ -302,7 +329,7 @@ public class APIHelper {
 
         countDownLatch.await();
 
-        return returnStr;
+        return historyReturnStr;
     }
 
     private JSONObject getJournalHistory() throws Exception {
@@ -384,8 +411,8 @@ public class APIHelper {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
-                    returnStr = responseStr;
-                    Log.i(TAG, "here" + returnStr);
+                    historyReturnStr = responseStr;
+                    Log.i(TAG, "here" + historyReturnStr);
                 } else {
                     Log.e(TAG, call.toString());
                     Log.e(TAG, "request not successful");
@@ -393,7 +420,7 @@ public class APIHelper {
                 }
             }
         });
-        return returnStr;
+        return historyReturnStr;
     }
 
 
@@ -432,7 +459,7 @@ public class APIHelper {
                             public void onResponse(Call call, Response response) throws IOException {
                                 if (response.isSuccessful()) {
                                     String responseStr = response.body().string();
-                                    returnStr = responseStr;
+                                    userReturnStr = responseStr;
                                     Log.i(TAG, "success");
                                 } else {
                                     Log.e(TAG, "in PUT Call: " + response.toString());
@@ -452,7 +479,7 @@ public class APIHelper {
             }
         });
 
-        return returnStr;
+        return userReturnStr;
     }
 
     public String uploadInteractionWithPicture(String desc, String caption, File file) throws JSONException {
@@ -513,7 +540,7 @@ public class APIHelper {
             }
         });
 
-        return returnStr;
+        return userReturnStr;
     }
 
     public String uploadInteraction(String userid, String desc, Context context) throws JSONException {
@@ -539,7 +566,7 @@ public class APIHelper {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
-                    returnStr = responseStr;
+                    userReturnStr = responseStr;
                 } else {
                     Log.e(TAG, "in PUT Call: " + response.toString());
                     Log.e(TAG, "request not successful");
@@ -567,7 +594,7 @@ public class APIHelper {
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
-                    returnStr = responseStr;
+                    userReturnStr = responseStr;
                 } else {
                     Log.e(TAG, call.toString());
                     Log.e(TAG, "request not successful");
@@ -577,7 +604,7 @@ public class APIHelper {
         });
         countDownLatch.countDown();
 
-        return returnStr;
+        return userReturnStr;
     }
 
 

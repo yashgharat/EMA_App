@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -33,11 +35,13 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Activities.Earnings.AllEarningsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.R;
@@ -260,17 +264,22 @@ public class MainActivity extends AppCompatActivity {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                String daysLeft = client.getDaysLeft();
-                double amount = client.getTotalEarnings();
-                String entryCount = client.getEntryCount();
-                String screenshotCount = client.getScreenshotCount();
-                String surveyCount = client.getSurveyCount();
-
                 try {
                     statuses = client.getStatuses();
                 } catch (Exception e) {
                     Log.e(TAG, e.toString());
                 }
+
+                String daysLeft = client.getDaysLeft();
+
+                String surveyCount = client.getTotalSurveyCount();
+                String screenshotCount = client.getTotalScreenshotCount();
+
+                String periodSurveyCount = Integer.toString(client.getPeriodSurveyCount());
+                String periodScreenshotCount = Integer.toString(client.getPeriodThoughtCount());
+                String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
+                String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
+
 
                 cardStatus = null;
                 try {
@@ -279,13 +288,23 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, e.toString());
                 }
 
+                double amount = client.getTotalEarnings();
+
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         studyCounter.setText(daysLeft);
                         totalEarnings.setText(currencyFormat(amount));
-                        totalEntries.setText(entryCount);
-                        totalScreenshots.setText(screenshotCount);
+                        totalEntries.setText(periodSurveyCount);
+                        totalScreenshots.setText(periodScreenshotCount);
+
+                        totalEntries.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(periodSurveyBonusStatus, context)));
+                        totalScreenshots.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(periodThoughtBonusStatus, context)));
+                        totalEntries.setTextColor(getBonusColor(periodSurveyBonusStatus, context));
+                        totalScreenshots.setTextColor(getBonusColor(periodThoughtBonusStatus, context));
+
+
+
                         numSurveys.setText(surveyCount);
                         numScreenshots.setText(screenshotCount);
 
@@ -487,6 +506,26 @@ public class MainActivity extends AppCompatActivity {
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
                     new ColorDrawable(getResources().getColor(R.color.destructive)));
         }
+    }
+
+    private int getBonusColor(String status, Context context){
+        if(status.equals("submitted"))
+        {
+            return context.getColor(R.color.primaryDark);
+        }
+        else if(status.equals("open"))
+        {
+            return context.getColor(R.color.neutral);
+        }
+        else if(status.equals("missed"))
+        {
+            return context.getColor(R.color.disabled);
+        }
+        else if(status.equals("approved"))
+        {
+            return context.getColor(R.color.positive);
+        }
+        return 0;
     }
 
     public void broadcastIntent() {

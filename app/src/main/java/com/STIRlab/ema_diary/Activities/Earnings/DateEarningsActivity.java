@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ public class DateEarningsActivity extends AppCompatActivity {
 
     private FloatingActionButton prev;
 
-    private TextView title, date, approvedCount;
+    private TextView title, date, approvedCount, surveyBonusTitle, thoughtBonusTitle;
     private TextView basicEarnings, surveyBonus, screenshotBonus, earningsAdded;
     private SharedPreferences SP;
 
@@ -42,8 +43,10 @@ public class DateEarningsActivity extends AppCompatActivity {
         title = findViewById(R.id.date_earnings_title);
         date = findViewById(R.id.date_sub);
 
-        approvedCount = findViewById(R.id.approved_entries_title);
+        surveyBonusTitle = findViewById(R.id.survey_bonus_title);
+        thoughtBonusTitle = findViewById(R.id.thought_bonus_title);
 
+        approvedCount = findViewById(R.id.approved_entries_title);
         basicEarnings = findViewById(R.id.basic_earnings);
         surveyBonus = findViewById(R.id.survey_bonus);
         screenshotBonus = findViewById(R.id.thought_bonus);
@@ -80,6 +83,10 @@ public class DateEarningsActivity extends AppCompatActivity {
         screenshotBonus.setText(currencyFormat(item.getThoughtsBonusEarnings()));
         earningsAdded.setText(currencyFormat(item.getIncrement()));
 
+        surveyBonusTitle.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(item.getSurveysBonus(), this)));
+        thoughtBonusTitle.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(item.getThoughtsBonus(), this)));
+
+
 
         if (item.getSurveyBasicEarnings() == 0)
             basicEarnings.setTextColor(getColor(R.color.disabled));
@@ -102,6 +109,26 @@ public class DateEarningsActivity extends AppCompatActivity {
             earningsAdded.setTextColor(getColor(R.color.positive));
 
 
+    }
+
+    private int getBonusColor(String status, Context context){
+        if(status.equals("submitted"))
+        {
+            return context.getColor(R.color.primaryDark);
+        }
+        else if(status.equals("open"))
+        {
+            return context.getColor(R.color.neutral);
+        }
+        else if(status.equals("missed"))
+        {
+            return context.getColor(R.color.disabled);
+        }
+        else if(status.equals("approved"))
+        {
+            return context.getColor(R.color.positive);
+        }
+        return 0;
     }
 
     @Override

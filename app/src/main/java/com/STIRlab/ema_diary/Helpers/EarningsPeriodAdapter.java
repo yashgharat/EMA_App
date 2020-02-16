@@ -59,7 +59,7 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
 
         if(item.getSurveysBonus().equals("open"))
         {
-            holder.surveyCount.setText(item.getSurveys());
+            holder.surveyCount.setText("");
             holder.surveyCount.setTextColor(context.getColor(R.color.neutral));
             holder.surveyCountIcon.setImageResource(0);
             holder.journal.setColorFilter(context.getColor(R.color.neutral));
@@ -96,6 +96,20 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
             holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
             holder.upload.setColorFilter(context.getColor(R.color.positive));
         }
+        if(item.getSurveysBonus().equals("submitted"))
+        {
+            holder.surveyCount.setText("");
+            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
+            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.primaryDark));
+            holder.journal.setColorFilter(context.getColor(R.color.primaryDark));
+        }
+        if(item.getThoughtsBonus().equals("submitted")){
+            holder.thoughtCount.setText("");
+            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
+            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.primaryDark));
+            holder.upload.setColorFilter(context.getColor(R.color.primaryDark));
+        }
+
 
 
         holder.card.setOnClickListener(new View.OnClickListener() {

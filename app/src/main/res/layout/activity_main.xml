@@ -353,13 +353,14 @@
 
                             <TextView
                                 android:id="@+id/num_surveys"
-                                android:layout_width="wrap_content"
+                                android:layout_width="20dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="30dp"
                                 android:text="0"
                                 android:textColor="@color/disabled"
                                 android:textSize="17sp"
+                                android:textAlignment="textStart"
                                 app:layout_constraintRight_toRightOf="@id/history"
                                 app:layout_constraintTop_toTopOf="@+id/history" />
 
@@ -368,9 +369,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginEnd="5dp"
                                 android:tint="@color/disabled"
-                                app:layout_constraintRight_toRightOf="@id/num_surveys"
+                                app:layout_constraintEnd_toStartOf="@id/num_surveys"
                                 app:layout_constraintTop_toTopOf="@id/history"
                                 app:srcCompat="@drawable/ic_check_black_24dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -471,13 +472,14 @@
 
                             <TextView
                                 android:id="@+id/num_screenshots"
-                                android:layout_width="wrap_content"
+                                android:layout_width="20dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="30dp"
                                 android:text="0"
                                 android:textColor="@color/disabled"
                                 android:textSize="17sp"
+                                android:textAlignment="textStart"
                                 app:layout_constraintRight_toRightOf="@id/history2"
                                 app:layout_constraintTop_toTopOf="@+id/history2" />
 
@@ -486,9 +488,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:layout_marginEnd="20dp"
+                                android:layout_marginEnd="5dp"
                                 android:tint="@color/disabled"
-                                app:layout_constraintRight_toRightOf="@id/num_screenshots"
+                                app:layout_constraintEnd_toStartOf="@id/num_screenshots"
                                 app:layout_constraintTop_toTopOf="@id/history2"
                                 app:srcCompat="@drawable/ic_check_black_24dp" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
