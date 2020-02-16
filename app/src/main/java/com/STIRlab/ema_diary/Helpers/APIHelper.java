@@ -84,7 +84,7 @@ public class APIHelper {
     }
 
     public JSONObject parseUserInfo() throws Exception {
-        JSONObject info = new JSONObject(getUser());
+        JSONObject info = new JSONObject(userReturnStr);
         return info;
     }
 

@@ -135,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
 
         info = findViewById(R.id.main_info);
 
+        try {
+            client.getUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
 
@@ -174,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setNotification();
         }
+
+
 
         init(this);
 
@@ -261,63 +269,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(Context context) {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    statuses = client.getStatuses();
-                } catch (Exception e) {
-                    Log.e(TAG, e.toString());
-                }
-
-                String daysLeft = client.getDaysLeft();
-
-                String surveyCount = client.getTotalSurveyCount();
-                String screenshotCount = client.getTotalScreenshotCount();
-
-                String periodSurveyCount = Integer.toString(client.getPeriodSurveyCount());
-                String periodScreenshotCount = Integer.toString(client.getPeriodThoughtCount());
-                String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
-                String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
-
-
-                cardStatus = null;
-                try {
-                    cardStatus = statuses.getString(statuses.length() - 1);
-                } catch (JSONException e) {
-                    Log.e(TAG, e.toString());
-                }
-
-                double amount = client.getTotalEarnings();
-
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        studyCounter.setText(daysLeft);
-                        totalEarnings.setText(currencyFormat(amount));
-                        totalEntries.setText(periodSurveyCount);
-                        totalScreenshots.setText(periodScreenshotCount);
-
-                        totalEntries.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(periodSurveyBonusStatus, context)));
-                        totalScreenshots.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(periodThoughtBonusStatus, context)));
-                        totalEntries.setTextColor(getBonusColor(periodSurveyBonusStatus, context));
-                        totalScreenshots.setTextColor(getBonusColor(periodThoughtBonusStatus, context));
-
-
-
-                        numSurveys.setText(surveyCount);
-                        numScreenshots.setText(screenshotCount);
-
-                        try {
-                            updateProgress();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        setCardColor();
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
+        Thread t = new Thread(() -> {
+            try {
+                client.getUser();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            try {
+                statuses = client.getStatuses();
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+
+            String daysLeft = client.getDaysLeft();
+
+            String surveyCount = client.getTotalSurveyCount();
+            String screenshotCount = client.getTotalScreenshotCount();
+
+            String periodSurveyCount = Integer.toString(client.getPeriodSurveyCount());
+            String periodScreenshotCount = Integer.toString(client.getPeriodThoughtCount());
+            String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
+            String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
+
+
+            cardStatus = null;
+            try {
+                cardStatus = statuses.getString(statuses.length() - 1);
+            } catch (JSONException e) {
+                Log.e(TAG, e.toString());
+            }
+
+            double amount = client.getTotalEarnings();
+
+            MainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    studyCounter.setText(daysLeft);
+                    totalEarnings.setText(currencyFormat(amount));
+                    totalEntries.setText(periodSurveyCount);
+                    totalScreenshots.setText(periodScreenshotCount);
+
+                    totalEntries.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(periodSurveyBonusStatus, context)));
+                    totalScreenshots.setCompoundDrawableTintList(ColorStateList.valueOf(getBonusColor(periodThoughtBonusStatus, context)));
+                    totalEntries.setTextColor(getBonusColor(periodSurveyBonusStatus, context));
+                    totalScreenshots.setTextColor(getBonusColor(periodThoughtBonusStatus, context));
+
+
+
+                    numSurveys.setText(surveyCount);
+                    numScreenshots.setText(screenshotCount);
+
+                    try {
+                        updateProgress();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    setCardColor();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
         });
         swipeRefreshLayout.setRefreshing(true);
         t.start();
