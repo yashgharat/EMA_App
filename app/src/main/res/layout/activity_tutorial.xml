@@ -1,62 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     android:background="@color/themeBackground"
-    android:layout_marginStart="30dp"
-    android:layout_marginEnd="30dp"
+    android:orientation="vertical"
     tools:context=".Activities.TutorialActivity">
 
-    <TextView
-        android:id="@+id/tutorial_title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:textColor="@color/prominent"
-        android:text="Final Steps"
-        android:textStyle="bold"
-        android:textSize="34sp" />
-    <TextView
-        android:id="@+id/tutorial_sub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please take the following steps to allow 30 Days to collect data during the study"
-        android:textColor="@color/prominent"
-        android:textSize="17sp"
-        android:layout_gravity="center"
-        android:layout_marginTop="25dp" />
-    <TextView
-        android:id="@+id/steps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="1. Select 30 Days\n2. Click &quot;Permit usage access&quot;\n3. Return here and tap next"
-        android:textColor="@color/apparent"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_marginTop="30dp" />
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_OK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OK"
-        android:background="@drawable/ripple_effect"
-        android:textColor="@color/themeBackground"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="50dp"
-        android:layout_gravity="center"/>
+        <TextView
+            android:id="@+id/tutorial_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:text="Final Steps"
+            android:textColor="@color/prominent"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
-    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
-        android:id="@+id/tutorial_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next"
-        android:background="@drawable/ripple_effect"
-        android:textColor="@color/themeBackground"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_marginTop="40dp"/>
+        <TextView
+            android:id="@+id/tutorial_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:text="Please take the following steps to allow 30 Days to collect data during the study"
+            android:textColor="@color/prominent"
+            android:textSize="20dp" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:drawableStart="@mipmap/ic_down"
+            android:drawablePadding="14dp"
+            android:gravity="center_vertical"
+            android:text="@string/tap_ok_below"
+            android:textColor="@color/prominent"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:drawableStart="@mipmap/ic_ema"
+            android:drawablePadding="14dp"
+            android:gravity="center_vertical"
+            android:text="@string/select_30_days"
+            android:textColor="@color/prominent"
+            android:textSize="17sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:drawableStart="@mipmap/ic_toggle_on"
+            android:drawablePadding="14dp"
+            android:gravity="center_vertical"
+            android:text="@string/permit_usage_access"
+            android:textColor="@color/prominent"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:drawableStart="@mipmap/ic_phone"
+            android:drawablePadding="14dp"
+            android:gravity="center_vertical"
+            android:text="@string/press_allow_on_the_dialog"
+            android:textColor="@color/prominent"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:drawableStart="@mipmap/ic_next"
+            android:drawablePadding="14dp"
+            android:gravity="center_vertical"
+            android:text="@string/press_next_below"
+            android:textColor="@color/prominent"
+            android:textSize="17sp" />
+
+        <de.mustafagercek.library.LoadingButton
+            android:id="@+id/button_scrape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="25dp"
+            android:elevation="5dp"
+            app:buttonColor="@color/primaryDark"
+            app:buttonText="OK"
+            app:textColor="@color/themeBackground" />
+
+    </LinearLayout>
+</ScrollView>

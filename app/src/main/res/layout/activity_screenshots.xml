@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context=".Activities.ScreenshotActivity">
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/screenshots_previous"
         android:layout_width="wrap_content"
@@ -37,8 +38,8 @@
                 android:id="@+id/screenshots_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="110dp"
                 android:layout_marginStart="30dp"
+                android:layout_marginTop="110dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
                 android:text="Share a Screenshot"
@@ -50,9 +51,9 @@
                 android:id="@+id/screenshots_sub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
                 android:text="@string/interaction"
                 android:textColor="@color/apparent"
                 android:textSize="23sp" />
@@ -62,12 +63,12 @@
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
                 android:background="@color/unapparent"
                 android:elevation="5dp"
                 android:ems="10"
                 android:gravity="start|top"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="25dp"
                 android:hint="Describe the interaction..."
                 android:inputType="textMultiLine"
                 android:padding="8dp"
@@ -84,8 +85,9 @@
                     android:id="@+id/thumb_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:padding="10dp"
+                    android:layout_marginStart="25dp"
+                    android:padding="4dp"
+                    android:background="@color/primaryDark"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,9 +96,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:text="Replace Screenshot"
-                    android:gravity="center_vertical"
                     android:layout_marginEnd="25dp"
+                    android:gravity="center_vertical"
+                    android:text="Replace Screenshot"
                     android:textColor="@color/primaryDark"
                     android:textSize="17sp"
                     android:textStyle="bold"
@@ -105,21 +107,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            <de.mustafagercek.library.LoadingButton
                 android:id="@+id/button_screenshots"
-                android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                android:layout_marginBottom="25dp"
-                android:background="@drawable/ripple_effect"
-                android:drawableLeft="@drawable/ic_arrow_upward_black_24dp"
-                android:drawableTint="@color/themeBackground"
-                android:padding="10dp"
-                android:text="Submit"
-                android:textColor="@color/themeBackground"
-                android:textSize="15sp"
-                app:spinning_bar_color="@color/themeBackground" />
+                android:layout_marginTop="30dp"
+                android:padding="0dp"
+                android:elevation="5dp"
+                app:buttonColor="@color/primaryDark"
+                app:buttonText="Submit"
+                app:textColor="@color/themeBackground"/>
 
         </LinearLayout>
     </ScrollView>

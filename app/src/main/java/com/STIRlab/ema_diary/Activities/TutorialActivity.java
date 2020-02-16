@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -22,15 +23,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+import de.mustafagercek.library.LoadingButton;
 
 public class TutorialActivity extends AppCompatActivity {
     private final String TAG = "TUTORIAL";
     private final int PHONESTATE = 69;
 
-    private Button btnOk;
-    private CircularProgressButton btnNext;
+    private LoadingButton btnScrape;
 
     private ScrapeDataHelper dataHelper;
+
+    private View.OnClickListener ok, next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,39 +42,50 @@ public class TutorialActivity extends AppCompatActivity {
 
         dataHelper = new ScrapeDataHelper(this);
 
-        btnOk = findViewById(R.id.button_OK);
-        btnNext = findViewById(R.id.tutorial_next);
-        
-        btnOk.setOnClickListener(new View.OnClickListener() {
+        btnScrape = findViewById(R.id.button_scrape);
+
+        btnScrape.setButtonOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        ok = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!isAccessGranted()) {
                     Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                     startActivityForResult(intent, 10);
                 }
-                btnOk.setClickable(false);
-                btnNext.setVisibility(View.VISIBLE);
-                btnOk.setVisibility(View.GONE);
+                btnScrape.setButtonText("Next");
+                btnScrape.setButtonOnClickListener(next);
             }
-        });
+        };
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        next = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnNext.startMorphAnimation();
+                btnScrape.setButtonColor(getColor(R.color.disabled));
+                btnScrape.setTextColor(getColor(R.color.apparent));
+                btnScrape.onStartLoading();
+
                 dataHelper.scrape();
-                btnNext.setClickable(false);
+                btnScrape.setClickable(false);
                 long delayInMillis = 3000;
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-//                        btnNext.startMorphRevertAnimation();
+                        btnScrape.onStopLoading();
                         startActivity(new Intent(TutorialActivity.this, MainActivity.class));
                     }
                 }, delayInMillis);
             }
-        });
+        };
+
+        btnScrape.setButtonOnClickListener(ok);
+
+
         
     }
 

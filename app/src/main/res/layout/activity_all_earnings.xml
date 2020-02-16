@@ -40,11 +40,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/themeBackground"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/themeBackground"
                     android:orientation="vertical"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp">
@@ -74,7 +76,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Will earn $30.00 if pending items are approved"
+                        android:text="Will earn $0.00 if pending items are approved"
                         android:textColor="@color/disabled" />
                 </LinearLayout>
 

@@ -39,6 +39,7 @@ import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+import de.mustafagercek.library.LoadingButton;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -53,7 +54,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private String temp;
     private int localPin;
 
-    private CircularProgressButton buttonLogin;
+    private LoadingButton buttonLogin;
 
     private Handler handler = new Handler();
     private TextView forgotPassword;
@@ -118,7 +119,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
 
-                buttonLogin.startMorphRevertAnimation();
+                buttonLogin.onStartLoading();
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 startActivity(myIntent);
@@ -157,7 +158,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                     newPasswordContinuation.setPassword(String.valueOf(editTextPassword.getText()));
                     continuation.continueTask();
                 }
-                buttonLogin.startMorphRevertAnimation();
+                buttonLogin.setButtonColor(getColor(R.color.primaryDark));
+                buttonLogin.setTextColor(getColor(R.color.themeBackground));
+                buttonLogin.onStopLoading();
             }
 
             @Override
@@ -168,7 +171,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
                 buttonLogin.setEnabled(true);
-                buttonLogin.startMorphRevertAnimation();
+                buttonLogin.setButtonColor(getColor(R.color.primaryDark));
+                buttonLogin.setTextColor(getColor(R.color.themeBackground));
+                buttonLogin.onStopLoading();
 
                 boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
@@ -181,14 +186,16 @@ public class AuthenticationActivity extends AppCompatActivity {
         };
 
         buttonLogin = findViewById(R.id.button_sign_in);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        buttonLogin.setButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                buttonLogin.setButtonColor(getColor(R.color.disabled));
+                buttonLogin.setTextColor(getColor(R.color.apparent));
                 buttonLogin.setEnabled(false);
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
                 editor.apply();
 
-                buttonLogin.startMorphAnimation();
+                buttonLogin.onStartLoading();
 
                 if (editTextEmail.getText().length() > 0 && editTextPassword.getText().length() > 0) {
                     thisUser = cognitoSettings.getUserPool()

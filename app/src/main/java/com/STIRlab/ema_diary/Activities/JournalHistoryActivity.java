@@ -117,8 +117,6 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
         swipeRefreshLayout.setRefreshing(true);
         t.start();
-        t.join();
-
     }
 
 

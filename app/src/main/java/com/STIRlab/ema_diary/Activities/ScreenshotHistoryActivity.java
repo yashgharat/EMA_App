@@ -109,7 +109,6 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
         });
         swipeRefreshLayout.setRefreshing(true);
         t.start();
-        t.join();
     }
 
 

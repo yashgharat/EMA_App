@@ -98,6 +98,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                 SP.edit().clear().apply();
                                 Intent intent = new Intent(SettingsActivity.this, AuthenticationActivity.class);
+                                finish();
                                 startActivity(intent);
                             }
                         })

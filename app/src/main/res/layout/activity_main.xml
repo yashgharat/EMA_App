@@ -81,16 +81,17 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                android:id="@+id/total_earnings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:text="2"
-                android:textColor="@color/positive"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                    android:id="@+id/total_earnings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="2dp"
+                    android:text="2"
+                    android:textColor="@color/positive"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -114,11 +115,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/journal_20dp"
+                    android:drawablePadding="4dp"
                     android:drawableTint="@color/neutral"
                     android:paddingTop="2dp"
                     android:text="2"
                     android:textColor="@color/neutral"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -145,11 +148,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/upload_20dp"
+                    android:drawablePadding="4dp"
                     android:drawableTint="@color/neutral"
                     android:paddingTop="2dp"
                     android:text="0"
                     android:textColor="@color/neutral"
                     android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -358,9 +363,9 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="30dp"
                                 android:text="0"
+                                android:textAlignment="textStart"
                                 android:textColor="@color/disabled"
                                 android:textSize="17sp"
-                                android:textAlignment="textStart"
                                 app:layout_constraintRight_toRightOf="@id/history"
                                 app:layout_constraintTop_toTopOf="@+id/history" />
 
@@ -477,9 +482,9 @@
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="30dp"
                                 android:text="0"
+                                android:textAlignment="textStart"
                                 android:textColor="@color/disabled"
                                 android:textSize="17sp"
-                                android:textAlignment="textStart"
                                 app:layout_constraintRight_toRightOf="@id/history2"
                                 app:layout_constraintTop_toTopOf="@+id/history2" />
 

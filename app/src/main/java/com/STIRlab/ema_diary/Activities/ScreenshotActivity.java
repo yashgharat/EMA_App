@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,17 +40,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
+import de.mustafagercek.library.LoadingButton;
 
 public class ScreenshotActivity extends AppCompatActivity {
 
-    private final String TAG = "screenshots";
     final int THUMBSIZE = 128;
-
-    private CircularProgressButton submit;
+    private final String TAG = "screenshots";
+    private LoadingButton submit;
 
     private FloatingActionButton ret;
 
-    private TextView  replaceScreenshot;
+    private TextView replaceScreenshot;
     private ImageView thumbnail;
 
     private EditText inputInteraction;
@@ -64,6 +65,22 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     private SharedPreferences SP;
 
+    private static File codec(Bitmap src, Bitmap.CompressFormat format,
+                              int quality, Context context) throws IOException {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        File f = new File(context.getCacheDir(), "img");
+
+        src.compress(format, quality, os);
+
+        byte[] array = os.toByteArray();
+
+        FileOutputStream fos = new FileOutputStream(f);
+        fos.write(array);
+        fos.flush();
+        fos.close();
+
+        return f;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +103,9 @@ public class ScreenshotActivity extends AppCompatActivity {
         image = Uri.parse(getIntent().getStringExtra("imagePath"));
 
         submit.setEnabled(false);
-        submit.setBackgroundColor(getColor(R.color.disabled));
-
+        submit.setButtonColor(getColor(R.color.disabled));
+        submit.setTextColor(getColor(R.color.apparent));
+        
         init();
 
         replaceScreenshot.setOnClickListener(new View.OnClickListener() {
@@ -106,12 +124,14 @@ public class ScreenshotActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(charSequence.toString().trim().length()==0){
+                if (charSequence.toString().trim().length() == 0) {
                     submit.setEnabled(false);
-                    submit.setBackgroundColor(getColor(R.color.disabled));
+                    submit.setButtonColor(getColor(R.color.disabled));
+                    submit.setTextColor(getColor(R.color.apparent));
                 } else {
                     submit.setEnabled(true);
-                    submit.setBackgroundColor(getColor(R.color.primaryDark));
+                    submit.setButtonColor(getColor(R.color.primaryDark));
+                    submit.setTextColor(getColor(R.color.themeBackground));
                 }
             }
 
@@ -121,35 +141,26 @@ public class ScreenshotActivity extends AppCompatActivity {
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        submit.setButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submit.startMorphAnimation();
                 String uploadText = inputInteraction.getText().toString();
-                    String userid = SP.getString("username", "null");
+                String userid = SP.getString("username", "null");
 
-                    if(bitmap != null) {
-                        try {
-                            File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ScreenshotActivity.this);
+                if (bitmap != null) {
 
-                            client.uploadInteractionWithPicture(uploadText, "", newFile);
-                        } catch (IOException | JSONException e) {
-                            e.printStackTrace();
-                        }
+                    submit(uploadText);
 
-                        inputInteraction.setText("");
-                        thumbnail.setImageBitmap(null);
-
-                        ScreenshotActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(ScreenshotActivity.this, "Submission successful", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                        finish();
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                submit.startMorphRevertAnimation();
+
+                    inputInteraction.setText("");
+                    thumbnail.setImageBitmap(null);
+                    finish();
+                }
             }
         });
 
@@ -159,6 +170,35 @@ public class ScreenshotActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void submit(String uploadText) {
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    File newFile = codec(bitmap, Bitmap.CompressFormat.PNG, 50, ScreenshotActivity.this);
+
+                    client.uploadInteractionWithPicture(uploadText, "", newFile);
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                }
+
+                ScreenshotActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        submit.onStopLoading();
+                        submit.setButtonColor(getColor(R.color.primaryDark));
+                        submit.setTextColor(getColor(R.color.themeBackground));
+                        Toast.makeText(ScreenshotActivity.this, "Submission successful", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+        submit.setButtonColor(getColor(R.color.disabled));
+        submit.setTextColor(getColor(R.color.apparent));
+        submit.onStartLoading();
+        thread.start();
     }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
@@ -184,7 +224,7 @@ public class ScreenshotActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
@@ -199,24 +239,7 @@ public class ScreenshotActivity extends AppCompatActivity {
         }
     }
 
-    private static File codec(Bitmap src, Bitmap.CompressFormat format,
-                              int quality, Context context) throws IOException {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        File f = new File(context.getCacheDir(), "img");
-
-        src.compress(format, quality, os);
-
-        byte[] array = os.toByteArray();
-
-        FileOutputStream fos = new FileOutputStream(f);
-        fos.write(array);
-        fos.flush();
-        fos.close();
-
-        return f;
-    }
-
-    private void init(){
+    private void init() {
         try {
             bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image);
         } catch (FileNotFoundException e) {
@@ -230,16 +253,15 @@ public class ScreenshotActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(SP.getString("Pin", null) != null)
+        if (SP.getString("Pin", null) != null)
             startActivity(new Intent(this, PinActivity.class));
     }
 
     @Override
-    public void onBackPressed(){
-        if(inputInteraction.getText().length() > 0)
-        {
+    public void onBackPressed() {
+        if (inputInteraction.getText().length() > 0) {
             new AlertDialog.Builder(this, R.style.AlertDialogStyle)
                     .setTitle("Discard Screenshot?")
                     .setCancelable(false)

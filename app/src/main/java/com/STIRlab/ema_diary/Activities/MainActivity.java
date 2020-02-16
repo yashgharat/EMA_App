@@ -55,6 +55,7 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -144,7 +145,17 @@ public class MainActivity extends AppCompatActivity {
         if (SP.getBoolean("virgin", true)) {
             SP.edit().putBoolean("virgin", false).apply();
 
-            if (client.didSetPass() == 0) {
+            CountDownLatch latch = new CountDownLatch(1);
+            latch.countDown();
+
+            int didSetPass = client.didSetPass();
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (didSetPass == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
             } else {
@@ -270,6 +281,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void init(Context context) {
         Thread t = new Thread(() -> {
+
+            CountDownLatch countDownLatch = new CountDownLatch(1);
+
+            countDownLatch.countDown();
             try {
                 client.getUser();
             } catch (Exception e) {
@@ -291,13 +306,15 @@ public class MainActivity extends AppCompatActivity {
             String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
             String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
 
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
 
             cardStatus = null;
-            try {
-                cardStatus = statuses.getString(statuses.length() - 1);
-            } catch (JSONException e) {
-                Log.e(TAG, e.toString());
-            }
+
 
             double amount = client.getTotalEarnings();
 
@@ -314,10 +331,14 @@ public class MainActivity extends AppCompatActivity {
                     totalEntries.setTextColor(getBonusColor(periodSurveyBonusStatus, context));
                     totalScreenshots.setTextColor(getBonusColor(periodThoughtBonusStatus, context));
 
-
-
                     numSurveys.setText(surveyCount);
                     numScreenshots.setText(screenshotCount);
+
+                    try {
+                        cardStatus = statuses.getString(statuses.length() - 1);
+                    } catch (JSONException e) {
+                        Log.e(TAG, e.toString());
+                    }
 
                     try {
                         updateProgress();
