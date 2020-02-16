@@ -29,4 +29,6 @@
     <string name="prog_bar_paragraph">The Progress Bar is split into five colored segments, representing a five-day period. Each segment indicates the journal entry for that day:</string>
     <string name="main_info_journal_paragraph">You will receive $1.50 for each journal entry accepted by the researcher</string>
     <string name="main_info_bonus_paragraph">If all five journal entries in a five-day period are accepted, you will receive a $5 bonus. Similarly, if you submit a screenshot within this five-day period and it is accepted, you will receive an additional $5 bonus.</string>
+    <string name="expandable_card_view_image_content_description">Arrow to expand card</string>
+    <string name="expandable_card_view_icon_content_description">Card icon</string>
 </resources>

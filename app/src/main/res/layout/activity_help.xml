@@ -22,7 +22,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,9 +61,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
-                android:layout_marginBottom="20dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_marginBottom="20dp"/>
 
 
             <TextView
