@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.STIRlab.ema_diary.R;
 
 public class CreatePinUIActivity extends AppCompatActivity {
+
+    private final String TAG = "CREATE_PIN_UI";
 
     private SharedPreferences SP;
     private AlertDialog userDialog;
@@ -30,6 +33,8 @@ public class CreatePinUIActivity extends AppCompatActivity {
         Button btnLock = findViewById(R.id.button_quick_sign_in);
 
         TextView skipLink = findViewById(R.id.skip_link);
+
+        Log.e(TAG, "Reached");
 
         btnLock.setOnClickListener(new View.OnClickListener() {
             @Override

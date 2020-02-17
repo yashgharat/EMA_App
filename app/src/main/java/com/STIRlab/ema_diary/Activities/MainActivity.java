@@ -146,23 +146,22 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putBoolean("virgin", false).apply();
 
             CountDownLatch latch = new CountDownLatch(1);
-            latch.countDown();
 
             int didSetPass = client.didSetPass();
+            latch.countDown();
             try {
                 latch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            if (didSetPass == 0) {
+            if(didSetPass == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
-            } else {
+            }
+            else{
                 Intent i = new Intent(this, CreatePinUIActivity.class);
                 startActivityForResult(i, 20);
             }
-
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
 
@@ -193,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         init(this);
 
         info.setOnClickListener(new View.OnClickListener() {
@@ -210,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
                 init(MainActivity.this);
             }
         });
-
 
 
         cardTitle = findViewById(R.id.title_journal);
@@ -542,25 +539,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private int getBonusColor(String status, Context context){
-        if(status.equals("submitted"))
-        {
+    private int getBonusColor(String status, Context context) {
+        if (status.equals("submitted")) {
             return context.getColor(R.color.primaryDark);
-        }
-        else if(status.equals("open"))
-        {
+        } else if (status.equals("open")) {
             return context.getColor(R.color.neutral);
-        }
-        else if(status.equals("missed"))
-        {
+        } else if (status.equals("missed")) {
             return context.getColor(R.color.disabled);
-        }
-        else if(status.equals("approved"))
-        {
+        } else if (status.equals("approved")) {
             return context.getColor(R.color.positive);
-        }
-        else if(status.equals("closed"))
-        {
+        } else if (status.equals("closed")) {
             return context.getColor(R.color.disabled);
         }
         return 0;
@@ -601,10 +589,11 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 Intent i = new Intent(this, CreatePinUIActivity.class);
-                startActivityForResult(i, 30);
+                startActivityForResult(i, 20);
+                break;
             case 20:
                 Intent o = new Intent(this, ManifestActivity.class);
-                startActivityForResult(o, 20);
+                startActivityForResult(o, 30);
             case 30:
                 break;
             case 50:
@@ -710,7 +699,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private String currencyFormat(double amount){
+    private String currencyFormat(double amount) {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMaximumFractionDigits(2);
         format.setCurrency(Currency.getInstance(Locale.getDefault()));
