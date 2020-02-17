@@ -306,6 +306,9 @@ public class MainActivity extends AppCompatActivity {
             String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
             String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
 
+            Log.e(TAG, periodSurveyCount);
+            Log.e(TAG, periodSurveyBonusStatus);
+
             try {
                 countDownLatch.await();
             } catch (InterruptedException e) {
@@ -556,6 +559,10 @@ public class MainActivity extends AppCompatActivity {
         {
             return context.getColor(R.color.positive);
         }
+        else if(status.equals("closed"))
+        {
+            return context.getColor(R.color.disabled);
+        }
         return 0;
     }
 
@@ -700,9 +707,6 @@ public class MainActivity extends AppCompatActivity {
         cardViewEntries.setEnabled(true);
         cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
-
-        if (SP.getString("Pin", null) != null)
-            startActivity(new Intent(this, PinActivity.class));
 
     }
 

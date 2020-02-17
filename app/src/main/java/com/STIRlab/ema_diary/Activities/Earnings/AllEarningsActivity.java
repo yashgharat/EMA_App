@@ -106,8 +106,10 @@ public class AllEarningsActivity extends AppCompatActivity {
             AllEarningsActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    adapter = new EarningsPeriodAdapter(context, earnings);
-                    recyclerView.setAdapter(adapter);
+                    if (earnings != null) {
+                        adapter = new EarningsPeriodAdapter(context, earnings);
+                        recyclerView.setAdapter(adapter);
+                    }
                     try {
                         allEarnings.setText(currencyFormat(totalEarnings));
                         possibleEarnings.setText("Will earn " + currencyFormat(maybeEarnings) + " if pending items are approved");
@@ -132,7 +134,7 @@ public class AllEarningsActivity extends AppCompatActivity {
 
     }
 
-    private String currencyFormat(double amount){
+    private String currencyFormat(double amount) {
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setMaximumFractionDigits(2);
         format.setCurrency(Currency.getInstance(Locale.getDefault()));

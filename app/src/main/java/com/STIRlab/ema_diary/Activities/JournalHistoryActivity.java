@@ -99,7 +99,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    if (history != null) {
+                    if (history.size() > 0) {
                         label.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         adapter = new JournalEntryAdapter(context, history);
@@ -123,8 +123,6 @@ public class JournalHistoryActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (SP.getString("Pin", null) != null)
-            startActivity(new Intent(this, PinActivity.class));
 
     }
 }

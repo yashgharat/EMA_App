@@ -48,8 +48,6 @@ public class SplashScreen extends AppCompatActivity {
 
         if (!localPin.equals("null")) {
             Intent i = new Intent(SplashScreen.this, PinActivity.class);
-            Log.d("PIN: ", String.valueOf(localPin));
-            Log.d("DEBUG", "PinActivity");
             startActivity(i);
             finish();
         } else if (remember) {

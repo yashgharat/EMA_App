@@ -36,13 +36,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/screenshots_history_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
                     android:layout_marginTop="110dp"
                     android:paddingBottom="30dp"
                     android:text="All Screenshots"
@@ -55,15 +56,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="There's nothing here. Come back when you have uploaded something"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_screenshots"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="30dp" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

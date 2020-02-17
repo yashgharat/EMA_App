@@ -223,7 +223,6 @@ public class APIHelper {
                     countDownLatch.countDown();
 
                 }
-                Log.i(TAG, earningsReturnStr);
             }
         });
 

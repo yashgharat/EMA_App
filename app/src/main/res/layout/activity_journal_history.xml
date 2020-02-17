@@ -58,8 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:text="There's nothing here. Come back when you have uploaded something"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
+                    android:textSize="17sp"
                     android:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
