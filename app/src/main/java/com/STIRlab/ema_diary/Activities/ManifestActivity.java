@@ -83,7 +83,6 @@ public class ManifestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(ManifestActivity.this, MoreInfoActivity.class);
-                finish();
                 startActivityForResult(i, 15);
             }
         });

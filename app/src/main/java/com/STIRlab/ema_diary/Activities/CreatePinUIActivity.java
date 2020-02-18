@@ -40,9 +40,9 @@ public class CreatePinUIActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CreatePinUIActivity.this, CreatePinActivity.class);
-                startActivity(i);
-
+                i.putExtra("pinTitle", "Set a Passcode");
                 SP.edit().putBoolean("Remember", true).apply();
+                startActivity(i);
             }
         });
 

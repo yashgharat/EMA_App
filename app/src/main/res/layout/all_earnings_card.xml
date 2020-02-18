@@ -18,7 +18,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
             android:paddingEnd="10dp">
 
             <TextView
@@ -53,7 +55,7 @@
 
                 <RelativeLayout
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"> // Only works inside a RelativeLayout
+                    android:layout_width="wrap_content">
                     <ImageView
                         android:id="@+id/card_surveys_submit_count_icon"
                         android:layout_width="20dp"
@@ -69,9 +71,9 @@
                         android:textColor="@color/neutral"
                         android:textSize="17sp"
                         android:textStyle="bold"
-                        android:layout_alignLeft="@id/card_surveys_submit_count_icon"
+                        android:layout_alignStart="@id/card_surveys_submit_count_icon"
                         android:layout_alignTop="@id/card_surveys_submit_count_icon"
-                        android:layout_alignRight="@id/card_surveys_submit_count_icon"
+                        android:layout_alignEnd="@id/card_surveys_submit_count_icon"
                         android:layout_alignBottom="@id/card_surveys_submit_count_icon"
                         android:gravity="center" />
                 </RelativeLayout>
@@ -87,7 +89,7 @@
 
                 <RelativeLayout
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"> // Only works inside a RelativeLayout
+                    android:layout_width="wrap_content">
                     <ImageView
                         android:id="@+id/card_screenshots_submit_count_icon"
                         android:layout_width="20dp"
@@ -103,9 +105,9 @@
                         android:textColor="@color/neutral"
                         android:textSize="17sp"
                         android:textStyle="bold"
-                        android:layout_alignLeft="@id/card_screenshots_submit_count_icon"
+                        android:layout_alignStart="@id/card_screenshots_submit_count_icon"
                         android:layout_alignTop="@id/card_screenshots_submit_count_icon"
-                        android:layout_alignRight="@id/card_screenshots_submit_count_icon"
+                        android:layout_alignEnd="@id/card_screenshots_submit_count_icon"
                         android:layout_alignBottom="@id/card_screenshots_submit_count_icon"
                         android:gravity="center" />
                 </RelativeLayout>

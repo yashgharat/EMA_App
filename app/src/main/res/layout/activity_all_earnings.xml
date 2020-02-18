@@ -20,7 +20,8 @@
         app:backgroundTint="#fff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp"
+        android:focusable="true" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/earnings_swipe"

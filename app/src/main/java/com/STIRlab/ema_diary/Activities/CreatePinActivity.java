@@ -44,9 +44,10 @@ public class CreatePinActivity extends AppCompatActivity {
         title = findViewById(R.id.title_pin);
         signOut = findViewById(R.id.pin_signout);
 
-        String titleText = SP.getString("pinTitle", "NULL");
+        String titleText = getIntent().getStringExtra("pinTitle");
 
         title.setText(titleText);
+        Log.e(TAG, titleText);
 
         if (titleText.equals("Change Passcode")) {
             signOut.setClickable(false);
@@ -96,6 +97,7 @@ public class CreatePinActivity extends AppCompatActivity {
             @Override
             public boolean onTextComplete(@NotNull String str) {
                 editor.putString("Pin", str).apply();
+                Log.i(TAG, SP.getString("Pin", "Not applied"));
                 finish();
                 if(isFirst)
                     startActivity(new Intent(CreatePinActivity.this, ManifestActivity.class));

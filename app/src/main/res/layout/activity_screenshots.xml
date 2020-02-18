@@ -20,7 +20,8 @@
         android:scaleX="1"
         android:scaleY="1"
         app:backgroundTint="#fff"
-        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp"
+        android:focusable="true" />
 
 
     <ScrollView

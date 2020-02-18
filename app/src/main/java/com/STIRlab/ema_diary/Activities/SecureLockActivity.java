@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -17,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SecureLockActivity extends AppCompatActivity {
 
+    private static final String TAG = "SECURE_LOCK";
     private FloatingActionButton prev;
     private Button changePasscode;
     private SwitchCompat secureLockSwitch;
@@ -38,26 +40,22 @@ public class SecureLockActivity extends AppCompatActivity {
 
         pin = SP.getString("Pin", null);
 
-        if(pin != null) {
+        if (pin != null) {
+            Log.e(TAG, pin);
             secureLockSwitch.setChecked(true);
+            changePasscode.setVisibility(View.VISIBLE);
         } else {
             secureLockSwitch.setChecked(false);
         }
         secureLockSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b)
-                {
-                    if(pin == null)
-                    {
-                        Intent intent = new Intent(SecureLockActivity.this, CreatePinActivity.class);
-                        SP.edit().putString("pinTitle", "Set a Passcode").apply();
-                        intent.putExtra("is_first", false);
-                        startActivityForResult(intent, 10);
-                    }
-                }
-                else
-                {
+                if (b) {
+                    Intent intent = new Intent(SecureLockActivity.this, CreatePinActivity.class);
+                    intent.putExtra("pinTitle", "Set a Passcode");
+                    intent.putExtra("is_first", false);
+                    startActivityForResult(intent, 10);
+                } else {
                     SP.edit().remove("Pin").apply();
                     changePasscode.setVisibility(View.GONE);
                 }
@@ -75,7 +73,7 @@ public class SecureLockActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SecureLockActivity.this, CreatePinActivity.class);
-                SP.edit().putString("pinTitle", "Change Passcode").apply();
+                intent.putExtra("pinTitle", "Change Passcode");
                 intent.putExtra("is_first", false);
                 startActivityForResult(intent, 10);
             }
@@ -87,13 +85,15 @@ public class SecureLockActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 10:
+                pin = SP.getString("Pin", null);
+                Log.e(TAG, pin);
                 changePasscode.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         if (pin != null) {

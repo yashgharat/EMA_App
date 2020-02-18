@@ -18,7 +18,8 @@
         android:scaleX="1"
         android:scaleY="1"
         app:backgroundTint="#fff"
-        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp"
+        android:focusable="true" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -32,9 +33,10 @@
 
             <TextView
                 android:id="@+id/daily_reminder_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_marginTop="20dp"
                 android:paddingBottom="30dp"
                 android:text="Daily Reminder"
@@ -58,6 +60,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
                 android:headerBackground="@color/primary"
                 android:numbersBackgroundColor="@color/themeBackground"
                 android:numbersSelectorColor="@color/primary"
