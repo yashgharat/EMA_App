@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.SecureLockActivity"></activity>
+        <activity android:name=".Activities.SecureLockActivity" />
         <activity android:name=".Activities.DailyReminderActivity" />
         <activity
             android:name=".Activities.Earnings.DateEarningsActivity"

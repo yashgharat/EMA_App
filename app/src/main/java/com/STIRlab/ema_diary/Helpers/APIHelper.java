@@ -3,8 +3,6 @@ package com.STIRlab.ema_diary.Helpers;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.gson.JsonObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -59,13 +59,13 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
 
         if(item.getSurveysBonus().equals("open"))
         {
-            holder.surveyCount.setText("");
+            holder.surveyCount.setText(String.valueOf(item.getSurveys()));
             holder.surveyCount.setTextColor(context.getColor(R.color.neutral));
             holder.surveyCountIcon.setImageResource(0);
             holder.journal.setColorFilter(context.getColor(R.color.neutral));
         }
         if(item.getThoughtsBonus().equals("open")){
-            holder.thoughtCount.setText(item.getThoughts());
+            holder.thoughtCount.setText(String.valueOf(item.getThoughts()));
             holder.thoughtCount.setTextColor(context.getColor(R.color.neutral));
             holder.thoughtCountIcon.setImageResource(0);
             holder.upload.setColorFilter(context.getColor(R.color.neutral));
