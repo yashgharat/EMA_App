@@ -614,6 +614,8 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        init(this);
+
         cardViewEntries.setEnabled(true);
         cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
