@@ -422,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
             cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
-            journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.journal_20dp));
+            journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_journal));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
             setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity {
             cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
             cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
 
-            journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.journal_20dp));
+            journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_journal));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
 

@@ -79,7 +79,7 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
             holder.isComplete.setText("Ready to complete");
             holder.isComplete.setTextColor(context.getColor(R.color.neutral));
 
-            Drawable drawable = context.getDrawable(R.drawable.journal_20dp);
+            Drawable drawable = context.getDrawable(R.drawable.ic_journal);
             drawable = DrawableCompat.wrap(drawable);
             DrawableCompat.setTint(drawable, context.getColor(R.color.neutral));
             holder.isComplete.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
