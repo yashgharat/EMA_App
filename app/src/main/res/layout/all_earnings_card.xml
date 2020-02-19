@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:tint="@color/neutral"
-                    app:srcCompat="@drawable/journal_20dp" />
+                    app:srcCompat="@drawable/ic_journal" />
 
 
                 <RelativeLayout
@@ -85,7 +85,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="20dp"
                     android:tint="@color/neutral"
-                    app:srcCompat="@drawable/upload_20dp" />
+                    app:srcCompat="@drawable/ic_upload" />
 
                 <RelativeLayout
                     android:layout_height="wrap_content"
