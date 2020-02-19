@@ -1,18 +1,11 @@
 package com.STIRlab.ema_diary.Activities;
 
-import android.app.AlarmManager;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -22,12 +15,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -35,14 +26,12 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Activities.Earnings.AllEarningsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
-import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
-import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
+import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
@@ -52,7 +41,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.text.NumberFormat;
-import java.util.Calendar;
 import java.util.Currency;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -83,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private CognitoUserSession session;
     private APIHelper client;
     private ScrapeDataHelper scraper;
+    private NotificationHelper notificationHelper;
 
     private JSONArray statuses;
 
@@ -111,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         client = new APIHelper(username, email);
         scraper = new ScrapeDataHelper(this);
+        notificationHelper = new NotificationHelper(this);
 
         viewEarnings = findViewById(R.id.view_earnings);
 
@@ -169,6 +159,12 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationHelper.setNotificationOreo(this);
+            } else {
+                notificationHelper.setNotification(this);
+            }
         }
 
         SP.edit().putBoolean("Remember", true).apply();
@@ -182,12 +178,6 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.i(TAG, CognitoSettings.formatException(e));
-        }
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            setNotificationOreo();
-        } else {
-            setNotification();
         }
 
 
@@ -553,6 +543,17 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
+    public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable end) {
+        ColorDrawable[] color = {start, end};
+        TransitionDrawable trans = new TransitionDrawable(color);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            layout.setBackground(trans);
+        } else {
+            layout.setBackgroundDrawable(trans);
+        }
+        trans.startTransition(1000);
+    }
+
     public void broadcastIntent() {
         Intent intent = new Intent();
         intent.setAction("com.journaldev.AN_INTENT");
@@ -596,99 +597,13 @@ public class MainActivity extends AppCompatActivity {
             case 30:
                 break;
             case 50:
-                Log.i(TAG, "in result");
-                setNotification();
                 break;
             case 15:
                 break;
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setNotificationOreo() {
 
-        createNotificationChannel();
-
-        int hour = SP.getInt("hour", 14);
-        int min = SP.getInt("minute", 0);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, min);
-        calendar.set(Calendar.SECOND, 0);
-
-        Intent i = new Intent(this, NotifyPublisher.class);
-
-        if (PendingIntent.getBroadcast(MainActivity.this, 0, i,
-                PendingIntent.FLAG_NO_CREATE) == null) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200, i, PendingIntent.FLAG_CANCEL_CURRENT);
-
-            Log.i(TAG, hour + ":" + min);
-            Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
-
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
-    }
-
-    public void setNotification() {
-
-        int hour = SP.getInt("hour", 14);
-        int min = SP.getInt("minute", 0);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-
-        Intent updateServiceIntent = new Intent(this, NotifyPublisher.class);
-        PendingIntent pendingUpdateIntent = PendingIntent.getService(this, 0, updateServiceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        // Cancel alarms
-        try {
-            alarmManager.cancel(pendingUpdateIntent);
-        } catch (Exception e) {
-            Log.e(TAG, "AlarmManager update was not canceled. " + CognitoSettings.formatException(e));
-        }
-
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, hour);
-        calendar.set(java.util.Calendar.MINUTE, min);
-        calendar.set(java.util.Calendar.SECOND, 0);
-
-        Intent i = new Intent(this, NotifyPublisher.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200, i, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Log.i(TAG, hour + ":" + min);
-        Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-    }
-
-    public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable end) {
-        ColorDrawable[] color = {start, end};
-        TransitionDrawable trans = new TransitionDrawable(color);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            layout.setBackground(trans);
-        } else {
-            layout.setBackgroundDrawable(trans);
-        }
-        trans.startTransition(1000);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void createNotificationChannel() {
-
-        NotificationChannel notificationChannel = new NotificationChannel("notifyUser",
-                "Daily notification", NotificationManager.IMPORTANCE_HIGH);
-        notificationChannel.enableLights(true);
-        notificationChannel.setLightColor(Color.CYAN);
-        notificationChannel.enableVibration(true);
-        notificationChannel.setDescription("test notification");
-
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        if (notificationManager.getNotificationChannel("notifyUser") == null)
-            notificationManager.createNotificationChannel(notificationChannel);
-    }
 
     @Override
     public void onBackPressed() {

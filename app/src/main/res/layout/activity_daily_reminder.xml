@@ -14,12 +14,12 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:clickable="true"
+        android:focusable="true"
         android:scaleType="fitCenter"
         android:scaleX="1"
         android:scaleY="1"
         app:backgroundTint="#fff"
-        app:srcCompat="@drawable/ic_arrow_back_blue_30dp"
-        android:focusable="true" />
+        app:srcCompat="@drawable/ic_arrow_back_blue_30dp" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <TextView
@@ -52,18 +53,32 @@
                 android:text="Daily Journal entries become available at 2 PM and close at midnight"
                 android:textSize="17sp" />
 
-            <TimePicker
+            <com.STIRlab.ema_diary.Helpers.CustomTimePicker
                 android:id="@+id/time_picker"
                 android:layout_width="match_parent"
                 android:layout_height="334dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="30dp"
-                android:layout_marginBottom="30dp"
                 android:headerBackground="@color/primary"
                 android:numbersBackgroundColor="@color/themeBackground"
                 android:numbersSelectorColor="@color/primary"
                 android:numbersTextColor="@color/prominent" />
+
+
+            <Button
+                android:id="@+id/button_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@color/primaryDark"
+                android:padding="10dp"
+                android:text="Set New Notification"
+                android:textColor="@color/themeBackground" />
 
         </LinearLayout>
 
