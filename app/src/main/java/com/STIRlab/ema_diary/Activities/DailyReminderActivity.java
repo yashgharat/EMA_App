@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,10 @@ import com.STIRlab.ema_diary.Helpers.CustomTimePicker;
 import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class DailyReminderActivity extends AppCompatActivity {
 
@@ -23,6 +28,7 @@ public class DailyReminderActivity extends AppCompatActivity {
     private CustomTimePicker timePicker;
     private Button btnNotif;
 
+    private String toastText;
     private NotificationHelper notificationHelper;
     private SharedPreferences SP;
 
@@ -39,6 +45,7 @@ public class DailyReminderActivity extends AppCompatActivity {
         prev = findViewById(R.id.daily_reminder_previous);
         timePicker = findViewById(R.id.time_picker);
         btnNotif = findViewById(R.id.button_notification);
+        toastText = "";
 
         btnNotif.setBackgroundColor(getColor(R.color.disabled));
         btnNotif.setTextColor(getColor(R.color.apparent));
@@ -61,6 +68,8 @@ public class DailyReminderActivity extends AppCompatActivity {
                 } else {
                     notificationHelper.setNotification(DailyReminderActivity.this);
                 }
+
+                Toast.makeText(DailyReminderActivity.this, toastText, Toast.LENGTH_LONG).show();
                 btnNotif.setBackgroundColor(getColor(R.color.disabled));
                 btnNotif.setTextColor(getColor(R.color.apparent));
                 btnNotif.setEnabled(false);
@@ -76,6 +85,16 @@ public class DailyReminderActivity extends AppCompatActivity {
                 btnNotif.setBackgroundColor(getColor(R.color.primaryDark));
                 btnNotif.setTextColor(getColor(R.color.themeBackground));
                 btnNotif.setEnabled(true);
+
+                String dateText = hourofDay + ":" + mins;
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:MM", Locale.getDefault());
+
+                try {
+                    toastText = "Reminder set to " + simpleDateFormat.parse(dateText);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 SP.edit().putInt("hour", hourofDay).apply();
                 SP.edit().putInt("minute", mins).apply();
             }
@@ -83,7 +102,7 @@ public class DailyReminderActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
     }
