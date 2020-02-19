@@ -74,7 +74,6 @@ public class ManifestActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(ManifestActivity.this, TutorialActivity.class);
-                finish();
                 startActivityForResult(i, 15);
             }
         });

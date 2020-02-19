@@ -154,11 +154,10 @@ public class MainActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(didSetPass == 0) {
+            if (didSetPass == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
-            }
-            else{
+            } else {
                 Intent i = new Intent(this, CreatePinUIActivity.class);
                 startActivityForResult(i, 20);
             }
@@ -640,22 +639,29 @@ public class MainActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
+
+        Intent updateServiceIntent = new Intent(this, NotifyPublisher.class);
+        PendingIntent pendingUpdateIntent = PendingIntent.getService(this, 0, updateServiceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        // Cancel alarms
+        try {
+            alarmManager.cancel(pendingUpdateIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "AlarmManager update was not canceled. " + CognitoSettings.formatException(e));
+        }
+
         java.util.Calendar calendar = java.util.Calendar.getInstance();
         calendar.set(java.util.Calendar.HOUR_OF_DAY, hour);
         calendar.set(java.util.Calendar.MINUTE, min);
         calendar.set(java.util.Calendar.SECOND, 0);
 
         Intent i = new Intent(this, NotifyPublisher.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (PendingIntent.getBroadcast(MainActivity.this, 0, i,
-                PendingIntent.FLAG_NO_CREATE) == null) {
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 200, i, PendingIntent.FLAG_CANCEL_CURRENT);
+        Log.i(TAG, hour + ":" + min);
+        Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
 
-            Log.i(TAG, hour + ":" + min);
-            Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
-
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable end) {

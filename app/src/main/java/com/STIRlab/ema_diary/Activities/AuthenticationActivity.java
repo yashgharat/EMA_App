@@ -119,7 +119,9 @@ public class AuthenticationActivity extends AppCompatActivity {
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
 
-                buttonLogin.onStartLoading();
+                buttonLogin.setButtonColor(getColor(R.color.primaryDark));
+                buttonLogin.setTextColor(getColor(R.color.themeBackground));
+                buttonLogin.onStopLoading();
 
                 Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
                 startActivity(myIntent);
@@ -192,6 +194,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 buttonLogin.setButtonColor(getColor(R.color.disabled));
                 buttonLogin.setTextColor(getColor(R.color.apparent));
                 buttonLogin.setEnabled(false);
+                buttonLogin.onStartLoading();
                 editor.putString("email", String.valueOf(editTextEmail.getText()));
                 editor.apply();
 
@@ -209,6 +212,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                     thisUser.getSessionInBackground(authenticationHandler);
                 } else {
                     showDialogMessage("Error", "Please enter email and password", false);
+                    buttonLogin.setEnabled(true);
+                    buttonLogin.setButtonColor(getColor(R.color.primaryDark));
+                    buttonLogin.setTextColor(getColor(R.color.themeBackground));
+                    buttonLogin.onStopLoading();
                 }
 
             }

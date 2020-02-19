@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
 
@@ -14,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class DailyReminderActivity extends AppCompatActivity {
 
+    private static final String TAG = "DAILY_REMINDER";
     private FloatingActionButton prev;
 
     private TimePicker timePicker;
