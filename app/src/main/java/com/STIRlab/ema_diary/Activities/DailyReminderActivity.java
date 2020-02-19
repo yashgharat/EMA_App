@@ -69,6 +69,8 @@ public class DailyReminderActivity extends AppCompatActivity {
                     notificationHelper.setNotification(DailyReminderActivity.this);
                 }
 
+                toastText = "Reminder set at " + toastText;
+
                 Toast.makeText(DailyReminderActivity.this, toastText, Toast.LENGTH_LONG).show();
                 btnNotif.setBackgroundColor(getColor(R.color.disabled));
                 btnNotif.setTextColor(getColor(R.color.apparent));
@@ -86,19 +88,36 @@ public class DailyReminderActivity extends AppCompatActivity {
                 btnNotif.setTextColor(getColor(R.color.themeBackground));
                 btnNotif.setEnabled(true);
 
-                String dateText = hourofDay + ":" + mins;
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:MM", Locale.getDefault());
 
-                try {
-                    toastText = "Reminder set to " + simpleDateFormat.parse(dateText);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                toastText = formatTimePicker(hourofDay, mins);
 
                 SP.edit().putInt("hour", hourofDay).apply();
                 SP.edit().putInt("minute", mins).apply();
             }
         });
+    }
+
+    private String formatTimePicker(int hour, int minute) {
+        String hourString = "", minuteString = "";
+        String am_pm ="";
+        if ((hour >= 1) && (hour <= 11.59)) {
+            am_pm = "AM";
+        } else if (hour >= 12) {
+            hour = hour - 12;
+            am_pm = "PM";
+        } else if (hour == 0) {
+            hour = 12;
+            am_pm = "AM";
+        }
+        if (hour < 10) hourString = "0" + hour;
+        else
+            hourString = "" + hour;
+
+        if (minute < 10) minuteString = "0" + minute;
+        else
+            minuteString = "" + minute;
+
+        return hourString + ":" + minuteString + " " + am_pm;
     }
 
     @Override
