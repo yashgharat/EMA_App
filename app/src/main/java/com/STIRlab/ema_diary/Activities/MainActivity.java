@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     private JSONArray statuses;
 
     private ImageView[] progressBar;
-    private ImageView info, journalState;
+    private ImageView info, journalState, dashLogo;
 
     private String cardStatus, username, email;
 
@@ -115,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         totalEntries = findViewById(R.id.total_entries);
         totalScreenshots = findViewById(R.id.total_screenshots);
         studyCounter = findViewById(R.id.study_ctr);
+
+        dashLogo = findViewById(R.id.dash_logo);
 
         layoutJournal = findViewById(R.id.journal);
         journalState = findViewById(R.id.journal_drawable);
@@ -182,6 +186,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         init(this);
+
+        dashLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation rotate = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_rotate);
+                dashLogo.startAnimation(rotate);
+            }
+        });
 
         info.setOnClickListener(new View.OnClickListener() {
             @Override
