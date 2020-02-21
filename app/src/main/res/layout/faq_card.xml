@@ -21,28 +21,31 @@
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent">
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/faq_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="15dp"
+                    app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <TextView
                     android:id="@+id/faq_question"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginTop="10dp"
                     android:text="NULL"
                     android:textStyle="bold"
                     android:textColor="@color/prominent"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             </LinearLayout>
 
@@ -50,10 +53,11 @@
                 android:id="@+id/faq_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="35dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
-                android:paddingBottom="5dp"
+                android:paddingBottom="20dp"
                 android:text="ZIP"
                 android:textColor="@color/apparent"
                 android:visibility="gone"

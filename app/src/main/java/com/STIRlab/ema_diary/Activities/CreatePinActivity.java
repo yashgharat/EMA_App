@@ -97,7 +97,6 @@ public class CreatePinActivity extends AppCompatActivity {
             @Override
             public boolean onTextComplete(@NotNull String str) {
                 editor.putString("Pin", str).apply();
-                Log.i(TAG, SP.getString("Pin", "Not applied"));
                 finish();
                 if(isFirst)
                     startActivity(new Intent(CreatePinActivity.this, ManifestActivity.class));

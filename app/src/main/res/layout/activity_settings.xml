@@ -43,7 +43,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/time_pick"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
@@ -75,12 +75,13 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/faq"
+                        android:id="@+id/reminder_desc"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="40dp"
                         android:text="Set a reminder for Daily Journal entries"
                         android:textColor="@color/apparent"
                         android:textSize="15sp"
@@ -104,7 +105,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/secure_lock"
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="15dp">
@@ -141,6 +142,7 @@
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="20dp"
+                        android:layout_marginEnd="40dp"
                         android:text="Set a 4-digit passcode to lock 30 days"
                         android:textColor="@color/apparent"
                         android:textSize="15sp"

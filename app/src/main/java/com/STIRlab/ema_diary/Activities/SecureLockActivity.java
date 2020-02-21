@@ -86,7 +86,6 @@ public class SecureLockActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 pin = SP.getString("Pin", null);
-                Log.e(TAG, pin);
                 changePasscode.setVisibility(View.VISIBLE);
                 break;
         }
