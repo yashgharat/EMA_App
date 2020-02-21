@@ -250,7 +250,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        this.finishAffinity();
     }
 
     static class ClassDataSerializer implements JsonSerializer<CognitoUser> {

@@ -40,6 +40,8 @@ public class SplashScreen extends AppCompatActivity {
         localPin = SP.getString("Pin", "null");
         remember = SP.getBoolean("Remember", false);
 
+        while(!isNetworkAvailable(this));
+
         Log.i(TAG, String.valueOf(remember));
 
         if (!localPin.equals("null")) {

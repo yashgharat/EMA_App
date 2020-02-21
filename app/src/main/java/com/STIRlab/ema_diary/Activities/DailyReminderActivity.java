@@ -26,9 +26,7 @@ public class DailyReminderActivity extends AppCompatActivity {
     private FloatingActionButton prev;
 
     private CustomTimePicker timePicker;
-    private Button btnNotif;
 
-    private String toastText;
     private NotificationHelper notificationHelper;
     private SharedPreferences SP;
 
@@ -44,13 +42,6 @@ public class DailyReminderActivity extends AppCompatActivity {
 
         prev = findViewById(R.id.daily_reminder_previous);
         timePicker = findViewById(R.id.time_picker);
-        btnNotif = findViewById(R.id.button_notification);
-        toastText = "";
-
-        btnNotif.setBackgroundColor(getColor(R.color.disabled));
-        btnNotif.setTextColor(getColor(R.color.apparent));
-        btnNotif.setEnabled(false);
-
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,37 +51,12 @@ public class DailyReminderActivity extends AppCompatActivity {
         });
 
 
-        btnNotif.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    notificationHelper.setNotificationOreo(DailyReminderActivity.this);
-                } else {
-                    notificationHelper.setNotification(DailyReminderActivity.this);
-                }
-
-                toastText = "Reminder set at " + toastText;
-
-                Toast.makeText(DailyReminderActivity.this, toastText, Toast.LENGTH_LONG).show();
-                btnNotif.setBackgroundColor(getColor(R.color.disabled));
-                btnNotif.setTextColor(getColor(R.color.apparent));
-                btnNotif.setEnabled(false);
-            }
-        });
-
         timePicker.setIs24HourView(false);
         timePicker.setHour(SP.getInt("hour", 14));
         timePicker.setMinute(SP.getInt("minute", 0));
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
-            public void onTimeChanged(TimePicker timePicker, int hourofDay, int mins) {
-                btnNotif.setBackgroundColor(getColor(R.color.primaryDark));
-                btnNotif.setTextColor(getColor(R.color.themeBackground));
-                btnNotif.setEnabled(true);
-
-
-                toastText = formatTimePicker(hourofDay, mins);
-
+            public void onTimeChanged(TimePicker timePicker, int hourofDay, int mins) { ;
                 SP.edit().putInt("hour", hourofDay).apply();
                 SP.edit().putInt("minute", mins).apply();
             }
@@ -118,6 +84,20 @@ public class DailyReminderActivity extends AppCompatActivity {
             minuteString = "" + minute;
 
         return hourString + ":" + minuteString + " " + am_pm;
+    }
+
+    public void setNotification(Context context){
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationHelper.setNotificationOreo(context);
+        } else {
+            notificationHelper.setNotification(context);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        setNotification(this);
+        super.onStop();
     }
 
     @Override
