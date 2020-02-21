@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "com.STIRlab.ema_diary"
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 8
-        versionName "1.7"
+        targetSdkVersion 28
+        versionCode 9
+        versionName "1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
