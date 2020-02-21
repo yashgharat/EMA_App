@@ -113,6 +113,7 @@ public class ScreenshotActivity extends AppCompatActivity {
             public void onClick(View view) {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
+                        .setCropMenuCropButtonTitle("Next")
                         .start(ScreenshotActivity.this);
             }
         });

@@ -69,7 +69,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Daily Reminder"
                         android:textColor="@color/prominent"
-                        android:textSize="20sp"
+                        android:textSize="17sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -83,7 +83,7 @@
                         android:layout_marginBottom="20dp"
                         android:text="Set a reminder for Daily Journal entries"
                         android:textColor="@color/apparent"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title_reminder" />
 
@@ -129,7 +129,7 @@
                         android:layout_marginStart="15dp"
                         android:text="Secure Lock"
                         android:textColor="@color/prominent"
-                        android:textSize="20sp"
+                        android:textSize="17sp"
                         android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -143,7 +143,7 @@
                         android:layout_marginBottom="20dp"
                         android:text="Set a 4-digit passcode to lock 30 days"
                         android:textColor="@color/apparent"
-                        android:textSize="12sp"
+                        android:textSize="15sp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/title_set_lock" />
 
