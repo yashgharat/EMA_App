@@ -1,21 +1,17 @@
 package com.STIRlab.ema_diary.Activities.Earnings;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
-import com.STIRlab.ema_diary.Activities.JournalHistoryActivity;
-import com.STIRlab.ema_diary.Activities.PinActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriodAdapter;
@@ -23,7 +19,6 @@ import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.NumberFormat;
-import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 import java.util.Locale;
@@ -129,8 +124,6 @@ public class AllEarningsActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (SP.getString("Pin", null) != null)
-            startActivity(new Intent(this, PinActivity.class));
 
     }
 

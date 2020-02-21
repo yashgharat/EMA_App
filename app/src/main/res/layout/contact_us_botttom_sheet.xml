@@ -7,6 +7,18 @@
     android:background="@color/themeBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="40dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:text="Choose how you would like to contact the research team"
+        android:textSize="15sp" />
+
     <LinearLayout
         android:id="@+id/settings_bottom_sheet_email"
         android:layout_width="match_parent"

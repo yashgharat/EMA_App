@@ -1,21 +1,18 @@
 package com.STIRlab.ema_diary.Activities.Earnings;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.STIRlab.ema_diary.Activities.PinActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Currency;
@@ -134,8 +131,6 @@ public class DateEarningsActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        if(SP.getString("Pin", null) != null)
-            startActivity(new Intent(this, PinActivity.class));
 
     }
 
