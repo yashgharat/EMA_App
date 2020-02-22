@@ -1,9 +1,5 @@
 package com.STIRlab.ema_diary.Activities;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,12 +10,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 
 public class ScreenshotPromptActivity extends AppCompatActivity {
@@ -54,7 +52,8 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 // Only the system receives the ACTION_OPEN_DOCUMENT, so no need to test.
-                startActivityForResult(intent, REQUEST_IMAGE_OPEN);
+                startActivityForResult(Intent.createChooser(intent, "Select Application"), REQUEST_IMAGE_OPEN);
+
             }
         });
 
@@ -95,12 +94,15 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
         switch (requestCode) {
 
             case REQUEST_IMAGE_OPEN:
-
+                Uri resultUri = data.getData();
+                CropImage.activity(resultUri)
+                        .setCropMenuCropButtonTitle("Next")
+                        .start(this);
                 break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
+                    resultUri = result.getUri();
                     Intent intent = new Intent(ScreenshotPromptActivity.this, ScreenshotActivity.class);
                     intent.putExtra("imagePath", resultUri.toString());
                     finish();
