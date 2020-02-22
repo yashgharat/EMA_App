@@ -25,6 +25,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 public class ScreenshotPromptActivity extends AppCompatActivity {
 
     private static final String TAG = "SCREENSHOT_PROMPT";
+    private static final int REQUEST_IMAGE_OPEN = 10;
 
     private AlertDialog userDialog;
     private Button addPic;
@@ -45,10 +46,15 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setCropMenuCropButtonTitle("Next")
-                        .start(ScreenshotPromptActivity.this);
+//                CropImage.activity()
+//                        .setGuidelines(CropImageView.Guidelines.ON)
+//                        .setCropMenuCropButtonTitle("Next")
+//                        .start(ScreenshotPromptActivity.this);
+
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                // Only the system receives the ACTION_OPEN_DOCUMENT, so no need to test.
+                startActivityForResult(intent, REQUEST_IMAGE_OPEN);
             }
         });
 
@@ -87,6 +93,10 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+
+            case REQUEST_IMAGE_OPEN:
+
+                break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
