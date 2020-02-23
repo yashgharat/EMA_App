@@ -1,11 +1,8 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -19,7 +16,7 @@ public class LifeCycleHelper implements LifecycleObserver {
     private Context context;
     private SharedPreferences SP;
 
-    public LifeCycleHelper(Context context){
+    public LifeCycleHelper(Context context) {
         this.context = context;
         SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
@@ -36,6 +33,5 @@ public class LifeCycleHelper implements LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onEnterBackground() {
         //Toast.makeText(context, "In Background", Toast.LENGTH_SHORT).show();
-
     }
 }

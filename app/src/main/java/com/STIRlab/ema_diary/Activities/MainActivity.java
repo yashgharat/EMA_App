@@ -305,9 +305,6 @@ public class MainActivity extends AppCompatActivity {
             String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
             String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
 
-            Log.e(TAG, periodSurveyCount);
-            Log.e(TAG, periodSurveyBonusStatus);
-
             try {
                 countDownLatch.await();
             } catch (InterruptedException e) {
@@ -609,8 +606,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent o = new Intent(this, ManifestActivity.class);
 
                 SP.edit().putBoolean("Remember", true).apply();
-
-                Log.e(TAG, String.valueOf(hasPermissions));
 
                 if (!hasPermissions)
                     startActivityForResult(o, 30);

@@ -29,6 +29,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     private TextView previousAnswer = null;
     private ImageView previousArrow = null;
+    private Question previousQuestion = null;
 
     public QuestionAdapter(Context context, List<Question> questionList) {
         this.context = context;
@@ -55,20 +56,24 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             public void onClick(View view) {
 
                 if(previousAnswer != null && !previousAnswer.equals(holder.answer)) {
-                    previousAnswer.setVisibility(View.GONE);
-                    previousArrow.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
+                    previousAnswer.setSingleLine(true);
+                    previousArrow.animate().rotation(0).start();
+                    previousQuestion.setCollapsed(true);
                 }
 
-                if (holder.answer.getVisibility() == View.GONE) {
-                    holder.iv.setImageResource(R.drawable.ic_keyboard_arrow_up_blue_30dp);
-                    holder.answer.setVisibility(View.VISIBLE);
+                if (entry.isCollapsed()) {
+                    holder.iv.animate().rotation(180).start();
+                    holder.answer.setSingleLine(false);
+                    entry.setCollapsed(false);
                 } else {
-                    holder.iv.setImageResource(R.drawable.ic_keyboard_arrow_down_black_24dp);
-                    holder.answer.setVisibility(View.GONE);
+                    holder.iv.animate().rotation(0).start();
+                    holder.answer.setSingleLine(true);
+                    entry.setCollapsed(true);
                 }
 
                 previousAnswer = holder.answer;
                 previousArrow = holder.iv;
+                previousQuestion = entry;
             }
         });
     }
