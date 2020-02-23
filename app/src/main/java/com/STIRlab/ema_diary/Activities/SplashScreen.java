@@ -53,7 +53,7 @@ public class SplashScreen extends AppCompatActivity {
             }
             else
             {
-                Intent data = new Intent(this, ManifestActivity.class);
+                Intent data = new Intent(this, MissingPermissionsActivity.class);
                 startActivityForResult(data, 10);
             }
             finish();

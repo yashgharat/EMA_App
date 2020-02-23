@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AppOpsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -56,8 +57,10 @@ public class TutorialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                 startActivityForResult(intent, 10);
-                btnScrape.setButtonText("Next");
-                btnScrape.setButtonOnClickListener(next);
+                if(isAccessGranted(TutorialActivity.this)) {
+                    btnScrape.setButtonText("Next");
+                    btnScrape.setButtonOnClickListener(next);
+                }
             }
         };
 
@@ -98,6 +101,21 @@ public class TutorialActivity extends AppCompatActivity {
                     Log.i(TAG, String.valueOf(i));
                 }
                 break;
+        }
+    }
+
+    private boolean isAccessGranted(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            int mode = 0;
+            mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                    applicationInfo.uid, applicationInfo.packageName);
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
         }
     }
 

@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activities.MissingPermissionsActivity"></activity>
         <activity android:name=".Activities.SecureLockActivity" />
         <activity android:name=".Activities.DailyReminderActivity" />
         <activity

@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     private NotificationHelper notificationHelper;
     private LifeCycleHelper lifeCycleHelper;
 
+    private int statusLength;
     private JSONArray statuses;
 
     private ImageView[] progressBar;
@@ -315,8 +316,6 @@ public class MainActivity extends AppCompatActivity {
 
 
             cardStatus = null;
-
-
             double amount = client.getTotalEarnings();
 
             MainActivity.this.runOnUiThread(new Runnable() {
@@ -335,8 +334,10 @@ public class MainActivity extends AppCompatActivity {
                     numSurveys.setText(surveyCount);
                     numScreenshots.setText(screenshotCount);
 
+                    statusLength = statuses.length();
+
                     try {
-                        cardStatus = statuses.getString(statuses.length() - 1);
+                        cardStatus = statuses.getString(statusLength - 1);
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
@@ -360,7 +361,12 @@ public class MainActivity extends AppCompatActivity {
         int curDay = statuses.length();
 
         for (int i = 0; i < 5; i++) {
-            String curStatus = statuses.getString(i);
+            String curStatus;
+
+            if(i < statusLength)
+                curStatus = statuses.getString(i);
+            else
+                curStatus = null;
 
             if (curStatus == null) {
                 progressBar[i].setImageResource(R.drawable.light_gray_no_border);
