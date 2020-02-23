@@ -2,7 +2,6 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,9 +52,7 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
         holder.earningsSoFar.setText(currencyFormat(item.getEarnings()));
         if(item.getEarnings() == 0)
                 holder.earningsSoFar.setTextColor(context.getColor(R.color.disabled));
-        holder.earningsAdded.setText("+" + currencyFormat(item.getIncrement()));
-
-        Log.i("InAdapter", item.getThoughtsBonus());
+        holder.earningsAdded.setText(String.format("+%s", currencyFormat(item.getIncrement())));
 
         if(item.getSurveysBonus().equals("open"))
         {

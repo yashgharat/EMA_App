@@ -190,35 +190,35 @@
                 android:layout_width="68dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:src="@drawable/light_gray_no_border" />
+                android:src="@color/unapparent" />
 
             <ImageView
                 android:id="@+id/prog_1"
                 android:layout_width="68dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:src="@drawable/light_gray_no_border" />
+                android:src="@color/unapparent" />
 
             <ImageView
                 android:id="@+id/prog_2"
                 android:layout_width="68dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="3dp"
-                android:src="@drawable/light_gray_no_border" />
+                android:src="@color/unapparent" />
 
             <ImageView
                 android:id="@+id/prog_3"
                 android:layout_width="65dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:src="@drawable/light_gray_no_border" />
+                android:src="@color/unapparent" />
 
             <ImageView
                 android:id="@+id/prog_4"
                 android:layout_width="68dp"
                 android:layout_height="10dp"
                 android:layout_marginEnd="3dp"
-                android:src="@drawable/light_gray_no_border" />
+                android:src="@color/unapparent" />
         </LinearLayout>
 
 
@@ -345,7 +345,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:text="View Entries"
-                                android:textColor="@color/primary"
+                                android:textColor="@color/primaryDark"
                                 android:textSize="15sp"
                                 android:drawableEnd="@drawable/ic_chevron_right_blue_20dp"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -390,15 +390,15 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_screenshots"
                             android:layout_width="match_parent"
-                            android:background="@drawable/card_ripple_effect"
                             android:layout_height="match_parent">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:id="@+id/screenshots"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="12dp">
+                                android:background="@drawable/card_ripple_effect"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="12dp">
 
                                 <TextView
                                     android:id="@+id/title_screenshots"
@@ -450,7 +450,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:text="View Screenshots"
-                                android:textColor="@color/primary"
+                                android:textColor="@color/primaryDark"
                                 android:textSize="15sp"
                                 android:drawableEnd="@drawable/ic_chevron_right_blue_20dp"
                                 app:layout_constraintTop_toTopOf="parent"
