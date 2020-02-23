@@ -50,7 +50,6 @@ import org.json.JSONException;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -206,25 +205,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
-        cardViewEntries.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cardViewEntries.setEnabled(false);
-                Intent intent = new Intent(MainActivity.this, JournalHistoryActivity.class);
-                startActivityForResult(intent, 15);
-            }
-        });
-        cardViewScreenshots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cardViewScreenshots.setEnabled(false);
-                Intent intent = new Intent(MainActivity.this, ScreenshotHistoryActivity.class);
-                startActivityForResult(intent, 15);
-            }
-        });
-
         viewEarnings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initUser(){
+    private void initUser() {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -333,15 +313,35 @@ public class MainActivity extends AppCompatActivity {
                     numSurveys.setText(surveyCount);
                     numScreenshots.setText(screenshotCount);
 
-                    if(Integer.parseInt(surveyCount) == 0)
+                    if (Integer.parseInt(surveyCount) == 0) {
                         surveyHistory.setVisibility(View.GONE);
-                    else
+                        cardViewEntries.setOnClickListener(null);
+                    } else {
                         surveyHistory.setVisibility(View.VISIBLE);
+                        cardViewEntries.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                cardViewEntries.setEnabled(false);
+                                Intent intent = new Intent(MainActivity.this, JournalHistoryActivity.class);
+                                startActivityForResult(intent, 15);
+                            }
+                        });
+                    }
 
-                    if(Integer.parseInt(screenshotCount) == 0)
+                    if (Integer.parseInt(screenshotCount) == 0) {
                         screenshotHistory.setVisibility(View.GONE);
-                    else
+                        cardViewScreenshots.setOnClickListener(null);
+                    } else {
                         screenshotHistory.setVisibility(View.VISIBLE);
+                        cardViewScreenshots.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                cardViewScreenshots.setEnabled(false);
+                                Intent intent = new Intent(MainActivity.this, ScreenshotHistoryActivity.class);
+                                startActivityForResult(intent, 15);
+                            }
+                        });
+                    }
 
                     statusLength = statuses.length();
 

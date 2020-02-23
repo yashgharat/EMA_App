@@ -1,11 +1,13 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.app.AppOpsManager;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,7 +43,12 @@ public class APIHelper {
     private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
 
     public APIHelper(String username, String email) {
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
+
         this.userid = username;
         this.email = email;
     }
@@ -689,6 +697,39 @@ public class APIHelper {
         } else {
             return String.format("%10.2f", number); // dj_segfault
         }
+    }
+
+    public static boolean isNetworkAvailable(Context context) {
+        if (context == null) return false;
+
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NetworkCapabilities capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+                if (capabilities != null) {
+                    if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET))
+
+                        return true;
+                } else {
+
+                    try {
+                        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+                        if (activeNetworkInfo != null && activeNetworkInfo.isConnected()) {
+                            return true;
+                        }
+                    } catch (Exception e) {
+                        Log.i("update_status", "" + e.getMessage());
+                    }
+                }
+            }
+        }
+        Toast.makeText(context, "No connection available", Toast.LENGTH_LONG).show();
+
+        return false;
     }
 
 

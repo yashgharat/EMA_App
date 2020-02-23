@@ -8,7 +8,10 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
+import com.STIRlab.ema_diary.Activities.AuthenticationActivity;
 import com.STIRlab.ema_diary.Activities.PinActivity;
+
+import static com.STIRlab.ema_diary.Helpers.APIHelper.isNetworkAvailable;
 
 public class LifeCycleHelper implements LifecycleObserver {
 
@@ -26,7 +29,9 @@ public class LifeCycleHelper implements LifecycleObserver {
     public void onEnterForeground() {
         //Toast.makeText(context, "In Foreground", Toast.LENGTH_SHORT).show();
 
-        if (SP.getString("Pin", null) != null)
+        if (!isNetworkAvailable(context))
+            context.startActivity(new Intent(context, AuthenticationActivity.class));
+        else if (SP.getString("Pin", null) != null)
             context.startActivity(new Intent(context, PinActivity.class));
     }
 
