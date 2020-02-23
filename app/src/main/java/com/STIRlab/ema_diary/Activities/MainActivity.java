@@ -31,11 +31,13 @@ import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Activities.Earnings.AllEarningsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.R;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private APIHelper client;
     private ScrapeDataHelper scraper;
     private NotificationHelper notificationHelper;
+    private LifeCycleHelper lifeCycleHelper;
 
     private JSONArray statuses;
 
@@ -89,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         username = SP.getString("username", "null");
@@ -106,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         client = new APIHelper(username, email);
         scraper = new ScrapeDataHelper(this);
         notificationHelper = new NotificationHelper(this);
+        lifeCycleHelper = new LifeCycleHelper(this);
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(lifeCycleHelper);
 
         viewEarnings = findViewById(R.id.view_earnings);
 
@@ -630,10 +634,10 @@ public class MainActivity extends AppCompatActivity {
         cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
 
-        if(CognitoSettings.isLocked == -1)
-            CognitoSettings.isLocked *= -1;
-        else if (SP.getString("Pin", null) != null && CognitoSettings.isLocked == 1)
-            startActivity(new Intent(this, PinActivity.class));
+//        if(CognitoSettings.isLocked == -1)
+//            CognitoSettings.isLocked *= -1;
+//        else if (SP.getString("Pin", null) != null && CognitoSettings.isLocked == 1)
+//            startActivity(new Intent(this, PinActivity.class));
 
     }
 

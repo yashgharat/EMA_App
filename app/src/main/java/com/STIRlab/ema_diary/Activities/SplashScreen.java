@@ -45,10 +45,7 @@ public class SplashScreen extends AppCompatActivity {
 
         Log.e(TAG, String.valueOf(remember));
 
-        if (!localPin.equals("null")) {
-            Intent i = new Intent(SplashScreen.this, PinActivity.class);
-            startActivityForResult(i, 10);
-        } else if (remember) {
+        if (remember) {
             boolean hasPermissions = isAccessGranted(this);
             if(hasPermissions) {
                 Intent main = new Intent(SplashScreen.this, MainActivity.class);
