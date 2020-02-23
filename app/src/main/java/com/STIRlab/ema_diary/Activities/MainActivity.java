@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardscreenshots;
     private CardView cardViewEntries, cardViewScreenshots;
 
-    private ConstraintLayout layoutJournal;
+    private ConstraintLayout layoutJournal, surveyHistory, screenshotHistory;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private CognitoSettings cognitoSettings;
@@ -120,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
         cardscreenshots = findViewById(R.id.card_screenshots);
         cardViewEntries = findViewById(R.id.card_view_entries);
         cardViewScreenshots = findViewById(R.id.card_view_screenshots);
+        cardTitle = findViewById(R.id.title_journal);
+        cardMsg = findViewById(R.id.msg_journal);
+
 
         totalEarnings = findViewById(R.id.total_earnings);
         totalEntries = findViewById(R.id.total_entries);
@@ -133,16 +136,14 @@ public class MainActivity extends AppCompatActivity {
 
         numSurveys = findViewById(R.id.num_surveys);
         numScreenshots = findViewById(R.id.num_screenshots);
+        surveyHistory = findViewById(R.id.survey_history);
+        screenshotHistory = findViewById(R.id.screenshot_history);
 
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
         info = findViewById(R.id.main_info);
 
-        try {
-            client.getUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        initUser();
 
         if (SP.getBoolean("virgin", true)) {
 
@@ -163,12 +164,6 @@ public class MainActivity extends AppCompatActivity {
                 client.startStudy(username);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationHelper.setNotificationOreo(this);
-            } else {
-                notificationHelper.setNotification(this);
             }
 
             SP.edit().putBoolean("virgin", false).apply();
@@ -211,9 +206,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        cardTitle = findViewById(R.id.title_journal);
-        cardMsg = findViewById(R.id.msg_journal);
 
 
         cardViewEntries.setOnClickListener(new View.OnClickListener() {
@@ -278,17 +270,32 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void initUser(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    client.getUser();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
+        t.start();
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
     private void init(Context context) {
+        initUser();
+
         Thread t = new Thread(() -> {
 
-            CountDownLatch countDownLatch = new CountDownLatch(1);
-
-            countDownLatch.countDown();
-            try {
-                client.getUser();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             try {
                 statuses = client.getStatuses();
             } catch (Exception e) {
@@ -300,16 +307,11 @@ public class MainActivity extends AppCompatActivity {
             String surveyCount = client.getTotalSurveyCount();
             String screenshotCount = client.getTotalScreenshotCount();
 
+
             String periodSurveyCount = Integer.toString(client.getPeriodSurveyCount());
             String periodScreenshotCount = Integer.toString(client.getPeriodThoughtCount());
             String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
             String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
-
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
 
             cardStatus = null;
@@ -330,6 +332,16 @@ public class MainActivity extends AppCompatActivity {
 
                     numSurveys.setText(surveyCount);
                     numScreenshots.setText(screenshotCount);
+
+                    if(Integer.parseInt(surveyCount) == 0)
+                        surveyHistory.setVisibility(View.GONE);
+                    else
+                        surveyHistory.setVisibility(View.VISIBLE);
+
+                    if(Integer.parseInt(screenshotCount) == 0)
+                        screenshotHistory.setVisibility(View.GONE);
+                    else
+                        screenshotHistory.setVisibility(View.VISIBLE);
 
                     statusLength = statuses.length();
 
@@ -360,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 5; i++) {
             String curStatus;
 
-            if(i < statusLength)
+            if (i < statusLength)
                 curStatus = statuses.getString(i);
             else
                 curStatus = null;
@@ -416,9 +428,8 @@ public class MainActivity extends AppCompatActivity {
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_remove_circle_black_20dp));
             journalState.setColorFilter(getResources().getColor(R.color.disabled));
 
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.themeBackground));
 
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.themeBackground)));
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
@@ -436,8 +447,8 @@ public class MainActivity extends AppCompatActivity {
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_journal));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
-                    new ColorDrawable(getResources().getColor(R.color.neutral)));
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.neutral));
+
             layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect_yellow));
 
             cardJournal.setOnClickListener(new View.OnClickListener() {
@@ -469,10 +480,9 @@ public class MainActivity extends AppCompatActivity {
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_journal));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.neutral));
 
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.themeBackground)),
-                    new ColorDrawable(getResources().getColor(R.color.neutral)));
-            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect_yellow));
 
             cardJournal.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -505,8 +515,8 @@ public class MainActivity extends AppCompatActivity {
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.neutral)),
-                    new ColorDrawable(getResources().getColor(R.color.primaryDark)));
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.primaryDark));
+
         } else if (cardStatus.equals("approved")) {
             cardTitle.setText("Daily Journal Complete");
             cardMsg.setText("Researcher approved");
@@ -519,9 +529,8 @@ public class MainActivity extends AppCompatActivity {
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.positive));
 
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.positive)));
         } else if (cardStatus.equals("rejected")) {
             cardTitle.setText("Daily Journal Complete");
             cardMsg.setText("Researcher approved");
@@ -534,8 +543,8 @@ public class MainActivity extends AppCompatActivity {
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_close_black_20dp));
             journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
 
-            setCardColorTran(layoutJournal, new ColorDrawable(getResources().getColor(R.color.primaryDark)),
-                    new ColorDrawable(getResources().getColor(R.color.destructive)));
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.destructive));
+
         }
     }
 
@@ -557,11 +566,7 @@ public class MainActivity extends AppCompatActivity {
     public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable end) {
         ColorDrawable[] color = {start, end};
         TransitionDrawable trans = new TransitionDrawable(color);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            layout.setBackground(trans);
-        } else {
-            layout.setBackgroundDrawable(trans);
-        }
+        layout.setBackground(trans);
         trans.startTransition(1000);
     }
 
@@ -611,6 +616,11 @@ public class MainActivity extends AppCompatActivity {
                     startActivityForResult(o, 30);
                 break;
             case 30:
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notificationHelper.setNotificationOreo(this);
+                } else {
+                    notificationHelper.setNotification(this);
+                }
                 break;
             case 50:
                 break;
