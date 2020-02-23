@@ -57,10 +57,6 @@ public class TutorialActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
                 startActivityForResult(intent, 10);
-                if(isAccessGranted(TutorialActivity.this)) {
-                    btnScrape.setButtonText("Next");
-                    btnScrape.setButtonOnClickListener(next);
-                }
             }
         };
 
@@ -95,11 +91,16 @@ public class TutorialActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case 10:
+                if(isAccessGranted(this)) {
+                    btnScrape.setButtonText("Next");
+                    btnScrape.setButtonOnClickListener(next);
+                }
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONESTATE);
                     int i = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
                     Log.i(TAG, String.valueOf(i));
                 }
+
                 break;
         }
     }
