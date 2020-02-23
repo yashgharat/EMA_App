@@ -63,6 +63,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
                 if (entry.isCollapsed()) {
                     holder.iv.animate().rotation(180).start();
+                    TransitionManager.beginDelayedTransition(holder.frame, new AutoTransition());
                     holder.answer.setSingleLine(false);
                     entry.setCollapsed(false);
                 } else {
