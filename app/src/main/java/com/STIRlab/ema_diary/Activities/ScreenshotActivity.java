@@ -46,8 +46,9 @@ public class ScreenshotActivity extends AppCompatActivity {
 
     final int THUMBSIZE = 128;
     private final String TAG = "screenshots";
-    private LoadingButton submit;
+    private static final int REQUEST_IMAGE_OPEN = 10;
 
+    private LoadingButton submit;
     private FloatingActionButton ret;
 
     private TextView replaceScreenshot;
@@ -111,10 +112,9 @@ public class ScreenshotActivity extends AppCompatActivity {
         replaceScreenshot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
-                        .setCropMenuCropButtonTitle("Next")
-                        .start(ScreenshotActivity.this);
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent, "Select Application"), REQUEST_IMAGE_OPEN);
             }
         });
 
@@ -226,10 +226,16 @@ public class ScreenshotActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+            case REQUEST_IMAGE_OPEN:
+                Uri resultUri = data.getData();
+                CropImage.activity(resultUri)
+                        .setCropMenuCropButtonTitle("Next")
+                        .start(this);
+                break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
-                    Uri resultUri = result.getUri();
+                    resultUri = result.getUri();
                     image = resultUri;
                     init();
                 } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {

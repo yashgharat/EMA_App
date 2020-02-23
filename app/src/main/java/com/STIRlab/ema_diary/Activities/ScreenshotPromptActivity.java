@@ -44,14 +44,8 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
         addPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                CropImage.activity()
-//                        .setGuidelines(CropImageView.Guidelines.ON)
-//                        .setCropMenuCropButtonTitle("Next")
-//                        .start(ScreenshotPromptActivity.this);
-
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                // Only the system receives the ACTION_OPEN_DOCUMENT, so no need to test.
                 startActivityForResult(Intent.createChooser(intent, "Select Application"), REQUEST_IMAGE_OPEN);
 
             }

@@ -94,9 +94,8 @@ public class PinActivity extends AppCompatActivity {
             public boolean onTextComplete(@NotNull String str) {
                 if (str.equals(localPin)) {
                     getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+                    CognitoSettings.isLocked *= -1;
                     finish();
-                    Intent main = new Intent(PinActivity.this, MainActivity.class);
-                    startActivity(main);
 
                 } else {
                     Log.e(TAG, localPin);

@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,17 +43,27 @@ public class CreatePinUIActivity extends AppCompatActivity {
                 Intent i = new Intent(CreatePinUIActivity.this, CreatePinActivity.class);
                 i.putExtra("pinTitle", "Set a Passcode");
                 SP.edit().putBoolean("Remember", true).apply();
-                startActivity(i);
+                startActivityForResult(i, 10);
             }
         });
 
         skipLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CreatePinUIActivity.this, ManifestActivity.class);
-                startActivity(i);
+                finish();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 10:
+                finish();
+                break;
+        }
     }
 
 }

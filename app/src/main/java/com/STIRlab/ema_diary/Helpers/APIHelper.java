@@ -1,6 +1,10 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.app.AppOpsManager;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -28,16 +32,12 @@ public class APIHelper {
     private OkHttpClient client;
 
     private String userReturnStr, earningsReturnStr, historyReturnStr, userid, email;
-    private JSONObject history;
+    private JSONObject history, userInfo;
 
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // baseURL
     private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
-
-    //{"user_id":"90621533-45ad-413d-bda7-aafc0bc0071f","email":"easymoney@dmailpro.net",
-    //      "did_set_pw":0,"study_start_date":null,"days_left":30,"num_complete _surveys":0,"earnings":0,"survey_status":"closed"}
-
 
     public APIHelper(String username, String email) {
         client = new OkHttpClient();
@@ -82,8 +82,21 @@ public class APIHelper {
     }
 
     public JSONObject parseUserInfo() throws Exception {
-        JSONObject info = new JSONObject(userReturnStr);
-        return info;
+        if(userReturnStr == null) {
+            getUser();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        userInfo = new JSONObject(userReturnStr);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 1000);
+        }
+        userInfo = new JSONObject(userReturnStr);
+        return userInfo;
     }
 
     public String getEarnings() {
@@ -102,11 +115,26 @@ public class APIHelper {
 
     public int didSetPass() {
         try {
-            return parseUserInfo().getInt("did_set_pw");
+             int i = parseUserInfo().getInt("did_set_pw");
+             Log.e(TAG, userReturnStr);
+             return i;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
         return 0;
+    }
+
+    public boolean didStartStudy() {
+        try {
+
+             if(parseUserInfo().getString("study_start_date") != null)
+                 return true;
+             else
+                 return false;
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
+        return false;
     }
 
     public String getDaysLeft() {
@@ -662,4 +690,7 @@ public class APIHelper {
             return String.format("%10.2f", number); // dj_segfault
         }
     }
+
+
+
 }

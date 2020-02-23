@@ -1,8 +1,12 @@
 package com.STIRlab.ema_diary.Activities;
 
+import android.Manifest;
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -10,10 +14,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.Helpers.SwitchTheme;
 import com.STIRlab.ema_diary.R;
 
@@ -22,7 +30,7 @@ public class SplashScreen extends AppCompatActivity {
     private SharedPreferences SP;
     private String localPin;
     private boolean remember;
-    private CognitoSettings cognitoSettings;
+    private APIHelper client;
 
     private String TAG = "SPLASH";
 
@@ -31,29 +39,44 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        if (SwitchTheme.getInstance(SplashScreen.this).isDark())
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         SP = getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         localPin = SP.getString("Pin", "null");
         remember = SP.getBoolean("Remember", false);
 
-        Log.i(TAG, String.valueOf(remember));
+        Log.e(TAG, String.valueOf(remember));
 
         if (!localPin.equals("null")) {
             Intent i = new Intent(SplashScreen.this, PinActivity.class);
-            startActivity(i);
-            finish();
+            startActivityForResult(i, 10);
         } else if (remember) {
-            Intent main = new Intent(SplashScreen.this, MainActivity.class);
-            startActivity(main);
+            boolean hasPermissions = isAccessGranted(this);
+            if(hasPermissions) {
+                Intent main = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(main);
+            }
+            else
+            {
+                Intent data = new Intent(this, ManifestActivity.class);
+                startActivityForResult(data, 10);
+            }
             finish();
         } else {
             Intent main = new Intent(SplashScreen.this, AuthenticationActivity.class);
             startActivity(main);
             finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case 10:
+                Intent main = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(main);
+                finish();
+                break;
         }
     }
 
@@ -88,4 +111,20 @@ public class SplashScreen extends AppCompatActivity {
         }
         return false;
     }
+
+    private boolean isAccessGranted(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            int mode = 0;
+            mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                    applicationInfo.uid, applicationInfo.packageName);
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
 }

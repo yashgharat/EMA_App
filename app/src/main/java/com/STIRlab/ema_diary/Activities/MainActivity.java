@@ -1,9 +1,12 @@
 package com.STIRlab.ema_diary.Activities;
 
+import android.app.AppOpsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
@@ -137,17 +140,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (SP.getBoolean("virgin", true)) {
-            SP.edit().putBoolean("virgin", false).apply();
-
-            CountDownLatch latch = new CountDownLatch(1);
 
             int didSetPass = client.didSetPass();
-            latch.countDown();
-            try {
-                latch.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Log.i(TAG, "Set Pass?: " + didSetPass);
             if (didSetPass == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
@@ -155,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(this, CreatePinUIActivity.class);
                 startActivityForResult(i, 20);
             }
+
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
 
@@ -169,9 +165,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 notificationHelper.setNotification(this);
             }
-        }
 
-        SP.edit().putBoolean("Remember", true).apply();
+            SP.edit().putBoolean("virgin", false).apply();
+        }
 
         try {
             String pass = client.finishedPost();
@@ -359,8 +355,6 @@ public class MainActivity extends AppCompatActivity {
 
         int curDay = statuses.length();
 
-        Log.e(TAG, "curday: " + curDay);
-
         for (int i = 0; i < 5; i++) {
             String curStatus = statuses.getString(i);
 
@@ -377,7 +371,6 @@ public class MainActivity extends AppCompatActivity {
 
                 } else if (curStatus.equals("pending") || curStatus.equals("open")) {
 
-                    Log.e(TAG, "inPending");
                     progressBar[i].setImageResource(R.drawable.yellow_border);
 
                 } else if (curStatus.equals("missed") || curStatus.equals("closed")) {
@@ -406,7 +399,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCardColor() {
-        Log.i(TAG, cardStatus);
         if (cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed")) {
             cardTitle.setText("Come Back at 2 PM");
             cardMsg.setText("Daily Journal will be available later");
@@ -601,11 +593,18 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 10:
                 Intent i = new Intent(this, CreatePinUIActivity.class);
-                startActivityForResult(i, 20);
                 break;
             case 20:
+                boolean hasPermissions = isAccessGranted(this);
                 Intent o = new Intent(this, ManifestActivity.class);
-                startActivityForResult(o, 30);
+
+                SP.edit().putBoolean("Remember", true).apply();
+
+                Log.e(TAG, String.valueOf(hasPermissions));
+
+                if (!hasPermissions)
+                    startActivityForResult(o, 30);
+                break;
             case 30:
                 break;
             case 50:
@@ -614,7 +613,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
 
     @Override
@@ -632,6 +630,11 @@ public class MainActivity extends AppCompatActivity {
         cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
 
+        if(CognitoSettings.isLocked == -1)
+            CognitoSettings.isLocked *= -1;
+        else if (SP.getString("Pin", null) != null && CognitoSettings.isLocked == 1)
+            startActivity(new Intent(this, PinActivity.class));
+
     }
 
     private String currencyFormat(double amount) {
@@ -640,6 +643,21 @@ public class MainActivity extends AppCompatActivity {
         format.setCurrency(Currency.getInstance(Locale.getDefault()));
 
         return format.format(amount);
+    }
+
+    private boolean isAccessGranted(Context context) {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(context.getPackageName(), 0);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+            int mode = 0;
+            mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
+                    applicationInfo.uid, applicationInfo.packageName);
+            return (mode == AppOpsManager.MODE_ALLOWED);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
 

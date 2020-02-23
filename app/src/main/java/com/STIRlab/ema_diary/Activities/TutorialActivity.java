@@ -54,10 +54,8 @@ public class TutorialActivity extends AppCompatActivity {
         ok = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!isAccessGranted()) {
-                    Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
-                    startActivityForResult(intent, 10);
-                }
+                Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+                startActivityForResult(intent, 10);
                 btnScrape.setButtonText("Next");
                 btnScrape.setButtonOnClickListener(next);
             }
@@ -86,14 +84,13 @@ public class TutorialActivity extends AppCompatActivity {
         btnScrape.setButtonOnClickListener(ok);
 
 
-        
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode){
+        switch (requestCode) {
             case 10:
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONESTATE);
@@ -104,20 +101,5 @@ public class TutorialActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isAccessGranted() {
-        try {
-            PackageManager packageManager = this.getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(this.getPackageName(), 0);
-            AppOpsManager appOpsManager = (AppOpsManager) this.getSystemService(this.APP_OPS_SERVICE);
-            int mode = 0;
-            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.KITKAT) {
-                mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
-                        applicationInfo.uid, applicationInfo.packageName);
-            }
-            return (mode == AppOpsManager.MODE_ALLOWED);
 
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
-    }
 }

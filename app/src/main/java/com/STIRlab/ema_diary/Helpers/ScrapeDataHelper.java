@@ -1,6 +1,6 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.app.usage.UsageEvents;
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -76,6 +76,8 @@ public class ScrapeDataHelper {
         backgroundWorker.execute();
         return true;
     }
+
+
 
 
 

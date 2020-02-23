@@ -98,8 +98,6 @@ public class CreatePinActivity extends AppCompatActivity {
             public boolean onTextComplete(@NotNull String str) {
                 editor.putString("Pin", str).apply();
                 finish();
-                if(isFirst)
-                    startActivity(new Intent(CreatePinActivity.this, ManifestActivity.class));
                 return false;
             }
         });

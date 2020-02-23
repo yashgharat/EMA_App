@@ -31,6 +31,7 @@ public class CognitoSettings {
 
     private Context context;
     public static Context staticContext;
+    public static int isLocked = 1;
 
     public CognitoSettings(Context context) {
         this.context = context;
