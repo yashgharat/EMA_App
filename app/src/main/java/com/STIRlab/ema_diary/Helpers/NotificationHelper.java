@@ -20,6 +20,7 @@ import static android.content.Context.ALARM_SERVICE;
 public class NotificationHelper {
 
     private static final String TAG = "NOTIFICATION_HELPER";
+    private final int DAY_IN_MS = 86400000;
     private Context context;
     private SharedPreferences SP;
 
@@ -53,7 +54,12 @@ public class NotificationHelper {
             Log.i(TAG, hour + ":" + min);
             Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
 
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            long notifTime = calendar.getTimeInMillis();
+
+            if (notifTime - System.currentTimeMillis() < 0)
+                notifTime += DAY_IN_MS;
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifTime, AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
@@ -86,7 +92,12 @@ public class NotificationHelper {
         Log.i(TAG, hour + ":" + min);
         Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        long notifTime = calendar.getTimeInMillis();
+
+        if (notifTime - System.currentTimeMillis() < 0)
+            notifTime += DAY_IN_MS;
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifTime, AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
 

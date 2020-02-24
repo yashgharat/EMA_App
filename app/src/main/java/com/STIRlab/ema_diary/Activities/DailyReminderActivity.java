@@ -1,14 +1,11 @@
 package com.STIRlab.ema_diary.Activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,10 +13,6 @@ import com.STIRlab.ema_diary.Helpers.CustomTimePicker;
 import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class DailyReminderActivity extends AppCompatActivity {
 
@@ -31,6 +24,7 @@ public class DailyReminderActivity extends AppCompatActivity {
     private NotificationHelper notificationHelper;
     private SharedPreferences SP;
 
+    private Boolean didChangeTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +34,7 @@ public class DailyReminderActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
         notificationHelper = new NotificationHelper(this);
+        didChangeTime = false;
 
         prev = findViewById(R.id.daily_reminder_previous);
         timePicker = findViewById(R.id.time_picker);
@@ -51,15 +46,27 @@ public class DailyReminderActivity extends AppCompatActivity {
             }
         });
 
+        int initHour = SP.getInt("hour", 14);
+        int initMinute = SP.getInt("minute", 0);
+
 
         timePicker.setIs24HourView(false);
-        timePicker.setHour(SP.getInt("hour", 14));
-        timePicker.setMinute(SP.getInt("minute", 0));
+        timePicker.setHour(initHour);
+        timePicker.setMinute(initMinute);
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
-            public void onTimeChanged(TimePicker timePicker, int hourofDay, int mins) { ;
-                SP.edit().putInt("hour", hourofDay).apply();
-                SP.edit().putInt("minute", mins).apply();
+            public void onTimeChanged(TimePicker timePicker, int hourofDay, int mins) {
+                if (hourofDay != initHour) {
+                    SP.edit().putInt("hour", hourofDay).apply();
+                    didChangeTime = true;
+                } else if (mins != initMinute) {
+                    SP.edit().putInt("minute", mins).apply();
+                    didChangeTime = true;
+                } else {
+                    SP.edit().putInt("hour", initHour).apply();
+                    SP.edit().putInt("minute", initMinute).apply();
+                    didChangeTime = false;
+                }
             }
         });
     }
@@ -97,7 +104,8 @@ public class DailyReminderActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {
-        setNotification(this);
+        if (didChangeTime)
+            setNotification(this);
         super.onStop();
     }
 
