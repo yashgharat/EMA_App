@@ -34,4 +34,5 @@
     <string name="press_allow_on_the_dialog">Press <b>Allow</b> on the dialog</string>
     <string name="press_next_below">Press <b>Next</b> below</string>
     <string name="permit_usage_access">Tap <b>Permit Usage Access</b> for 30 Days</string>
+    <string name="pass_para">Your password must contain 8 characters and at least one number</string>
 </resources>
