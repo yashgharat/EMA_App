@@ -311,6 +311,7 @@
                                     android:id="@+id/msg_journal"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
                                     android:layout_marginStart="15dp"
                                     android:layout_marginBottom="20dp"
                                     android:text="Due by Midnight"
@@ -418,6 +419,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="15dp"
                                     android:layout_marginBottom="20dp"
+                                    android:layout_marginTop="8dp"
                                     android:text="Upload online experiences anytime."
                                     android:textColor="@color/apparent"
                                     android:textSize="15sp"
@@ -425,6 +427,7 @@
                                     app:layout_constraintTop_toBottomOf="@id/title_screenshots" />
 
                                 <ImageView
+                                    android:id="@+id/card_screenshots_bonus"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="10dp"
@@ -517,6 +520,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:layout_marginBottom="20dp"
+                                android:layout_marginTop="8dp"
                                 android:text="Read the FAQ or get support"
                                 android:textColor="@color/apparent"
                                 android:textSize="15sp"
@@ -576,6 +580,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="15dp"
                                 android:layout_marginBottom="20dp"
+                                android:layout_marginTop="8dp"
                                 android:text="Customize daily reminders and more"
                                 android:textColor="@color/apparent"
                                 android:textSize="15sp"

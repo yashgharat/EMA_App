@@ -19,6 +19,8 @@ public class LifeCycleHelper implements LifecycleObserver {
     private Context context;
     private SharedPreferences SP;
 
+    public static boolean flag = true;
+
     public LifeCycleHelper(Context context) {
         this.context = context;
         SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
@@ -31,8 +33,10 @@ public class LifeCycleHelper implements LifecycleObserver {
 
         if (!isNetworkAvailable(context))
             context.startActivity(new Intent(context, AuthenticationActivity.class));
-        else if (SP.getString("Pin", null) != null)
+        else if (SP.getString("Pin", null) != null && flag)
             context.startActivity(new Intent(context, PinActivity.class));
+
+        LifeCycleHelper.flag = true;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

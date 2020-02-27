@@ -32,7 +32,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="30dp"
-            android:text="Data Usage"
+            android:text="Device Data"
             android:textColor="@color/prominent"
             android:textSize="40sp"
             android:textStyle="bold" />

@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -36,6 +37,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -76,18 +78,16 @@ public class AuthenticationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authentication);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-
         editTextPassword = findViewById(R.id.password);
         editTextEmail = findViewById(R.id.email);
         forgotPassword = findViewById(R.id.forgot_password_link);
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
-        localPin = SP.getInt("Pin", -1);
-        editor.putString("pinTitle", "Set a Passcode");
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
 
+        LifeCycleHelper.flag = false;
 
         final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
             @Override

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.R;
 
 public class CreatePinUIActivity extends AppCompatActivity {
@@ -28,6 +29,7 @@ public class CreatePinUIActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_pin_ui);
+        LifeCycleHelper.flag = false;
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 

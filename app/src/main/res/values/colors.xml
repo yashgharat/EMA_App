@@ -15,6 +15,7 @@
     <color name="disabled">#B5B5C4</color>
     <color name="unapparent">#F0F0F5</color>
     <color name="themeBackground">#FAFAFC</color>
+    <color name="white">#FFF</color>
 
 </resources>
 

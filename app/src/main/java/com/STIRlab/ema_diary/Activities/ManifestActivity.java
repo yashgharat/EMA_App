@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 
@@ -37,6 +38,8 @@ public class ManifestActivity extends AppCompatActivity {
         btnGrant = findViewById(R.id.button_grant_access);
         lblMoreInfo = findViewById(R.id.more_info);
         signOut = findViewById(R.id.data_signout);
+
+        LifeCycleHelper.flag = false;
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +98,8 @@ public class ManifestActivity extends AppCompatActivity {
                 break;
         }
     }
-
     @Override
-    public void onBackPressed() {
+    public void onBackPressed(){}
 
-    }
+
 }

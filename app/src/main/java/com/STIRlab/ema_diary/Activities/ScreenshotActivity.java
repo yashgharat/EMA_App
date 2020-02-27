@@ -133,35 +133,36 @@ public class ScreenshotActivity extends AppCompatActivity {
                     submit.setEnabled(true);
                     submit.setButtonColor(getColor(R.color.primaryDark));
                     submit.setTextColor(getColor(R.color.themeBackground));
+
+                    submit.setButtonOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            String uploadText = inputInteraction.getText().toString();
+                            String userid = SP.getString("username", "null");
+
+                            if (bitmap != null) {
+
+                                submit(uploadText);
+
+                                try {
+                                    thread.join();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                inputInteraction.setText("");
+                                thumbnail.setImageBitmap(null);
+                                finish();
+                            }
+                        }
+                    });
+
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-            }
-        });
-
-        submit.setButtonOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String uploadText = inputInteraction.getText().toString();
-                String userid = SP.getString("username", "null");
-
-                if (bitmap != null) {
-
-                    submit(uploadText);
-
-                    try {
-                        thread.join();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    inputInteraction.setText("");
-                    thumbnail.setImageBitmap(null);
-                    finish();
-                }
             }
         });
 

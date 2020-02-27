@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
 import com.STIRlab.ema_diary.R;
 
@@ -45,6 +46,8 @@ public class TutorialActivity extends AppCompatActivity {
 
         btnScrape = findViewById(R.id.button_scrape);
 
+        LifeCycleHelper.flag = false;
+
         btnScrape.setButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +73,7 @@ public class TutorialActivity extends AppCompatActivity {
                 dataHelper.scrape();
                 btnScrape.setClickable(false);
                 long delayInMillis = 3000;
+                LifeCycleHelper.flag = false;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -91,6 +95,7 @@ public class TutorialActivity extends AppCompatActivity {
 
         switch (requestCode) {
             case 10:
+                LifeCycleHelper.flag = false;
                 if(isAccessGranted(this)) {
                     btnScrape.setButtonText("Next");
                     btnScrape.setButtonOnClickListener(next);
@@ -98,7 +103,6 @@ public class TutorialActivity extends AppCompatActivity {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.READ_PHONE_STATE}, PHONESTATE);
                     int i = checkSelfPermission(Manifest.permission.READ_PHONE_STATE);
-                    Log.i(TAG, String.valueOf(i));
                 }
 
                 break;

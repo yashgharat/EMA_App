@@ -110,7 +110,7 @@ public class AllEarningsActivity extends AppCompatActivity {
                     }
                     try {
                         allEarnings.setText(currencyFormat(totalEarnings));
-                        possibleEarnings.setText("Will earn " + currencyFormat(maybeEarnings) + " if pending items are approved");
+                        possibleEarnings.setText("Will earn " + currencyFormat(maybeEarnings) + " if the researcher approves the completeness and quality of remaining items");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

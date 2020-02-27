@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     private JSONArray statuses;
 
     private ImageView[] progressBar;
-    private ImageView info, journalState, dashLogo;
+    private ImageView info, journalState, dashLogo, screenshotState;
 
     private String cardStatus, username, email;
 
@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
         layoutJournal = findViewById(R.id.journal);
         journalState = findViewById(R.id.journal_drawable);
+        screenshotState = findViewById(R.id.card_screenshots_bonus);
 
         numSurveys = findViewById(R.id.num_surveys);
         numScreenshots = findViewById(R.id.num_screenshots);
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
         info = findViewById(R.id.main_info);
+
 
         initUser();
 
@@ -310,6 +312,8 @@ public class MainActivity extends AppCompatActivity {
                     totalEntries.setTextColor(getBonusColor(periodSurveyBonusStatus, context));
                     totalScreenshots.setTextColor(getBonusColor(periodThoughtBonusStatus, context));
 
+                    screenshotState.setImageTintList(ColorStateList.valueOf(getBonusColor(periodThoughtBonusStatus, context)));
+
                     numSurveys.setText(surveyCount);
                     numScreenshots.setText(screenshotCount);
 
@@ -420,10 +424,10 @@ public class MainActivity extends AppCompatActivity {
     public void setCardColor() {
         if (cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed")) {
             cardTitle.setText("Come Back at 2 PM");
-            cardMsg.setText("Daily Journal will be available later");
+            cardMsg.setText("Daily Journal entry available soon");
 
-            cardTitle.setTextColor(getResources().getColor(R.color.black));
-            cardMsg.setTextColor(getResources().getColor(R.color.normal));
+            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
+            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_remove_circle_black_20dp));
             journalState.setColorFilter(getResources().getColor(R.color.disabled));
@@ -505,45 +509,46 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (cardStatus.equals("submitted")) {
             cardTitle.setText("Daily Journal Complete");
-            cardMsg.setText("Waiting for researcher to approve");
+            cardMsg.setText("Next entry available tomorrow");
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-            cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
-            cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
+            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
+            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.primaryDark));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.primaryDark));
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.white));
 
         } else if (cardStatus.equals("approved")) {
-            cardTitle.setText("Daily Journal Complete");
-            cardMsg.setText("Researcher approved");
+            cardTitle.setText("Daily Journal Entry Apprvoed");
+            cardMsg.setText("Next entry available tomorrow");
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-            cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
-            cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
+            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
+            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.positive));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.positive));
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.white));
 
         } else if (cardStatus.equals("rejected")) {
-            cardTitle.setText("Daily Journal Complete");
-            cardMsg.setText("Researcher approved");
+            cardTitle.setText("Daily Journal Entry Rejected");
+            cardMsg.setText("Next entry available tomorrow");
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-            cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
-            cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
+            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
+            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_close_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+            journalState.setColorFilter(getResources().getColor(R.color.destructive));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.destructive));
+            layoutJournal.setBackgroundColor(getResources().getColor(R.color.white));
+
 
         }
     }

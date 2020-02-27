@@ -19,7 +19,7 @@
     <string name="first_time">First time?</string>
     <string name="localPin" />
     <string name="agreement_p1">Thank you for agreeing to participate in 30 Days. Please grant access to device data and usage below.</string>
-    <string name="agreement_p2">We know that privacy is a big deal, so your personal information will be protected using advanced encryption and anonymized.</string>
+    <string name="agreement_p2">Your privacy matters to us, so your personal information will be anonymized and protected using advanced encryption.</string>
     <string name="moreInfo_p1">The following types of data will be collected to help us get a better understanding of teens’ social media usage:</string>
     <string name="moreInfo_p2">• Which apps are installed\n• Time spent using the device\n• Time spent using each app</string>
     <string name="dealAnswer">The deal has to do with: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sed adipiscing diam donec adipiscing tristique risus nec. In pellentesque massa placerat duis ultricies lacus. Sit amet massa vitae tortor condimentum lacinia. Nisl vel pretium lectus quam id. Fermentum dui faucibus in ornare quam viverra. Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Varius sit amet mattis vulputate. Non sodales neque sodales ut etiam sit amet nisl. Et malesuada fames ac turpis egestas sed tempus urna et. Quisque egestas diam in arcu cursus euismod quis. Dignissim diam quis enim lobortis scelerisque.\n</string>
@@ -35,4 +35,5 @@
     <string name="press_next_below">Press <b>Next</b> below</string>
     <string name="permit_usage_access">Tap <b>Permit Usage Access</b> for 30 Days</string>
     <string name="pass_para">Your password must contain 8 characters and at least one number</string>
+    <string name="moreInfo_p3">We do not automatically collect your social media data or other personal data (other than listed above), or what you do in each app.</string>
 </resources>
