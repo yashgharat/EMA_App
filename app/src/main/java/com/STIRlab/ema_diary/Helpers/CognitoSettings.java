@@ -15,6 +15,13 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.regions.Regions;
 
+import java.io.IOException;
+import java.security.Key;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.security.cert.CertificateException;
+
 public class CognitoSettings {
     private static String TAG = "CognitoSettings";
     private String userPoolId = "us-east-1_CTJ2jfjlB";
@@ -24,11 +31,8 @@ public class CognitoSettings {
 
     public static CognitoUser user = null;
     public static String oldPass = null;
-
-
     private static CognitoUserSession currSession;
-    private String username;
-
+    private KeyStoreHelper keyStoreHelper;
     private Context context;
     public static Context staticContext;
     public static int isLocked = 1;
@@ -68,14 +72,16 @@ public class CognitoSettings {
         String dwString = SP.getString("dwString", "null");
 
         CognitoUserPool pool = getUserPool();
-
         CognitoUser thisUser = pool.getUser(email);
+        try {
+            keyStoreHelper = new KeyStoreHelper();
+            Log.e(TAG, keyStoreHelper.decryptData("password" , KeyStoreHelper.encryption, keyStoreHelper.getIv()));
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
         thisUser.getSession(new AuthenticationHandler() {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-                Log.i(TAG, "SUCCESS");
-                return;
-
             }
 
             @Override

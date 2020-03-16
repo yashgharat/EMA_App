@@ -8,6 +8,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.KeyStoreHelper;
 import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
@@ -36,9 +39,19 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+
+import javax.crypto.Cipher;
+import javax.security.cert.CertificateException;
 
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 import de.mustafagercek.library.LoadingButton;
@@ -63,6 +76,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private AlertDialog userDialog;
     private EditText editTextEmail, editTextPassword;
 
+    private KeyStoreHelper keyStoreHelper;
 
     private Executor executor = new Executor() {
         @Override
@@ -86,6 +100,11 @@ public class AuthenticationActivity extends AppCompatActivity {
         editor = SP.edit();
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
+        try {
+            keyStoreHelper = new KeyStoreHelper();
+        } catch (Exception e) {
+            Log.e(TAG, e.toString());
+        }
 
         LifeCycleHelper.flag = false;
 
@@ -104,7 +123,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                 Log.i(TAG, "Username: " + userSession.getUsername());
 
                 editor.putString("username", userSession.getUsername()).apply();
-
 
                 thisUser = cognitoSettings.getUserPool()
                         .getUser(String.valueOf(editTextEmail.getText()));
@@ -208,6 +226,11 @@ public class AuthenticationActivity extends AppCompatActivity {
                     Log.i(TAG, "Login button clicked....");
 
                     SP.edit().putString("dwString", String.valueOf(editTextPassword.getText())).apply();
+                    try {
+                        keyStoreHelper.encryptText("password", String.valueOf(editTextPassword.getText()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     thisUser.getSessionInBackground(authenticationHandler);
                 } else {
