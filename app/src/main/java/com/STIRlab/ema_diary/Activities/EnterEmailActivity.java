@@ -52,6 +52,7 @@ public class EnterEmailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String username = editTextEmail.getText().toString();
+                sendEmail.setOnClickListener(null);
 
                 if (username.length() > 0 && isValid(username)) {
                     cognitoSettings.getUserPool().getUser(username).forgotPasswordInBackground(new ForgotPasswordHandler() {

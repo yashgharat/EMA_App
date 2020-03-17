@@ -76,6 +76,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
+            android:drawableStart="@mipmap/ic_back"
+            android:drawablePadding="14dp"
+            android:gravity="center_vertical"
+            android:text="@string/return_to_this_screen"
+            android:textColor="@color/prominent"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
             android:drawableStart="@mipmap/ic_phone"
             android:drawablePadding="14dp"
             android:gravity="center_vertical"
