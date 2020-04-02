@@ -17,8 +17,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.KeyStoreHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.security.cert.CertificateException;
 
 public class NewPassword extends AppCompatActivity {
 
@@ -31,12 +38,14 @@ public class NewPassword extends AppCompatActivity {
     private AlertDialog userDialog;
     private TextView signOut;
 
+    private KeyStoreHelper keyStoreHelper;
+    private final static String KEY_ALIAS = "ANDROID_KEY";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
@@ -50,6 +59,11 @@ public class NewPassword extends AppCompatActivity {
         signOut = findViewById(R.id.new_pass_signout);
 
         String oldPass = SP.getString("oldPass","null");
+        try {
+            keyStoreHelper = new KeyStoreHelper();
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override

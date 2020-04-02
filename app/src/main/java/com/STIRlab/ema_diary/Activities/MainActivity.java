@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.STIRlab.ema_diary.Activities.Earnings.AllEarningsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
+import com.STIRlab.ema_diary.Helpers.KeyStoreHelper;
 import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
 import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.Helpers.ScrapeDataHelper;
@@ -47,14 +49,27 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableEntryException;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.security.cert.CertificateException;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MAIN";
+    private final static String KEY_ALIAS = "ANDROID_KEY";
 
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
@@ -79,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private ScrapeDataHelper scraper;
     private NotificationHelper notificationHelper;
     private LifeCycleHelper lifeCycleHelper;
+    KeyStoreHelper keyStoreHelper;
 
     private int statusLength;
     private JSONArray statuses;
@@ -103,7 +119,13 @@ public class MainActivity extends AppCompatActivity {
 
         cognitoSettings = new CognitoSettings(this);
         pool = cognitoSettings.getUserPool();
-        cognitoSettings.refreshSession(SP);
+        cognitoSettings.getToken(SP);
+
+        try {
+            keyStoreHelper = new KeyStoreHelper();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         client = new APIHelper(username, email);
         scraper = new ScrapeDataHelper(this);
@@ -149,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
         if (SP.getBoolean("virgin", true)) {
 
             int didSetPass = client.didSetPass();
-            Log.i(TAG, "Set Pass?: " + didSetPass);
             if (didSetPass == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
@@ -242,12 +263,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        Button scrapeBtn = findViewById(R.id.scrapeBtn);
-//        scrapeBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                scraper.scrape();
-//            }
-//        });
+//        scrapeBtn.setOnClickListener(
+//                view -> {
+//                    try {
+//                        Log.e(TAG, cognitoSettings.getToken(SP));
+//                    } catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                });
 
 
     }

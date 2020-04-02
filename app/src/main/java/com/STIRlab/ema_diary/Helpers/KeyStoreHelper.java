@@ -55,8 +55,22 @@ public class KeyStoreHelper {
         return (encryption = cipher.doFinal(textToEncrypt.getBytes("UTF-8")));
     }
 
+
+
+    public String decryptData(final String alias)
+            throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException,
+            NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException,
+            BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
+
+        final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+        final GCMParameterSpec spec = new GCMParameterSpec(128, iv);
+        cipher.init(Cipher.DECRYPT_MODE, getSecretKey(alias), spec);
+
+        return new String(cipher.doFinal(encryption), "UTF-8");
+    }
+
     @NonNull
-    private SecretKey makeSecretKey(final String alias) throws NoSuchAlgorithmException,
+    private SecretKey getSecretKey(final String alias) throws NoSuchAlgorithmException,
             NoSuchProviderException, InvalidAlgorithmParameterException {
 
         final KeyGenerator keyGenerator = KeyGenerator
@@ -77,24 +91,6 @@ public class KeyStoreHelper {
 
     byte[] getIv() {
         return iv;
-    }
-
-
-    String decryptData(final String alias, final byte[] encryptedData, final byte[] encryptionIv)
-            throws UnrecoverableEntryException, NoSuchAlgorithmException, KeyStoreException,
-            NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException,
-            BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
-
-        final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-        final GCMParameterSpec spec = new GCMParameterSpec(128, encryptionIv);
-        cipher.init(Cipher.DECRYPT_MODE, getSecretKey(alias), spec);
-
-        return new String(cipher.doFinal(encryptedData), "UTF-8");
-    }
-
-    private SecretKey getSecretKey(final String alias) throws NoSuchAlgorithmException,
-            UnrecoverableEntryException, KeyStoreException {
-        return ((KeyStore.SecretKeyEntry) keyStore.getEntry(alias, null)).getSecretKey();
     }
 
 }

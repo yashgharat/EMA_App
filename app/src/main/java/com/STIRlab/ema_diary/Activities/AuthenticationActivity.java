@@ -154,7 +154,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 /*need to get the userId & password to continue*/
                 AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId
-                        , String.valueOf(editTextPassword.getText().toString()), null);
+                        , editTextPassword.getText().toString(), null);
 
                 // Pass the user sign-in credentials to the continuation
                 authenticationContinuation.setAuthenticationDetails(authenticationDetails);

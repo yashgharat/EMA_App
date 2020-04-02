@@ -24,6 +24,8 @@ import javax.security.cert.CertificateException;
 
 public class CognitoSettings {
     private static String TAG = "CognitoSettings";
+    private final static String KEY_ALIAS = "ANDROID_KEY";
+
     private String userPoolId = "us-east-1_CTJ2jfjlB";
     private String clientId = "3pa7lb4mrprsaaqutoua1vvi3t";
     private String clientSecret = "143c0dti692kj0r405bhv8l97eq0lc4su4ueejapjv1fuo11kpte";
@@ -36,6 +38,8 @@ public class CognitoSettings {
     private Context context;
     public static Context staticContext;
     public static int isLocked = 1;
+
+    private String accessToken;
 
     public CognitoSettings(Context context) {
         this.context = context;
@@ -66,22 +70,24 @@ public class CognitoSettings {
         return cognitoRegion;
     }
 
-    public void refreshSession(SharedPreferences SP){
+    public String getToken(SharedPreferences SP){
+        refreshSession(SP);
+        return accessToken;
+    }
 
+    private void refreshSession(SharedPreferences SP){
         String email = SP.getString("email", "null");
         String dwString = SP.getString("dwString", "null");
 
         CognitoUserPool pool = getUserPool();
         CognitoUser thisUser = pool.getUser(email);
-        try {
-            keyStoreHelper = new KeyStoreHelper();
-            Log.e(TAG, keyStoreHelper.decryptData("password" , KeyStoreHelper.encryption, keyStoreHelper.getIv()));
-        } catch (Exception e) {
-            Log.e(TAG, e.toString());
-        }
+
         thisUser.getSession(new AuthenticationHandler() {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                Log.e(TAG, userSession.getAccessToken().getJWTToken());
+
+                accessToken = userSession.getAccessToken().getJWTToken();
             }
 
             @Override
