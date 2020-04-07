@@ -59,11 +59,6 @@ public class NewPassword extends AppCompatActivity {
         signOut = findViewById(R.id.new_pass_signout);
 
         String oldPass = SP.getString("oldPass","null");
-        try {
-            keyStoreHelper = new KeyStoreHelper();
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        }
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +114,7 @@ public class NewPassword extends AppCompatActivity {
                         public void onFailure(Exception exception) {
 
                             showDialogMessage("Password change failed", CognitoSettings.formatException(exception), false);
-                            Log.i(TAG + "FAILURE", exception.toString());
+                             Log.i(TAG + "FAILURE", exception.toString());
                         }
                     });
             }
