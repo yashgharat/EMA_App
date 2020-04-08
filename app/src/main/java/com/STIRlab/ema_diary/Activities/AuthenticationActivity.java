@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.KeyStoreHelper;
 import com.STIRlab.ema_diary.Helpers.LifeCycleHelper;
@@ -77,6 +78,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     private EditText editTextEmail, editTextPassword;
 
     private KeyStoreHelper keyStoreHelper;
+    private APIHelper client;
 
     private Executor executor = new Executor() {
         @Override
@@ -98,6 +100,8 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
+
+
 
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
         try {
@@ -129,6 +133,10 @@ public class AuthenticationActivity extends AppCompatActivity {
                 CognitoSettings.user = thisUser;
 
                 editor.putString("email", editTextEmail.getText().toString()).apply();
+
+                client = new APIHelper(userSession.getUsername(), editTextEmail.getText().toString());
+
+                initUser();
 
                 editor.putString("refToken", refToken).apply();
 
@@ -306,6 +314,20 @@ public class AuthenticationActivity extends AppCompatActivity {
         userDialog = builder.create();
         userDialog.show();
 
+    }
+
+    private void initUser() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    client.getUser(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 
 

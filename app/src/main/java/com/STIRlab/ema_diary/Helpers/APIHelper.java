@@ -1,6 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
@@ -37,6 +38,9 @@ public class APIHelper {
     private String userReturnStr, earningsReturnStr, historyReturnStr, userid, email;
     private JSONObject history, userInfo;
 
+    private CognitoSettings cognitoSettings;
+    private SharedPreferences SP;
+
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // baseURL
@@ -53,13 +57,14 @@ public class APIHelper {
         this.email = email;
     }
 
-
-    public String getUser() throws Exception {
+    public String getUser(boolean isInit) throws Exception {
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         String url = baseURL + "user?id=" + beginQuote +
-                encodeValue(userid) + endQuote + "&email=" + beginQuote + encodeValue(email) + endQuote;
+                encodeValue(userid) + endQuote + ((isInit) ? "&email=" + beginQuote + encodeValue(email) + endQuote: "");
+
+
 
         getRequestHelper(url, new Callback() {
             @Override
@@ -91,7 +96,7 @@ public class APIHelper {
 
     public JSONObject parseUserInfo() throws Exception {
         if(userReturnStr == null) {
-            getUser();
+            getUser(false);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -640,11 +645,19 @@ public class APIHelper {
         return userReturnStr;
     }
 
+    public void makeCognitoSettings(Context context) {
+        cognitoSettings = new CognitoSettings(context);
+        SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
+
+    }
 
     private Call patchRequestHelper(String url, Callback callback) {
+        String token = cognitoSettings.getToken(SP);
+
         Request request = new Request.Builder()
                 .url(url)
                 .patch(RequestBody.create(null, new byte[0]))
+                .addHeader("Authorization", token)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -653,9 +666,11 @@ public class APIHelper {
 
 
     private Call getRequestHelper(String url, Callback callback) {
+        String token = cognitoSettings.getToken(SP);
 
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("Authorization", token)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -663,9 +678,12 @@ public class APIHelper {
     }
 
     private Call postRequestHelper(String url, RequestBody rBody, Callback callback) {
+        String token = cognitoSettings.getToken(SP);
+
         Request request = new Request.Builder()
                 .url(url)
                 .post(rBody)
+                .addHeader("Authorization", token)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -673,8 +691,11 @@ public class APIHelper {
     }
 
     private Call putRequestHelper(String url, RequestBody rBody, Callback callback) {
+        String token = cognitoSettings.getToken(SP);
+
         Request request = new Request.Builder()
                 .url(url)
+                .addHeader("Authorization", token)
                 .put(rBody)
                 .build();
         Call call = client.newCall(request);

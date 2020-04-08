@@ -191,17 +191,6 @@ public class MainActivity extends AppCompatActivity {
             SP.edit().putBoolean("virgin", false).apply();
         }
 
-        try {
-            String pass = client.finishedPost();
-            if (!pass.equals("null")) {
-                Intent post = new Intent(this, PostActivity.class);
-                post.putExtra("data", pass);
-                startActivity(post);
-            }
-        } catch (Exception e) {
-            Log.i(TAG, CognitoSettings.formatException(e));
-        }
-
 
         init(this);
 
@@ -280,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    client.getUser();
+                    client.getUser(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -317,6 +306,17 @@ public class MainActivity extends AppCompatActivity {
             String periodScreenshotCount = Integer.toString(client.getPeriodThoughtCount());
             String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
             String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
+
+            try {
+                String postDate = client.finishedPost();
+                if (postDate.equals("null") && Integer.parseInt(daysLeft) == 0) {
+                    Intent post = new Intent(context, PostActivity.class);
+                    post.putExtra("data", postDate);
+                    startActivity(post);
+                }
+            } catch (Exception e) {
+                Log.i(TAG, CognitoSettings.formatException(e));
+            }
 
 
             cardStatus = null;
@@ -577,6 +577,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int getBonusColor(String status, Context context) {
+
         if (status.equals("submitted")) {
             return context.getColor(R.color.primaryDark);
         } else if (status.equals("open")) {

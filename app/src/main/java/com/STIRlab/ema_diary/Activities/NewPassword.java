@@ -60,6 +60,8 @@ public class NewPassword extends AppCompatActivity {
 
         String oldPass = SP.getString("oldPass","null");
 
+        initUser();
+
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +123,20 @@ public class NewPassword extends AppCompatActivity {
         });
 
 
+    }
+
+    private void initUser() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    client.getUser(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {

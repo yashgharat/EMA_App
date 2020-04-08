@@ -80,7 +80,7 @@ public class PostActivity extends AppCompatActivity {
         });
 
         try {
-            Log.i(TAG, client.getUser());
+            Log.i(TAG, client.getUser(false));
         } catch (Exception e) {
             e.printStackTrace();
         }
