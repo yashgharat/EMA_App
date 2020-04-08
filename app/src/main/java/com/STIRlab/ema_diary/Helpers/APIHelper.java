@@ -44,7 +44,7 @@ public class APIHelper {
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // baseURL
-    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
+    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
 
     public APIHelper(String username, String email) {
         client = new OkHttpClient.Builder()
@@ -63,7 +63,6 @@ public class APIHelper {
 
         String url = baseURL + "user?id=" + beginQuote +
                 encodeValue(userid) + endQuote + ((isInit) ? "&email=" + beginQuote + encodeValue(email) + endQuote: "");
-
 
 
         getRequestHelper(url, new Callback() {
@@ -194,7 +193,9 @@ public class APIHelper {
 
 
     public JSONArray getStatuses() throws Exception {
-        return parseUserInfo().getJSONObject("surveys_progress").getJSONArray("period_statuses");
+        JSONArray temp = parseUserInfo().getJSONObject("surveys_progress").getJSONArray("period_statuses");
+        Log.i(TAG, temp.toString());
+        return temp;
     }
 
     public int getPeriodSurveyCount() {

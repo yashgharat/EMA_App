@@ -51,6 +51,7 @@ public class BackgroundWorker extends AsyncTask<Void, Void, String> {
         email = SP.getString("email", "null");
 
         client = new APIHelper(username, email);
+        client.makeCognitoSettings(ctx);
 
     }
 

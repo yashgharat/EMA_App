@@ -101,8 +101,6 @@ public class AuthenticationActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         editor = SP.edit();
 
-
-
         cognitoSettings = new CognitoSettings(AuthenticationActivity.this);
         try {
             keyStoreHelper = new KeyStoreHelper();
@@ -135,6 +133,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                 editor.putString("email", editTextEmail.getText().toString()).apply();
 
                 client = new APIHelper(userSession.getUsername(), editTextEmail.getText().toString());
+                client.makeCognitoSettings(AuthenticationActivity.this);
 
                 initUser();
 

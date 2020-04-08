@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.w3c.dom.Node;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -59,6 +61,7 @@ import java.security.UnrecoverableEntryException;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     private LifeCycleHelper lifeCycleHelper;
     KeyStoreHelper keyStoreHelper;
 
-    private int statusLength;
+    private int statusLength, didSetPass;
     private JSONArray statuses;
 
     private ImageView[] progressBar;
@@ -121,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         pool = cognitoSettings.getUserPool();
         cognitoSettings.getToken(SP);
 
+
         try {
             keyStoreHelper = new KeyStoreHelper();
         } catch (Exception e) {
@@ -132,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         notificationHelper = new NotificationHelper(this);
         lifeCycleHelper = new LifeCycleHelper(this);
         ProcessLifecycleOwner.get().getLifecycle().addObserver(lifeCycleHelper);
+
+        client.makeCognitoSettings(MainActivity.this);
 
         viewEarnings = findViewById(R.id.view_earnings);
 
@@ -169,8 +175,26 @@ public class MainActivity extends AppCompatActivity {
         initUser();
 
         if (SP.getBoolean("virgin", true)) {
-
-            int didSetPass = client.didSetPass();
+            Thread t = new Thread(new Runnable() {
+                public final CountDownLatch latch = new CountDownLatch(1);
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    try {
+                        latch.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    didSetPass = client.didSetPass();
+                    latch.countDown();
+                }
+            });
+            t.start();
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if (didSetPass == 0) {
                 Intent i = new Intent(this, NewPassword.class);
                 startActivityForResult(i, 10);
@@ -289,12 +313,13 @@ public class MainActivity extends AppCompatActivity {
         initUser();
 
         Thread t = new Thread(() -> {
-
+            Looper.prepare();
             try {
                 statuses = client.getStatuses();
             } catch (Exception e) {
-                Log.e(TAG, e.toString());
+                Log.e(TAG, "HERE: " + e.toString());
             }
+
 
             String daysLeft = client.getDaysLeft();
 
@@ -370,6 +395,17 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
 
+                    synchronized (statuses) {
+                        while (statuses == null) {
+                            try {
+                                statuses.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        statuses.notify();
+                    }
+
                     statusLength = statuses.length();
 
                     try {
@@ -384,6 +420,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     setCardColor();
+
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -633,7 +670,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 10:
-                Intent i = new Intent(this, CreatePinUIActivity.class);
+                startActivityForResult(new Intent(this, CreatePinUIActivity.class), 20);
                 break;
             case 20:
                 boolean hasPermissions = isAccessGranted(this);
