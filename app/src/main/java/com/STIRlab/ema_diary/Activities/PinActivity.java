@@ -66,7 +66,7 @@ public class PinActivity extends AppCompatActivity {
                                 cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
                                     @Override
                                     public void onSuccess() {
-                                        Log.i(TAG, "Logged out");
+                                        
                                     }
 
                                     @Override

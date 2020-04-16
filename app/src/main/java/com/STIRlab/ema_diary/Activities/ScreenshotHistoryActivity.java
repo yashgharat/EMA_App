@@ -45,6 +45,7 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
         userId = SP.getString("username", null);
         email = SP.getString("email", null);
         client = new APIHelper(userId, email);
+        client.makeCognitoSettings(this);
 
         swipeRefreshLayout = findViewById(R.id.screenshots_swipe);
         previous = findViewById(R.id.screenshots_history_previous);

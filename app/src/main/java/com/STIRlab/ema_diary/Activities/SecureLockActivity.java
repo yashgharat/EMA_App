@@ -33,7 +33,6 @@ public class SecureLockActivity extends AppCompatActivity {
 
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
 
-
         prev = findViewById(R.id.secure_lock_previous);
         secureLockSwitch = findViewById(R.id.secure_lock_switch);
         changePasscode = findViewById(R.id.change_passcode);

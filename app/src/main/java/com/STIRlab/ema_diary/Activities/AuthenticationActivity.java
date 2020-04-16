@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.security.keystore.KeyGenParameterSpec;
@@ -114,15 +115,12 @@ public class AuthenticationActivity extends AppCompatActivity {
             @Override
             public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
 
-                Log.i(TAG, "Login successful, can get tokens here!");
                 cognitoSettings.setCurrSession(userSession);
 
                 String refToken = userSession.getRefreshToken().toString();
 
                 CognitoRefreshToken refreshToken = userSession.getRefreshToken();
                 CognitoIdToken idToken = userSession.getIdToken();
-
-                Log.i(TAG, "Username: " + userSession.getUsername());
 
                 editor.putString("username", userSession.getUsername()).apply();
 
@@ -135,21 +133,13 @@ public class AuthenticationActivity extends AppCompatActivity {
                 client = new APIHelper(userSession.getUsername(), editTextEmail.getText().toString());
                 client.makeCognitoSettings(AuthenticationActivity.this);
 
-                initUser();
+                new init().execute();
 
                 editor.putString("refToken", refToken).apply();
-
-                Log.d("TOKEN: ", refToken);
 
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
 
-                buttonLogin.setButtonColor(getColor(R.color.primaryDark));
-                buttonLogin.setTextColor(getColor(R.color.themeBackground));
-                buttonLogin.onStopLoading();
-
-                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                startActivity(myIntent);
 
             }
 
@@ -157,7 +147,6 @@ public class AuthenticationActivity extends AppCompatActivity {
             public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation
                     , String userId) {
 
-                Log.i(TAG, "in getAuthenticationDetails()....");
 
                 /*need to get the userId & password to continue*/
                 AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId
@@ -173,13 +162,10 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             @Override
             public void getMFACode(MultiFactorAuthenticationContinuation continuation) {
-                Log.i(TAG, "in getMFACode()....");
             }
 
             @Override
             public void authenticationChallenge(ChallengeContinuation continuation) {
-                Log.i(TAG, "in authenticationChallenge()....");
-                Log.i(TAG, continuation.getChallengeName());
                 if ("NEW_PASSWORD_REQUIRED".equals(continuation.getChallengeName())) {
                     NewPasswordContinuation newPasswordContinuation = (NewPasswordContinuation) continuation;
                     newPasswordContinuation.setPassword(String.valueOf(editTextPassword.getText()));
@@ -192,7 +178,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Exception exception) {
-                Log.i(TAG, "Login failed: " + exception.getLocalizedMessage());
 
                 ConnectivityManager cm = (ConnectivityManager) AuthenticationActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -230,7 +215,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                             .getUser(String.valueOf(editTextEmail.getText()));
                     CognitoSettings.user = thisUser;
                     // Sign in the use
-                    Log.i(TAG, "Login button clicked....");
 
                     SP.edit().putString("dwString", String.valueOf(editTextPassword.getText())).apply();
                     try {
@@ -268,7 +252,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             temp = data.getStringExtra("result");
-            Log.i(TAG, "HERE");
         }
         else if(requestCode == 3){
             forgotPassword.setEnabled(true);
@@ -315,19 +298,28 @@ public class AuthenticationActivity extends AppCompatActivity {
 
     }
 
-    private void initUser() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    client.getUser(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+    class init extends AsyncTask<Void, Void, Void>    {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                client.getUser(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
-        t.start();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            buttonLogin.setButtonColor(getColor(R.color.primaryDark));
+            buttonLogin.setTextColor(getColor(R.color.themeBackground));
+            buttonLogin.onStopLoading();
+
+            Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+            startActivity(myIntent);
+            finish();
+        }
     }
-
-
 }

@@ -44,7 +44,7 @@ public class APIHelper {
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
     // baseURL
-    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/dev/";
+    private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
 
     public APIHelper(String username, String email) {
         client = new OkHttpClient.Builder()
@@ -106,8 +106,8 @@ public class APIHelper {
                     }
                 }
             }, 1000);
+            userInfo = new JSONObject(userReturnStr);
         }
-        userInfo = new JSONObject(userReturnStr);
         return userInfo;
     }
 
@@ -128,7 +128,6 @@ public class APIHelper {
     public int didSetPass() {
         try {
              int i = parseUserInfo().getInt("did_set_pw");
-             Log.e(TAG, userReturnStr);
              return i;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
@@ -356,6 +355,7 @@ public class APIHelper {
                 if (response.isSuccessful()) {
                     String responseStr = response.body().string();
                     historyReturnStr = responseStr;
+                    Log.e(TAG, responseStr);
                     countDownLatch.countDown();
                 } else {
                     Log.e(TAG, call.toString());
@@ -373,7 +373,7 @@ public class APIHelper {
 
     private JSONObject getJournalHistory() throws Exception {
         JSONObject obj = new JSONObject(parseHistory("survey"));
-
+        Log.e(TAG, obj.toString());
         return obj;
     }
 
@@ -653,12 +653,12 @@ public class APIHelper {
     }
 
     private Call patchRequestHelper(String url, Callback callback) {
-        String token = cognitoSettings.getToken(SP);
+        //String token = cognitoSettings.getToken(SP);
 
         Request request = new Request.Builder()
                 .url(url)
                 .patch(RequestBody.create(null, new byte[0]))
-                .addHeader("Authorization", token)
+                //.addHeader("Authorization", token)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);

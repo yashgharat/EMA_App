@@ -50,6 +50,7 @@ public class NotifyPublisher extends BroadcastReceiver {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.mipmap.ic_launcher_foreground))
                 .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(notifyPendingIntent);
 
         Notification notification = builder.build();

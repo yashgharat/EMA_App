@@ -65,7 +65,6 @@ public class CreatePinActivity extends AppCompatActivity {
                                     cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
                                         @Override
                                         public void onSuccess() {
-                                            Log.i(TAG, "Logged out");
                                         }
 
                                         @Override
@@ -123,7 +122,6 @@ public class CreatePinActivity extends AppCompatActivity {
             } else {
                 showDialogMessage("Error", "Pins are different", false);
                 inputPin.setText(null);
-                Log.i("pinFail", "didnt work");
             }
 
         }

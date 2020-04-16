@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Helpers.APIHelper;
+import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.JournalEntry;
 import com.STIRlab.ema_diary.Helpers.JournalEntryAdapter;
 import com.STIRlab.ema_diary.R;
@@ -38,6 +39,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
     private FloatingActionButton previous;
 
     private APIHelper client;
+    private CognitoSettings cognitoSettings;
     private SharedPreferences SP;
 
     @Override
@@ -48,9 +50,9 @@ public class JournalHistoryActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
         client = new APIHelper(username, email);
+        client.makeCognitoSettings(this);
 
         previous = findViewById(R.id.journal_history_previous);
-
 
         label = findViewById(R.id.when_empty_journal);
 
@@ -99,7 +101,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    if (history.size() > 0) {
+                    if (history != null && history.size() > 0) {
                         label.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         adapter = new JournalEntryAdapter(context, history);

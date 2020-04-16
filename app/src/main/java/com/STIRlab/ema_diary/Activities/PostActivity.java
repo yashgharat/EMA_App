@@ -42,6 +42,7 @@ public class PostActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
         client = new APIHelper(username, email);
+        client.makeCognitoSettings(this);
 
         cognitoSettings = new CognitoSettings(this);
 

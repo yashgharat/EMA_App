@@ -37,7 +37,6 @@ public class CreatePinUIActivity extends AppCompatActivity {
 
         TextView skipLink = findViewById(R.id.skip_link);
 
-        Log.e(TAG, "Reached");
 
         btnLock.setOnClickListener(new View.OnClickListener() {
             @Override

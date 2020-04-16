@@ -49,6 +49,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Node;
 
 import java.io.IOException;
@@ -67,6 +68,8 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.security.cert.CertificateException;
+
+import okhttp3.OkHttpClient;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
     private CognitoUserPool pool;
     private CognitoUserSession session;
     private APIHelper client;
+    private OkHttpClient okClient;
     private ScrapeDataHelper scraper;
     private NotificationHelper notificationHelper;
     private LifeCycleHelper lifeCycleHelper;
@@ -123,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         cognitoSettings = new CognitoSettings(this);
         pool = cognitoSettings.getUserPool();
         cognitoSettings.getToken(SP);
-
 
         try {
             keyStoreHelper = new KeyStoreHelper();
@@ -175,33 +178,18 @@ public class MainActivity extends AppCompatActivity {
         initUser();
 
         if (SP.getBoolean("virgin", true)) {
-            Thread t = new Thread(new Runnable() {
-                public final CountDownLatch latch = new CountDownLatch(1);
-                @Override
-                public void run() {
-                    Looper.prepare();
-                    try {
-                        latch.await();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    didSetPass = client.didSetPass();
-                    latch.countDown();
-                }
-            });
-            t.start();
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (didSetPass == 0) {
-                Intent i = new Intent(this, NewPassword.class);
-                startActivityForResult(i, 10);
-            } else {
-                Intent i = new Intent(this, CreatePinUIActivity.class);
-                startActivityForResult(i, 20);
-            }
+
+            didSetPass = client.didSetPass();
+
+//            if (didSetPass == 0) {
+//
+//            } else {
+//                Intent i = new Intent(this, CreatePinUIActivity.class);
+//                startActivityForResult(i, 20);
+//            }
+            Intent i = new Intent(this, NewPassword.class);
+            startActivityForResult(i, 10);
+
 
             SP.edit().putInt("hour", 14).apply();
             SP.edit().putInt("minute", 0).apply();
@@ -213,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             SP.edit().putBoolean("virgin", false).apply();
+        } else {
+            SP.edit().putBoolean("Remember", true).apply();
         }
 
 
@@ -294,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     client.getUser(false);
+                    client.getEarnings();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -319,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Log.e(TAG, "HERE: " + e.toString());
             }
-
 
             String daysLeft = client.getDaysLeft();
 
@@ -365,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
                     numSurveys.setText(surveyCount);
                     numScreenshots.setText(screenshotCount);
 
-                    if (Integer.parseInt(surveyCount) == 0) {
+                    if (surveyCount == null || Integer.parseInt(surveyCount) == 0) {
                         surveyHistory.setVisibility(View.GONE);
                         cardViewEntries.setOnClickListener(null);
                     } else {
@@ -380,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
 
-                    if (Integer.parseInt(screenshotCount) == 0) {
+                    if (screenshotCount == null || Integer.parseInt(screenshotCount) == 0) {
                         screenshotHistory.setVisibility(View.GONE);
                         cardViewScreenshots.setOnClickListener(null);
                     } else {
@@ -395,30 +385,26 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
 
-                    synchronized (statuses) {
-                        while (statuses == null) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            statusLength = statuses.length();
+
                             try {
-                                statuses.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                cardStatus = statuses.getString(statusLength - 1);
+                            } catch (JSONException e) {
+                                Log.e(TAG, e.toString());
                             }
                         }
-                        statuses.notify();
-                    }
-
-                    statusLength = statuses.length();
-
-                    try {
-                        cardStatus = statuses.getString(statusLength - 1);
-                    } catch (JSONException e) {
-                        Log.e(TAG, e.toString());
-                    }
+                    }, 1000);
 
                     try {
                         updateProgress();
-                    } catch (Exception e) {
+                    } catch (
+                            Exception e) {
                         e.printStackTrace();
                     }
+
                     setCardColor();
 
                     swipeRefreshLayout.setRefreshing(false);
@@ -615,6 +601,9 @@ public class MainActivity extends AppCompatActivity {
 
     private int getBonusColor(String status, Context context) {
 
+        if (status == null)
+            return context.getColor(R.color.disabled);
+
         if (status.equals("submitted")) {
             return context.getColor(R.color.primaryDark);
         } else if (status.equals("open")) {
@@ -629,7 +618,8 @@ public class MainActivity extends AppCompatActivity {
         return 0;
     }
 
-    public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable end) {
+    public void setCardColorTran(ConstraintLayout layout, ColorDrawable start, ColorDrawable
+            end) {
         ColorDrawable[] color = {start, end};
         TransitionDrawable trans = new TransitionDrawable(color);
         layout.setBackground(trans);
@@ -677,16 +667,16 @@ public class MainActivity extends AppCompatActivity {
                 Intent o = new Intent(this, ManifestActivity.class);
 
                 SP.edit().putBoolean("Remember", true).apply();
-
-                if (!hasPermissions)
-                    startActivityForResult(o, 30);
-                break;
-            case 30:
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     notificationHelper.setNotificationOreo(this);
                 } else {
                     notificationHelper.setNotification(this);
                 }
+
+                if (!hasPermissions)
+                    startActivityForResult(o, 30);
+                break;
+            case 30:
                 break;
             case 50:
                 break;
@@ -710,11 +700,6 @@ public class MainActivity extends AppCompatActivity {
         cardViewEntries.setEnabled(true);
         cardViewScreenshots.setEnabled(true);
         viewEarnings.setEnabled(true);
-
-//        if(CognitoSettings.isLocked == -1)
-//            CognitoSettings.isLocked *= -1;
-//        else if (SP.getString("Pin", null) != null && CognitoSettings.isLocked == 1)
-//            startActivity(new Intent(this, PinActivity.class));
 
     }
 

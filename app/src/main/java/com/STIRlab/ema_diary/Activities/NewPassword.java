@@ -36,7 +36,7 @@ public class NewPassword extends AppCompatActivity {
 
     private APIHelper client;
     private AlertDialog userDialog;
-    private TextView signOut;
+    private TextView signOut, skipLink;
 
     private KeyStoreHelper keyStoreHelper;
     private final static String KEY_ALIAS = "ANDROID_KEY";
@@ -60,6 +60,7 @@ public class NewPassword extends AppCompatActivity {
         Button btnSet = findViewById(R.id.button_set_pass);
         EditText txtPassUno = findViewById(R.id.new_pass_uno);
         signOut = findViewById(R.id.new_pass_signout);
+        skipLink = findViewById(R.id.new_pass_skip);
 
         String oldPass = SP.getString("oldPass","null");
 
@@ -122,6 +123,13 @@ public class NewPassword extends AppCompatActivity {
                              Log.i(TAG + "FAILURE", exception.toString());
                         }
                     });
+            }
+        });
+
+        skipLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

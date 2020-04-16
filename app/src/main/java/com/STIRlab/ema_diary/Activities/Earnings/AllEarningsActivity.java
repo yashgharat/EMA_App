@@ -51,6 +51,7 @@ public class AllEarningsActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
         client = new APIHelper(username, email);
+        client.makeCognitoSettings(this);
 
 
         prev = findViewById(R.id.all_earnings_previous);
