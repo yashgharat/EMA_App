@@ -88,10 +88,16 @@ public class ScreenshotPromptActivity extends AppCompatActivity {
         switch (requestCode) {
 
             case REQUEST_IMAGE_OPEN:
-                Uri resultUri = data.getData();
-                CropImage.activity(resultUri)
-                        .setCropMenuCropButtonTitle("Next")
-                        .start(this);
+                Uri resultUri;
+                if(data != null) {
+                    resultUri = data.getData();
+                    CropImage.activity(resultUri)
+                            .setCropMenuCropButtonTitle("Next")
+                            .start(this);
+                }
+                else {
+                    finish();
+                }
                 break;
             case CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE:
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);

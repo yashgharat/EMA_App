@@ -64,17 +64,16 @@
                         android:id="@+id/card_surveys_submit_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/card_surveys_submit_count_icon"
+                        android:layout_alignTop="@id/card_surveys_submit_count_icon"
+                        android:layout_alignBottom="@id/card_surveys_submit_count_icon"
                         android:layout_marginStart="5dp"
+                        android:gravity="center"
                         android:text="2"
                         android:textAlignment="center"
                         android:textColor="@color/neutral"
                         android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:layout_alignStart="@id/card_surveys_submit_count_icon"
-                        android:layout_alignTop="@id/card_surveys_submit_count_icon"
-                        android:layout_alignEnd="@id/card_surveys_submit_count_icon"
-                        android:layout_alignBottom="@id/card_surveys_submit_count_icon"
-                        android:gravity="center" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <ImageView

@@ -31,7 +31,7 @@ public class NotificationHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setNotificationOreo(Context context) {
+    public void setNotificationOreo() {
 
         createNotificationChannel(context);
 
@@ -47,7 +47,7 @@ public class NotificationHelper {
 
         Intent i = new Intent(context, NotifyPublisher.class);
 
-        if (PendingIntent.getBroadcast(context, 0, i,
+        if (PendingIntent.getBroadcast(context, 200, i,
                 PendingIntent.FLAG_NO_CREATE) == null) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 200, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -63,7 +63,7 @@ public class NotificationHelper {
         }
     }
 
-    public void setNotification(Context context) {
+    public void setNotification() {
 
         int hour = SP.getInt("hour", 14);
         int min = SP.getInt("minute", 0);

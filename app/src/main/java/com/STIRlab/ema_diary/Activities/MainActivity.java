@@ -11,6 +11,7 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,32 +50,25 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Node;
 
 import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableEntryException;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.security.cert.CertificateException;
-
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "MAIN";
     private final static String KEY_ALIAS = "ANDROID_KEY";
+
+    private boolean virgin = true;
+    private String userReturnStr;
 
     private SharedPreferences SP;
     private Handler mHandler = new Handler();
@@ -98,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private CognitoUserSession session;
     private APIHelper client;
     private OkHttpClient okClient;
+    private static Callback userCallback, UiCallback;
     private ScrapeDataHelper scraper;
     private NotificationHelper notificationHelper;
     private LifeCycleHelper lifeCycleHelper;
@@ -134,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        client = new APIHelper(username, email);
+        client = new APIHelper(username, email, MainActivity.this);
         scraper = new ScrapeDataHelper(this);
         notificationHelper = new NotificationHelper(this);
         lifeCycleHelper = new LifeCycleHelper(this);
@@ -174,19 +168,9 @@ public class MainActivity extends AppCompatActivity {
 
         info = findViewById(R.id.main_info);
 
-
-        initUser();
-
         if (SP.getBoolean("virgin", true)) {
-
             didSetPass = client.didSetPass();
 
-//            if (didSetPass == 0) {
-//
-//            } else {
-//                Intent i = new Intent(this, CreatePinUIActivity.class);
-//                startActivityForResult(i, 20);
-//            }
             Intent i = new Intent(this, NewPassword.class);
             startActivityForResult(i, 10);
 
@@ -199,14 +183,12 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             SP.edit().putBoolean("virgin", false).apply();
         } else {
+            initUser();
             SP.edit().putBoolean("Remember", true).apply();
         }
 
-
-        init(this);
 
         dashLogo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                init(MainActivity.this);
+                initUser();
             }
         });
 
@@ -279,30 +261,50 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUser() {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationHelper.setNotificationOreo();
+        } else {
+            notificationHelper.setNotification();
+        }
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    client.getUser(false);
+                    client.getUserWithCallback(false, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.isSuccessful()) {
+                                String responseStr = response.body().string();
+                                client.userReturnStr = responseStr;
+
+                                init(MainActivity.this, responseStr);
+
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(false);
+                                    }
+                                });
+                            }
+                        }
+                    });
                     client.getEarnings();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                });
+
             }
         });
         t.start();
         swipeRefreshLayout.setRefreshing(true);
     }
 
-    private void init(Context context) {
-        initUser();
-
+    private void init(Context context, String responseStr) {
         Thread t = new Thread(() -> {
             Looper.prepare();
             try {
@@ -316,9 +318,9 @@ public class MainActivity extends AppCompatActivity {
             String surveyCount = client.getTotalSurveyCount();
             String screenshotCount = client.getTotalScreenshotCount();
 
-
             String periodSurveyCount = Integer.toString(client.getPeriodSurveyCount());
             String periodScreenshotCount = Integer.toString(client.getPeriodThoughtCount());
+            Log.println(Log.ASSERT, TAG, String.valueOf(client.getPeriodThoughtCount()));
             String periodSurveyBonusStatus = client.getPeriodSurveyBonusStatus();
             String periodThoughtBonusStatus = client.getPeriodThoughtBonusStatus();
 
@@ -341,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     studyCounter.setText(daysLeft);
+
                     totalEarnings.setText(currencyFormat(amount));
                     totalEntries.setText(periodSurveyCount);
                     totalScreenshots.setText(periodScreenshotCount);
@@ -385,18 +388,12 @@ public class MainActivity extends AppCompatActivity {
                         });
                     }
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            statusLength = statuses.length();
-
-                            try {
-                                cardStatus = statuses.getString(statusLength - 1);
-                            } catch (JSONException e) {
-                                Log.e(TAG, e.toString());
-                            }
-                        }
-                    }, 1000);
+                    statusLength = statuses.length();
+                    try {
+                        cardStatus = statuses.getString(statusLength - 1);
+                    } catch (JSONException e) {
+                        Log.e(TAG, e.toString());
+                    }
 
                     try {
                         updateProgress();
@@ -406,12 +403,9 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     setCardColor();
-
-                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
         });
-        swipeRefreshLayout.setRefreshing(true);
         t.start();
     }
 
@@ -468,6 +462,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCardColor() {
+        Log.e(TAG, String.valueOf(statusLength));
+        try {
+            cardStatus = statuses.getString(statusLength - 1);
+        } catch (JSONException e) {
+            Log.e(TAG, e.toString());
+        }
         if (cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed")) {
             cardTitle.setText("Come Back at 2 PM");
             cardMsg.setText("Daily Journal entry available soon");
@@ -667,16 +667,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent o = new Intent(this, ManifestActivity.class);
 
                 SP.edit().putBoolean("Remember", true).apply();
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    notificationHelper.setNotificationOreo(this);
-                } else {
-                    notificationHelper.setNotification(this);
-                }
+                initUser();
 
                 if (!hasPermissions)
                     startActivityForResult(o, 30);
                 break;
             case 30:
+
                 break;
             case 50:
                 break;
@@ -695,7 +692,9 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        init(this);
+        if (!SP.getBoolean("virgin", true)) {
+            initUser();
+        }
 
         cardViewEntries.setEnabled(true);
         cardViewScreenshots.setEnabled(true);

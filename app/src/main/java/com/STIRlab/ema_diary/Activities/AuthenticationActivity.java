@@ -130,16 +130,21 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 editor.putString("email", editTextEmail.getText().toString()).apply();
 
-                client = new APIHelper(userSession.getUsername(), editTextEmail.getText().toString());
+                client = new APIHelper(userSession.getUsername(), editTextEmail.getText().toString(), AuthenticationActivity.this);
                 client.makeCognitoSettings(AuthenticationActivity.this);
-
-                new init().execute();
 
                 editor.putString("refToken", refToken).apply();
 
                 //editor.putString("oldPass", String.valueOf(editTextPassword.getText()));
                 CognitoSettings.oldPass = String.valueOf(editTextPassword.getText());
 
+                buttonLogin.setButtonColor(getColor(R.color.primaryDark));
+                buttonLogin.setTextColor(getColor(R.color.themeBackground));
+                buttonLogin.onStopLoading();
+
+                Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                startActivity(myIntent);
+                finish();
 
             }
 
@@ -296,30 +301,5 @@ public class AuthenticationActivity extends AppCompatActivity {
         userDialog = builder.create();
         userDialog.show();
 
-    }
-
-
-    class init extends AsyncTask<Void, Void, Void>    {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                client.getUser(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            buttonLogin.setButtonColor(getColor(R.color.primaryDark));
-            buttonLogin.setTextColor(getColor(R.color.themeBackground));
-            buttonLogin.onStopLoading();
-
-            Intent myIntent = new Intent(AuthenticationActivity.this, MainActivity.class);
-            startActivity(myIntent);
-            finish();
-        }
     }
 }

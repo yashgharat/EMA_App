@@ -37,7 +37,7 @@ public class SplashScreen extends AppCompatActivity {
 
         Log.e(TAG, String.valueOf(remember));
 
-        if (remember && isNetworkAvailable(this)) {
+        if (remember) {
             boolean hasPermissions = isAccessGranted(this);
             if(hasPermissions) {
                 Intent main = new Intent(SplashScreen.this, MainActivity.class);

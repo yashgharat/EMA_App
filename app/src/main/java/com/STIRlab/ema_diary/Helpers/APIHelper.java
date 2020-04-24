@@ -1,5 +1,6 @@
 package com.STIRlab.ema_diary.Helpers;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -7,6 +8,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,8 +24,11 @@ import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,7 +40,8 @@ public class APIHelper {
 
     private OkHttpClient client;
 
-    private String userReturnStr, earningsReturnStr, historyReturnStr, userid, email;
+    public String userReturnStr, earningsReturnStr, historyReturnStr;
+    private String userid, email;
     private JSONObject history, userInfo;
 
     private CognitoSettings cognitoSettings;
@@ -43,12 +49,19 @@ public class APIHelper {
 
     private String beginQuote = encodeValue("\""), endQuote = encodeValue("\"");
 
+    private Callback getCallback;
+
+    private Context context;
+
     // baseURL
     private String baseURL = "https://iq185u2wvk.execute-api.us-east-1.amazonaws.com/v1/";
 
-    public APIHelper(String username, String email) {
+    public APIHelper(String username, String email, Context context) {
+        int cacheSize = 10 * 1024 * 1024; // 10MB
         client = new OkHttpClient.Builder()
                 .connectTimeout(10, TimeUnit.SECONDS)
+                .cache(new Cache(context.getCacheDir(), cacheSize))
+                .addNetworkInterceptor(new CacheInterceptor())
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
@@ -62,13 +75,13 @@ public class APIHelper {
         CountDownLatch countDownLatch = new CountDownLatch(1);
 
         String url = baseURL + "user?id=" + beginQuote +
-                encodeValue(userid) + endQuote + ((isInit) ? "&email=" + beginQuote + encodeValue(email) + endQuote: "");
+                encodeValue(userid) + endQuote + ((isInit) ? "&email=" + beginQuote + encodeValue(email) + endQuote : "");
 
 
         getRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "getUser failed: " + e.toString());
             }
 
             @Override
@@ -81,7 +94,7 @@ public class APIHelper {
                 } else {
                     countDownLatch.countDown();
                     Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "getUser request not successful");
                     Log.e(TAG, url);
                 }
             }
@@ -90,12 +103,23 @@ public class APIHelper {
         countDownLatch.await();
 
         return userReturnStr;
+    }
+
+    public void getUserWithCallback(boolean isInit, Callback callback) throws Exception {
+        getUser(isInit);
+
+        this.getCallback = callback;
+
+        String url = baseURL + "user?id=" + beginQuote +
+                encodeValue(userid) + endQuote + ((isInit) ? "&email=" + beginQuote + encodeValue(email) + endQuote : "");
+
+        getRequestHelper(url, getCallback);
 
     }
 
     public JSONObject parseUserInfo() throws Exception {
-        if(userReturnStr == null) {
-            getUser(false);
+        if (userReturnStr == null) {
+            getUser(true);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -106,8 +130,8 @@ public class APIHelper {
                     }
                 }
             }, 1000);
-            userInfo = new JSONObject(userReturnStr);
         }
+        userInfo = new JSONObject(userReturnStr);
         return userInfo;
     }
 
@@ -127,8 +151,8 @@ public class APIHelper {
 
     public int didSetPass() {
         try {
-             int i = parseUserInfo().getInt("did_set_pw");
-             return i;
+            int i = parseUserInfo().getInt("did_set_pw");
+            return i;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -138,10 +162,10 @@ public class APIHelper {
     public boolean didStartStudy() {
         try {
 
-             if(parseUserInfo().getString("study_start_date") != null)
-                 return true;
-             else
-                 return false;
+            if (parseUserInfo().getString("study_start_date") != null)
+                return true;
+            else
+                return false;
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -161,7 +185,7 @@ public class APIHelper {
 
     public String getTotalSurveyCount() {
         try {
-            return  parseUserInfo().getString("num_complete_surveys");
+            return parseUserInfo().getString("num_complete_surveys");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
@@ -193,7 +217,6 @@ public class APIHelper {
 
     public JSONArray getStatuses() throws Exception {
         JSONArray temp = parseUserInfo().getJSONObject("surveys_progress").getJSONArray("period_statuses");
-        Log.i(TAG, temp.toString());
         return temp;
     }
 
@@ -206,7 +229,7 @@ public class APIHelper {
         return 0;
     }
 
-    public String getPeriodSurveyBonusStatus(){
+    public String getPeriodSurveyBonusStatus() {
         try {
             return parseUserInfo().getJSONObject("surveys_progress").getString("bonus_status");
         } catch (Exception e) {
@@ -234,7 +257,6 @@ public class APIHelper {
     }
 
 
-
     public String getAllEarnings() throws Exception {
 
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -245,7 +267,7 @@ public class APIHelper {
         getRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "getEarnings call failed: " + e.toString());
             }
 
             @Override
@@ -257,7 +279,7 @@ public class APIHelper {
                     countDownLatch.countDown();
                 } else {
                     Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "getEarnings request not successful");
                     Log.e(TAG, url);
                     countDownLatch.countDown();
 
@@ -274,8 +296,8 @@ public class APIHelper {
 
 
     public JSONObject parseEarnings() throws Exception {
-        JSONObject temp = new JSONObject(getAllEarnings());
-        return temp;
+        return new JSONObject(getAllEarnings());
+
     }
 
     public double getTotalEarnings() {
@@ -312,7 +334,7 @@ public class APIHelper {
 
             JSONObject surveys = tempObj.getJSONObject("surveys"), thoughts = tempObj.getJSONObject("thoughts");
 
-            int earnings = tempObj.getInt("earnings_so_far"), increment = tempObj.getInt("earnings_added");
+            double earnings = tempObj.getDouble("earnings_so_far"), increment = tempObj.getDouble("earnings_added");
             double surveyBonusEarnings = surveys.getDouble("bonus_earnings"), thoughtsBonusEarnings = thoughts.getDouble("bonus_earnings");
             double surveyBasicEarnings = surveys.getDouble("basic_earnings");
 
@@ -323,7 +345,7 @@ public class APIHelper {
             boolean isFirst = (i == 0);
 
             EarningsPeriod tempEntry = new EarningsPeriod(earnings, increment, surveyBonusEarnings, thoughtsBonusEarnings, surveyBasicEarnings,
-            survey_count, thoughts_count, approve, start_date, end_date,
+                    survey_count, thoughts_count, approve, start_date, end_date,
                     surveys_bonus, thoughts_bonus, isFirst);
 
             returnEarnings.add(tempEntry);
@@ -346,7 +368,7 @@ public class APIHelper {
         getRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "getHistory call failed: " + e.toString());
                 countDownLatch.countDown();
             }
 
@@ -359,7 +381,7 @@ public class APIHelper {
                     countDownLatch.countDown();
                 } else {
                     Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "getHistory request not successful");
                     Log.e(TAG, url);
                     countDownLatch.countDown();
                 }
@@ -427,7 +449,7 @@ public class APIHelper {
 
             String id = tempObj.getString("thought_id");
             String submitTime = tempObj.getString("submitted_at");
-            String status= tempObj.getString("status");
+            String status = tempObj.getString("status");
 
             Thought tempEntry = new Thought(id, submitTime, status);
             returnHistory.add(tempEntry);
@@ -443,7 +465,7 @@ public class APIHelper {
         patchRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "updatePassword call failed: " + e.toString());
             }
 
             @Override
@@ -454,7 +476,7 @@ public class APIHelper {
                     Log.i(TAG, "here" + historyReturnStr);
                 } else {
                     Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "updatePassword request not successful");
                     Log.e(TAG, url);
                 }
             }
@@ -475,7 +497,7 @@ public class APIHelper {
         postRequestHelper(url, rBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "uploadFile call failed: " + e.toString());
 
             }
 
@@ -491,7 +513,7 @@ public class APIHelper {
                         putRequestHelper(responseStr, jsonFile, new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
-                                Log.e(TAG, "call failed: " + e.toString());
+                                Log.e(TAG, "putFile call failed: " + e.toString());
                             }
 
                             @Override
@@ -502,7 +524,7 @@ public class APIHelper {
                                     Log.i(TAG, "success");
                                 } else {
                                     Log.e(TAG, "in PUT Call: " + response.toString());
-                                    Log.e(TAG, "request not successful");
+                                    Log.e(TAG, "put File request not successful");
                                     Log.e(TAG, url);
                                 }
                             }
@@ -512,7 +534,7 @@ public class APIHelper {
                     }
                 } else {
                     Log.e(TAG, "in POST Call: " + response.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "post file request not successful");
                     Log.e(TAG, url);
                 }
             }
@@ -542,7 +564,7 @@ public class APIHelper {
         postRequestHelper(url, rBody, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "post Interaction call failed: " + e.toString());
 
             }
 
@@ -557,7 +579,7 @@ public class APIHelper {
                     putRequestHelper(responseStr, jsonFile, new Callback() {
                         @Override
                         public void onFailure(Call call, IOException e) {
-                            Log.e(TAG, "call failed: " + e.toString());
+                            Log.e(TAG, "put interaction call failed: " + e.toString());
                         }
 
                         @Override
@@ -566,56 +588,20 @@ public class APIHelper {
                                 String responseStr = response.body().string();
                             } else {
                                 Log.e(TAG, "in PUT Call: " + response.toString());
-                                Log.e(TAG, "request not successful");
+                                Log.e(TAG, "put interaction request not successful");
                                 Log.e(TAG, url);
                             }
                         }
                     });
                 } else {
                     Log.e(TAG, "in POST Call: " + response.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "post interactionrequest not successful");
                     Log.e(TAG, url);
                 }
             }
         });
 
         return userReturnStr;
-    }
-
-    public String uploadInteraction(String userid, String desc, Context context) throws JSONException {
-        String url = baseURL + "create-thought-url";
-
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-        JSONObject jgenerate = new JSONObject()
-                .put("user_id", userid)
-                .put("description", desc);
-
-        RequestBody rBody = RequestBody.create(JSON, jgenerate.toString(1));
-
-        Log.i(TAG, jgenerate.toString());
-
-        postRequestHelper(url, rBody, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "request not successful");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseStr = response.body().string();
-                    userReturnStr = responseStr;
-                } else {
-                    Log.e(TAG, "in PUT Call: " + response.toString());
-                    Log.e(TAG, "request not successful");
-                    Log.e(TAG, url);
-                }
-            }
-        });
-
-        return "done";
-
     }
 
     public String startStudy(String userid) throws Exception {
@@ -626,7 +612,7 @@ public class APIHelper {
         patchRequestHelper(url, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e(TAG, "call failed: " + e.toString());
+                Log.e(TAG, "start study call failed: " + e.toString());
             }
 
             @Override
@@ -636,7 +622,7 @@ public class APIHelper {
                     userReturnStr = responseStr;
                 } else {
                     Log.e(TAG, call.toString());
-                    Log.e(TAG, "request not successful");
+                    Log.e(TAG, "start study request not successful");
                     Log.e(TAG, url);
                 }
             }
@@ -649,16 +635,15 @@ public class APIHelper {
     public void makeCognitoSettings(Context context) {
         cognitoSettings = new CognitoSettings(context);
         SP = context.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
-
     }
 
     private Call patchRequestHelper(String url, Callback callback) {
-        //String token = cognitoSettings.getToken(SP);
+        String token = cognitoSettings.getToken(SP);
 
         Request request = new Request.Builder()
                 .url(url)
                 .patch(RequestBody.create(null, new byte[0]))
-                //.addHeader("Authorization", token)
+                .addHeader("Authorization", token)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(callback);
@@ -668,7 +653,6 @@ public class APIHelper {
 
     private Call getRequestHelper(String url, Callback callback) {
         String token = cognitoSettings.getToken(SP);
-
         Request request = new Request.Builder()
                 .url(url)
                 .addHeader("Authorization", token)
@@ -696,7 +680,7 @@ public class APIHelper {
 
         Request request = new Request.Builder()
                 .url(url)
-                .addHeader("Authorization", token)
+//                .addHeader("Authorization", token)
                 .put(rBody)
                 .build();
         Call call = client.newCall(request);
@@ -749,11 +733,23 @@ public class APIHelper {
                 }
             }
         }
-        Toast.makeText(context, "No connection available", Toast.LENGTH_LONG).show();
-
         return false;
     }
+}
 
+class CacheInterceptor implements Interceptor {
+    @Override
+    public Response intercept(Interceptor.Chain chain) throws IOException {
+        Response response = chain.proceed(chain.request());
 
+        CacheControl cacheControl = new CacheControl.Builder()
+                .noCache()
+                .build();
 
+        return response.newBuilder()
+                .removeHeader("Pragma")
+                .removeHeader("Cache-Control")
+                .header("Cache-Control", cacheControl.toString())
+                .build();
+    }
 }

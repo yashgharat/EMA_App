@@ -2,6 +2,7 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,8 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
     public void onBindViewHolder(@NonNull EarningsPeriodAdapter.EarningsPeriodViewHolder holder, int position) {
         EarningsPeriod item = earnings.get(position);
 
+        Log.i("DEBUG", currencyFormat(item.getIncrement()));
+
         try {
             holder.date.setText(item.getFormattedDate());
         } catch (ParseException e) {
@@ -83,8 +86,8 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
         if(item.getSurveysBonus().equals("approved"))
         {
             holder.surveyCount.setText("");
-            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
-            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
+            holder.surveyCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
+            holder.surveyCountIcon.setColorFilter(context.getResources().getColor(R.color.positive));
             holder.journal.setColorFilter(context.getColor(R.color.positive));
         }
         if(item.getThoughtsBonus().equals("approved")){
@@ -96,8 +99,8 @@ public class EarningsPeriodAdapter extends RecyclerView.Adapter<EarningsPeriodAd
         if(item.getSurveysBonus().equals("submitted"))
         {
             holder.surveyCount.setText("");
-            holder.thoughtCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
-            holder.thoughtCountIcon.setColorFilter(context.getResources().getColor(R.color.primaryDark));
+            holder.surveyCountIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_check_black_20dp));
+            holder.surveyCountIcon.setColorFilter(context.getResources().getColor(R.color.primaryDark));
             holder.journal.setColorFilter(context.getColor(R.color.primaryDark));
         }
         if(item.getThoughtsBonus().equals("submitted")){

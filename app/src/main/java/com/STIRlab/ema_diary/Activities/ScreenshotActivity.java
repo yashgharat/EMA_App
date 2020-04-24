@@ -91,7 +91,8 @@ public class ScreenshotActivity extends AppCompatActivity {
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
 
-        client = new APIHelper(username, email);
+        client = new APIHelper(username, email, ScreenshotActivity.this);
+        client.makeCognitoSettings(ScreenshotActivity.this);
 
         ret = findViewById(R.id.screenshots_previous);
         inputInteraction = findViewById(R.id.screenshots_upload);

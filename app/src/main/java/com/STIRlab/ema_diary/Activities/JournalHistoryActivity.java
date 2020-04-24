@@ -49,7 +49,7 @@ public class JournalHistoryActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        client = new APIHelper(username, email);
+        client = new APIHelper(username, email, JournalHistoryActivity.this);
         client.makeCognitoSettings(this);
 
         previous = findViewById(R.id.journal_history_previous);

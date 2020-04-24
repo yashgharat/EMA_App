@@ -51,7 +51,7 @@ public class NewPassword extends AppCompatActivity {
 
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        client = new APIHelper(username, email);
+        client = new APIHelper(username, email, NewPassword.this);
 
         client.makeCognitoSettings(NewPassword.this);
 

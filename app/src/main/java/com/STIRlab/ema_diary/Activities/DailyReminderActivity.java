@@ -96,9 +96,9 @@ public class DailyReminderActivity extends AppCompatActivity {
 
     public void setNotification(Context context){
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationHelper.setNotificationOreo(context);
+            notificationHelper.setNotificationOreo();
         } else {
-            notificationHelper.setNotification(context);
+            notificationHelper.setNotification();
         }
     }
 

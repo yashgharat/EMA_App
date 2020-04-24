@@ -8,8 +8,8 @@ android {
         applicationId "com.STIRlab.ema_diary"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 17
-        versionName "2.7"
+        versionCode 18
+        versionName "2.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,6 +37,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     annotationProcessor 'android.arch.lifecycle:compiler:1.1.1'
+    implementation 'com.facebook.network.connectionclass:connectionclass:1.0.1'
+
+
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
 

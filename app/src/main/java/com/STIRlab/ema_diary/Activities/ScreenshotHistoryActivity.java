@@ -44,7 +44,7 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         userId = SP.getString("username", null);
         email = SP.getString("email", null);
-        client = new APIHelper(userId, email);
+        client = new APIHelper(userId, email, ScreenshotHistoryActivity.this);
         client.makeCognitoSettings(this);
 
         swipeRefreshLayout = findViewById(R.id.screenshots_swipe);
@@ -94,7 +94,7 @@ public class ScreenshotHistoryActivity extends AppCompatActivity {
 
             ScreenshotHistoryActivity.this.runOnUiThread(new Runnable() {
                 public void run() {
-                    if(history.size() > 0) {
+                    if(history != null && history.size() > 0) {
                         label.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         adapter = new ThoughtAdapter(context, history);

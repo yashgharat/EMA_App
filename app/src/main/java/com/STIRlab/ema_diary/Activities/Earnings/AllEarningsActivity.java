@@ -50,7 +50,7 @@ public class AllEarningsActivity extends AppCompatActivity {
         SP = this.getSharedPreferences("com.STIRlab.ema_diary", Context.MODE_PRIVATE);
         String username = SP.getString("username", "null");
         String email = SP.getString("email", "null");
-        client = new APIHelper(username, email);
+        client = new APIHelper(username, email, AllEarningsActivity.this);
         client.makeCognitoSettings(this);
 
 
