@@ -12,10 +12,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.STIRlab.ema_diary.Activities.Onboarding.MissingPermissionsActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.R;
-
-import static com.STIRlab.ema_diary.Helpers.APIHelper.isNetworkAvailable;
 
 public class SplashScreen extends AppCompatActivity {
 

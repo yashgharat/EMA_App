@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.SecureLockActivity">
+    tools:context=".Activities.SecureLock.SecureLockActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/secure_lock_previous"

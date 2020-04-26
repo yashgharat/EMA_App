@@ -6,25 +6,17 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.STIRlab.ema_diary.Activities.MainActivity;
 import com.STIRlab.ema_diary.Activities.SplashScreen;
 import com.STIRlab.ema_diary.R;
 
-
 public class NotifyPublisher extends BroadcastReceiver {
     public static final String TAG = "PUBLISHER";
-    public static final String NOTIFICATION_ID = "notification-id";
-    public static final String NOTIFICATION = "notification";
 
     private NotificationManager notificationManager;
 
@@ -41,8 +33,6 @@ public class NotifyPublisher extends BroadcastReceiver {
         notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(context, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Log.i(TAG, "Notification");
-
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notifyUser")
                 .setContentTitle("Daily Journal Reminder")
@@ -50,7 +40,6 @@ public class NotifyPublisher extends BroadcastReceiver {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.mipmap.ic_launcher_foreground))
                 .setSmallIcon(R.drawable.ic_border_color_blue_24dp)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(notifyPendingIntent);
 
         Notification notification = builder.build();
@@ -58,8 +47,6 @@ public class NotifyPublisher extends BroadcastReceiver {
 
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
-        Log.i(TAG, "Notification");
 
         notificationManager.notify(200, notification);
 

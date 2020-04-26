@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/themeBackground"
-    tools:context=".Activities.CreatePinUIActivity">
+    tools:context=".Activities.SecureLock.CreatePinUIActivity">
 
     <TextView
         android:id="@+id/secure_lock_title"

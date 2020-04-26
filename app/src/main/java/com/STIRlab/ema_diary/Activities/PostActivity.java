@@ -17,20 +17,22 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
-import com.STIRlab.ema_diary.Helpers.NotifyPublisher;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
+import com.STIRlab.ema_diary.Helpers.NotificationHelper;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class PostActivity extends AppCompatActivity {
     private final String TAG = "POST";
 
     private Button surveyBtn;
-    private TextView signOut;
+    private FloatingActionButton close;
 
     private APIHelper client;
     private SharedPreferences SP;
     private CognitoSettings cognitoSettings;
+    private NotificationHelper notificationHelper;
 
 
     @Override
@@ -46,23 +48,18 @@ public class PostActivity extends AppCompatActivity {
 
         cognitoSettings = new CognitoSettings(this);
 
-
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
-        Intent updateServiceIntent = new Intent(this, NotifyPublisher.class);
-        PendingIntent pendingUpdateIntent = PendingIntent.getService(this, 0, updateServiceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        // Cancel alarms
-        try {
-            alarmManager.cancel(pendingUpdateIntent);
-        } catch (Exception e) {
-            Log.e(TAG, "AlarmManager update was not canceled. " + CognitoSettings.formatException(e));
-        }
-
-        String data = getIntent().getStringExtra("data");
+        notificationHelper = new NotificationHelper(this);
+        notificationHelper.cancelNotification();
 
         surveyBtn = findViewById(R.id.button_post);
-        signOut = findViewById(R.id.post_sign_out);
+        close = findViewById(R.id.post_close);
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         surveyBtn.setOnClickListener(new View.OnClickListener() {
@@ -85,35 +82,6 @@ public class PostActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-            if (!data.equals("null")) {
-                Log.i(TAG, "HERE");
-                surveyBtn.setVisibility(View.INVISIBLE);
-            }
-
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cognitoSettings.getUserPool().getUser(SP.getString("email", "null")).globalSignOutInBackground(new GenericHandler() {
-                    @Override
-                    public void onSuccess() {
-                        Log.i(TAG, "Logged out");
-
-                    }
-
-                    @Override
-                    public void onFailure(Exception exception) {
-                        Log.e(TAG, "Log out failed");
-                        Log.e(TAG, CognitoSettings.formatException(exception));
-                    }
-                });
-
-                SP.edit().clear().apply();
-                Intent i = new Intent(PostActivity.this, AuthenticationActivity.class);
-                startActivity(i);
-            }
-        });
     }
 
     @Override

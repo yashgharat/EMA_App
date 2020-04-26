@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/themeBackground"
     android:orientation="vertical"
-    tools:context=".Activities.ManifestActivity">
+    tools:context=".Activities.Onboarding.ManifestActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

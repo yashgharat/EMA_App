@@ -6,7 +6,7 @@
     android:background="@color/themeBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.PinActivity">
+    tools:context=".Activities.SecureLock.PinActivity">
 
     <TextView
         android:id="@+id/pin_signout"

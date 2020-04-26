@@ -25,8 +25,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.MissingPermissionsActivity"></activity>
-        <activity android:name=".Activities.SecureLockActivity" />
+        <activity android:name=".Activities.IndividualJournalEntryActivity"></activity>
+        <activity android:name=".Activities.Screenshots.IndividualScreenshotActivity" />
+        <activity android:name=".Activities.Onboarding.MissingPermissionsActivity" />
+        <activity android:name=".Activities.SecureLock.SecureLockActivity" />
         <activity android:name=".Activities.DailyReminderActivity" />
         <activity
             android:name=".Activities.Earnings.DateEarningsActivity"
@@ -41,7 +43,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.ScreenshotPromptActivity"
+            android:name=".Activities.Screenshots.ScreenshotPromptActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -49,11 +51,11 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.ScreenshotHistoryActivity"
+            android:name=".Activities.Screenshots.ScreenshotHistoryActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.TutorialActivity"
+            android:name=".Activities.Onboarding.TutorialActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -69,7 +71,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.ScreenshotActivity"
+            android:name=".Activities.Screenshots.ScreenshotActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -77,7 +79,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.MoreInfoActivity"
+            android:name=".Activities.Onboarding.MoreInfoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -88,7 +90,7 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity
-            android:name=".Activities.CreatePinUIActivity"
+            android:name=".Activities.SecureLock.CreatePinUIActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -96,7 +98,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.ManifestActivity"
+            android:name=".Activities.Onboarding.ManifestActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -111,11 +113,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.CreatePinActivity"
+            android:name=".Activities.SecureLock.CreatePinActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Activities.PinActivity"
+            android:name=".Activities.SecureLock.PinActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />

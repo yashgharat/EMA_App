@@ -6,21 +6,17 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
 import android.app.AlertDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import java.util.Calendar;
-import java.util.Set;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
+import com.STIRlab.ema_diary.Activities.SecureLock.SecureLockActivity;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.R;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;

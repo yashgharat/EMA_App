@@ -1,6 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -10,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.STIRlab.ema_diary.Activities.Earnings.DateEarningsActivity;
+import com.STIRlab.ema_diary.Activities.IndividualJournalEntryActivity;
 import com.STIRlab.ema_diary.R;
 
 import java.text.ParseException;
@@ -96,6 +100,15 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
 
         }
 
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, IndividualJournalEntryActivity.class);
+                intent.putExtra("entry", entry);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -106,12 +119,15 @@ public class JournalEntryAdapter extends RecyclerView.Adapter<JournalEntryAdapte
     class JournalEntryViewHolder extends RecyclerView.ViewHolder {
 
         TextView time, isComplete;
+        CardView card;
 
         public JournalEntryViewHolder(View itemView) {
             super(itemView);
 
             time = itemView.findViewById(R.id.journal_time);
             isComplete = itemView.findViewById(R.id.is_complete);
+
+            card = itemView.findViewById(R.id.journal_entry_card);
         }
     }
 }

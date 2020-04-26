@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--colors-->
+    <!--colors-->
     <color name="primaryDark">#6E97FF</color>
     <color name="primary">#76A6FF</color>
     <color name="secondary">#76A6FF</color>
@@ -8,13 +8,14 @@
     <color name="positive">#51D4B7</color>
     <color name="neutral">#F2C025</color>
 
-<!--grays-->
+    <!--grays-->
     <color name="prominent">#1F1F1F</color>
     <color name="apparent">#424045</color>
     <color name="normal">#777480</color>
     <color name="disabled">#B5B5C4</color>
     <color name="unapparent">#F0F0F5</color>
     <color name="themeBackground">#FAFAFC</color>
+    <color name="lineGray">#DFDFEA</color>
     <color name="white">#FFF</color>
 
 </resources>

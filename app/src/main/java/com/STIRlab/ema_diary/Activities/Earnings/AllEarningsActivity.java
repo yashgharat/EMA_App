@@ -1,7 +1,6 @@
 package com.STIRlab.ema_diary.Activities.Earnings;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -13,9 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.STIRlab.ema_diary.Activities.PinActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
-import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriod;
 import com.STIRlab.ema_diary.Helpers.EarningsPeriodAdapter;
 import com.STIRlab.ema_diary.R;

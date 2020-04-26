@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/themeBackground"
     android:orientation="vertical"
-    tools:context=".Activities.ScreenshotActivity">
+    tools:context=".Activities.Screenshots.ScreenshotActivity">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

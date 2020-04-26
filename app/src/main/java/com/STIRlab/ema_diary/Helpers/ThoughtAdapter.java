@@ -1,6 +1,7 @@
 package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.STIRlab.ema_diary.Activities.IndividualJournalEntryActivity;
+import com.STIRlab.ema_diary.Activities.Screenshots.IndividualScreenshotActivity;
 import com.STIRlab.ema_diary.R;
 
 import java.text.ParseException;
@@ -77,6 +81,15 @@ public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtV
             DrawableCompat.setTint(drawable, context.getColor(R.color.positive));
             holder.thoughtLabel.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
+
+        holder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, IndividualScreenshotActivity.class);
+                intent.putExtra("entry", entry);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -87,12 +100,15 @@ public class ThoughtAdapter extends RecyclerView.Adapter<ThoughtAdapter.thoughtV
     class thoughtViewHolder extends RecyclerView.ViewHolder {
 
         TextView time, thoughtLabel;
+        CardView card;
 
         public thoughtViewHolder(View itemView) {
             super(itemView);
 
             time = itemView.findViewById(R.id.screenshots_time);
             thoughtLabel = itemView.findViewById(R.id.screenshot_label);
+
+            card = itemView.findViewById(R.id.screenshot_entry_card);
         }
     }
 }

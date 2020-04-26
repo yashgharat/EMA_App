@@ -10,8 +10,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.OnLifecycleEvent;
 
-import com.STIRlab.ema_diary.Activities.AuthenticationActivity;
-import com.STIRlab.ema_diary.Activities.PinActivity;
+import com.STIRlab.ema_diary.Activities.SecureLock.PinActivity;
 import com.STIRlab.ema_diary.R;
 
 import static com.STIRlab.ema_diary.Helpers.APIHelper.isNetworkAvailable;

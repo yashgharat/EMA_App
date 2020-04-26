@@ -37,4 +37,5 @@
     <string name="pass_para">Your password must contain 8 characters and at least one number</string>
     <string name="moreInfo_p3">We do not automatically collect your social media data or other personal data (other than listed above), or what you do in each app.</string>
     <string name="return_to_this_screen">Return to this screen</string>
+    <string name="default_message">No message available for this submission.</string>
 </resources>

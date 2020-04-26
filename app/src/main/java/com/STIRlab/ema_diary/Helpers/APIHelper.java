@@ -1,6 +1,5 @@
 package com.STIRlab.ema_diary.Helpers;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -8,9 +7,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,11 +56,11 @@ public class APIHelper {
     public APIHelper(String username, String email, Context context) {
         int cacheSize = 10 * 1024 * 1024; // 10MB
         client = new OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(5, TimeUnit.SECONDS)
+                .writeTimeout(5, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .cache(new Cache(context.getCacheDir(), cacheSize))
                 .addNetworkInterceptor(new CacheInterceptor())
-                .writeTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
                 .build();
 
         this.userid = username;
@@ -174,7 +171,6 @@ public class APIHelper {
 
     public String getDaysLeft() {
         try {
-
             return parseUserInfo().getString("days_left");
         } catch (Exception e) {
             Log.e(TAG, e.toString());
@@ -423,9 +419,10 @@ public class APIHelper {
             String openTime = tempObj.getString("opened_on");
             String submitTime = tempObj.getString("submitted_at");
             String status = tempObj.getString("status");
+            String decisionTime = tempObj.getString("set_validity_at");
+            String researcherMessage = tempObj.getString("researcher_msg");
 
-
-            JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, status);
+            JournalEntry tempEntry = new JournalEntry(id, openTime, submitTime, status, decisionTime, researcherMessage);
 
             returnHistory.add(tempEntry);
         }
@@ -450,8 +447,10 @@ public class APIHelper {
             String id = tempObj.getString("thought_id");
             String submitTime = tempObj.getString("submitted_at");
             String status = tempObj.getString("status");
+            String decisionTime = tempObj.getString("set_validity_at");
+            String researcherMessage = tempObj.getString("researcher_msg");
 
-            Thought tempEntry = new Thought(id, submitTime, status);
+            Thought tempEntry = new Thought(id, submitTime, status, decisionTime, researcherMessage);
             returnHistory.add(tempEntry);
         }
 
@@ -743,7 +742,7 @@ class CacheInterceptor implements Interceptor {
         Response response = chain.proceed(chain.request());
 
         CacheControl cacheControl = new CacheControl.Builder()
-                .noCache()
+                .minFresh(5, TimeUnit.MINUTES)
                 .build();
 
         return response.newBuilder()

@@ -8,8 +8,8 @@ android {
         applicationId "com.STIRlab.ema_diary"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 18
-        versionName "2.8"
+        versionCode 19
+        versionName "2.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -68,6 +68,7 @@ dependencies {
 
     implementation 'br.com.simplepass:loading-button-android:2.1.5'
     implementation 'com.github.Muki1992:MaterialLoadingButton:1.0'
+    implementation 'androidx.work:work-runtime:2.1.0'
 
 
 }

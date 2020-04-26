@@ -11,7 +11,6 @@ import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +36,10 @@ import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.STIRlab.ema_diary.Activities.Earnings.AllEarningsActivity;
+import com.STIRlab.ema_diary.Activities.Onboarding.ManifestActivity;
+import com.STIRlab.ema_diary.Activities.Screenshots.ScreenshotHistoryActivity;
+import com.STIRlab.ema_diary.Activities.Screenshots.ScreenshotPromptActivity;
+import com.STIRlab.ema_diary.Activities.SecureLock.CreatePinUIActivity;
 import com.STIRlab.ema_diary.Helpers.APIHelper;
 import com.STIRlab.ema_diary.Helpers.CognitoSettings;
 import com.STIRlab.ema_diary.Helpers.KeyStoreHelper;
@@ -49,7 +52,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView totalEarnings, totalEntries, totalScreenshots, studyCounter;
     private TextView numSurveys, numScreenshots, cardTitle, cardMsg, viewEarnings;
+    private TextView screenshotCardTitle, screenshotCardMsg;
 
     private CardView cardJournal;
     private CardView cardSettings;
@@ -100,10 +103,13 @@ public class MainActivity extends AppCompatActivity {
     private int statusLength, didSetPass;
     private JSONArray statuses;
 
+    int numDaysLeft;
+
     private ImageView[] progressBar;
     private ImageView info, journalState, dashLogo, screenshotState;
 
     private String cardStatus, username, email;
+    private boolean postSwitch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
         cardViewScreenshots = findViewById(R.id.card_view_screenshots);
         cardTitle = findViewById(R.id.title_journal);
         cardMsg = findViewById(R.id.msg_journal);
+        screenshotCardTitle = findViewById(R.id.title_screenshots);
+        screenshotCardMsg = findViewById(R.id.msg_experience);
 
 
         totalEarnings = findViewById(R.id.total_earnings);
@@ -167,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.main_swipe);
 
         info = findViewById(R.id.main_info);
+
 
         if (SP.getBoolean("virgin", true)) {
             didSetPass = client.didSetPass();
@@ -261,11 +270,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUser() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationHelper.setNotificationOreo();
-        } else {
-            notificationHelper.setNotification();
-        }
+
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -313,7 +318,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "HERE: " + e.toString());
             }
 
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                notificationHelper.setNotificationOreo();
+            } else {
+                notificationHelper.setNotification();
+            }
+
             String daysLeft = client.getDaysLeft();
+            numDaysLeft = Integer.parseInt(daysLeft);
 
             String surveyCount = client.getTotalSurveyCount();
             String screenshotCount = client.getTotalScreenshotCount();
@@ -326,9 +338,9 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 String postDate = client.finishedPost();
-                if (postDate.equals("null") && Integer.parseInt(daysLeft) == 0) {
+                if (postDate.equals("null") && numDaysLeft == 0 && !postSwitch) {
+                    postSwitch = !postSwitch;
                     Intent post = new Intent(context, PostActivity.class);
-                    post.putExtra("data", postDate);
                     startActivity(post);
                 }
             } catch (Exception e) {
@@ -462,23 +474,58 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setCardColor() {
-        Log.e(TAG, String.valueOf(statusLength));
         try {
             cardStatus = statuses.getString(statusLength - 1);
         } catch (JSONException e) {
             Log.e(TAG, e.toString());
         }
-        if (cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed")) {
+        if(numDaysLeft == 0) {
+
+            cardMsg.setClickable(true);
+            cardMsg.setEnabled(true);
+            cardTitle.setText("Take Post Survey");
+            cardMsg.setText("Help us understand your experience");
+
+            cardTitle.setTextColor(getColor(R.color.themeBackground));
+            cardMsg.setTextColor(getColor(R.color.themeBackground));
+
+            journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_list_black_24dp));
+            journalState.setColorFilter(getColor(R.color.themeBackground));
+
+            layoutJournal.setBackgroundColor(getColor(R.color.neutral));
+            layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect_yellow));
+
+            cardJournal.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
+                    builder.setShowTitle(true);
+
+                    CustomTabsIntent viewSurvey = builder.build();
+                    String url = "http://ucf.qualtrics.com/jfe/form/SV_8of6tU4A415j6tv" + username;
+                    viewSurvey.launchUrl(MainActivity.this, Uri.parse(url));
+                }
+            });
+
+            screenshotCardTitle.setText("No Screenshots Needed");
+            screenshotCardMsg.setText("We are no longer collecting screenshots");
+            screenshotState.setColorFilter(getColor(R.color.disabled));
+
+            cardscreenshots.setOnClickListener(null);
+
+        }
+        else if (cardStatus == null || cardStatus.equals("closed") || cardStatus.equals("missed")) {
             cardTitle.setText("Come Back at 2 PM");
             cardMsg.setText("Daily Journal entry available soon");
 
-            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
-            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
+            cardTitle.setTextColor(getColor(R.color.apparent));
+            cardMsg.setTextColor(getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_remove_circle_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.disabled));
+            journalState.setColorFilter(getColor(R.color.disabled));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.themeBackground));
+            layoutJournal.setBackgroundColor(getColor(R.color.themeBackground));
 
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
@@ -491,13 +538,13 @@ public class MainActivity extends AppCompatActivity {
             cardTitle.setText("Finish Daily Journal Entry");
             cardMsg.setText("Complete by Midnight");
 
-            cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
-            cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
+            cardTitle.setTextColor(getColor(R.color.themeBackground));
+            cardMsg.setTextColor(getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_journal));
-            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+            journalState.setColorFilter(getColor(R.color.themeBackground));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.neutral));
+            layoutJournal.setBackgroundColor(getColor(R.color.neutral));
 
             layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect_yellow));
 
@@ -524,13 +571,13 @@ public class MainActivity extends AppCompatActivity {
             cardTitle.setText("Start Daily Journal Entry");
             cardMsg.setText("Complete by Midnight");
 
-            cardTitle.setTextColor(getResources().getColor(R.color.themeBackground));
-            cardMsg.setTextColor(getResources().getColor(R.color.themeBackground));
+            cardTitle.setTextColor(getColor(R.color.themeBackground));
+            cardMsg.setTextColor(getColor(R.color.themeBackground));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_journal));
-            journalState.setColorFilter(getResources().getColor(R.color.themeBackground));
+            journalState.setColorFilter(getColor(R.color.themeBackground));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.neutral));
+            layoutJournal.setBackgroundColor(getColor(R.color.neutral));
 
             layoutJournal.setBackground(getDrawable(R.drawable.ripple_effect_yellow));
 
@@ -559,13 +606,13 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
-            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
+            cardTitle.setTextColor(getColor(R.color.apparent));
+            cardMsg.setTextColor(getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.primaryDark));
+            journalState.setColorFilter(getColor(R.color.primaryDark));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.white));
+            layoutJournal.setBackgroundColor(getColor(R.color.white));
 
         } else if (cardStatus.equals("approved")) {
             cardTitle.setText("Daily Journal Entry Apprvoed");
@@ -573,13 +620,13 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
-            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
+            cardTitle.setTextColor(getColor(R.color.apparent));
+            cardMsg.setTextColor(getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_check_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.positive));
+            journalState.setColorFilter(getColor(R.color.positive));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.white));
+            layoutJournal.setBackgroundColor(getColor(R.color.white));
 
         } else if (cardStatus.equals("rejected")) {
             cardTitle.setText("Daily Journal Entry Rejected");
@@ -587,13 +634,13 @@ public class MainActivity extends AppCompatActivity {
             cardMsg.setClickable(false);
             cardMsg.setEnabled(false);
 
-            cardTitle.setTextColor(getResources().getColor(R.color.apparent));
-            cardMsg.setTextColor(getResources().getColor(R.color.disabled));
+            cardTitle.setTextColor(getColor(R.color.apparent));
+            cardMsg.setTextColor(getColor(R.color.disabled));
 
             journalState.setImageDrawable(MainActivity.this.getDrawable(R.drawable.ic_close_black_20dp));
-            journalState.setColorFilter(getResources().getColor(R.color.destructive));
+            journalState.setColorFilter(getColor(R.color.destructive));
 
-            layoutJournal.setBackgroundColor(getResources().getColor(R.color.white));
+            layoutJournal.setBackgroundColor(getColor(R.color.white));
 
 
         }

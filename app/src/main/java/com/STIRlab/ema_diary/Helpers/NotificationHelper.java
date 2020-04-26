@@ -20,7 +20,6 @@ import static android.content.Context.ALARM_SERVICE;
 public class NotificationHelper {
 
     private static final String TAG = "NOTIFICATION_HELPER";
-    private final int DAY_IN_MS = 86400000;
     private Context context;
     private SharedPreferences SP;
 
@@ -47,19 +46,14 @@ public class NotificationHelper {
 
         Intent i = new Intent(context, NotifyPublisher.class);
 
-        if (PendingIntent.getBroadcast(context, 200, i,
+        if (PendingIntent.getBroadcast(context, 0, i,
                 PendingIntent.FLAG_NO_CREATE) == null) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 200, i, PendingIntent.FLAG_CANCEL_CURRENT);
 
             Log.i(TAG, hour + ":" + min);
             Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
 
-            long notifTime = calendar.getTimeInMillis();
-
-            if (notifTime - System.currentTimeMillis() < 0)
-                notifTime += DAY_IN_MS;
-
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifTime, AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
@@ -92,12 +86,22 @@ public class NotificationHelper {
         Log.i(TAG, hour + ":" + min);
         Log.i(TAG, String.valueOf(calendar.getTimeInMillis() - System.currentTimeMillis()));
 
-        long notifTime = calendar.getTimeInMillis();
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
 
-        if (notifTime - System.currentTimeMillis() < 0)
-            notifTime += DAY_IN_MS;
+    public void cancelNotification() {
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, notifTime, AlarmManager.INTERVAL_DAY, pendingIntent);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Intent updateServiceIntent = new Intent(context, NotifyPublisher.class);
+        PendingIntent pendingUpdateIntent = PendingIntent.getService(context, 0, updateServiceIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        // Cancel alarms
+        try {
+            alarmManager.cancel(pendingUpdateIntent);
+        } catch (Exception e) {
+            Log.e(TAG, "AlarmManager update was not canceled. " + CognitoSettings.formatException(e));
+        }
     }
 
 
