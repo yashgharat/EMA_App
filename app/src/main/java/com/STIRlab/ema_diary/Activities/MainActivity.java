@@ -551,6 +551,7 @@ public class MainActivity extends AppCompatActivity {
             cardJournal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String curID = client.getCurrentSurvey();
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                     builder.setToolbarColor(ContextCompat.getColor(MainActivity.this, R.color.primaryDark));
                     builder.setShowTitle(true);

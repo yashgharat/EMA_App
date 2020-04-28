@@ -2,6 +2,7 @@ package com.STIRlab.ema_diary.Helpers;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -12,6 +13,7 @@ import java.util.TimeZone;
 
 public class Thought implements Serializable {
 
+    private static final String TAG = Thought.class.getSimpleName();
     private String thoughtID, status;
     private String submitTime, formattedTime;
     private String decisionTime, formattedDecisionTime;
@@ -22,6 +24,7 @@ public class Thought implements Serializable {
         this.submitTime = submitTime;
         this.status = status;
         this.decisionTime = decisionTime;
+        Log.e(TAG, decisionTime);
         this.researcherMessage = researcherMessage;
     }
 
@@ -52,7 +55,7 @@ public class Thought implements Serializable {
         SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        ParsedDate = InputDateFormat.parse(submitTime);
+        ParsedDate = InputDateFormat.parse(decisionTime);
 
         formattedDecisionTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
                 DateUtils.MINUTE_IN_MILLIS,
@@ -62,7 +65,7 @@ public class Thought implements Serializable {
 
         formattedDecisionTime = formattedDecisionTime.replace(", ", " at ");
 
-        return formattedTime;
+        return formattedDecisionTime;
     }
 
 

@@ -68,6 +68,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/screenshot_prompt" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Please make sure to censor any nudity before choosing a screenshot"
+                android:textSize="15sp"
+                android:textAlignment="center"
+                android:textColor="@color/normal"
+                />
+
         </LinearLayout>
     </ScrollView>
 

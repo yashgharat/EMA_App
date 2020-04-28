@@ -36,7 +36,7 @@ public class JournalEntry implements Serializable {
         SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-        if (!status.equals("missed")) {
+        if (!status.equals("missed") && !submitTime.equals("null")) {
             ParsedDate = InputDateFormat.parse(submitTime);
 
             formattedTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
@@ -65,25 +65,15 @@ public class JournalEntry implements Serializable {
         SimpleDateFormat InputDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault());
         InputDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         //yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-        if (!status.equals("missed")) {
-            ParsedDate = InputDateFormat.parse(submitTime);
+        ParsedDate = InputDateFormat.parse(decisionTime);
 
-            formattedDecisionTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
-                    DateUtils.MINUTE_IN_MILLIS,
-                    DateUtils.WEEK_IN_MILLIS,
-                    DateUtils.FORMAT_CAP_AMPM
-                            | DateUtils.FORMAT_CAP_MIDNIGHT).toString();
+        formattedDecisionTime = DateUtils.getRelativeDateTimeString(context, ParsedDate.getTime(),
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.WEEK_IN_MILLIS,
+                DateUtils.FORMAT_CAP_AMPM
+                        | DateUtils.FORMAT_CAP_MIDNIGHT).toString();
 
-            formattedDecisionTime = formattedDecisionTime.replace(", ", " at ");
-        } else {
-            ParsedDate = InputDateFormat.parse(openTime);
-
-            long now = System.currentTimeMillis();
-
-            formattedDecisionTime = DateUtils.getRelativeTimeSpanString(ParsedDate.getTime(), now, DateUtils.DAY_IN_MILLIS,
-                    DateUtils.FORMAT_CAP_AMPM).toString();
-
-        }
+        formattedDecisionTime = formattedDecisionTime.replace(", ", " at ");
 
         return formattedDecisionTime;
     }
